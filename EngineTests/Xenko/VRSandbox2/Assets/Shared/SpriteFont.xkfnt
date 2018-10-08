@@ -1,0 +1,14 @@
+!SpriteFont
+Id: 78f1b4e7-2cf2-4ab6-b7dc-15a4a429abb1
+SerializedVersion: {Xenko: 2.0.0.0}
+Tags: []
+FontSource: !SystemFontProvider
+    FontName: Segoe UI
+    Style: Regular
+FontType: !SignedDistanceFieldSpriteFontType
+    Size: 64.0
+    CharacterSet: null
+    CharacterRegions:
+        d6d8ed72d71e5b917311b41169c28915:
+            Start: ' '
+            End: "\x7F"

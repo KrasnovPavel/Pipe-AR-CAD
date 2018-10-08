@@ -1,0 +1,235 @@
+!Model
+Id: 93e74aa5-749c-493b-8781-22647ebbb31f
+SerializedVersion: {Xenko: 2.0.0.0}
+Tags: []
+Source: ../../../../../HololensCAD/EngineTests/Unity/Assets/prefab/sh1_asm.fbx
+Skeleton: null
+PivotPosition: {X: 0.0, Y: 0.0, Z: 0.0}
+Materials:
+    6ef6917f564182d9e986ac5a7e75d430:
+        Name: Material_49
+        MaterialInstance:
+            Material: null
+    fe3dc593c479941a913fd9e753dcf86c:
+        Name: Material_50
+        MaterialInstance:
+            Material: null
+    254bcb08687fdd8a2c59d304288d8fa5:
+        Name: Material_51
+        MaterialInstance:
+            Material: null
+    03eab0c179909a844f0cb3930bfec4ce:
+        Name: Material_52
+        MaterialInstance:
+            Material: null
+    43d7c97ee69b76b2bc752bf8d20fba74:
+        Name: Material_53
+        MaterialInstance:
+            Material: null
+    496cc06c38f5ca8ca01bd36b2930b256:
+        Name: Material_54
+        MaterialInstance:
+            Material: null
+    a47a0ea551d38b9034b93ac85173837d:
+        Name: Material_55
+        MaterialInstance:
+            Material: null
+    d56ee0fb98fe6349bd08a600abfb7f4e:
+        Name: Material_56
+        MaterialInstance:
+            Material: null
+    46ab11f5eaefb827396250fa146e5f5e:
+        Name: Material_57
+        MaterialInstance:
+            Material: null
+    b70038c775dd6c1ffa055ddb3bc2fb81:
+        Name: Material_58
+        MaterialInstance:
+            Material: null
+    311123db65ea7d12432a883a743a98dd:
+        Name: Material_59
+        MaterialInstance:
+            Material: null
+    4f7313cdfeda9f34fc7d43ab2691d8b3:
+        Name: Material_60
+        MaterialInstance:
+            Material: null
+    c173a213c8e8beda2d666f2e626afe87:
+        Name: Material_61
+        MaterialInstance:
+            Material: null
+    b3aac920c523e66eb7389d7579ff5bc8:
+        Name: Material_62
+        MaterialInstance:
+            Material: null
+    ca1371952142796ee9dc48a461d6dd62:
+        Name: Material_63
+        MaterialInstance:
+            Material: null
+    af8c771482c2a673545a1df7da06d9e1:
+        Name: Material_64
+        MaterialInstance:
+            Material: null
+    5b7e1084809824dde79b904a887ca49f:
+        Name: Material_65
+        MaterialInstance:
+            Material: null
+    b83b0cc5433bcad8ebedfbb15e478b2e:
+        Name: Material_66
+        MaterialInstance:
+            Material: null
+    34129f844bc0b9c9d7751c49f37025d8:
+        Name: Material_67
+        MaterialInstance:
+            Material: null
+    76a83c358368319803666407ce937093:
+        Name: Material_68
+        MaterialInstance:
+            Material: null
+    ebd3decce447c912c26ec4e48f7fac8a:
+        Name: Material_69
+        MaterialInstance:
+            Material: null
+    cde712663b9490738b802880fc879719:
+        Name: Material_70
+        MaterialInstance:
+            Material: null
+    c842c74c78fe3394c6aeb28f12dc9243:
+        Name: Material_71
+        MaterialInstance:
+            Material: null
+    9b11704aa5b57cbf679b779d26a26f39:
+        Name: Material_72
+        MaterialInstance:
+            Material: null
+    c7611c70d68a1d8af1ab77f13398371b:
+        Name: Material_73
+        MaterialInstance:
+            Material: null
+    ff0619a2d21ebd135950038da0aed528:
+        Name: Material_74
+        MaterialInstance:
+            Material: null
+    10791cf6f768215aa1290863bf149c39:
+        Name: Material_75
+        MaterialInstance:
+            Material: null
+    8ce6d0b70a611bff9feccd79a7a09c23:
+        Name: Material_76
+        MaterialInstance:
+            Material: null
+    9634a1e45186462d49c2b595805922b8:
+        Name: Material_77
+        MaterialInstance:
+            Material: null
+    246637f2021cb20a61a578dcda5a3a2c:
+        Name: Material_78
+        MaterialInstance:
+            Material: null
+    1d5c262a3c65e36cc8ebc97e33de631f:
+        Name: Material_79
+        MaterialInstance:
+            Material: null
+    f9acad0dc7f7721bd358808fe2cfbc00:
+        Name: Material_80
+        MaterialInstance:
+            Material: null
+    7f9d67f4ab9d667dc7b6f7bcc598b688:
+        Name: Material_81
+        MaterialInstance:
+            Material: null
+    0eedb5b184431dcf0cdcc96133e21fbe:
+        Name: Material_82
+        MaterialInstance:
+            Material: null
+    e1f74a2f8062dcbc67738bef8287296e:
+        Name: Material_83
+        MaterialInstance:
+            Material: null
+    dec74ac2271c5cf43ad9df3201a74bf7:
+        Name: Material_84
+        MaterialInstance:
+            Material: null
+    2828936b6d846b8c0f8e8c4a5d3aeec1:
+        Name: Material_85
+        MaterialInstance:
+            Material: null
+    3890c7b377c15cbb584396e91859c557:
+        Name: Material_86
+        MaterialInstance:
+            Material: null
+    406de07c81fae6ab0f8e8b026e78f61d:
+        Name: Material_87
+        MaterialInstance:
+            Material: null
+    8f73aad1d90140153aa237b9024a847e:
+        Name: Material_88
+        MaterialInstance:
+            Material: null
+    b13431ed5566c6bd00a67862b92b83e1:
+        Name: Material_89
+        MaterialInstance:
+            Material: null
+    582332008692800fa4614044f7a164cd:
+        Name: Material_90
+        MaterialInstance:
+            Material: null
+    3a9be3ccd5a01b047de1bbc6c4a84c69:
+        Name: Material_91
+        MaterialInstance:
+            Material: null
+    5ff9d03354d0f41de1eda6aa5392ad98:
+        Name: Material_92
+        MaterialInstance:
+            Material: null
+    0ab3d7572d3b798f7d551aa409645505:
+        Name: Material_93
+        MaterialInstance:
+            Material: null
+    8d5127323cdd89018cc76f83a3c7eb82:
+        Name: Material_94
+        MaterialInstance:
+            Material: null
+    3bae5d2e46cab995c8a2ec0ebc67213a:
+        Name: Material_95
+        MaterialInstance:
+            Material: null
+    f8fb42848cfcc278a926ed1b4b08bfb0:
+        Name: Material_96
+        MaterialInstance:
+            Material: null
+    c757e043171ab8b2ca78221c427c65d6:
+        Name: Material_97
+        MaterialInstance:
+            Material: null
+    31919418711b57af37ac0df25b65d1f0:
+        Name: Material_98
+        MaterialInstance:
+            Material: null
+    db49ffe52daed9bd590c27d90fa9dd95:
+        Name: Material_99
+        MaterialInstance:
+            Material: null
+    df17d53d5b979f84257386880c848e00:
+        Name: Material_100
+        MaterialInstance:
+            Material: null
+    29bc8752a22f26a92c7723527153a98e:
+        Name: Material_101
+        MaterialInstance:
+            Material: null
+    eed952c148e24506bab6109b56f0746c:
+        Name: Material_102
+        MaterialInstance:
+            Material: null
+    86321221e5e9063e3b7831255a6edd63:
+        Name: Material_103
+        MaterialInstance:
+            Material: null
+    0c701585f757a2f7652e210e0153c028:
+        Name: Material_104
+        MaterialInstance:
+            Material: null
+Modifiers: {}
+~SourceHashes:
+    4fcc754d7f3a0c4b7e14fd297ceedc0f~../../../../../HololensCAD/EngineTests/Unity/Assets/prefab/sh1_asm.fbx: 8a7ec95a9d88bd6e918a13d9dc48d7b0
