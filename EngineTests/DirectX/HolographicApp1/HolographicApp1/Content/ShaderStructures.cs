@@ -13,7 +13,7 @@ namespace HolographicApp1.Content
     /// <summary>
     /// Used to send per-vertex data to the vertex shader.
     /// </summary>
-    internal struct VertexPositionColor
+    public struct VertexPositionColor
     {
         public VertexPositionColor(Vector3 pos, Vector3 color)
         {

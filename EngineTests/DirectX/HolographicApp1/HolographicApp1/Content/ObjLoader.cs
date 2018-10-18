@@ -43,7 +43,7 @@ namespace HolographicApp1.Content
             var openPicker = new FileOpenPicker();
 
             openPicker.ViewMode = PickerViewMode.Thumbnail;
-            openPicker.FileTypeFilter.Add(".txt");
+            openPicker.FileTypeFilter.Add(".obj");
 
             StorageFile file = await openPicker.PickSingleFileAsync();
 
@@ -73,7 +73,7 @@ namespace HolographicApp1.Content
             return new VertexPositionColor(new Vector3(
                                                 float.Parse(parts[0], infos),
                                                 float.Parse(parts[1], infos),
-                                                float.Parse(parts[2], infos)),
+                                                float.Parse(parts[2], infos)) * 1000f,
                                            new Vector3(0.9f, 0.9f, 0.9f));
         }        
 
