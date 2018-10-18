@@ -1,0 +1,11 @@
+PlaneFinding.dll
+PerceptionSimulationManager.dll
+Microsoft.Perception.Simulation.dll
+MicStreamSelector.dll
+GpuTiming.dll
+SharingClient.dll
+VuforiaWrapper.dll
+PerceptionRemotingPlugin.dll
+SpatialUnderstanding.dll
+Vuforia.dll
+HolographicStreamerDesktop.dll
