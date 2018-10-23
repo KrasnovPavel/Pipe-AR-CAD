@@ -19,7 +19,7 @@
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
     <LayoutDir>C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\bin\x86\Debug\AppX</LayoutDir>
-    <RegisteredManifestChecksum>F29F4A8786B0F4821D028221531B6DBEA53B7C1B67487E0154A700D9732EF661</RegisteredManifestChecksum>
+    <RegisteredManifestChecksum>E9CBE1970E4AD4D9E0A13EFD68CDEF856960F62AD1C16934801C6E36444B0A05</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>HoloCad_1.0.0.0_x86__gd7vcdjjfgxke</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>HoloCad_gd7vcdjjfgxke!App</RegisteredUserModeAppID>
     <RegisteredPackageID>HoloCad</RegisteredPackageID>
@@ -31,13 +31,13 @@
     <AppXManifest Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-10-22T13:21:08.422</Modified>
+      <Modified>2018-10-23T13:06:15.867</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\bin\x86\Debug\HoloCAD.exe">
       <PackagePath>entrypoint\HoloCAD.exe</PackagePath>
-      <Modified>2018-10-22T13:20:00.748</Modified>
+      <Modified>2018-10-23T13:05:11.888</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\.nuget\packages\microsoft.applicationinsights\1.0.0\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll">
       <PackagePath>Microsoft.ApplicationInsights.dll</PackagePath>
@@ -493,11 +493,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Resource.res">
       <PackagePath>Resource.res</PackagePath>
-      <Modified>2018-10-22T13:18:30.045</Modified>
+      <Modified>2018-10-23T13:03:52.095</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\StoreManifest.xml">
       <PackagePath>StoreManifest.xml</PackagePath>
-      <Modified>2018-10-22T13:17:36.825</Modified>
+      <Modified>2018-10-23T13:02:49.266</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
@@ -588,15 +588,15 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Data\boot.config">
       <PackagePath>Data\boot.config</PackagePath>
-      <Modified>2018-10-22T13:17:05.891</Modified>
+      <Modified>2018-10-23T13:02:38.410</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Data\globalgamemanagers">
       <PackagePath>Data\globalgamemanagers</PackagePath>
-      <Modified>2018-10-22T13:16:44.964</Modified>
+      <Modified>2018-10-23T13:02:31.327</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Data\level0">
       <PackagePath>Data\level0</PackagePath>
-      <Modified>2018-10-22T13:16:36.597</Modified>
+      <Modified>2018-10-23T13:02:24.933</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Data\Resources\unity default resources">
       <PackagePath>Data\Resources\unity default resources</PackagePath>
@@ -604,35 +604,31 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Data\Resources\unity_builtin_extra">
       <PackagePath>Data\Resources\unity_builtin_extra</PackagePath>
-      <Modified>2018-10-22T13:17:05.872</Modified>
+      <Modified>2018-10-23T13:02:38.399</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Data\globalgamemanagers.assets">
       <PackagePath>Data\globalgamemanagers.assets</PackagePath>
-      <Modified>2018-10-22T13:16:45.706</Modified>
+      <Modified>2018-10-23T13:02:31.596</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Data\resources.assets">
       <PackagePath>Data\resources.assets</PackagePath>
-      <Modified>2018-10-22T13:16:45.735</Modified>
+      <Modified>2018-10-23T13:02:31.626</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Data\sharedassets0.assets">
       <PackagePath>Data\sharedassets0.assets</PackagePath>
-      <Modified>2018-10-22T13:16:59.523</Modified>
+      <Modified>2018-10-23T13:02:37.558</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Data\managedAssemblies.txt">
       <PackagePath>Data\managedAssemblies.txt</PackagePath>
-      <Modified>2018-10-22T13:18:29.295</Modified>
+      <Modified>2018-10-23T13:03:51.940</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Data\nativePlugins.txt">
       <PackagePath>Data\nativePlugins.txt</PackagePath>
-      <Modified>2018-10-22T13:18:29.302</Modified>
+      <Modified>2018-10-23T13:03:51.952</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Data\sharedassets0.assets.resS">
       <PackagePath>Data\sharedassets0.assets.resS</PackagePath>
-      <Modified>2018-10-22T13:16:59.499</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Data\sharedassets0.resource">
-      <PackagePath>Data\sharedassets0.resource</PackagePath>
-      <Modified>2018-10-22T13:16:59.543</Modified>
+      <Modified>2018-10-23T13:02:37.535</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.UniversalCRT.Debug\10.0.17134.0\\redist\Debug\x86\ucrtbased.dll">
       <PackagePath>ucrtbased.dll</PackagePath>
@@ -645,255 +641,255 @@
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-10-18T10:14:20.301</Modified>
+      <Modified>2018-10-23T11:49:11.772</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Assembly-CSharp.dll">
       <PackagePath>Assembly-CSharp.dll</PackagePath>
-      <Modified>2018-10-22T13:20:49.611</Modified>
+      <Modified>2018-10-23T13:05:59.455</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.SpriteMaskModule.dll">
       <PackagePath>UnityEngine.SpriteMaskModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:49.652</Modified>
+      <Modified>2018-10-23T13:05:59.499</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.SpriteShapeModule.dll">
       <PackagePath>UnityEngine.SpriteShapeModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:49.696</Modified>
+      <Modified>2018-10-23T13:05:59.542</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.StreamingModule.dll">
       <PackagePath>UnityEngine.StreamingModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:49.737</Modified>
+      <Modified>2018-10-23T13:05:59.581</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.StyleSheetsModule.dll">
       <PackagePath>UnityEngine.StyleSheetsModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:49.798</Modified>
+      <Modified>2018-10-23T13:05:59.639</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.SubstanceModule.dll">
       <PackagePath>UnityEngine.SubstanceModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:49.849</Modified>
+      <Modified>2018-10-23T13:06:06.580</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.TerrainModule.dll">
       <PackagePath>UnityEngine.TerrainModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:49.920</Modified>
+      <Modified>2018-10-23T13:06:07.069</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.TerrainPhysicsModule.dll">
       <PackagePath>UnityEngine.TerrainPhysicsModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:49.961</Modified>
+      <Modified>2018-10-23T13:06:07.343</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.TextRenderingModule.dll">
       <PackagePath>UnityEngine.TextRenderingModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:50.033</Modified>
+      <Modified>2018-10-23T13:06:07.605</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.TilemapModule.dll">
       <PackagePath>UnityEngine.TilemapModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:50.118</Modified>
+      <Modified>2018-10-23T13:06:07.935</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.UIElementsModule.dll">
       <PackagePath>UnityEngine.UIElementsModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:50.914</Modified>
+      <Modified>2018-10-23T13:06:08.224</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.UIModule.dll">
       <PackagePath>UnityEngine.UIModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:52.622</Modified>
+      <Modified>2018-10-23T13:06:08.324</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.UnityAnalyticsModule.dll">
       <PackagePath>UnityEngine.UnityAnalyticsModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:54.225</Modified>
+      <Modified>2018-10-23T13:06:08.533</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.UnityConnectModule.dll">
       <PackagePath>UnityEngine.UnityConnectModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:54.512</Modified>
+      <Modified>2018-10-23T13:06:08.619</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.UnityWebRequestAssetBundleModule.dll">
       <PackagePath>UnityEngine.UnityWebRequestAssetBundleModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:55.044</Modified>
+      <Modified>2018-10-23T13:06:08.735</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.UnityWebRequestAudioModule.dll">
       <PackagePath>UnityEngine.UnityWebRequestAudioModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:55.336</Modified>
+      <Modified>2018-10-23T13:06:08.860</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.UnityWebRequestModule.dll">
       <PackagePath>UnityEngine.UnityWebRequestModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:55.674</Modified>
+      <Modified>2018-10-23T13:06:08.989</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.UnityWebRequestTextureModule.dll">
       <PackagePath>UnityEngine.UnityWebRequestTextureModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:57.291</Modified>
+      <Modified>2018-10-23T13:06:09.071</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.UnityWebRequestWWWModule.dll">
       <PackagePath>UnityEngine.UnityWebRequestWWWModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:58.041</Modified>
+      <Modified>2018-10-23T13:06:09.267</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.VehiclesModule.dll">
       <PackagePath>UnityEngine.VehiclesModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:58.386</Modified>
+      <Modified>2018-10-23T13:06:09.338</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.VideoModule.dll">
       <PackagePath>UnityEngine.VideoModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:58.513</Modified>
+      <Modified>2018-10-23T13:06:09.401</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.VRModule.dll">
       <PackagePath>UnityEngine.VRModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:58.942</Modified>
+      <Modified>2018-10-23T13:06:09.499</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.WindModule.dll">
       <PackagePath>UnityEngine.WindModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:58.993</Modified>
+      <Modified>2018-10-23T13:06:09.539</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.XRModule.dll">
       <PackagePath>UnityEngine.XRModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:59.063</Modified>
+      <Modified>2018-10-23T13:06:09.608</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.UNETModule.dll">
       <PackagePath>UnityEngine.UNETModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:59.167</Modified>
+      <Modified>2018-10-23T13:06:09.699</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.SharedInternalsModule.dll">
       <PackagePath>UnityEngine.SharedInternalsModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:59.232</Modified>
+      <Modified>2018-10-23T13:06:09.766</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.ScreenCaptureModule.dll">
       <PackagePath>UnityEngine.ScreenCaptureModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:59.275</Modified>
+      <Modified>2018-10-23T13:06:09.806</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.PhysicsModule.dll">
       <PackagePath>UnityEngine.PhysicsModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:59.354</Modified>
+      <Modified>2018-10-23T13:06:09.891</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Unity.TextMeshPro.dll">
       <PackagePath>Unity.TextMeshPro.dll</PackagePath>
-      <Modified>2018-10-22T13:20:59.783</Modified>
+      <Modified>2018-10-23T13:06:10.184</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.AccessibilityModule.dll">
       <PackagePath>UnityEngine.AccessibilityModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:59.833</Modified>
+      <Modified>2018-10-23T13:06:10.225</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.AIModule.dll">
       <PackagePath>UnityEngine.AIModule.dll</PackagePath>
-      <Modified>2018-10-22T13:20:59.909</Modified>
+      <Modified>2018-10-23T13:06:10.288</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.AnimationModule.dll">
       <PackagePath>UnityEngine.AnimationModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:00.115</Modified>
+      <Modified>2018-10-23T13:06:10.407</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.ARModule.dll">
       <PackagePath>UnityEngine.ARModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:00.364</Modified>
+      <Modified>2018-10-23T13:06:10.519</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.AssetBundleModule.dll">
       <PackagePath>UnityEngine.AssetBundleModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:00.628</Modified>
+      <Modified>2018-10-23T13:06:10.574</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.AudioModule.dll">
       <PackagePath>UnityEngine.AudioModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:00.783</Modified>
+      <Modified>2018-10-23T13:06:10.660</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.ClothModule.dll">
       <PackagePath>UnityEngine.ClothModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:00.853</Modified>
+      <Modified>2018-10-23T13:06:10.714</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.CoreModule.dll">
       <PackagePath>UnityEngine.CoreModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:02.415</Modified>
+      <Modified>2018-10-23T13:06:11.808</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.CrashReportingModule.dll">
       <PackagePath>UnityEngine.CrashReportingModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:02.461</Modified>
+      <Modified>2018-10-23T13:06:11.848</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.DirectorModule.dll">
       <PackagePath>UnityEngine.DirectorModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:02.512</Modified>
+      <Modified>2018-10-23T13:06:11.899</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.dll">
       <PackagePath>UnityEngine.dll</PackagePath>
-      <Modified>2018-10-22T13:17:54.469</Modified>
+      <Modified>2018-10-23T13:03:19.243</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.GameCenterModule.dll">
       <PackagePath>UnityEngine.GameCenterModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:02.578</Modified>
+      <Modified>2018-10-23T13:06:11.959</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.GridModule.dll">
       <PackagePath>UnityEngine.GridModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:02.627</Modified>
+      <Modified>2018-10-23T13:06:12.003</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.ImageConversionModule.dll">
       <PackagePath>UnityEngine.ImageConversionModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:02.673</Modified>
+      <Modified>2018-10-23T13:06:12.049</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.IMGUIModule.dll">
       <PackagePath>UnityEngine.IMGUIModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:02.861</Modified>
+      <Modified>2018-10-23T13:06:12.290</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.InputModule.dll">
       <PackagePath>UnityEngine.InputModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:02.925</Modified>
+      <Modified>2018-10-23T13:06:12.337</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.JSONSerializeModule.dll">
       <PackagePath>UnityEngine.JSONSerializeModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:02.976</Modified>
+      <Modified>2018-10-23T13:06:12.380</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.LocalizationModule.dll">
       <PackagePath>UnityEngine.LocalizationModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:03.035</Modified>
+      <Modified>2018-10-23T13:06:12.428</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.ParticlesLegacyModule.dll">
       <PackagePath>UnityEngine.ParticlesLegacyModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:03.104</Modified>
+      <Modified>2018-10-23T13:06:12.469</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.ParticleSystemModule.dll">
       <PackagePath>UnityEngine.ParticleSystemModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:03.514</Modified>
+      <Modified>2018-10-23T13:06:12.584</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.PerformanceReportingModule.dll">
       <PackagePath>UnityEngine.PerformanceReportingModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:03.580</Modified>
+      <Modified>2018-10-23T13:06:12.628</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.Physics2DModule.dll">
       <PackagePath>UnityEngine.Physics2DModule.dll</PackagePath>
-      <Modified>2018-10-22T13:21:03.697</Modified>
+      <Modified>2018-10-23T13:06:12.729</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Newtonsoft.Json.dll">
       <PackagePath>Newtonsoft.Json.dll</PackagePath>
-      <Modified>2018-10-22T13:21:04.111</Modified>
+      <Modified>2018-10-23T13:06:12.924</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.Timeline.dll">
       <PackagePath>UnityEngine.Timeline.dll</PackagePath>
-      <Modified>2018-10-22T13:21:04.577</Modified>
+      <Modified>2018-10-23T13:06:13.061</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\nunit.framework.dll">
       <PackagePath>nunit.framework.dll</PackagePath>
-      <Modified>2018-10-22T13:21:04.755</Modified>
+      <Modified>2018-10-23T13:06:13.216</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.UI.dll">
       <PackagePath>UnityEngine.UI.dll</PackagePath>
-      <Modified>2018-10-22T13:21:05.029</Modified>
+      <Modified>2018-10-23T13:06:13.457</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.SpatialTracking.dll">
       <PackagePath>UnityEngine.SpatialTracking.dll</PackagePath>
-      <Modified>2018-10-22T13:21:05.091</Modified>
+      <Modified>2018-10-23T13:06:13.511</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.HoloLens.dll">
       <PackagePath>UnityEngine.HoloLens.dll</PackagePath>
-      <Modified>2018-10-22T13:21:05.177</Modified>
+      <Modified>2018-10-23T13:06:13.584</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\Vuforia.UnityExtensions.dll">
       <PackagePath>Vuforia.UnityExtensions.dll</PackagePath>
-      <Modified>2018-10-22T13:21:05.421</Modified>
+      <Modified>2018-10-23T13:06:13.751</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.Networking.dll">
       <PackagePath>UnityEngine.Networking.dll</PackagePath>
-      <Modified>2018-10-22T13:21:05.638</Modified>
+      <Modified>2018-10-23T13:06:14.018</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\GLTFSerializationUWP.dll">
       <PackagePath>GLTFSerializationUWP.dll</PackagePath>
-      <Modified>2018-10-22T13:21:05.747</Modified>
+      <Modified>2018-10-23T13:06:14.135</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\UnityEngine.TestRunner.dll">
       <PackagePath>UnityEngine.TestRunner.dll</PackagePath>
-      <Modified>2018-10-22T13:21:05.904</Modified>
+      <Modified>2018-10-23T13:06:14.260</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\krasn\Documents\HololensCAD\HoloApp\App\HoloCAD\bin\x86\Debug\Core\HoloCAD.exe">
       <PackagePath>HoloCAD.exe</PackagePath>
-      <Modified>2018-10-22T13:21:08.398</Modified>
+      <Modified>2018-10-23T13:06:15.843</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

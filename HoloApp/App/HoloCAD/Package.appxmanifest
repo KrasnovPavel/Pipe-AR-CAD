@@ -28,8 +28,12 @@
     </Application>
   </Applications>
   <Capabilities>
+    <Capability Name="internetClient" />
+    <Capability Name="internetClientServer" />
     <uap:Capability Name="objects3D" />
     <uap2:Capability Name="spatialPerception" />
+    <DeviceCapability Name="webcam" />
+    <DeviceCapability Name="proximity" />
     <DeviceCapability Name="microphone" />
     <DeviceCapability Name="location" />
     <DeviceCapability Name="bluetooth" />

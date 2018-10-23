@@ -100,9 +100,10 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GridSpacingXZ: -0.19
-    - _GridSpacingY: 0.26
-    - _GridThickness: 0.07
+    - _GridSpacingXZ: -5.38
+    - _GridSpacingY: 0.2
+    - _GridThickness: 0.05
+    - _Length: 1.97
     - _LightUV: 0
     - _MaxTriSize: 200
     - _Metallic: 0
@@ -135,11 +136,12 @@ Material:
     - _fSpecularPower: 1
     m_Colors:
     - _AmbientFactor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 0, a: 0.1764706}
     - _BaseColour: {r: 0, g: 0, b: 0, a: 0}
     - _Center: {r: 0, g: 0, b: 0, a: -1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GridColor: {r: 1, g: 1, b: 0, a: 1}
     - _GridColour: {r: 1, g: 1, b: 0, a: 1}
     - _LightmapFactor: {r: 1, g: 1, b: 1, a: 1}
     - _PulseColor: {r: 0.145, g: 0.447, b: 0.922, a: 1}
