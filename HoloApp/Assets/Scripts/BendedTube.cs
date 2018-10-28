@@ -1,10 +1,16 @@
-﻿using System.Collections;
+﻿using HoloToolkit.Unity.InputModule;
+using HoloToolkit.Unity.Receivers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BendedTube : MonoBehaviour {
+public class BendedTube : InteractionReceiver
+{
     List<Mesh> meshes;
     GameObject tube;
+    GameObject startPoint;
+    GameObject endPoint;
+    public GameObject buttonBar;
 
     bool _useSecondRadius;
     int _angle;
@@ -16,7 +22,7 @@ public class BendedTube : MonoBehaviour {
     [Range(0.014f, 0.426f)]
     public float diameter;
     public Material material;
-    
+
     public int angle
     {
         get { return _angle; }
@@ -30,6 +36,11 @@ public class BendedTube : MonoBehaviour {
 
             int numberOfAngles = 180 / MeshFactory.deltaAngle;
             tube.GetComponent<MeshFilter>().mesh = meshes[_angle / MeshFactory.deltaAngle - 1 + (useSecondRadius ? numberOfAngles : 0)];
+
+            Quaternion rot = Quaternion.Euler(0, -angle, 0);
+            Vector3 pos = new Vector3(_useSecondRadius ? secondBendRadius : firstBendRadius, 0, 0);
+            endPoint.transform.localPosition = rot * pos - pos;
+            endPoint.transform.localRotation = rot;
         }
     }
 
@@ -47,13 +58,34 @@ public class BendedTube : MonoBehaviour {
     // Use this for initialization
     void Start () {
         meshes = MeshFactory.CreateMeshes(diameter, firstBendRadius, secondBendRadius);
-        tube = new GameObject("Tube");
-        tube.transform.SetParent(transform);
-        tube.transform.localRotation = Quaternion.identity;
-        tube.AddComponent<MeshFilter>();
-        material.SetFloat("_Diameter", diameter);
-        tube.AddComponent<MeshRenderer>().material = material;
+        tube = transform.Find("Tube").gameObject;
+        startPoint = transform.Find("Start Point").gameObject;
+        endPoint = transform.Find("End Point").gameObject;
+        endPoint.GetComponent<Light>().range = diameter;
+        startPoint.GetComponent<Light>().range = diameter;
         useSecondRadius = false;
         angle = MeshFactory.deltaAngle;
+        buttonBar.GetComponent<ButtonBar>().offset = 0.7f * diameter;
+    }
+
+    protected override void InputDown(GameObject obj, InputEventData eventData)
+    {
+        switch (obj.name)
+        {
+            case "IncreaseAngleButton":
+                angle += MeshFactory.deltaAngle;
+                break;
+            case "DecreaseAngleButton":
+                angle -= MeshFactory.deltaAngle;
+                break;
+            case "ClockwiseButton":
+                transform.localRotation *= Quaternion.Euler(0, 0, MeshFactory.deltaAngle);
+                break;
+            case "AnticlockwiseButton":
+                transform.localRotation *= Quaternion.Euler(0, 0, -MeshFactory.deltaAngle);
+                break;
+            default:
+                break;
+        }
     }
 }
