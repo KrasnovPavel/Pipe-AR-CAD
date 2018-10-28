@@ -36,16 +36,16 @@ public class Tube : InteractionReceiver {
         switch (obj.name)
         {
             case "IncreaseLengthButton":
-                length += 0.3f;
+                length += 0.1f;
                 break;
             case "DecreaseLengthButton":
-                length -= 0.3f;
+                length -= 0.1f;
                 break;
             case "IncreaseDiameterButton":
-                diameter += 0.1f;
+                diameter += 0.01f;
                 break;
             case "DecreaseDiameterButton":
-                diameter -= 0.1f;
+                diameter -= 0.01f;
                 break;
             default:
                 break;

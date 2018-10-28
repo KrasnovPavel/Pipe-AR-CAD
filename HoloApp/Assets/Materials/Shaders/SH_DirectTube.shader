@@ -1,9 +1,9 @@
-﻿Shader "Grid" {
+﻿Shader "Tubes/Direct" {
 	Properties{
-	  _GridThickness("Grid Thickness", Float) = 0.01
-	  _GridSpacingY("Grid Spacing Y", Float) = 1.0
-	  _GridColor("Grid Color", Color) = (0.5, 1.0, 1.0, 1.0)
-	  _BaseColor("Base Color", Color) = (0.0, 0.0, 0.0, 0.0)
+		_GridThickness("Grid Thickness", Float) = 0.01
+		_GridSpacingY("Grid Spacing Y", Float) = 1.0
+		_GridColor("Grid Color", Color) = (0.5, 1.0, 1.0, 1.0)
+		_BaseColor("Base Color", Color) = (0.0, 0.0, 0.0, 0.0)
 	}
 	SubShader{
 		Tags { "Queue" = "Transparent" }
@@ -54,7 +54,8 @@
 			float4 frag(vertexOutput input) : COLOR {
 				if (frac(input.localPos.y * input.worldScale.y / input.worldScale.z) < _GridThickness ||
 					(input.localPos.x < _GridThickness && input.localPos.x > -_GridThickness) ||
-					(input.localPos.z < _GridThickness && input.localPos.z > -_GridThickness))
+					(input.localPos.z < _GridThickness && input.localPos.z > -_GridThickness) ||
+					(input.localPos.y > 1 - _GridThickness / (input.worldScale.y / input.worldScale.z)))
 				{
 					return _GridColor;
 				}

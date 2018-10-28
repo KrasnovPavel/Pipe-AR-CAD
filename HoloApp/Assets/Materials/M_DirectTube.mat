@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: New Material
+  m_Name: M_DirectTube
   m_Shader: {fileID: 4800000, guid: 78cdb2d2599c43e4faa1b633f09faf1c, type: 3}
   m_ShaderKeywords: _USEWIREFRAME_ON
   m_LightmapFlags: 4
