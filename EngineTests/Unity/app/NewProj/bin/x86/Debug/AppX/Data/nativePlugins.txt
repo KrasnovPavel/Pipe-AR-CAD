@@ -1,4 +1,0 @@
-PerceptionSimulationManager.dll
-Microsoft.Perception.Simulation.dll
-PerceptionRemotingPlugin.dll
-HolographicStreamerDesktop.dll
