@@ -10,7 +10,7 @@ public class Tube : InteractionReceiver
     GameObject startPoint;
     GameObject endPoint;
     public GameObject buttonBar;
-
+     
     float _length;
     float buttonBarOffset;
     

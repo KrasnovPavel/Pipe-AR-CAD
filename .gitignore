@@ -1,44 +1,45 @@
 # =============== #
 # Unity generated #
 # =============== #
-**/[Tt]emp/
-**/[Oo]bj/
-**/[Bb]uild
-**/[Bb]uilds/
-**/[Ll]ibrary/
-**/sysinfo.txt
-**/*.stackdump
-**/Assets/AssetStoreTools*
-**/*.apk
-**/*.unitypackage
+HoloApp/[Tt]emp/
+HoloApp/[Oo]bj/
+HoloApp/[Bb]uild
+HoloApp/[Bb]uilds/
+HoloApp/[Ll]ibrary/
+HoloApp/sysinfo.txt
+HoloApp/*.stackdump
+HoloApp/Assets/AssetStoreTools*
+HoloApp/*.apk
+HoloApp/*.unitypackage
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
-**/[Ee]xported[Oo]bj/
-**/.vs/
-**/*.userprefs
-**/*.csproj
-**/*.pidb
-**/*.pidb.meta
-**/*.suo
-**/*.sln*
-**/*.user
-**/*.unityproj
-**/*.booproj
-**.consulo/
-**/*.tmp
-**/*.svd
+HoloApp/[Ee]xported[Oo]bj/
+HoloApp/.vs/
+HoloApp/*.userprefs
+HoloApp/*.csproj
+HoloApp/*.pidb
+HoloApp/*.pidb.meta
+HoloApp/*.suo
+HoloApp/*.sln*
+HoloApp/*.user
+HoloApp/*.unityproj
+HoloApp/*.booproj
+HoloApp/*.consulo/
+HoloApp/*.tmp
+HoloApp/*.svd
+HoloApp/App/
  
 # ============ #
 # OS generated #
 # ============ #
-**/.DS_Store*
-**/._*
-**/.Spotlight-V100
-**/.Trashes
-**/ehthumbs.db
-**/[Tt]humbs.db
-**/[Dd]esktop.ini
-**/Corridor/Library/ShaderCache/
-**/Corridor/Library/metadata/ 
+HoloApp/.DS_Store*
+HoloApp/._*
+HoloApp/.Spotlight-V100
+HoloApp/.Trashes
+HoloApp/ehthumbs.db
+HoloApp/[Tt]humbs.db
+HoloApp/[Dd]esktop.ini
+HoloApp/Corridor/Library/ShaderCache/
+HoloApp/Corridor/Library/metadata/ 
