@@ -14,7 +14,7 @@ public class Tube : InteractionReceiver
     float _length;
     float buttonBarOffset;
     
-    float diameter = 0.426f;
+    float diameter = 0.105f;
 
     public float length
     {
@@ -40,7 +40,7 @@ public class Tube : InteractionReceiver
         endPoint = transform.Find("End Point").gameObject;
         endPoint.GetComponent<Light>().range = diameter;
         startPoint.GetComponent<Light>().range = diameter;
-        length = 0.1f;
+        length = 0.5f;
         buttonBar.GetComponent<ButtonBar>().offset = 0.7f * diameter;
     }
 
