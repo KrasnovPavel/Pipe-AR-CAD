@@ -52,7 +52,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4200166952808024}
-  - component: {fileID: 108570371208860752}
   m_Layer: 0
   m_Name: End Point
   m_TagString: Untagged
@@ -175,7 +174,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4903023169257956}
-  - component: {fileID: 108743362298800596}
   m_Layer: 0
   m_Name: Start Point
   m_TagString: Untagged
@@ -1265,80 +1263,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!108 &108570371208860752
-Light:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1191994482357920}
-  m_Enabled: 1
-  serializedVersion: 8
-  m_Type: 2
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 1
-  m_Range: 0
-  m_SpotAngle: 30
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 1
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
---- !u!108 &108743362298800596
-Light:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1543714598835652}
-  m_Enabled: 1
-  serializedVersion: 8
-  m_Type: 2
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 1
-  m_Range: 0
-  m_SpotAngle: 30
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 1
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
 --- !u!114 &114018916196490602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1395,7 +1319,7 @@ MonoBehaviour:
   DisableIcon: 0
   OverrideIcon: 1
   iconName: ObjectCollectionScatter
-  iconOverride: {fileID: 2800000, guid: a2fa94fb1a109cb40ac431b3f29aca24, type: 3}
+  iconOverride: {fileID: 2800000, guid: 86ef179193f80fa4abd50be380d2c44e, type: 3}
   alpha: 1
 --- !u!114 &114091103996387394
 MonoBehaviour:
@@ -1464,7 +1388,7 @@ MonoBehaviour:
   DisableIcon: 0
   OverrideIcon: 1
   iconName: ObjectCollectionScatter
-  iconOverride: {fileID: 2800000, guid: 582738ce7c849114285b98fb6c28e417, type: 3}
+  iconOverride: {fileID: 2800000, guid: 80c588921dddc5b419c4aec063d215e9, type: 3}
   alpha: 1
 --- !u!114 &114352439683176944
 MonoBehaviour:
@@ -1539,7 +1463,7 @@ MonoBehaviour:
   DisableIcon: 0
   OverrideIcon: 1
   iconName: ObjectCollectionScatter
-  iconOverride: {fileID: 2800000, guid: ae26215872bc2ed459dc79b7ce70b152, type: 3}
+  iconOverride: {fileID: 2800000, guid: 0f746d2baaedf634f95e33737720eafd, type: 3}
   alpha: 1
 --- !u!114 &114740066175683336
 MonoBehaviour:

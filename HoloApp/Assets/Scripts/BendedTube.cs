@@ -56,8 +56,6 @@ public class BendedTube : InteractionReceiver
         tube = transform.Find("Tube").gameObject;
         startPoint = transform.Find("Start Point").gameObject;
         endPoint = transform.Find("End Point").gameObject;
-        endPoint.GetComponent<Light>().range = diameter;
-        startPoint.GetComponent<Light>().range = diameter;
         _useSecondRadius = false;
         _angle = MeshFactory.deltaAngle;
         buttonBar.GetComponent<ButtonBar>().offset = 0.7f * diameter;

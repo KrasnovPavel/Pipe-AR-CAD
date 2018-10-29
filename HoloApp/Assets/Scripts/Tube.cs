@@ -38,8 +38,6 @@ public class Tube : InteractionReceiver
         tube = transform.Find("Tube").gameObject;
         startPoint = transform.Find("Start Point").gameObject;
         endPoint = transform.Find("End Point").gameObject;
-        endPoint.GetComponent<Light>().range = diameter;
-        startPoint.GetComponent<Light>().range = diameter;
         length = 0.5f;
         buttonBar.GetComponent<ButtonBar>().offset = 0.7f * diameter;
     }
