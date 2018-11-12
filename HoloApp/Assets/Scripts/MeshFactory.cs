@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public static class MeshFactory {
-    public static int deltaAngle = 15;
-    public static int segments = 20;
+    public static int DeltaAngle = 15;
+    public static int Segments = 20;
 
     public static List<Mesh> CreateMeshes(float tubeDiameter = 1f, float firstBendRadius = 1.2f, float secondBendRadius = 0.87f)
     {
@@ -14,9 +13,9 @@ public static class MeshFactory {
         for (int j = 0; j < 2; ++j)
         {
             List<Vector3> allVertices = GenerateVertices(tubeDiameter, radiuses[j]);
-            for (int i = 1; i <= 180 / deltaAngle; ++i)
+            for (int i = 1; i <= 180 / DeltaAngle; ++i)
             {
-                List<Vector3> vertices = allVertices.GetRange(0, (i + 1) * segments * 2);
+                List<Vector3> vertices = allVertices.GetRange(0, (i + 1) * Segments * 2);
                 meshes.Add(new Mesh());
                 meshes[meshes.Count - 1].vertices = vertices.ToArray();
                 meshes[meshes.Count - 1].triangles = GenerateTriangles(ref vertices, i);
@@ -36,9 +35,9 @@ public static class MeshFactory {
         Vector3 center = new Vector3(bendRadius, 0, 0);
         Vector3[] circle = GenerateCircle(tubeDiameter);
 
-        for (int j = 0; j <= (180 / deltaAngle); ++j)
+        for (int j = 0; j <= (180 / DeltaAngle); ++j)
         {
-            Quaternion rot = Quaternion.Euler(0, -deltaAngle * j, 0);
+            Quaternion rot = Quaternion.Euler(0, -DeltaAngle * j, 0);
             foreach(Vector3 vertex in circle)
             {
                 vertices.Add(rot * (vertex + center));
@@ -50,12 +49,12 @@ public static class MeshFactory {
 
     private static Vector3[] GenerateCircle(float tubeDiameter)
     {
-        Vector3[] vertices = new Vector3[segments * 2];
+        Vector3[] vertices = new Vector3[Segments * 2];
 
-        for (int i = 0; i < segments; ++i)
+        for (int i = 0; i < Segments; ++i)
         {
-            vertices[i * 2] = new Vector3(tubeDiameter * 0.5f * Mathf.Cos(2 * Mathf.PI / segments * i),
-                                          tubeDiameter * 0.5f * Mathf.Sin(2 * Mathf.PI / segments * i),
+            vertices[i * 2] = new Vector3(tubeDiameter * 0.5f * Mathf.Cos(2 * Mathf.PI / Segments * i),
+                                          tubeDiameter * 0.5f * Mathf.Sin(2 * Mathf.PI / Segments * i),
                                           0);
             vertices[i * 2 + 1] = vertices[i * 2] * 0.95f;
         }
@@ -74,12 +73,12 @@ public static class MeshFactory {
         return triangles.ToArray();
     }
 
-    private static List<int> GenerateEdgeTriangles(ref List<Vector3> vertices, int level, bool invert = false)
+    private static IEnumerable<int> GenerateEdgeTriangles(ref List<Vector3> vertices, int level, bool invert = false)
     {
         List<int> triangles = new List<int>();
-        int verticesInCircle = segments * 2;
+        int verticesInCircle = Segments * 2;
 
-        for (int i = 0; i < segments; ++i)
+        for (int i = 0; i < Segments; ++i)
         {
             AddQuad(ref triangles,
                     level * verticesInCircle + i * 2,
@@ -92,10 +91,10 @@ public static class MeshFactory {
         return triangles;
     }
 
-    private static List<int> GenerateTubeTriangles(ref List<Vector3> vertices)
+    private static IEnumerable<int> GenerateTubeTriangles(ref List<Vector3> vertices)
     {
         List<int> triangles = new List<int>();
-        int verticesInCircle = segments * 2;
+        int verticesInCircle = Segments * 2;
         for (int j = 0; j < vertices.Count / verticesInCircle - 1; ++j)
         {
             for (int i = 0; i < verticesInCircle; ++i)

@@ -1,22 +1,19 @@
 ﻿using HoloToolkit.Unity.InputModule;
 using HoloToolkit.Unity.Receivers;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Tube : InteractionReceiver
 {
-    GameObject tube;
-    GameObject startPoint;
-    GameObject endPoint;
-    public GameObject buttonBar;
-     
-    float _length;
-    float buttonBarOffset;
-    
-    float diameter = 0.105f;
+    private GameObject _tube;
+    private GameObject _endPoint;
+    public GameObject ButtonBar;
 
-    public float length
+    private float _length;
+    private float _buttonBarOffset;
+    
+    public float Diameter = 0.105f;
+
+    public float Length
     {
         get { return _length; }
         set
@@ -27,19 +24,18 @@ public class Tube : InteractionReceiver
             }
             _length = value;
 
-            tube.transform.localScale = new Vector3(diameter, _length, diameter);
-            endPoint.transform.localPosition = new Vector3(0, 0, _length);
+            _tube.transform.localScale = new Vector3(Diameter, _length, Diameter);
+            _endPoint.transform.localPosition = new Vector3(0, 0, _length);
         }
     }
 
 	// Use this for initialization
 	void Start ()
     {
-        tube = transform.Find("Tube").gameObject;
-        startPoint = transform.Find("Start Point").gameObject;
-        endPoint = transform.Find("End Point").gameObject;
-        length = 0.5f;
-        buttonBar.GetComponent<ButtonBar>().offset = 0.7f * diameter;
+        _tube = transform.Find("Tube").gameObject;
+        _endPoint = transform.Find("End Point").gameObject;
+        Length = 0.5f;
+        ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
     }
 
     protected override void InputDown(GameObject obj, InputEventData eventData)
@@ -47,12 +43,13 @@ public class Tube : InteractionReceiver
         switch (obj.name)
         {
             case "IncreaseLengthButton":
-                length += 0.1f;
+                Length += 0.1f;
                 break;
             case "DecreaseLengthButton":
-                length -= 0.1f;
+                Length -= 0.1f;
                 break;
-            default:
+            case "AddBendButton":
+                gameObject.GetComponent<TubeFactory>().CreateBendedTube(_endPoint.transform, Diameter);
                 break;
         }
     }
