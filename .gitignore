@@ -11,6 +11,7 @@ HoloApp/*.stackdump
 HoloApp/Assets/AssetStoreTools*
 HoloApp/*.apk
 HoloApp/*.unitypackage
+HoloApp/[Aa]pp/
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
@@ -26,10 +27,9 @@ HoloApp/*.sln*
 HoloApp/*.user
 HoloApp/*.unityproj
 HoloApp/*.booproj
-HoloApp/*.consulo/
+HoloApp/*.consulo
 HoloApp/*.tmp
 HoloApp/*.svd
-HoloApp/App/
  
 # ============ #
 # OS generated #

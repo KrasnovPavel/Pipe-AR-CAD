@@ -298,7 +298,6 @@ PlayerSettings:
     m_Enabled: 1
     m_Devices:
     - WindowsMR
-    - Vuforia
   m_BuildTargetEnableVuforiaSettings:
   - m_BuildTarget: Metro
     m_Enabled: 1
@@ -592,11 +591,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: HoloCad
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: Assets\WSATestCertificate.pfx
+  metroCertificatePath: Assets/WSATestCertificate.pfx
   metroCertificatePassword: 
   metroCertificateSubject: ISMART
   metroCertificateIssuer: ISMART
-  metroCertificateNotAfter: 0036fff07483d501
+  metroCertificateNotAfter: 0079b464bf90d501
   metroApplicationDescription: Template_3D
   wsaImages: {}
   metroTileShortName: HoloCAD
@@ -635,7 +634,7 @@ PlayerSettings:
       PhoneCallHistoryPublic: False
       PicturesLibrary: False
       PointOfService: False
-      PrivateNetworkClientServer: False
+      PrivateNetworkClientServer: True
       Proximity: True
       RecordedCallsFolder: False
       RemoteSystem: False
@@ -696,7 +695,7 @@ PlayerSettings:
   cloudServicesEnabled:
     UNet: 1
   facebookSdkVersion: 7.9.4
-  apiCompatibilityLevel: 3
+  apiCompatibilityLevel: 2
   cloudProjectId: 
   projectName: 
   organizationId: 
