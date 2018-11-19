@@ -1,17 +1,10 @@
 ﻿using HoloToolkit.Unity.InputModule;
-using HoloToolkit.Unity.Receivers;
 using UnityEngine;
 
-public class Tube : InteractionReceiver
+public class Tube : BaseTube
 {
-    private GameObject _tube;
-    private GameObject _endPoint;
-    public GameObject ButtonBar;
-
     private float _length;
     private float _buttonBarOffset;
-    
-    public float Diameter = 0.105f;
 
     public float Length
     {
@@ -24,18 +17,19 @@ public class Tube : InteractionReceiver
             }
             _length = value;
 
-            _tube.transform.localScale = new Vector3(Diameter, _length, Diameter);
-            _endPoint.transform.localPosition = new Vector3(0, 0, _length);
+            Tube.transform.localScale = new Vector3(Diameter, _length, Diameter);
+            EndPoint.transform.localPosition = new Vector3(0, 0, _length);
+            Label.GetComponent<TextMesh>().text = "Длина: " + _length.ToString("0.00") + "м.";
         }
     }
 
 	// Use this for initialization
-	void Start ()
+	protected new void Start()
     {
-        _tube = transform.Find("Tube").gameObject;
-        _endPoint = transform.Find("End Point").gameObject;
+        base.Start();
         Length = 0.5f;
         ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
+        TubeManager.SelectTube(this);
     }
 
     protected override void InputDown(GameObject obj, InputEventData eventData)
@@ -43,13 +37,13 @@ public class Tube : InteractionReceiver
         switch (obj.name)
         {
             case "IncreaseLengthButton":
-                Length += 0.1f;
+                Length += 0.05f;
                 break;
             case "DecreaseLengthButton":
-                Length -= 0.1f;
+                Length -= 0.05f;
                 break;
             case "AddBendButton":
-                gameObject.GetComponent<TubeFactory>().CreateBendedTube(_endPoint.transform, Diameter);
+                gameObject.GetComponent<TubeFactory>().CreateTube(EndPoint.transform, Diameter, true, StartTube);
                 break;
         }
     }

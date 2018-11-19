@@ -1,16 +1,10 @@
 ﻿using HoloToolkit.Unity.InputModule;
-using HoloToolkit.Unity.Receivers;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class BendedTube : InteractionReceiver
+public class BendedTube : BaseTube
 {
     private List<Mesh> _meshes;
-    private GameObject _tube;
-    private GameObject _endPoint;
-    public GameObject ButtonBar;
 
     private bool _useSecondRadius;
     private int _angle;
@@ -19,9 +13,6 @@ public class BendedTube : InteractionReceiver
     public float FirstBendRadius = 0.07f;
     [Range(0.055f, 0.87f)]
     public float SecondBendRadius = 0.055f;
-    [Range(0.014f, 0.426f)]
-    public float Diameter = 0.025f;
-    public Material Material;
 
     public int Angle
     {
@@ -35,6 +26,7 @@ public class BendedTube : InteractionReceiver
             _angle = value;
 
             SetMesh();
+            Label.GetComponent<TextMesh>().text = "Угол погиба: " + _angle + "°";
         }
     }
 
@@ -49,17 +41,15 @@ public class BendedTube : InteractionReceiver
         }
     }
 
-    // Use this for initialization
-    void Start ()
+    protected new void Start()
     {
+        base.Start();
         _meshes = MeshFactory.CreateMeshes(Diameter, FirstBendRadius, SecondBendRadius);
-        _tube = transform.Find("Tube").gameObject;
-        _endPoint = transform.Find("End Point").gameObject;
         _useSecondRadius = false;
-        _angle = MeshFactory.DeltaAngle;
         ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
-        _tube.GetComponent<MeshRenderer>().material.SetFloat("_Diameter", Diameter);
-        SetMesh();
+        Tube.GetComponent<MeshRenderer>().material.SetFloat("_Diameter", Diameter);
+        Angle = 90;
+        TubeManager.SelectTube(this);
     }
 
     protected override void InputDown(GameObject obj, InputEventData eventData)
@@ -82,23 +72,24 @@ public class BendedTube : InteractionReceiver
                 UseSecondRadius = !UseSecondRadius;
                 break;
             case "AddBendButton":
-                gameObject.GetComponent<TubeFactory>().CreateBendedTube(_endPoint.transform, Diameter);
+                gameObject.GetComponent<TubeFactory>().CreateTube(EndPoint.transform, Diameter, true, StartTube);
                 break;
             case "AddTubeButton":
-                gameObject.GetComponent<TubeFactory>().CreateTube(_endPoint.transform, Diameter);
+                gameObject.GetComponent<TubeFactory>().CreateTube(EndPoint.transform, Diameter, false, StartTube);
                 break;
         }
     }
 
     private void SetMesh()
     {
-        _tube.transform.localPosition = new Vector3(_useSecondRadius ? -SecondBendRadius : -FirstBendRadius, 0, 0);
+        Tube.transform.localPosition = new Vector3(_useSecondRadius ? -SecondBendRadius : -FirstBendRadius, 0, 0);
 
         Quaternion rot = Quaternion.Euler(0, -Angle, 0);
         Vector3 pos = new Vector3(_useSecondRadius ? SecondBendRadius : FirstBendRadius, 0, 0);
-        _endPoint.transform.localPosition = rot * pos - pos;
-        _endPoint.transform.localRotation = rot;
+        EndPoint.transform.localPosition = rot * pos - pos;
+        EndPoint.transform.localRotation = rot;
         int numberOfAngles = 180 / MeshFactory.DeltaAngle;
-        _tube.GetComponent<MeshFilter>().mesh = _meshes[_angle / MeshFactory.DeltaAngle - 1 + (UseSecondRadius ? numberOfAngles : 0)];
+        Tube.GetComponent<MeshFilter>().mesh = _meshes[_angle / MeshFactory.DeltaAngle - 1 + (UseSecondRadius ? numberOfAngles : 0)];
+        Tube.GetComponent<MeshCollider>().sharedMesh = Tube.GetComponent<MeshFilter>().mesh;
     }
 }

@@ -2,7 +2,7 @@
 	Properties{
 		_GridThickness("Grid Thickness", Float) = 0.01
 		_GridSpacingY("Grid Spacing Y", Float) = 1.0
-		_GridColor("Grid Color", Color) = (0.5, 1.0, 1.0, 1.0)
+		_GridColor("Grid Color", Color) = (1, 1, 0, 1)
 		_BaseColor("Base Color", Color) = (0.0, 0.0, 0.0, 0.0)
 	}
 	SubShader{
@@ -30,8 +30,8 @@
 
 			// Output from vertex shader into fragment shader
 			struct vertexOutput {
-				float4 pos : SV_POSITION;
-				float4 worldPos : TEXCOORD0;
+				float4 pos: SV_POSITION;
+				float4 worldPos: TEXCOORD0;
 				float3 localPos: POSITION1;
 				float3 worldScale: SCALE;
 			};

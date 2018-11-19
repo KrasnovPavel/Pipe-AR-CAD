@@ -1,40 +1,28 @@
 ﻿using HoloToolkit.Unity.InputModule;
-using HoloToolkit.Unity.Receivers;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TubeStart : InteractionReceiver
+public class TubeStart : BaseTube
 {
-    private GameObject _tube;
-    private GameObject _endPoint;
-
     private const float Length = 0.03f;
 
-    private float _diameter = 0.014f;
-
-    public float Diameter
+    protected new void Start()
     {
-        get { return _diameter; }
-        set
-        {
-            if (value <= 0)
-            {
-                return;
-            }
-            _diameter = value;
-            Debug.Log(_diameter);
-            _tube.transform.localScale = new Vector3(_diameter, Length, _diameter);
-        }
+        base.Start();
+        StartTube = gameObject;
+        EndPoint.transform.localPosition = new Vector3(0, 0, Length);
+        Diameter = 0.05f;
+        TubeManager.AddTube(this);
+        TubeManager.SelectTube(this);
     }
 
-    // Use this for initialization
-    void Start()
+    protected void Update()
     {
-        _tube = transform.Find("Tube").gameObject;
-        _endPoint = transform.Find("End Point").gameObject;
-        _endPoint.transform.localPosition = new Vector3(0, 0, Length);
-        Diameter = 0.05f;
+        Tube.transform.localScale = new Vector3(Diameter, Length, Diameter);
+        if (Diameter < 0)
+        {
+            Diameter = 0.05f;
+        }
+        Label.GetComponent<TextMesh>().text = "Диаметр: " + Diameter.ToString("0.00") + "м.";
     }
 
     protected override void InputDown(GameObject obj, InputEventData eventData)
@@ -48,10 +36,10 @@ public class TubeStart : InteractionReceiver
                 Diameter -= 0.01f;
                 break;
             case "AddBendButton":
-                gameObject.GetComponent<TubeFactory>().CreateBendedTube(_endPoint.transform, Diameter);
+                gameObject.GetComponent<TubeFactory>().CreateTube(EndPoint.transform, Diameter, true, StartTube);
                 break;
             case "AddTubeButton":
-                gameObject.GetComponent<TubeFactory>().CreateTube(_endPoint.transform, Diameter);
+                gameObject.GetComponent<TubeFactory>().CreateTube(EndPoint.transform, Diameter, false, StartTube);
                 break;
         }
     }

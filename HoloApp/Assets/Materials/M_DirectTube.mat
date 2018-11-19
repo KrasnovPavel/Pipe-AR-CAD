@@ -103,6 +103,7 @@ Material:
     - _GridSpacingXZ: -5.38
     - _GridSpacingY: 0.2
     - _GridThickness: 0.05
+    - _IsChoosen: 0
     - _Length: 1.97
     - _LightUV: 0
     - _MaxTriSize: 200

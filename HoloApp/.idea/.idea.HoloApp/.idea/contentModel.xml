@@ -853,11 +853,14 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
+          <e p="BaseTube.cs" t="Include" />
           <e p="BendedTube.cs" t="Include" />
           <e p="ButtonBar.cs" t="Include" />
           <e p="MeshFactory.cs" t="Include" />
           <e p="Tube.cs" t="Include" />
+          <e p="TubeClickerReceiver.cs" t="Include" />
           <e p="TubeFactory.cs" t="Include" />
+          <e p="TubeManager.cs" t="Include" />
           <e p="TubeStart.cs" t="Include" />
         </e>
         <e p="StreamingAssets" t="Include">
