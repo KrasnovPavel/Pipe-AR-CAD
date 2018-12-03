@@ -1,3 +1,4 @@
+using HoloToolkit.Unity.InputModule;
 using HoloToolkit.Unity.Receivers;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace HoloCAD
         protected GameObject EndPoint;
         protected GameObject ButtonBar;
         public GameObject Label;
+        public bool HasChild;
 
         private static readonly Color DefaultTubeColor = new Color(1f, 1f, 0f, 1f);
         private static readonly Color SelectedTubeColor = new Color(1f, 0f, 0f, 1f);
@@ -33,6 +35,24 @@ namespace HoloCAD
         }
     
         public float Diameter;
+
+        protected override void InputDown(GameObject obj, InputEventData eventData)
+        {
+            switch (obj.name)
+            {
+                case "AddBendButton":
+                    TubeManager.CreateTube(EndPoint.transform, Diameter, true);
+                    HasChild = true;
+                    break;
+                case "AddTubeButton":
+                    TubeManager.CreateTube(EndPoint.transform, Diameter, false);
+                    HasChild = true;
+                    break;
+                case "RemoveButton":
+                    Destroy(gameObject);
+                    break;
+            }
+        }
 
         protected void Start()
         {

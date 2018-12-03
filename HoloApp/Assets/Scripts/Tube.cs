@@ -36,6 +36,8 @@ namespace HoloCAD
 
         protected override void InputDown(GameObject obj, InputEventData eventData)
         {
+            base.InputDown(obj, eventData);
+
             switch (obj.name)
             {
                 case "IncreaseLengthButton":
@@ -43,9 +45,6 @@ namespace HoloCAD
                     break;
                 case "DecreaseLengthButton":
                     Length -= 0.05f;
-                    break;
-                case "AddBendButton":
-                    TubeManager.CreateTube(EndPoint.transform, Diameter, true);
                     break;
             }
         }

@@ -56,6 +56,8 @@ namespace HoloCAD
     
         protected override void InputDown(GameObject obj, InputEventData eventData)
         {
+            base.InputDown(obj, eventData);
+
             switch (obj.name)
             {
                 case "IncreaseAngleButton":
@@ -72,12 +74,6 @@ namespace HoloCAD
                     break;
                 case "ChangeRadiusButton":
                     UseSecondRadius = !UseSecondRadius;
-                    break;
-                case "AddBendButton":
-                    TubeManager.CreateTube(EndPoint.transform, Diameter, true);
-                    break;
-                case "AddTubeButton":
-                    TubeManager.CreateTube(EndPoint.transform, Diameter, false);
                     break;
             }
         }

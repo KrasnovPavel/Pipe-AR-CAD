@@ -38,6 +38,7 @@ namespace HoloCAD
 
         public static void SelectTube(BaseTube selectedTube)
         {
+            ClearNulls();
             _selectedTube = selectedTube;
 
             foreach (BaseTube tube in AllTubes)
@@ -48,8 +49,14 @@ namespace HoloCAD
 
         public static void DeselectTube()
         {
+            ClearNulls();
             _selectedTube.IsSelected = false;
             _selectedTube = null;
+        }
+
+        private static void ClearNulls()
+        {
+            AllTubes.RemoveAll(arg => arg == null);
         }
     }
 }
