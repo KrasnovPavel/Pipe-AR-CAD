@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 
-public class TubeFactory : MonoBehaviour {
-    public GameObject TubePrefab;
-    public GameObject BendedTubePrefab;
+namespace HoloCAD
+{
+    public class TubeFactory : Singleton<TubeFactory> {
+        public GameObject TubePrefab;
+        public GameObject BendedTubePrefab;
 
-    public GameObject CreateTube(Transform pivot, float diameter, bool isBended, GameObject startTube)
-    {
-        GameObject tube = Instantiate(isBended ? BendedTubePrefab : TubePrefab, pivot);
-        tube.GetComponent<BaseTube>().Diameter = diameter;
-        tube.GetComponent<BaseTube>().StartTube = startTube;
-        TubeManager.AddTube(tube.GetComponent<BaseTube>());
+        public GameObject CreateTube(Transform pivot, float diameter, bool isBended)
+        {
+            GameObject tube = Instantiate(isBended ? BendedTubePrefab : TubePrefab, pivot);
+            tube.GetComponent<BaseTube>().Diameter = diameter;
+            TubeManager.AddTube(tube.GetComponent<BaseTube>());
 
-        return tube;
+            return tube;
+        }
     }
 }

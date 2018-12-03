@@ -54,7 +54,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4525179755786066}
   - component: {fileID: 114076490903445694}
-  - component: {fileID: 114690699734152418}
   m_Layer: 0
   m_Name: DirectTube
   m_TagString: Untagged
@@ -1355,7 +1354,6 @@ MonoBehaviour:
   - {fileID: 1790414158556174}
   Targets: []
   lockFocus: 0
-  StartTube: {fileID: 0}
   Label: {fileID: 1166562136110562}
   Diameter: 0.105
 --- !u!114 &114081394202669396
@@ -1582,20 +1580,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KeywordSource: 2
   Keyword: 
---- !u!114 &114690699734152418
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1151515114834012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed6a973ea93e7f94b871723269408a8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TubePrefab: {fileID: 1151515114834012}
-  BendedTubePrefab: {fileID: 1396349710235292, guid: a691663f808ef3641b6330f8c43dae74,
-    type: 2}
 --- !u!114 &114714962476709620
 MonoBehaviour:
   m_ObjectHideFlags: 1

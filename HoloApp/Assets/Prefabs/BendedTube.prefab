@@ -268,7 +268,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4871415607076892}
   - component: {fileID: 114067889657843720}
-  - component: {fileID: 114683520891493616}
   m_Layer: 0
   m_Name: BendedTube
   m_TagString: Untagged
@@ -2819,7 +2818,6 @@ MonoBehaviour:
   - {fileID: 1369129605586620}
   Targets: []
   lockFocus: 0
-  StartTube: {fileID: 0}
   Label: {fileID: 1003852386227374}
   Diameter: 0.025
   FirstBendRadius: 0.07
@@ -3298,19 +3296,6 @@ MonoBehaviour:
   requireGaze: 1
   MainCollider: {fileID: 65827205660999396}
   MainRenderer: {fileID: 23857542110868650}
---- !u!114 &114683520891493616
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1396349710235292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed6a973ea93e7f94b871723269408a8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TubePrefab: {fileID: 1151515114834012, guid: 1eba642b6f930594483f7d7cf9c300bc, type: 2}
-  BendedTubePrefab: {fileID: 1396349710235292}
 --- !u!114 &114687424599465750
 MonoBehaviour:
   m_ObjectHideFlags: 1

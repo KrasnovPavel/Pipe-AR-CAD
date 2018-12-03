@@ -1,10 +1,13 @@
 ﻿using HoloToolkit.Unity.InputModule;
 using UnityEngine;
 
-public class TubeClickerReceiver : MonoBehaviour, IInputClickHandler
+namespace HoloCAD
 {
-    public void OnInputClicked(InputClickedEventData eventData)
+    public class TubeClickerReceiver : MonoBehaviour, IInputClickHandler
     {
-        TubeManager.ToggleTubeSelection(transform.parent.GetComponent<BaseTube>());
+        public void OnInputClicked(InputClickedEventData eventData)
+        {
+            TubeManager.ToggleTubeSelection(transform.parent.GetComponent<BaseTube>());
+        }
     }
 }

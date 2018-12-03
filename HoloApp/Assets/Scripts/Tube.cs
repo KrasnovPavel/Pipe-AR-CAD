@@ -1,50 +1,53 @@
 ﻿using HoloToolkit.Unity.InputModule;
 using UnityEngine;
 
-public class Tube : BaseTube
+namespace HoloCAD
 {
-    private float _length;
-    private float _buttonBarOffset;
-
-    public float Length
+    public class Tube : BaseTube
     {
-        get { return _length; }
-        set
+        private float _length;
+        private float _buttonBarOffset;
+
+        public float Length
         {
-            if (value <= 0)
+            get { return _length; }
+            set
             {
-                return;
+                if (value <= 0)
+                {
+                    return;
+                }
+                _length = value;
+
+                Tube.transform.localScale = new Vector3(Diameter, _length, Diameter);
+                EndPoint.transform.localPosition = new Vector3(0, 0, _length);
+                Label.GetComponent<TextMesh>().text = "Длина: " + _length.ToString("0.00") + "м.";
             }
-            _length = value;
-
-            Tube.transform.localScale = new Vector3(Diameter, _length, Diameter);
-            EndPoint.transform.localPosition = new Vector3(0, 0, _length);
-            Label.GetComponent<TextMesh>().text = "Длина: " + _length.ToString("0.00") + "м.";
         }
-    }
 
-	// Use this for initialization
-	protected new void Start()
-    {
-        base.Start();
-        Length = 0.5f;
-        ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
-        TubeManager.SelectTube(this);
-    }
-
-    protected override void InputDown(GameObject obj, InputEventData eventData)
-    {
-        switch (obj.name)
+        // Use this for initialization
+        protected new void Start()
         {
-            case "IncreaseLengthButton":
-                Length += 0.05f;
-                break;
-            case "DecreaseLengthButton":
-                Length -= 0.05f;
-                break;
-            case "AddBendButton":
-                gameObject.GetComponent<TubeFactory>().CreateTube(EndPoint.transform, Diameter, true, StartTube);
-                break;
+            base.Start();
+            Length = 0.5f;
+            ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
+            TubeManager.SelectTube(this);
+        }
+
+        protected override void InputDown(GameObject obj, InputEventData eventData)
+        {
+            switch (obj.name)
+            {
+                case "IncreaseLengthButton":
+                    Length += 0.05f;
+                    break;
+                case "DecreaseLengthButton":
+                    Length -= 0.05f;
+                    break;
+                case "AddBendButton":
+                    TubeManager.CreateTube(EndPoint.transform, Diameter, true);
+                    break;
+            }
         }
     }
 }
