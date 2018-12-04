@@ -850,6 +850,7 @@
           <e p="Shaders" t="Include">
             <e p="SH_BendedTube.shader" t="Include" />
             <e p="SH_DirectTube.shader" t="Include" />
+            <e p="SH_Wireframe.shader" t="Include" />
           </e>
         </e>
         <e p="Scripts" t="Include">
