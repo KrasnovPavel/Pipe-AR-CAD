@@ -5,12 +5,15 @@
 # Write a line equal to 'overwrite-all' (without quotes) to overwrite everything (preserved accross builds)
 # Write a line equal to 'keep-all' (without quotes) to keep files regardless their modification (preserved accross builds)
 # Default behavior is to never overwrite files
-HoloCAD.sln: 8CEADA5A5E805961CAC06A957A40C885
+HoloCAD.sln: modified
+GeneratedProjects\UWP\Assembly-CSharp\project.json: 1D02BC64BAC0D041019673A1C4C51737
+GeneratedProjects\UWP\Unity.TextMeshPro\project.json: 1D02BC64BAC0D041019673A1C4C51737
+GeneratedProjects\UWP\VuforiaScripts\project.json: 1D02BC64BAC0D041019673A1C4C51737
 HoloCAD\App.cs: 7955A669EB1B461527177848FF83FD91
-HoloCAD\AssemblyConverterArgs.txt: C35913972C17CDA3F0AD3600653601ED
-HoloCAD\HoloCAD.csproj: D562D74EFD04DA8B44E07DF27714C880
+HoloCAD\AssemblyConverterArgs.txt: 15FFB3D273E99FAFAD70A51ED80EECA2
+HoloCAD\HoloCAD.csproj: A48B94805518DDFA925E2FA95C1049D5
 HoloCAD\HoloCAD.csproj.user: modified
-HoloCAD\Package.appxmanifest: 948E2771EDF049142C3DE76E18CD2AC2
+HoloCAD\Package.appxmanifest: 3BD3B7E5E7351464C424D26E0A770567
 HoloCAD\project.json: 1D02BC64BAC0D041019673A1C4C51737
 HoloCAD\Assets\SplashScreen.scale-200.png: A85C1D7624B6902CF8CEBD6F0200A826
 HoloCAD\Assets\Square150x150Logo.scale-200.png: E02834B4A5DFB97FF8E212C1CACBB084
