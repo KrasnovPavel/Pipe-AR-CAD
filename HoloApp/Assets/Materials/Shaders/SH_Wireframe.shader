@@ -1,7 +1,8 @@
 Shader "Wireframe" {
 	Properties{
 		_GridColor("Grid Color", Color) = (1, 1, 1, 1)
-		_BaseColor("Base Color", Color) = (0.0, 0.0, 0.0, 0.0)
+		_BaseColor("Base Color", Color) = (0.0, 0.0, 0.0, 1.0)
+		_Alpha("Alpha", Range(0, 1.0)) = 0.5
         _WireThickness("Wire thickness", Range(0, 800)) = 100
 	}
 		SubShader{
@@ -25,6 +26,7 @@ Shader "Wireframe" {
 		uniform float4 _GridColor;
 		uniform float4 _BaseColor;
         uniform float _WireThickness;
+        uniform float _Alpha;
 
         struct v2g
         {
@@ -98,7 +100,7 @@ Shader "Wireframe" {
             // Fade out the alpha but not the color so we don't get any weird halo effects from
             // a fade to a different color.
             float4 color = I * _GridColor + (1 - I) * _BaseColor;
-            color.a = I + _BaseColor.a;
+            color.a = _Alpha;
             return color;
 		}
 		ENDCG
