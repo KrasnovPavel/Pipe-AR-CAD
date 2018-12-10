@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6a973ea93e7f94b871723269408a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TubePrefab: {fileID: 1151515114834012, guid: 1eba642b6f930594483f7d7cf9c300bc, type: 2}
+  DirectTubePrefab: {fileID: 1151515114834012, guid: 1eba642b6f930594483f7d7cf9c300bc,
+    type: 2}
   BendedTubePrefab: {fileID: 1396349710235292, guid: a691663f808ef3641b6330f8c43dae74,
     type: 2}

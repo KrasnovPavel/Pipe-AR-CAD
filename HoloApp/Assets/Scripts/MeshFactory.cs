@@ -1,13 +1,29 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HoloCAD
 {
+    /// <summary>
+    /// Класс создающий меши погиба для всех возможных углов погиба.
+    /// </summary>
     public static class MeshFactory {
-        public static int DeltaAngle = 15;
-        public static int Segments = 20;
-    
-        public static List<Mesh> CreateMeshes(float tubeDiameter = 1f, float firstBendRadius = 1.2f, float secondBendRadius = 0.87f)
+        /// <value> Шаг изменения угла погиба. </value>
+        public const int DeltaAngle = 15;
+        
+        /// <value> Количество полигонов. </value>
+        private const int SegmentsCount = 20;
+
+        /// <summary>
+        /// Создает меши для трубы с диаметром <paramref name="tubeDiameter"/>,
+        /// и радиусами погиба: <paramref name="firstBendRadius"/> и <paramref name="secondBendRadius"/>.
+        /// </summary>
+        /// <param name="tubeDiameter"> Диаметр трубы. </param>
+        /// <param name="firstBendRadius"> Первый из двух допустимых по ОСТ радиусов. </param>
+        /// <param name="secondBendRadius">Первый из двух допустимых по ОСТ радиусов.</param>
+        /// <returns> Список созданных мешей. </returns>
+        [NotNull]
+        public static List<Mesh> CreateMeshes(float tubeDiameter, float firstBendRadius, float secondBendRadius)
         {
             List<Mesh> meshes = new List<Mesh>();
             float[] radiuses = { firstBendRadius, secondBendRadius };
@@ -17,7 +33,7 @@ namespace HoloCAD
                 List<Vector3> allVertices = GenerateVertices(tubeDiameter, radiuses[j]);
                 for (int i = 1; i <= 180 / DeltaAngle; ++i)
                 {
-                    List<Vector3> vertices = allVertices.GetRange(0, (i + 1) * Segments * 2);
+                    List<Vector3> vertices = allVertices.GetRange(0, (i + 1) * SegmentsCount * 2);
                     meshes.Add(new Mesh());
                     meshes[meshes.Count - 1].vertices = vertices.ToArray();
                     meshes[meshes.Count - 1].triangles = GenerateTriangles(ref vertices, i);
@@ -51,12 +67,12 @@ namespace HoloCAD
     
         private static Vector3[] GenerateCircle(float tubeDiameter)
         {
-            Vector3[] vertices = new Vector3[Segments * 2];
+            Vector3[] vertices = new Vector3[SegmentsCount * 2];
     
-            for (int i = 0; i < Segments; ++i)
+            for (int i = 0; i < SegmentsCount; ++i)
             {
-                vertices[i * 2] = new Vector3(tubeDiameter * 0.5f * Mathf.Cos(2 * Mathf.PI / Segments * i),
-                                              tubeDiameter * 0.5f * Mathf.Sin(2 * Mathf.PI / Segments * i),
+                vertices[i * 2] = new Vector3(tubeDiameter * 0.5f * Mathf.Cos(2 * Mathf.PI / SegmentsCount * i),
+                                              tubeDiameter * 0.5f * Mathf.Sin(2 * Mathf.PI / SegmentsCount * i),
                                               0);
                 vertices[i * 2 + 1] = vertices[i * 2] * 0.95f;
             }
@@ -78,9 +94,9 @@ namespace HoloCAD
         private static IEnumerable<int> GenerateEdgeTriangles(int level, bool invert = false)
         {
             List<int> triangles = new List<int>();
-            int verticesInCircle = Segments * 2;
+            const int verticesInCircle = SegmentsCount * 2;
     
-            for (int i = 0; i < Segments; ++i)
+            for (int i = 0; i < SegmentsCount; ++i)
             {
                 AddQuad(ref triangles,
                         level * verticesInCircle + i * 2,
@@ -96,7 +112,7 @@ namespace HoloCAD
         private static IEnumerable<int> GenerateTubeTriangles(ref List<Vector3> vertices)
         {
             List<int> triangles = new List<int>();
-            int verticesInCircle = Segments * 2;
+            const int verticesInCircle = SegmentsCount * 2;
             for (int j = 0; j < vertices.Count / verticesInCircle - 1; ++j)
             {
                 for (int i = 0; i < verticesInCircle; ++i)

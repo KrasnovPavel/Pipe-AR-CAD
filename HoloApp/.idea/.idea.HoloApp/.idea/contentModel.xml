@@ -857,9 +857,9 @@
           <e p="BaseTube.cs" t="Include" />
           <e p="BendedTube.cs" t="Include" />
           <e p="ButtonBar.cs" t="Include" />
+          <e p="DirectTube.cs" t="Include" />
           <e p="MeshFactory.cs" t="Include" />
           <e p="Singleton.cs" t="Include" />
-          <e p="Tube.cs" t="Include" />
           <e p="TubeClickerReceiver.cs" t="Include" />
           <e p="TubeFactory.cs" t="Include" />
           <e p="TubeManager.cs" t="Include" />

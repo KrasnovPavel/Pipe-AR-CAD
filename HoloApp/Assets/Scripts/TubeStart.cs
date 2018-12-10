@@ -6,13 +6,26 @@ using UnityEngine.XR.WSA.Input;
 
 namespace HoloCAD
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Класс реализующий фланец трубы.
+    /// </summary>
     public class TubeStart : BaseTube
     {
         private const float Length = 0.03f;
         private bool _isPlacing;
         private GestureRecognizer _recognizer;
+        
+        /// <value> Объект содержащий коллайдер комнаты. </value>
         public GameObject SpatialMapping;
     
+        /// <summary>
+        /// Функция инициализирующая трубу в Unity. 
+        /// </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью
+        /// <c> base.Start()</c>.
+        /// </remarks>
         protected new void Start()
         {
             base.Start();
@@ -39,6 +52,13 @@ namespace HoloCAD
 #endif
         }
     
+        /// <summary>
+        /// Функция выполняющаяся в Unity каждый кадр. 
+        /// </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью
+        /// <c> base.Update()</c>.
+        /// </remarks>
         protected void Update()
         {
             Tube.transform.localScale = new Vector3(Diameter, Length, Diameter);
@@ -55,8 +75,8 @@ namespace HoloCAD
                 Place();
             }
         }
-    
-        void Place()
+
+        private void Place()
         {
             Vector3 headPosition = Camera.main.transform.position;
             Vector3 gazeDirection = Camera.main.transform.forward;
@@ -68,6 +88,16 @@ namespace HoloCAD
             transform.rotation = Quaternion.LookRotation(hitInfo.normal);
         }
     
+        /// <inheritdoc />
+        /// <summary>
+        /// Обработчик нажатия на кнопку из HoloToolKit.
+        /// </summary>
+        /// <param name="obj">Нажатая кнопка</param>
+        /// <param name="eventData">Информация о событии</param>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью
+        /// <c> base.InputDown()</c>.
+        /// </remarks>
         protected override void InputDown(GameObject obj, InputEventData eventData)
         {
             base.InputDown(obj, eventData);

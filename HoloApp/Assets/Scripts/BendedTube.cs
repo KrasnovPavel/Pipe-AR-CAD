@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace HoloCAD
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Класс реализующий погиб трубы.
+    /// </summary>
     public class BendedTube : BaseTube
     {
         private List<Mesh> _meshes;
@@ -11,11 +15,15 @@ namespace HoloCAD
         private bool _useSecondRadius;
         private int _angle;
     
+        /// <value> Первый из двух допустимых по ОСТ радиусов погиба. </value>
         [Range(0.035f, 1.2f)]
         public float FirstBendRadius = 0.07f;
+        
+        /// <value> Второй из двух допустимых радиусов погиба. </value>
         [Range(0.055f, 0.87f)]
         public float SecondBendRadius = 0.055f;
     
+        /// <value> Угол погиба. </value>
         public int Angle
         {
             get { return _angle; }
@@ -32,6 +40,10 @@ namespace HoloCAD
             }
         }
     
+        /// <value>
+        /// Флаг, указывающий какой из двух радиусов используется.
+        /// <c>true</c> если второй. 
+        /// </value>
         public bool UseSecondRadius
         {
             get { return _useSecondRadius; }
@@ -42,7 +54,14 @@ namespace HoloCAD
                 SetMesh();
             }
         }
-    
+        
+        /// <summary>
+        /// Функция инициализирующая трубу в Unity. 
+        /// </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью
+        /// <c> base.Start()</c>.
+        /// </remarks>
         protected new void Start()
         {
             base.Start();
@@ -54,6 +73,16 @@ namespace HoloCAD
             TubeManager.SelectTube(this);
         }
     
+        /// <inheritdoc />
+        /// <summary>
+        /// Обработчик нажатия на кнопку из HoloToolKit.
+        /// </summary>
+        /// <param name="obj">Нажатая кнопка</param>
+        /// <param name="eventData">Информация о событии</param>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью
+        /// <c> base.InputDown()</c>.
+        /// </remarks>
         protected override void InputDown(GameObject obj, InputEventData eventData)
         {
             base.InputDown(obj, eventData);
@@ -86,7 +115,7 @@ namespace HoloCAD
             Vector3 pos = new Vector3(_useSecondRadius ? SecondBendRadius : FirstBendRadius, 0, 0);
             EndPoint.transform.localPosition = rot * pos - pos;
             EndPoint.transform.localRotation = rot;
-            int numberOfAngles = 180 / MeshFactory.DeltaAngle;
+            const int numberOfAngles = 180 / MeshFactory.DeltaAngle;
             Tube.GetComponent<MeshFilter>().mesh = _meshes[_angle / MeshFactory.DeltaAngle - 1 + (UseSecondRadius ? numberOfAngles : 0)];
             Tube.GetComponent<MeshCollider>().sharedMesh = Tube.GetComponent<MeshFilter>().mesh;
         }

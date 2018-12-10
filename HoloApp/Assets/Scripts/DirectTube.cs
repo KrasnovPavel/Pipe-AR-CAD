@@ -3,11 +3,16 @@ using UnityEngine;
 
 namespace HoloCAD
 {
-    public class Tube : BaseTube
+    /// <inheritdoc />
+    /// <summary>
+    /// Класс реализующий прямую трубу.
+    /// </summary>
+    public class DirectTube : BaseTube
     {
         private float _length;
         private float _buttonBarOffset;
 
+        /// <value> Длина трубы. </value>
         public float Length
         {
             get { return _length; }
@@ -25,7 +30,13 @@ namespace HoloCAD
             }
         }
 
-        // Use this for initialization
+        /// <summary>
+        /// Функция инициализирующая трубу в Unity. 
+        /// </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью
+        /// <c> base.Start()</c>.
+        /// </remarks>
         protected new void Start()
         {
             base.Start();
@@ -34,6 +45,16 @@ namespace HoloCAD
             TubeManager.SelectTube(this);
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Обработчик нажатия на кнопку из HoloToolKit.
+        /// </summary>
+        /// <param name="obj">Нажатая кнопка</param>
+        /// <param name="eventData">Информация о событии</param>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью
+        /// <c> base.InputDown()</c>.
+        /// </remarks>
         protected override void InputDown(GameObject obj, InputEventData eventData)
         {
             base.InputDown(obj, eventData);

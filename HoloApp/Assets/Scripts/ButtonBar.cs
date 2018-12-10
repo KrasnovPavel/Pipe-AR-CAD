@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 
+/// <inheritdoc />
+/// <summary>
+/// Панель кнопок.
+/// </summary>
 public class ButtonBar : MonoBehaviour {
+    /// <value> Смещение панели кнопок по направлению к камере. </value>
     public float Offset;
 	
 	// Update is called once per frame
