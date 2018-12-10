@@ -110,6 +110,9 @@ namespace HoloCAD
                 case "DecreaseDiameterButton":
                     Diameter -= 0.01f;
                     break;
+                case "PlacingButton":
+                    _isPlacing = true;
+                    break;
             }
         }
     }
