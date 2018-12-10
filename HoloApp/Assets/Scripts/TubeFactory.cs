@@ -4,7 +4,7 @@ namespace HoloCAD
 {
     /// <inheritdoc />
     /// <summary>
-    /// Класс создающий объект трубы в Unity/
+    /// Класс, создающий объект трубы в Unity.
     /// </summary>
     public class TubeFactory : Singleton<TubeFactory> {
         /// <value> Prefab прямой трубы. </value>

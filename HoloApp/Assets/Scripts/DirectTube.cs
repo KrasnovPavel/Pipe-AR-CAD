@@ -5,7 +5,7 @@ namespace HoloCAD
 {
     /// <inheritdoc />
     /// <summary>
-    /// Класс реализующий прямую трубу.
+    /// Класс, реализующий прямую трубу.
     /// </summary>
     public class DirectTube : BaseTube
     {
@@ -31,7 +31,7 @@ namespace HoloCAD
         }
 
         /// <summary>
-        /// Функция инициализирующая трубу в Unity. 
+        /// Функция, инициализирующая трубу в Unity. 
         /// </summary>
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью

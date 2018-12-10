@@ -6,7 +6,7 @@ namespace HoloCAD
 {
     /// <inheritdoc />
     /// <summary>
-    /// Класс реализующий погиб трубы.
+    /// Класс, реализующий погиб трубы.
     /// </summary>
     public class BendedTube : BaseTube
     {
@@ -56,7 +56,7 @@ namespace HoloCAD
         }
         
         /// <summary>
-        /// Функция инициализирующая трубу в Unity. 
+        /// Функция, инициализирующая трубу в Unity. 
         /// </summary>
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью
@@ -77,8 +77,8 @@ namespace HoloCAD
         /// <summary>
         /// Обработчик нажатия на кнопку из HoloToolKit.
         /// </summary>
-        /// <param name="obj">Нажатая кнопка</param>
-        /// <param name="eventData">Информация о событии</param>
+        /// <param name="obj"> Нажатая кнопка. </param>
+        /// <param name="eventData"> Информация о событии. </param>
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью
         /// <c> base.InputDown()</c>.

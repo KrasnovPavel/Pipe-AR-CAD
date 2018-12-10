@@ -862,6 +862,7 @@
           <e p="Singleton.cs" t="Include" />
           <e p="TubeClickerReceiver.cs" t="Include" />
           <e p="TubeFactory.cs" t="Include" />
+          <e p="TubeLoader.cs" t="Include" />
           <e p="TubeManager.cs" t="Include" />
           <e p="TubeStart.cs" t="Include" />
         </e>

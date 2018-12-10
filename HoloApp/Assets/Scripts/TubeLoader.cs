@@ -40,15 +40,15 @@ public static class TubeLoader
     /// <summary>
     /// Функция поиска данных о трубе по диаметру и наименованию стандарта.  
     /// </summary>
-    /// <param name="diameter">Диаметр искомой трубы. </param>
-    /// <param name="standardName">Стандарт искомой трубы.</param>
-    /// <returns>Данные о трубе. </returns>
+    /// <param name="diameter"> Диаметр искомой трубы. </param>
+    /// <param name="standardName"> Стандарт искомой трубы. </param>
+    /// <returns> Данные о трубе. </returns>
     [CanBeNull]
     public static TubeData FindTubeData(float diameter, string standardName)
     {
-        IEnumerable<TubeData> tubes = GetAvailableTubes(standardName);
+        List<TubeData> tubes = GetAvailableTubes(standardName);
 
-        foreach (var tube in tubes)
+        foreach (TubeData tube in tubes)
         {
             if (Math.Abs(tube.diameter - diameter) <= float.Epsilon)
             {
@@ -62,17 +62,17 @@ public static class TubeLoader
     /// <summary>
     /// Функция получения данных о всех трубах из запрошенного стандарта. 
     /// </summary>
-    /// <param name="standardName">Запрошенный стандарт. </param>
-    /// <returns>Список труб из запрошенного стндарта. </returns>
+    /// <param name="standardName"> Запрошенный стандарт. </param>
+    /// <returns> Список труб из запрошенного стандарта. </returns>
     [NotNull]
-    public static IEnumerable<TubeData> GetAvailableTubes(string standardName)
+    public static List<TubeData> GetAvailableTubes(string standardName)
     {
         if (standardName.Length == 0 && TubeStandards.Count > 0)
         {
             return TubeStandards[0].available_tubes;
         }
 
-        foreach (var standard in TubeStandards)
+        foreach (TubeStandard standard in TubeStandards)
         {
             if (standard.name == standardName)
             {
@@ -86,12 +86,12 @@ public static class TubeLoader
     /// <summary>
     /// Функция получения всех стандартов.
     /// </summary>
-    /// <returns>Список наименований стандартов. </returns>
+    /// <returns> Список наименований стандартов. </returns>
     [NotNull]
     public static List<string> GetStandardNames()
     {
         List<string> standardNames = new List<string>();
-        foreach (var tubeStandard in TubeStandards)
+        foreach (TubeStandard tubeStandard in TubeStandards)
         {
             standardNames.Add(tubeStandard.name);
         }
@@ -102,17 +102,17 @@ public static class TubeLoader
     /// <summary>
     /// Функция получения всех диаметров труб из запрашиваемого стандарта. 
     /// </summary>
-    /// <param name="standardName">Наименование стандарта. </param>
-    /// <returns>Список диаметров.</returns>
+    /// <param name="standardName"> Наименование стандарта. </param>
+    /// <returns> Список диаметров. </returns>
     [NotNull]
     public static List<float> GetDiameters(string standardName)
     {
         List<float> diameters = new List<float>();
-        foreach (var tubeStandard in TubeStandards)
+        foreach (TubeStandard tubeStandard in TubeStandards)
         {
             if (tubeStandard.name != standardName) continue;
 
-            foreach (var tube in tubeStandard.available_tubes)
+            foreach (TubeData tube in tubeStandard.available_tubes)
             {
                 diameters.Add(tube.diameter);
             }
@@ -124,13 +124,13 @@ public static class TubeLoader
     /// <summary>
     /// Функция получения данных о последующей по диаметру трубе.
     /// </summary>
-    /// <param name="tube">Данная труба. </param>
-    /// <param name="standardName">Наименование стандарта.</param>
-    /// <returns>Данные о трубе.</returns>
+    /// <param name="tube"> Данная труба. </param>
+    /// <param name="standardName"> Наименование стандарта. </param>
+    /// <returns> Данные о трубе. </returns>
     [CanBeNull]
     public static TubeData GetBigger(TubeData tube, string standardName)
     {
-        foreach (var tubeStandard in TubeStandards)
+        foreach (TubeStandard tubeStandard in TubeStandards)
         {
             if (tubeStandard.name != standardName) continue;
 
@@ -149,13 +149,13 @@ public static class TubeLoader
     /// <summary>
     /// Функция получения данных о предыдущей по диаметру трубе.
     /// </summary>
-    /// <param name="tube">Данная труба. </param>
-    /// <param name="standardName">Наименование стандарта.</param>
-    /// <returns>Данные о трубе.</returns>
+    /// <param name="tube"> Данная труба. </param>
+    /// <param name="standardName"> Наименование стандарта. </param>
+    /// <returns> Данные о трубе. </returns>
     [CanBeNull]
     public static TubeData GetSmaller(TubeData tube, string standardName)
     {
-        foreach (var tubeStandard in TubeStandards)
+        foreach (TubeStandard tubeStandard in TubeStandards)
         {
             if (tubeStandard.name != standardName) continue;
 

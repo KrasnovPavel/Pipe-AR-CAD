@@ -5,7 +5,7 @@ using UnityEngine;
 namespace HoloCAD
 {
     /// <summary>
-    /// Класс контролирующий создание и управление трубами.
+    /// Класс, контролирующий создание и управление трубами.
     /// </summary>
     public static class TubeManager
     {
@@ -13,7 +13,7 @@ namespace HoloCAD
 
         [CanBeNull] private static BaseTube _selectedTube;
 
-        /// <value> Труба выбранная в данный момент. </value>
+        /// <value> Труба, выбранная в данный момент. </value>
         [CanBeNull]
         public static BaseTube SelectedTube
         {

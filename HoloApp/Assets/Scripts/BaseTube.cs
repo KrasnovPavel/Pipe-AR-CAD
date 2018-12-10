@@ -13,10 +13,10 @@ namespace HoloCAD
     {
         private bool _isSelected;
     
-        /// <value> Объект содержащий меш трубы. </value>
+        /// <value> Объект, содержащий меш трубы. </value>
         protected GameObject Tube;
         
-        /// <value> Объект указывающий конечную точку трубы. </value>
+        /// <value> Объект, указывающий конечную точку трубы. </value>
         protected GameObject EndPoint;
         
         /// <value> Панель с кнопками. </value>
@@ -53,7 +53,7 @@ namespace HoloCAD
         public float Diameter;
 
         /// <summary>
-        /// Функция инициализирующая трубу в Unity. 
+        /// Функция, инициализирующая трубу в Unity. 
         /// </summary>
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью
@@ -76,8 +76,8 @@ namespace HoloCAD
         /// <summary>
         /// Обработчик нажатия на кнопку из HoloToolKit.
         /// </summary>
-        /// <param name="obj">Нажатая кнопка</param>
-        /// <param name="eventData">Информация о событии</param>
+        /// <param name="obj"> Нажатая кнопка. </param>
+        /// <param name="eventData"> Информация о событии. </param>
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью
         /// <c> base.InputDown()</c>.

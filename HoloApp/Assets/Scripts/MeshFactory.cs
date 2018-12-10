@@ -5,7 +5,7 @@ using UnityEngine;
 namespace HoloCAD
 {
     /// <summary>
-    /// Класс создающий меши погиба для всех возможных углов погиба.
+    /// Класс, создающий меши погиба для всех возможных углов погиба.
     /// </summary>
     public static class MeshFactory {
         /// <value> Шаг изменения угла погиба. </value>
@@ -20,7 +20,7 @@ namespace HoloCAD
         /// </summary>
         /// <param name="tubeDiameter"> Диаметр трубы. </param>
         /// <param name="firstBendRadius"> Первый из двух допустимых по ОСТ радиусов. </param>
-        /// <param name="secondBendRadius">Первый из двух допустимых по ОСТ радиусов.</param>
+        /// <param name="secondBendRadius"> Первый из двух допустимых по ОСТ радиусов. </param>
         /// <returns> Список созданных мешей. </returns>
         [NotNull]
         public static List<Mesh> CreateMeshes(float tubeDiameter, float firstBendRadius, float secondBendRadius)
@@ -91,7 +91,7 @@ namespace HoloCAD
             return triangles.ToArray();
         }
     
-        private static IEnumerable<int> GenerateEdgeTriangles(int level, bool invert = false)
+        private static List<int> GenerateEdgeTriangles(int level, bool invert = false)
         {
             List<int> triangles = new List<int>();
             const int verticesInCircle = SegmentsCount * 2;
@@ -109,7 +109,7 @@ namespace HoloCAD
             return triangles;
         }
     
-        private static IEnumerable<int> GenerateTubeTriangles(ref List<Vector3> vertices)
+        private static List<int> GenerateTubeTriangles(ref List<Vector3> vertices)
         {
             List<int> triangles = new List<int>();
             const int verticesInCircle = SegmentsCount * 2;

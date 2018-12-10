@@ -8,7 +8,7 @@ namespace HoloCAD
 {
     /// <inheritdoc />
     /// <summary>
-    /// Класс реализующий фланец трубы.
+    /// Класс, реализующий фланец трубы.
     /// </summary>
     public class TubeStart : BaseTube
     {
@@ -16,11 +16,11 @@ namespace HoloCAD
         private bool _isPlacing;
         private GestureRecognizer _recognizer;
         
-        /// <value> Объект содержащий коллайдер комнаты. </value>
+        /// <value> Объект, содержащий коллайдер комнаты. </value>
         public GameObject SpatialMapping;
     
         /// <summary>
-        /// Функция инициализирующая трубу в Unity. 
+        /// Функция, инициализирующая трубу в Unity. 
         /// </summary>
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью
@@ -53,7 +53,7 @@ namespace HoloCAD
         }
     
         /// <summary>
-        /// Функция выполняющаяся в Unity каждый кадр. 
+        /// Функция, выполняющаяся в Unity каждый кадр. 
         /// </summary>
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью
@@ -92,8 +92,8 @@ namespace HoloCAD
         /// <summary>
         /// Обработчик нажатия на кнопку из HoloToolKit.
         /// </summary>
-        /// <param name="obj">Нажатая кнопка</param>
-        /// <param name="eventData">Информация о событии</param>
+        /// <param name="obj"> Нажатая кнопка. </param>
+        /// <param name="eventData"> Информация о событии. </param>
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью
         /// <c> base.InputDown()</c>.
