@@ -54,6 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4525179755786066}
   - component: {fileID: 114076490903445694}
+  - component: {fileID: 114265681408543732}
   m_Layer: 0
   m_Name: DirectTube
   m_TagString: Untagged
@@ -1723,7 +1724,6 @@ MonoBehaviour:
   Targets: []
   lockFocus: 0
   Label: {fileID: 1166562136110562}
-  HasChild: 0
   Diameter: 0.105
 --- !u!114 &114081394202669396
 MonoBehaviour:
@@ -1847,6 +1847,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Profile: {fileID: 11400000, guid: f9af5d824507da24b8bbd97f4948aec7, type: 2}
   audioSource: {fileID: 0}
+--- !u!114 &114265681408543732
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1151515114834012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b398a69d23c56734d8b4dbf8ddbfccff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotateText: Some text
+  textSize: 14
+  textFont: {fileID: 0}
+  textColor: {r: 1, g: 1, b: 1, a: 1}
+  textHeight: 0.06
+  grandChild: {fileID: 0}
 --- !u!114 &114300562233507988
 MonoBehaviour:
   m_ObjectHideFlags: 1
