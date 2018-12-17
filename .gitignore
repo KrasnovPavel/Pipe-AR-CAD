@@ -13,11 +13,12 @@ HoloApp/*.apk
 HoloApp/*.unitypackage
 HoloApp/[Aa]pp/
  
-# ===================================== #
-# Visual Studio / MonoDevelop generated #
-# ===================================== #
+# ============================================= #
+# Visual Studio / MonoDevelop / Rider generated #
+# ============================================= #
 HoloApp/[Ee]xported[Oo]bj/
 HoloApp/.vs/
+HoloApp/.idea/
 HoloApp/*.userprefs
 HoloApp/*.csproj
 HoloApp/*.pidb

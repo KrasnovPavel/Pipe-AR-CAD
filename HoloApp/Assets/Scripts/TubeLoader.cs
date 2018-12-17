@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -22,9 +23,16 @@ public static class TubeLoader
     [Serializable]
     public class TubeData
     {
+        /// <value> Имя трубы (может отсутствовать) </value>
         public string name;
+        
+        /// <value> Диаметр трубы в метрах </value>
         public float diameter;
+        
+        /// <value> Первый из двух допустимых радиусов погиба. </value>
         public float first_radius;
+        
+        /// <value> Второй из двух допустимых радиусов погиба. </value>
         public float second_radius;
     }
 
@@ -32,8 +40,8 @@ public static class TubeLoader
 
     static TubeLoader()
     {
-        string jsonTextFile = Resources.Load<TextAsset>("TubesConfig/OST").text;
-
+        byte[] data = UnityEngine.Windows.File.ReadAllBytes(Path.Combine(Application.streamingAssetsPath, "./TubesConfig/OST.json"));
+        string jsonTextFile = System.Text.Encoding.UTF8.GetString(data);
         TubeStandards.Add(JsonUtility.FromJson<TubeStandard>(jsonTextFile));
     }
 
@@ -143,7 +151,7 @@ public static class TubeLoader
             }
         }
 
-        return null;
+        return tube;
     }
 
     /// <summary>
@@ -159,15 +167,15 @@ public static class TubeLoader
         {
             if (tubeStandard.name != standardName) continue;
 
-            for (int i = tubeStandard.available_tubes.Count - 1; i > 0; i--)
+            for (int i = tubeStandard.available_tubes.Count - 1; i >= 1; i--)
             {
                 if (Math.Abs(tubeStandard.available_tubes[i].diameter - tube.diameter) < float.Epsilon)
                 {
-                    return tubeStandard.available_tubes[i + 1];
+                    return tubeStandard.available_tubes[i - 1];
                 }
             }
         }
 
-        return null;
+        return tube;
     }
 }

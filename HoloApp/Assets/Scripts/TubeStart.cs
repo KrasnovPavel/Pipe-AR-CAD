@@ -30,7 +30,10 @@ namespace HoloCAD
         {
             base.Start();
             EndPoint.transform.localPosition = new Vector3(0, 0, Length);
-            Diameter = 0.05f;
+
+            StandardName = TubeLoader.GetStandardNames()[0];
+            Data = TubeLoader.GetAvailableTubes(StandardName)[0];
+            
             TubeManager.AddTube(this);
             TubeManager.SelectTube(this);
         }
@@ -61,15 +64,16 @@ namespace HoloCAD
         /// </remarks>
         protected void Update()
         {
-            Tube.transform.localScale = new Vector3(Diameter, Length, Diameter);
-            if (Diameter < 0)
+            Tube.transform.localScale = new Vector3(Data.diameter, Length, Data.diameter);
+            if (Data.diameter < 0)
             {
-                Diameter = 0.05f;
+                Data.diameter = 0.05f;
             }
-            Label.GetComponent<TextMesh>().text = "Диаметр: " + Diameter.ToString("0.00") + "м.";
+            Label.GetComponent<TextMesh>().text = "Диаметр: " + Data.diameter.ToString("0.000") + "м.";
     
             Tube.GetComponent<MeshCollider>().enabled = !_isPlacing;
-            SpatialMapping.GetComponent<SpatialMappingCollider>().enableCollisions = _isPlacing;
+            SpatialMapping.GetComponent<SpatialMappingCollider>().enabled = _isPlacing;
+            SpatialMapping.GetComponent<SpatialMappingRenderer>().enabled = _isPlacing;
             if (_isPlacing)
             {
                 Place();
@@ -105,13 +109,14 @@ namespace HoloCAD
             switch (obj.name)
             {
                 case "IncreaseDiameterButton":
-                    Diameter += 0.01f;
+                    Data = TubeLoader.GetBigger(Data, StandardName);
                     break;
                 case "DecreaseDiameterButton":
-                    Diameter -= 0.01f;
+                    Data = TubeLoader.GetSmaller(Data, StandardName);
                     break;
                 case "PlacingButton":
                     _isPlacing = true;
+                    _recognizer.StartCapturingGestures();
                     break;
             }
         }

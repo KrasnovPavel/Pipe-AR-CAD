@@ -21,16 +21,20 @@ namespace HoloCAD
         }
 
         /// <summary>
-        /// Создает объект погиба диаметра: <paramref name="diameter"/>, если <paramref name="isBended"/> == <c>true</c>,
-        /// или объект прямой трубы диаметра: <paramref name="diameter"/>, если <paramref name="isBended"/> == <c>false</c>.
+        /// Создает объект погиба с параметрами: <paramref name="data"/> из стандарта <paramref name="standardName"/>,
+        /// если <paramref name="isBended"/> == <c>true</c>,
+        /// или объект прямой трубы диаметра: <paramref name="data"/> из стандарта <paramref name="standardName"/>,
+        /// если <paramref name="isBended"/> == <c>false</c>.
         /// Устанавливает ему родителя <paramref name="pivot"/>
         /// </summary>
         /// <param name="pivot"> Родитель создаваемого объекта в Unity/</param>
-        /// <param name="diameter"> Диаметр трубы. </param>
+        /// <param name="standardName">Имя стандарта по которому выполняется погиб</param>
         /// <param name="isBended"> Флаг, какую создавать трубу: прямую или погиб. </param>
-        public static void CreateTube(Transform pivot, float diameter, bool isBended)
+        /// <param name="data">Параметры трубы</param>
+        /// <returns> Созданный объект трубы. </returns>
+        public static void CreateTube(Transform pivot, TubeLoader.TubeData data, string standardName, bool isBended)
         {
-            AllTubes.Add(TubeFactory.Instance.CreateTube(pivot, diameter, isBended).GetComponent<BaseTube>());
+            AllTubes.Add(TubeFactory.Instance.CreateTube(pivot, data, standardName, isBended).GetComponent<BaseTube>());
         }
 
         /// <summary>

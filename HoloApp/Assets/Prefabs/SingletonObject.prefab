@@ -48,7 +48,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1880846201521824}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -594688902, guid: f7b54ff4a43d4fcf81b4538b678e0bcc, type: 3}
   m_Name: 
@@ -57,11 +57,11 @@ MonoBehaviour:
   m_FreezeUpdates: 0
   m_VolumeType: 1
   m_SphereRadius: 2
-  m_HalfBoxExtents: {x: 4, y: 4, z: 4}
-  m_LodType: 1
-  m_NumUpdatesBeforeRemoval: 10
-  m_SecondsBetweenUpdates: 2.5
-  m_CurrentRenderState: 1
+  m_HalfBoxExtents: {x: 8, y: 8, z: 8}
+  m_LodType: 0
+  m_NumUpdatesBeforeRemoval: 2
+  m_SecondsBetweenUpdates: 0.5
+  m_CurrentRenderState: 2
   m_VisualMaterial: {fileID: 2100000, guid: 940ee6809e07d5e49a9b483299c39fa0, type: 2}
   m_OcclusionMaterial: {fileID: 2100000, guid: 940ee6809e07d5e49a9b483299c39fa0, type: 2}
 --- !u!114 &114659650160501800
@@ -75,9 +75,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6a973ea93e7f94b871723269408a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DirectTubePrefab: {fileID: 1151515114834012, guid: 1eba642b6f930594483f7d7cf9c300bc,
+  DirectTubePrefab: {fileID: 1566192698486592, guid: 1eba642b6f930594483f7d7cf9c300bc,
     type: 2}
-  BendedTubePrefab: {fileID: 1396349710235292, guid: a691663f808ef3641b6330f8c43dae74,
+  BendedTubePrefab: {fileID: 1911631833607840, guid: a691663f808ef3641b6330f8c43dae74,
     type: 2}
 --- !u!114 &114749008305633050
 MonoBehaviour:
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1880846201521824}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 247442469, guid: f7b54ff4a43d4fcf81b4538b678e0bcc, type: 3}
   m_Name: 
@@ -94,10 +94,10 @@ MonoBehaviour:
   m_FreezeUpdates: 0
   m_VolumeType: 1
   m_SphereRadius: 2
-  m_HalfBoxExtents: {x: 4, y: 4, z: 4}
+  m_HalfBoxExtents: {x: 8, y: 8, z: 8}
   m_LodType: 0
-  m_NumUpdatesBeforeRemoval: 10
-  m_SecondsBetweenUpdates: 2.5
+  m_NumUpdatesBeforeRemoval: 2
+  m_SecondsBetweenUpdates: 0.5
   m_Layer: 0
   m_Material: {fileID: 0}
   m_EnableCollisions: 1

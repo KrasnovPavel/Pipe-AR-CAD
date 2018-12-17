@@ -15,14 +15,6 @@ namespace HoloCAD
         private bool _useSecondRadius;
         private int _angle;
     
-        /// <value> Первый из двух допустимых по ОСТ радиусов погиба. </value>
-        [Range(0.035f, 1.2f)]
-        public float FirstBendRadius = 0.07f;
-        
-        /// <value> Второй из двух допустимых радиусов погиба. </value>
-        [Range(0.055f, 0.87f)]
-        public float SecondBendRadius = 0.055f;
-    
         /// <value> Угол погиба. </value>
         public int Angle
         {
@@ -65,10 +57,10 @@ namespace HoloCAD
         protected new void Start()
         {
             base.Start();
-            _meshes = MeshFactory.CreateMeshes(Diameter, FirstBendRadius, SecondBendRadius);
+            _meshes = MeshFactory.CreateMeshes(Data.diameter, Data.first_radius, Data.second_radius);
             _useSecondRadius = false;
-            ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
-            Tube.GetComponent<MeshRenderer>().material.SetFloat("_Diameter", Diameter);
+            ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Data.diameter;
+            Tube.GetComponent<MeshRenderer>().material.SetFloat("_Diameter", Data.diameter);
             Angle = 90;
             TubeManager.SelectTube(this);
         }
@@ -109,10 +101,10 @@ namespace HoloCAD
     
         private void SetMesh()
         {
-            Tube.transform.localPosition = new Vector3(_useSecondRadius ? -SecondBendRadius : -FirstBendRadius, 0, 0);
+            Tube.transform.localPosition = new Vector3(_useSecondRadius ? -Data.second_radius : -Data.first_radius, 0, 0);
     
             Quaternion rot = Quaternion.Euler(0, -Angle, 0);
-            Vector3 pos = new Vector3(_useSecondRadius ? SecondBendRadius : FirstBendRadius, 0, 0);
+            Vector3 pos = new Vector3(_useSecondRadius ? Data.second_radius : Data.first_radius, 0, 0);
             EndPoint.transform.localPosition = rot * pos - pos;
             EndPoint.transform.localRotation = rot;
             const int numberOfAngles = 180 / MeshFactory.DeltaAngle;

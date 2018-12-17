@@ -30,7 +30,7 @@ namespace HoloCAD
         
         /// <value> Цвет трубы когда она выбрана. </value>
         private static readonly Color SelectedTubeColor = new Color(1f, 0f, 0f, 1f);
-
+        
         /// <value> Состояние трубы. Выбрана она или нет. </value>
         public bool IsSelected
         {
@@ -48,9 +48,12 @@ namespace HoloCAD
                 }
             }
         }
-    
-        /// <value> Диаметр трубы </value>
-        public float Diameter;
+
+        /// <value> Параметры трубы </value>
+        public TubeLoader.TubeData Data;
+        
+        /// <value> Имя стандарта по которому выполняется погиб </value>
+        public string StandardName;
 
         /// <summary>
         /// Функция, инициализирующая трубу в Unity. 
@@ -70,7 +73,6 @@ namespace HoloCAD
                 bb = EndPoint.transform.Find("Button Bar");
             }
             ButtonBar = bb.gameObject;
-            Label = ButtonBar.transform.Find("Label").gameObject;
         }
 
         /// <summary>
@@ -87,10 +89,10 @@ namespace HoloCAD
             switch (obj.name)
             {
                 case "AddBendButton":
-                    TubeManager.CreateTube(EndPoint.transform, Diameter, true);
+                    TubeManager.CreateTube(EndPoint.transform, Data, StandardName, true);
                     break;
                 case "AddTubeButton":
-                    TubeManager.CreateTube(EndPoint.transform, Diameter, false);
+                    TubeManager.CreateTube(EndPoint.transform, Data, StandardName, false);
                     break;
                 case "RemoveButton":
                     Destroy(gameObject);

@@ -24,7 +24,7 @@ namespace HoloCAD
                 }
                 _length = value;
 
-                Tube.transform.localScale = new Vector3(Diameter, _length, Diameter);
+                Tube.transform.localScale = new Vector3(Data.diameter, _length, Data.diameter);
                 EndPoint.transform.localPosition = new Vector3(0, 0, _length);
                 Label.GetComponent<TextMesh>().text = "Длина: " + _length.ToString("0.00") + "м.";
             }
@@ -41,7 +41,7 @@ namespace HoloCAD
         {
             base.Start();
             Length = 0.5f;
-            ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
+            ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Data.diameter;
             TubeManager.SelectTube(this);
         }
 
