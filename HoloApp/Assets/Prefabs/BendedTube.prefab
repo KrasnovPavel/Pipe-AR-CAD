@@ -285,6 +285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4871415607076892}
   - component: {fileID: 114067889657843720}
+  - component: {fileID: 114730133133995146}
   m_Layer: 0
   m_Name: BendedTube
   m_TagString: Untagged
@@ -3174,7 +3175,6 @@ MonoBehaviour:
   Targets: []
   lockFocus: 0
   Label: {fileID: 1003852386227374}
-  HasChild: 0
   Diameter: 0.025
   FirstBendRadius: 0.07
   SecondBendRadius: 0.055
@@ -3754,6 +3754,23 @@ MonoBehaviour:
   OverrideOffset: 1
   alpha: 1
   disableText: 0
+--- !u!114 &114730133133995146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1396349710235292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b398a69d23c56734d8b4dbf8ddbfccff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotateText: Some text
+  textSize: 14
+  textFont: {fileID: 0}
+  textColor: {r: 1, g: 1, b: 1, a: 1}
+  textHeight: 0.06
+  grandChild: {fileID: 0}
 --- !u!114 &114742241906419588
 MonoBehaviour:
   m_ObjectHideFlags: 1
