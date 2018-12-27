@@ -79,6 +79,8 @@ MonoBehaviour:
     type: 2}
   BendedTubePrefab: {fileID: 1911631833607840, guid: a691663f808ef3641b6330f8c43dae74,
     type: 2}
+  StartTubePrefab: {fileID: 1985526613567762, guid: 3694dc49cf052604d80a4a1eee049620,
+    type: 2}
 --- !u!114 &114749008305633050
 MonoBehaviour:
   m_ObjectHideFlags: 1

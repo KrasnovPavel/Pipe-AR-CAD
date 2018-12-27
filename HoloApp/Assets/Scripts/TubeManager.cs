@@ -11,30 +11,22 @@ namespace HoloCAD
     {
         private static readonly List<BaseTube> AllTubes = new List<BaseTube>();
 
-        [CanBeNull] private static BaseTube _selectedTube;
-
         /// <value> Труба, выбранная в данный момент. </value>
         [CanBeNull]
-        public static BaseTube SelectedTube
-        {
-            get { return _selectedTube; }
-        }
+        public static BaseTube SelectedTube { get; private set; }
 
         /// <summary>
-        /// Создает объект погиба с параметрами: <paramref name="data"/> из стандарта <paramref name="standardName"/>,
-        /// если <paramref name="isBended"/> == <c>true</c>,
-        /// или объект прямой трубы диаметра: <paramref name="data"/> из стандарта <paramref name="standardName"/>,
-        /// если <paramref name="isBended"/> == <c>false</c>.
+        /// Создает объект трубы типа <paramref name="type"/>
+        /// с параметрами <paramref name="data"/> из стандарта <paramref name="standardName"/>.
         /// Устанавливает ему родителя <paramref name="pivot"/>
         /// </summary>
         /// <param name="pivot"> Родитель создаваемого объекта в Unity/</param>
         /// <param name="standardName">Имя стандарта по которому выполняется погиб</param>
-        /// <param name="isBended"> Флаг, какую создавать трубу: прямую или погиб. </param>
         /// <param name="data">Параметры трубы</param>
-        /// <returns> Созданный объект трубы. </returns>
-        public static void CreateTube(Transform pivot, TubeLoader.TubeData data, string standardName, bool isBended)
+        /// <param name="type">Тип трубы</param>
+        public static void CreateTube(Transform pivot, TubeLoader.TubeData data, string standardName, TubeFactory.TubeType type)
         {
-            AllTubes.Add(TubeFactory.Instance.CreateTube(pivot, data, standardName, isBended).GetComponent<BaseTube>());
+            AllTubes.Add(TubeFactory.Instance.CreateTube(pivot, data, standardName, type).GetComponent<BaseTube>());
         }
 
         /// <summary>
@@ -69,11 +61,11 @@ namespace HoloCAD
         public static void SelectTube(BaseTube selectedTube)
         {
             ClearNulls();
-            _selectedTube = selectedTube;
+            SelectedTube = selectedTube;
 
             foreach (BaseTube tube in AllTubes)
             {
-                tube.IsSelected = tube == _selectedTube;
+                tube.IsSelected = tube == SelectedTube;
             }
         }
 
@@ -83,10 +75,10 @@ namespace HoloCAD
         public static void DeselectTubes()
         {
             ClearNulls();
-            if (_selectedTube == null) return;
+            if (SelectedTube == null) return;
             
-            _selectedTube.IsSelected = false;
-            _selectedTube = null;
+            SelectedTube.IsSelected = false;
+            SelectedTube = null;
         }
 
         private static void ClearNulls()

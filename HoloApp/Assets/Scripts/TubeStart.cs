@@ -1,6 +1,7 @@
 ﻿using HoloToolkit.Unity.InputModule;
 using HoloToolkit.Unity.SpatialMapping;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.XR.WSA;
 using UnityEngine.XR.WSA.Input;
 
@@ -15,10 +16,7 @@ namespace HoloCAD
         private const float Length = 0.03f;
         private bool _isPlacing;
         private GestureRecognizer _recognizer;
-        
-        /// <value> Объект, содержащий коллайдер комнаты. </value>
-        public GameObject SpatialMapping;
-    
+
         /// <summary>
         /// Функция, инициализирующая трубу в Unity. 
         /// </summary>
@@ -37,8 +35,8 @@ namespace HoloCAD
             TubeManager.AddTube(this);
             TubeManager.SelectTube(this);
         }
-    
-        void Awake()
+
+        private void Awake()
         {
 #if ENABLE_WINMD_SUPPORT
             _isPlacing = true;
@@ -69,11 +67,11 @@ namespace HoloCAD
             {
                 Data.diameter = 0.05f;
             }
-            Label.GetComponent<TextMesh>().text = "Диаметр: " + Data.diameter.ToString("0.000") + "м.";
+            LabelText.text = "Диаметр: " + Data.diameter.ToString("0.000") + "м.";
     
             Tube.GetComponent<MeshCollider>().enabled = !_isPlacing;
-            SpatialMapping.GetComponent<SpatialMappingCollider>().enabled = _isPlacing;
-            SpatialMapping.GetComponent<SpatialMappingRenderer>().enabled = _isPlacing;
+            TubeFactory.Instance.MapCollider.enabled = _isPlacing;
+            TubeFactory.Instance.MapRenderer.enabled = _isPlacing;
             if (_isPlacing)
             {
                 Place();

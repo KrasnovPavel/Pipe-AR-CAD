@@ -1,0 +1,330 @@
+{
+  "name": "OST5.95057-90",
+  "available_tubes": [
+      {
+        "diameter": 0.014,
+        "first_radius": 0.035,
+        "second_radius": 0.035
+      },
+      {
+        "diameter": 0.016,
+        "first_radius": 0.045,
+        "second_radius": 0.045
+      },
+      { 
+        "diameter": 0.018,
+        "first_radius": 0.045,
+        "second_radius": 0.045
+      },
+      {
+        "diameter": 0.021,
+        "first_radius": 0.055,
+        "second_radius": 0.055
+      },
+      {
+        "diameter": 0.022,
+        "first_radius": 0.055,
+        "second_radius": 0.055
+      },
+      {
+        "diameter": 0.025,
+        "first_radius": 0.070,
+        "second_radius": 0.055
+      },
+      {
+        "diameter": 0.026,
+        "first_radius": 0.070,
+        "second_radius": 0.055
+      },
+      {
+        "diameter": 0.028,
+        "first_radius": 0.070,
+        "second_radius": 0.055
+      },
+      {
+        "diameter": 0.032,
+        "first_radius": 0.090,
+        "second_radius": 0.065
+      },
+      {
+        "diameter": 0.0335,
+        "first_radius": 0.090,
+        "second_radius": 0.065
+      },
+      {
+        "diameter": 0.036,
+        "first_radius": 0.100,
+        "second_radius": 0.075
+      },
+      {
+        "diameter": 0.038,
+        "first_radius": 0.100,
+        "second_radius": 0.075
+      },
+      {
+        "diameter": 0.040,
+        "first_radius": 0.100,
+        "second_radius": 0.075
+      },
+      {
+        "diameter": 0.042,
+        "first_radius": 0.120,
+        "second_radius": 0.090
+      },
+      {
+        "diameter": 0.0423,
+        "first_radius": 0.120,
+        "second_radius": 0.090
+      },
+      {
+        "diameter": 0.045,
+        "first_radius": 0.120,
+        "second_radius": 0.090
+      },
+      {
+        "diameter": 0.046,
+        "first_radius": 0.120,
+        "second_radius": 0.090
+      },
+      {
+        "diameter": 0.048,
+        "first_radius": 0.120,
+        "second_radius": 0.090
+      },
+      {
+        "diameter": 0.050,
+        "first_radius": 0.120,
+        "second_radius": 0.090
+      },
+      {
+        "diameter": 0.054,
+        "first_radius": 0.160,
+        "second_radius": 0.110
+      },
+      {
+        "diameter": 0.055,
+        "first_radius": 0.160,
+        "second_radius": 0.110
+      },
+      {
+        "diameter": 0.056,
+        "first_radius": 0.160,
+        "second_radius": 0.110
+      },
+      {
+        "diameter": 0.057,
+        "first_radius": 0.160,
+        "second_radius": 0.110
+      },
+      {
+        "diameter": 0.060,
+        "first_radius": 0.160,
+        "second_radius": 0.110
+      },
+      {
+        "diameter": 0.075,
+        "first_radius": 0.210,
+        "second_radius": 0.150
+      },
+      {
+        "diameter": 0.0755,
+        "first_radius": 0.210,
+        "second_radius": 0.150
+      },
+      {
+        "diameter": 0.076,
+        "first_radius": 0.210,
+        "second_radius": 0.150
+      },
+      {
+        "diameter": 0.080,
+        "first_radius": 0.230,
+        "second_radius": 0.170
+      },
+      {
+        "diameter": 0.085,
+        "first_radius": 0.230,
+        "second_radius": 0.170
+      },
+      {
+        "diameter": 0.0885,
+        "first_radius": 0.230,
+        "second_radius": 0.170
+      },
+      {
+        "diameter": 0.089,
+        "first_radius": 0.230,
+        "second_radius": 0.170
+      },
+      {
+        "diameter": 0.090,
+        "first_radius": 0.230,
+        "second_radius": 0.170
+      },
+      {
+        "diameter": 0.105,
+        "first_radius": 0.280,
+        "second_radius": 0.220
+      },
+      {
+        "diameter": 0.108,
+        "first_radius": 0.280,
+        "second_radius": 0.220
+      },
+      {
+        "diameter": 0.110,
+        "first_radius": 0.280,
+        "second_radius": 0.220
+      },
+      {
+        "diameter": 0.114,
+        "first_radius": 0.280,
+        "second_radius": 0.220
+      },
+      {
+        "diameter": 0.130,
+        "first_radius": 0.280,
+        "second_radius": 0.220
+      },
+      {
+        "diameter": 0.133,
+        "first_radius": 0.280,
+        "second_radius": 0.220
+      },
+      {
+        "diameter": 0.135,
+        "first_radius": 0.280,
+        "second_radius": 0.220
+      },
+      {
+        "diameter": 0.137,
+        "first_radius": 0.280,
+        "second_radius": 0.220
+      },
+      {
+        "diameter": 0.139,
+        "first_radius": 0.280,
+        "second_radius": 0.220
+      },
+      {
+        "diameter": 0.140,
+        "first_radius": 0.350,
+        "second_radius": 0.270
+      },
+      {
+        "diameter": 0.155,
+        "first_radius": 0.400,
+        "second_radius": 0.300
+      },
+      {
+        "diameter": 0.156,
+        "first_radius": 0.400,
+        "second_radius": 0.300
+      },
+      {
+        "diameter": 0.159,
+        "first_radius": 0.400,
+        "second_radius": 0.300
+      },
+      {
+        "diameter": 0.160,
+        "first_radius": 0.400,
+        "second_radius": 0.300
+      },
+      {
+        "diameter": 0.165,
+        "first_radius": 0.450,
+        "second_radius": 0.330
+      },
+      {
+        "diameter": 0.168,
+        "first_radius": 0.450,
+        "second_radius": 0.330
+      },
+      {
+        "diameter": 0.205,
+        "first_radius": 0.500,
+        "second_radius": 0.430
+      },
+      {
+        "diameter": 0.206,
+        "first_radius": 0.500,
+        "second_radius": 0.430
+      },
+      {
+        "diameter": 0.210,
+        "first_radius": 0.500,
+        "second_radius": 0.430
+      },
+      {
+        "diameter": 0.219,
+        "first_radius": 0.600,
+        "second_radius": 0.430
+      },
+      {
+        "diameter": 0.220,
+        "first_radius": 0.600,
+        "second_radius": 0.430
+      },
+      {
+        "diameter": 0.258,
+        "first_radius": 0.650,
+        "second_radius": 0.520
+      },
+      {
+        "diameter": 0.260,
+        "first_radius": 0.650,
+        "second_radius": 0.520
+      },
+      {
+        "diameter": 0.270,
+        "first_radius": 0.800,
+        "second_radius": 0.550
+      },
+      {
+        "diameter": 0.273,
+        "first_radius": 0.800,
+        "second_radius": 0.550
+      },
+      {
+        "diameter": 0.307,
+        "first_radius": 0.900,
+        "second_radius": 0.650
+      },
+      {
+        "diameter": 0.310,
+        "first_radius": 0.900,
+        "second_radius": 0.650
+      },
+      {
+        "diameter": 0.325,
+        "first_radius": 0.900,
+        "second_radius": 0.650
+      },
+      {
+        "diameter": 0.357,
+        "first_radius": 1.100,
+        "second_radius": 0.750
+      },
+      {
+        "diameter": 0.360,
+        "first_radius": 1.100,
+        "second_radius": 0.750
+      },
+      {
+        "diameter": 0.370,
+        "first_radius": 1.100,
+        "second_radius": 0.750
+      },
+      {
+        "diameter": 0.377,
+        "first_radius": 1.100,
+        "second_radius": 0.750
+      },
+      {
+        "diameter": 0.426,
+        "first_radius": 1.200,
+        "second_radius": 0.870
+      }
+ ]
+}

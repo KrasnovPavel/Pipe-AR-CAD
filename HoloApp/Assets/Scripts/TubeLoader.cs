@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -11,6 +12,7 @@ using UnityEngine;
 public static class TubeLoader
 {
     [Serializable]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     private struct TubeStandard
     {
         public string name;
@@ -21,6 +23,7 @@ public static class TubeLoader
     /// Класс, хранящий данные трубы.
     /// </summary>
     [Serializable]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class TubeData
     {
         /// <value> Имя трубы (может отсутствовать) </value>

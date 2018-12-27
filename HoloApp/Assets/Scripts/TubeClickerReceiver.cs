@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace HoloCAD
 {
+    /// <inheritdoc />
     /// <summary>
     /// Класс, принимающий событие нажатия на трубу. 
     /// </summary>

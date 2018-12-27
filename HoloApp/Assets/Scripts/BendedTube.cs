@@ -14,7 +14,8 @@ namespace HoloCAD
     
         private bool _useSecondRadius;
         private int _angle;
-    
+        private static readonly int Diameter = Shader.PropertyToID("_Diameter");
+
         /// <value> Угол погиба. </value>
         public int Angle
         {
@@ -60,7 +61,7 @@ namespace HoloCAD
             _meshes = MeshFactory.CreateMeshes(Data.diameter, Data.first_radius, Data.second_radius);
             _useSecondRadius = false;
             ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Data.diameter;
-            Tube.GetComponent<MeshRenderer>().material.SetFloat("_Diameter", Data.diameter);
+            Tube.GetComponent<MeshRenderer>().material.SetFloat(Diameter, Data.diameter);
             Angle = 90;
             TubeManager.SelectTube(this);
         }

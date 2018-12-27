@@ -12,6 +12,7 @@ namespace HoloCAD
     public class BaseTube : InteractionReceiver
     {
         private bool _isSelected;
+        private static readonly int GridColor = Shader.PropertyToID("_GridColor");
     
         /// <value> Объект, содержащий меш трубы. </value>
         protected GameObject Tube;
@@ -24,6 +25,8 @@ namespace HoloCAD
         
         /// <value> Надпись с информацией о трубе. </value>
         public GameObject Label;
+
+        public TextMesh LabelText { get; private set; }
 
         /// <value> Цвет трубы </value>
         private static readonly Color DefaultTubeColor = new Color(1f, 1f, 0f, 1f);
@@ -40,7 +43,7 @@ namespace HoloCAD
                 if (_isSelected == value) return;
             
                 _isSelected = value;
-                Tube.GetComponent<MeshRenderer>().material.SetColor("_GridColor", 
+                Tube.GetComponent<MeshRenderer>().material.SetColor(GridColor, 
                                                                     _isSelected ? SelectedTubeColor : DefaultTubeColor);
                 if (ButtonBar != null)
                 {
@@ -73,6 +76,7 @@ namespace HoloCAD
                 bb = EndPoint.transform.Find("Button Bar");
             }
             ButtonBar = bb.gameObject;
+            LabelText = Label.GetComponent<TextMesh>();
         }
 
         /// <summary>
@@ -89,10 +93,13 @@ namespace HoloCAD
             switch (obj.name)
             {
                 case "AddBendButton":
-                    TubeManager.CreateTube(EndPoint.transform, Data, StandardName, true);
+                    TubeManager.CreateTube(EndPoint.transform, Data, StandardName, TubeFactory.TubeType.Bended);
                     break;
                 case "AddTubeButton":
-                    TubeManager.CreateTube(EndPoint.transform, Data, StandardName, false);
+                    TubeManager.CreateTube(EndPoint.transform, Data, StandardName, TubeFactory.TubeType.Direct);
+                    break;
+                case "AddStartButton":
+                    TubeManager.CreateTube(null, Data, StandardName, TubeFactory.TubeType.Start);
                     break;
                 case "RemoveButton":
                     Destroy(gameObject);
@@ -101,4 +108,3 @@ namespace HoloCAD
         }
     }
 }
-
