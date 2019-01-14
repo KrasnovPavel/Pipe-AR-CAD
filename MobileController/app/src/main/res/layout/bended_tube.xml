@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:seekarc="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.triggertrap.seekarc.SeekArc
+        android:id="@+id/seekArc"
+        android:layout_width="263dp"
+        android:layout_height="223dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
+        android:padding="30dp" />
+
+    <TextView
+        android:id="@+id/seekArcProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="0"
+        android:textSize="40sp" />
+
+    <Button
+        android:id="@+id/changeBended"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="changeBended"
+        android:text="changeBended" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="307dp"
+        android:layout_height="46dp" />
+
+    <TextView
+        android:id="@+id/seekBarValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="seekBarValue" />
+
+
+</android.support.constraint.ConstraintLayout>

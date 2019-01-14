@@ -44,3 +44,11 @@ HoloApp/[Tt]humbs.db
 HoloApp/[Dd]esktop.ini
 HoloApp/Corridor/Library/ShaderCache/
 HoloApp/Corridor/Library/metadata/ 
+
+# ============ #
+# Android Studio generated #
+# ============ #
+MobileController/.idea/
+MobileController/.gitignore
+MobileController/app/src/test
+MobileController/app/src/androidTest
