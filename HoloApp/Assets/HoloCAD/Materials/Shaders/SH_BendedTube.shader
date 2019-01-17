@@ -7,13 +7,11 @@
 		[PerRendererData]_Diameter("Diameter", Float) = 1
 		[PerRendererData]_BendRadius("Bend Radius", Float) = 1.2
 	}
-		SubShader{
+	SubShader{
 			Tags { "Queue" = "Transparent" }
 			Pass {
-				ZWrite Off
-				Blend SrcAlpha OneMinusSrcAlpha
-
-				CGPROGRAM
+			
+		CGPROGRAM
 		// Define the vertex and fragment shader functions
 		#pragma vertex vert
 		#pragma fragment frag
