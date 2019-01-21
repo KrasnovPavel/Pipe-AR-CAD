@@ -1,6 +1,6 @@
 package com.ismart_ar.narfu.mobilecontroller;
 
-import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -27,14 +27,16 @@ public class BendedTube extends BluetoothMessengerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  setContentView(R.layout.bended_tube);
+        setContentView(R.layout.bended_tube);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        Intent bendedIntent = getIntent();
-        String message = bendedIntent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        Bundle arguments = getIntent().getExtras();
+        double camberAngle = arguments.getDouble("camberAngle");
+        double Angle = arguments.getDouble("Angle");
 
-      //  changeBended = findViewById(R.id.changeBended);
-      //  mSeekArc = findViewById(R.id.seekArc);
-      //  seekArcProgress = findViewById(R.id.seekArcProgress);
+        changeBended = findViewById(R.id.changeBended);
+        mSeekArc = findViewById(R.id.seekArc);
+        seekArcProgress = findViewById(R.id.seekArcProgress);
         mSeekArc.setClockwise(false);
         mSeekArc.setRotation(90);
         mSeekArc.invalidate();
@@ -53,16 +55,19 @@ public class BendedTube extends BluetoothMessengerActivity {
                 progress = (int) (progress * 3.6);
                 seekArcProgress.setText(String.valueOf(progress));
                 if (lastProgress != progress) {
-                    JSON.Axies axie = new JSON.Axies("Angle", (double) progress);
+                    JSON.Axes axie = new JSON.Axes("Angle", (double) progress);
                     Gson gson = new Gson();
                     Log.i("JSON", gson.toJson(axie));
+                    messenger.SendMessage(gson.toJson(axie));
                 }
                 lastProgress = progress;
             }
         });
+        seekArcProgress.setText(String.valueOf(Angle/3.6));
+        mSeekArc.setProgress(Math.toIntExact(Math.round(Angle/3.6)));
 
-     //   seekBarValue = findViewById(R.id.seekBarValue);
-      //  seekBar = findViewById(R.id.seekBar);
+        seekBarValue = findViewById(R.id.seekBarValue);
+        seekBar = findViewById(R.id.seekBar);
         seekBar.setProgress(0);
         seekBar.incrementProgressBy(15);
         seekBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
@@ -76,9 +81,10 @@ public class BendedTube extends BluetoothMessengerActivity {
                 progress = progress * 15;
                 seekBarValue.setText(String.valueOf(progress));
                 if (lastProgressSeek != progress) {
-                    JSON.Axies axie = new JSON.Axies("Angle", (double) progress);
+                    JSON.Axes axie = new JSON.Axes("camberAngle", (double) progress);
                     Gson gson = new Gson();
                     Log.i("JSON", gson.toJson(axie));
+                    messenger.SendMessage(gson.toJson(axie));
                 }
                 lastProgressSeek = progress;
             }
@@ -93,9 +99,11 @@ public class BendedTube extends BluetoothMessengerActivity {
 
             }
         });
+        seekBarValue.setText(String.valueOf(camberAngle));
+        seekBar.setProgress(Math.toIntExact(Math.round(camberAngle)));
     }
 
     public void changeBended(View view) {
-      //  messenger.SendMessage("{ Button :" + changeBended.getText().toString() + " }");
+        messenger.SendMessage("{\"Button\" : \"" + changeBended.getText().toString() + "\"}");
     }
 }
