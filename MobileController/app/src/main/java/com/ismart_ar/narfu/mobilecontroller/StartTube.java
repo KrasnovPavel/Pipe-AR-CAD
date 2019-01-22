@@ -2,11 +2,12 @@ package com.ismart_ar.narfu.mobilecontroller;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class StartTube extends Activity {
+public class StartTube extends BluetoothMessengerActivity {
 
     Button btnMove;
     Button btnIncrease;
@@ -17,6 +18,7 @@ public class StartTube extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_tube);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         Intent startIntent = getIntent();
         String message = startIntent.getStringExtra(MainActivity.EXTRA_MESSAGE);
@@ -27,14 +29,14 @@ public class StartTube extends Activity {
     }
 
     public void onMove(View view) {
-         //Buttons.jsonBtn(btnMove.getText().toString());
+        messenger.SendMessage("{\"Button\" : \"" + btnMove.getText().toString() + "\"}");
     }
 
     public void onIncrease(View view) {
-        //Buttons.jsonBtn(btnIncrease.getText().toString());
+        messenger.SendMessage("{\"Button\" : \"" + btnIncrease.getText().toString() + "\"}");
     }
 
     public void onDecrease(View view) {
-        //Buttons.jsonBtn(btnDecrease.getText().toString());
+        messenger.SendMessage("{\"Button\" : \"" + btnDecrease.getText().toString() + "\"}");
     }
 }
