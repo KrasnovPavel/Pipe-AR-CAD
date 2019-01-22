@@ -26,5 +26,6 @@
         <activity android:name=".BendedTube" />
         <activity android:name=".StartTube" />
         <activity android:name=".DirectTube" />
+        <activity android:name=".Empty" />
     </application>
 </manifest>

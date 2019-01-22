@@ -10,41 +10,57 @@
         android:layout_width="263dp"
         android:layout_height="223dp"
         android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="8dp"
-        android:padding="30dp" />
+        android:padding="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/seekBar"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/seekArcProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
         android:text="0"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/seekArc"
+        app:layout_constraintEnd_toStartOf="@+id/seekArc"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/seekArc"
+        app:layout_constraintTop_toBottomOf="@+id/seekArc" />
 
     <Button
         android:id="@+id/changeBended"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="changeBended"
-        android:text="changeBended" />
+        android:text="changeBended"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/seekArc"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="307dp"
-        android:layout_height="46dp" />
+        android:layout_height="46dp"
+        app:layout_constraintBottom_toTopOf="@+id/seekBarValue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/seekArc"
+        app:layout_constraintTop_toBottomOf="@+id/changeBended" />
 
     <TextView
         android:id="@+id/seekBarValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="seekBarValue" />
+        android:text="seekBarValue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/seekArc"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
 
 </android.support.constraint.ConstraintLayout>

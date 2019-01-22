@@ -1,18 +1,24 @@
 package com.ismart_ar.narfu.mobilecontroller;
 
-public class JSON extends BluetoothMessengerActivity{
-    public String Type;
-    public Axies Axes;
-    public Boolean HasChild;
+import java.util.List;
 
-    public static class Axies {
+public class JSON{
+    public String Type;
+    List<Axes> Axes;
+
+    public JSON(){
+
+    }
+
+    public static class Axes {
 
         public String Axis;
-        public Double Values;
+        public Double Value;
 
-        public Axies(String Axis, Double Values) {
+        public Axes(String Axis, Double Value) {
             this.Axis = Axis;
-            this.Values = Values;
+            this.Value = Value;
         }
     }
+    public Boolean HasChild;
 }
