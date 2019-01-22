@@ -8,31 +8,31 @@
           "description": "Поверните кран вентиля 1 на 90◦ против часовой стрелки"
         },
         {
-          "controlElement": 2,
+          "control_element": 2,
           "description": "Поверните кран вентиля 3 на 90◦ против часовой стрелки"
         },
         {
-          "controlElement": 4,
+          "control_element": 4,
           "description": "Поверните кран вентиля 5 на 90◦ против часовой стрелки"
         },
         {
-          "controlElement": 4,
+          "control_element": 4,
           "description": "Поверните кран вентиля 5 на 90◦ по часовой стрелке"
         },
         {
-          "controlElement": 6,
+          "control_element": 6,
           "description": "Поверните кран вентиля 7 на 90◦ по часовой стрелке. Посмотрите изменение данных манометра 1"
         },
         {
-          "controlElement": 3,
+          "control_element": 3,
           "description": "Поверните кран вентиля 4 на 90◦ против часовой стрелки"
         },
         {
-          "controlElement": 5,
+          "control_element": 5,
           "description": "Поверните кран вентиля 6 на 90◦ против часовой стрелки"
         },
         {
-          "controlElement": 8,
+          "control_element": 8,
           "description": "Поверните кран вентиля 9 на 90◦ по часовой стрелке"
         }
       ]
@@ -41,27 +41,27 @@
       "name": "Остановка",
       "actions": [
         {
-          "controlElement": 8,
+          "control_element": 8,
           "description": "Поверните кран вентиля 9 на 90◦ против часовой стрелки"
         },
         {
-          "controlElement": 5,
+          "control_element": 5,
           "description": "Поверните кран вентиля 6 на 90◦ по часовой стрелке"
         },
         {
-          "controlElement": 3,
+          "control_element": 3,
           "description": "Поверните кран вентиля 4 на 90◦ по часовой стрелке"
         },
         {
-          "controlElement": 6,
+          "control_element": 6,
           "description": "Поверните кран вентиля 7 на 90◦ против часовой стрелки. Убедитесь, что давление в манометре установилось на значении ..."
         },
         {
-          "controlElement": 4,
+          "control_element": 4,
           "description": "Поверните кран вентиля 5 на 90◦ против часовой стрелки"
         },
         {
-          "controlElement": 4,
+          "control_element": 4,
           "description": "Поверните кран вентиля 5 на 90◦ по часовой стрелке"
         },
         {
@@ -69,7 +69,7 @@
           "description": "Поверните кран вентиля 3 на 90◦ по часовой стрелке"
         },
         {
-          "controlElement": 0,
+          "control_element": 0,
           "description": "Поверните кран вентиля 1 на 90◦ по часовой стрелке"
         }
       ]
