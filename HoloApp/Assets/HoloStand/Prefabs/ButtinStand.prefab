@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 65970718544230128}
   - component: {fileID: 114368759994907214}
   m_Layer: 0
-  m_Name: CircleButton
+  m_Name: ButtinStand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1683689579423468}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -4.4357347, y: -1.3631155, z: 11.50467}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 4629383918282792}
@@ -150,7 +150,7 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1683689579423468}
-  m_Mesh: {fileID: 4300000, guid: 6db4d72ded6e3ff41b42840365babab9, type: 3}
+  m_Mesh: {fileID: 4300000, guid: c25bf2ce7e412ab43ba5782c060c3ce8, type: 3}
 --- !u!65 &65970718544230128
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -196,7 +196,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Text: dddd
-  DisabledMaterial: {fileID: 2100000, guid: c52f3bdb3cbf8744fa017d549edc1633, type: 2}
-  EnabledMaterial: {fileID: 2100000, guid: fee63903629072842962d8c6f53162dc, type: 2}
-  HoveredMaterial: {fileID: 2100000, guid: ae97f468dbbd90c47b12313cd14bfe7b, type: 2}
-  PressedMaterial: {fileID: 2100000, guid: 589851994e2a1994f98d059681e29c14, type: 2}
