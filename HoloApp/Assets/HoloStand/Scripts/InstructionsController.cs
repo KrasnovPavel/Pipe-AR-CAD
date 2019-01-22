@@ -4,12 +4,13 @@ using HoloCAD.UI;
 using HoloToolkit.Unity.InputModule;
 using HoloToolkit.Unity.Receivers;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace HoloStand
 {
 	public class InstructionsController : InteractionReceiver
 	{
-		private List<int> _actions;
+		private List<InstructionsLoader.Action> _actions;
 
 		private int _stepNumber = -1;
 
@@ -23,7 +24,8 @@ namespace HoloStand
 		public AudioSource Headphones;
 		public AudioClip ErrorSound;
 		public AudioClip FinishSound;
-		
+		public Text InstructionLabel;
+			
 		// Use this for initialization
 		void Start () {
 			SetAllowed(-1);
@@ -34,14 +36,14 @@ namespace HoloStand
 		
 		}
 
-		public void StartInstruction(List<int> instruction = null)
+		public void StartInstruction(List<InstructionsLoader.Action> instruction = null)
 		{
 			if (instruction != null)
 			{
 				_actions = instruction;	
 			}
 			_stepNumber = 0;
-			SetAllowed(_actions[_stepNumber]);
+			SetAllowed(_actions[_stepNumber].control_element);
 		}
 
 		protected override void InputDown(GameObject obj, InputEventData eventData)
@@ -50,7 +52,7 @@ namespace HoloStand
 
 			if (_stepNumber < 0 || _stepNumber >= _actions.Count) return;
 
-			if (_actions[_stepNumber] == GetControlNumber(obj))
+			if (_actions[_stepNumber].control_element == GetControlNumber(obj))
 			{
 				if (++_stepNumber == _actions.Count)
 				{
@@ -58,7 +60,7 @@ namespace HoloStand
 				}
 				else
 				{
-					SetAllowed(_actions[_stepNumber]);	
+					SetAllowed(_actions[_stepNumber].control_element);	
 				}
 			}
 			else
@@ -70,7 +72,7 @@ namespace HoloStand
 		protected virtual void OnError()
 		{
 			_stepNumber = 0;
-			SetAllowed(_actions[_stepNumber]);
+			SetAllowed(_actions[_stepNumber].control_element);
 			Headphones.PlayOneShot(ErrorSound);
 		}
 
@@ -110,6 +112,9 @@ namespace HoloStand
 					button.HoveredMaterial = DisallowedHovered;
 				}
 			}
+
+			InstructionLabel.text = _actions[_stepNumber].description;
+
 		}
 	}
 }
