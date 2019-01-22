@@ -10,7 +10,7 @@ using UnityEngine;
 namespace  HoloStand
 {
 	
-	public class InsstructionButtonLoader : InteractionReceiver {
+	public class InstructionButtonLoader : InteractionReceiver {
 	
 		[Serializable]
 		[SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -31,7 +31,7 @@ namespace  HoloStand
 		public static List<InstructionBut> GetInstructionsForButton()
 		{
             
-			byte[] data = UnityEngine.Windows.File.ReadAllBytes(Path.Combine(Application.streamingAssetsPath, "./HoloStand/Instruction.json"));
+			byte[] data = UnityEngine.Windows.File.ReadAllBytes(Path.Combine(Application.streamingAssetsPath, "./StandInstructions/Instruction.json"));
 			string jsonTextFile = System.Text.Encoding.UTF8.GetString(data);
 			return JsonUtility.FromJson<InstructionsSet>(jsonTextFile).instructionsBut;
 		}

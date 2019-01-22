@@ -139,8 +139,9 @@ namespace HoloStand
                             transform.Find("Tube (31)").GetComponent<MeshRenderer>().material = WaterRight;
                             transform.Find("Val (1)").gameObject.SetActive(false);
                             transform.Find("Object028 (2)").gameObject.SetActive(true);
+                            triggers[GetControlNumber(obj)] = true;
                         }
-                        triggers[GetControlNumber(obj)] = true;
+                        
                     }
 
                     break;
@@ -231,10 +232,11 @@ namespace HoloStand
                     }
                     else
                     {
-                        triggers[GetControlNumber(obj)] = true;
+                       
                        
                         if (triggers[0])
                         {
+                            triggers[GetControlNumber(obj)] = true;
                             Debug.Log("Yes");
                             transform.Find("Tube (8)").GetComponent<MeshRenderer>().material = WaterRight;
                             transform.Find("Tube (12)").GetComponent<MeshRenderer>().material = WaterRight;
@@ -331,9 +333,10 @@ namespace HoloStand
                     }
                     else
                     { 
-                        triggers[GetControlNumber(obj)] = true;
+                        
                         if (triggers[0])
                         {
+                            triggers[GetControlNumber(obj)] = true;
                             transform.Find("Tube (11)").GetComponent<MeshRenderer>().material = WaterRight;
                             transform.Find("Tube (14)").GetComponent<MeshRenderer>().material = WaterRight;
                             transform.Find("Cylinder_C").GetComponent<MeshRenderer>().material = WaterBa;
@@ -569,7 +572,8 @@ namespace HoloStand
                     else
                     {
                         if (triggers[3])
-                        {triggers[GetControlNumber(obj)] = true;
+                        {
+                            triggers[GetControlNumber(obj)] = true;
                             if (triggers[6])
                             {
                                 transform.Find("Tube (22)").GetComponent<MeshRenderer>().material = WaterRight;
@@ -608,12 +612,13 @@ namespace HoloStand
                     }
                     else
                     {
-                        triggers[GetControlNumber(obj)] = true;
+                        
                         if ((triggers[4])||(triggers[5]))
                         {
                             transform.Find("Tube (17)").GetComponent<MeshRenderer>().material = WaterRight;
                             transform.Find("Val (6)").gameObject.SetActive(false);
                             transform.Find("Object028 (7)").gameObject.SetActive(true);
+                            triggers[GetControlNumber(obj)] = true;
                         }
                         
                     }
