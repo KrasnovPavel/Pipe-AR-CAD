@@ -5603,7 +5603,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 541, y: -230}
+  m_AnchoredPosition: {x: 395, y: -187}
   m_SizeDelta: {x: 189.9, y: 66.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1388575954
@@ -5618,7 +5618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.011764706, g: 1, b: 0.8117647, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5993,7 +5993,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.605, y: 0}
   m_AnchorMax: {x: 1, y: 0.22124562}
-  m_AnchoredPosition: {x: 109, y: -8}
+  m_AnchoredPosition: {x: -37.00003, y: 58.300003}
   m_SizeDelta: {x: -230.2, y: -23.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1511583453
@@ -6007,15 +6007,15 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 8b4fa37d32efc2547b4954812f85e246, type: 2}
-  m_Color: {r: 1, g: 0, b: 0.9371724, a: 0.392}
+  m_Material: {fileID: 2100000, guid: d640be1c162812243839306b3ad2ddf0, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6808,7 +6808,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1657941627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7961,6 +7961,7 @@ GameObject:
   - component: {fileID: 1851989887}
   - component: {fileID: 1851989886}
   - component: {fileID: 1851989889}
+  - component: {fileID: 1851989890}
   m_Layer: 0
   m_Name: SingletonObject
   m_TagString: Untagged
@@ -8001,6 +8002,7 @@ MonoBehaviour:
   Headphones: {fileID: 618858890}
   ErrorSound: {fileID: 8300000, guid: cfd2cfdf7ce4499469b5f90d92c65df6, type: 3}
   FinishSound: {fileID: 8300000, guid: 30159d710fa018a43b980147123f6fd7, type: 3}
+  InstructionLabel: {fileID: 1388575954}
 --- !u!114 &1851989887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8119,6 +8121,22 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &1851989890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1851989885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eeb3b43628bb894696ff891437ca1a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactables: []
+  Targets: []
+  lockFocus: 0
+  _instructionsBut: []
+  Text: {fileID: 1388575952}
 --- !u!4 &1860513424 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: fd1f56b9e57f67643a14e9231feea27c,
