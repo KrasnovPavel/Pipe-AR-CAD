@@ -8,6 +8,7 @@ namespace HoloCAD.UI
     /// <summary>
     /// Класс, реализующий трёхмерную кнопку.
     /// </summary>
+    [ExecuteInEditMode]
     public class Button3D : MonoBehaviour, IInputHandler, IPointerSpecificFocusable
     {
         protected TextMesh _label;
