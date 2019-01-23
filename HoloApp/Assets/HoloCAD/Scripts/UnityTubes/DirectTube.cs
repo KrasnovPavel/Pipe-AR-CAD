@@ -12,6 +12,8 @@ namespace HoloCAD.UnityTubes
     {
         private float _length;
         private float _buttonBarOffset;
+        private LineRenderer line;
+        public GameObject Text_Diameter;
 
         /// <value> Длина трубы. </value>
         public float Length
@@ -45,6 +47,25 @@ namespace HoloCAD.UnityTubes
             ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Data.diameter;
             TubeManager.SelectTube(this);
         }
+
+        protected void Update()
+        {
+            line = EndPoint.GetComponent<LineRenderer>();
+
+            float x = EndPoint.transform.localPosition.x;
+            float y = EndPoint.transform.localPosition.y;
+            float z = EndPoint.transform.localPosition.z;
+
+            line.positionCount = 6;
+            line.SetPosition(0, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
+            line.SetPosition(1, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
+          
+            line.SetPosition(2, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z));
+            line.SetPosition(3, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z - Length));
+            line.SetPosition(4, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
+            line.SetPosition(5, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
+        }
+
 
         /// <inheritdoc />
         /// <summary>
