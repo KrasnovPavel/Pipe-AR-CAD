@@ -46,11 +46,12 @@ public abstract class BluetoothMessengerServer {
      */
     public abstract void MessageReceived(String message);
 
+
     /**
      * Функция обрабатывающая разрыв соединиения с другим утсройством.
      */
     public void ConnectionClosed() {
-        StartServer();
+        //StartServer();
     }
 
     /**

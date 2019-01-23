@@ -4,13 +4,10 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.IOException;
 
 
@@ -18,13 +15,19 @@ public class MainActivity extends BluetoothMessengerActivity {
 
     private final static int REQUEST_ENABLE_BT = 1;
     public final static String EXTRA_MESSAGE = "EXTRA_MESSAGE";
-    public TextView state;
-    int rotation;
+    TextView state;
     BluetoothAdapter btAdapter;
-    String message = "0";
     Button startServers;
 
     public void startServer(View view) {
+        if (messenger == null) {
+            try {
+                messenger = new MABluetoothMessenger();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         try {
             messenger.StartServer();
         } catch (NullPointerException e) {
@@ -61,5 +64,9 @@ public class MainActivity extends BluetoothMessengerActivity {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
+    }
+
+    public void test(View view) {
+        messenger.SendMessage("test");
     }
 }

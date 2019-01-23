@@ -12,13 +12,14 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class BluetoothMessengerActivity extends Activity {
     protected static MABluetoothMessenger messenger;
-    String typeOfTube = "bended";
-    MainActivity mainAct = new MainActivity();
+    private String type = "null";
+    public double Length = 0;
+    public double camberAngle = 0;
+    public double Angle = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     protected class MABluetoothMessenger extends BluetoothMessengerServer {
@@ -28,33 +29,48 @@ public class BluetoothMessengerActivity extends Activity {
 
         @Override
         public void MessageReceived(String message) {
+            message = message.substring(4, message.length());
+            Log.i("", message);
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
             JSON json = gson.fromJson(message, JSON.class);
-            Log.i("JSON", "Тип: " + json.Type + " Ось: " + json.Axes.Axis + " Значение: " + json.Axes.Values);
-            typeOfTube = json.Type;
-            gotoTube(typeOfTube);
-//            if (json.HasChild) {
-//                addDirect.setEnabled(false);
-//                addBended.setEnabled(false);
-//            }
+            Log.i("JSON", "Тип: " + json.Type + " Ось: " + json.Axes.get(0).Axis + " Значение: " + json.Axes.get(1).Axis);
+
+            for (JSON.Axes axe : json.Axes) {
+                switch (axe.Axis) {
+                    case "Length":
+                        Length = axe.Value;
+                        break;
+                    case "camberAngle":
+                        camberAngle = axe.Value;
+                        break;
+                    case "Angle":
+                        Angle = axe.Value;
+                        break;
+                }
+            }
+
+
+            if (!json.Type.equals(type)) {
+                gotoTubes(json.Type);
+            }
+            type = json.Type;
         }
 
         @Override
         public void ConnectionClosed() {
             super.ConnectionClosed();
-            mainAct.state.setText("Отключено");
         }
 
         @Override
         public void ClientConnected() {
             super.ClientConnected();
-            mainAct.state.setText("Подключено");
         }
     }
 
-    public void gotoTube ( String typeOfTube) {
-        switch(typeOfTube) {
+    public void gotoTubes ( String type) {
+        Log.i("",type);
+        switch(type) {
             case "empty":
                 Intent emptyIntent = new Intent(BluetoothMessengerActivity.this, Empty.class);
                 emptyIntent.putExtra(EXTRA_MESSAGE,"");
@@ -67,12 +83,13 @@ public class BluetoothMessengerActivity extends Activity {
                 break;
             case "direct":
                 Intent directIntent = new Intent(BluetoothMessengerActivity.this, DirectTube.class);
-                directIntent.putExtra(EXTRA_MESSAGE, "");
+                directIntent.putExtra("value", Length);
                 startActivity(directIntent);
                 break;
             case "bended":
                 Intent bendedIntent = new Intent(BluetoothMessengerActivity.this, BendedTube.class);
-                bendedIntent.putExtra(EXTRA_MESSAGE, "");
+                bendedIntent.putExtra("camberAngle", camberAngle);
+                bendedIntent.putExtra("Angle", Angle);
                 startActivity(bendedIntent);
                 break;
         }

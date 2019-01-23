@@ -21,9 +21,17 @@ namespace HoloStand
         {
             public string name;
 
-            public List<int> actions;
+            public List<Action> actions;
         }
 
+        [Serializable]
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        public class Action
+        {
+            public int control_element;
+            public string description;
+        }
+        
         public static List<Instruction> GetInstructionsForScene(string sceneName)
         {
             

@@ -109,7 +109,7 @@ public static class TubeLoader
 
         return standardNames;
     }
-    
+
     /// <summary>
     /// Функция получения всех диаметров труб из запрашиваемого стандарта. 
     /// </summary>
@@ -131,7 +131,7 @@ public static class TubeLoader
 
         return diameters;
     }
-    
+
     /// <summary>
     /// Функция получения данных о последующей по диаметру трубе.
     /// </summary>

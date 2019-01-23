@@ -2,8 +2,11 @@ package com.ismart_ar.narfu.mobilecontroller;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+
 import com.google.gson.Gson;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -14,16 +17,24 @@ public class DirectTube extends BluetoothMessengerActivity{
 
     double Strength;
     int switchVariable;
+    JoystickView joystick;
+    TextView lengthTxt;
+    double startLength = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.direct_tube);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        Intent directIntent = getIntent();
-        String message = directIntent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        Bundle arguments = getIntent().getExtras();
+        double value = arguments.getDouble("value");
 
-        JoystickView joystick = findViewById(R.id.joystickView);
+        lengthTxt = findViewById(R.id.length);
+        joystick = findViewById(R.id.joystickView);
+        startLength = startLength + value;
+        lengthTxt.setText(Double.toString(startLength));
+
         joystick.setOnMoveListener((angle, strength) -> {
 
             if( angle>=0 && angle <=45) switchVariable = 0;
@@ -51,9 +62,12 @@ public class DirectTube extends BluetoothMessengerActivity{
                     break;
             }
             double roundStrength = new BigDecimal(Strength).setScale(2, RoundingMode.UP).doubleValue();
-            JSON.Axies axie = new JSON.Axies("Length", roundStrength);
+            JSON.Axes axie = new JSON.Axes("Length", roundStrength);
             Gson gson = new Gson();
             Log.i("JSON", gson.toJson(axie));
+            messenger.SendMessage(gson.toJson(axie));
+            startLength = startLength + Strength;
+            lengthTxt.setText(Double.toString(startLength));
         });
     }
 }
