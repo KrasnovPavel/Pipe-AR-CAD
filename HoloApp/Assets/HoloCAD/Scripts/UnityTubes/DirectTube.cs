@@ -33,13 +33,7 @@ namespace HoloCAD.UnityTubes
             }
         }
 
-        /// <summary>
-        /// Функция, инициализирующая трубу в Unity. 
-        /// </summary>
-        /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью
-        /// <c> base.Start()</c>.
-        /// </remarks>
+        /// <inheritdoc />
         protected override void Start()
         {
             base.Start();
@@ -48,11 +42,13 @@ namespace HoloCAD.UnityTubes
             TubeManager.SelectTube(this);
         }
 
+        /// <inheritdoc />
         protected override void Update()
         {
 
         }
 
+        /// <inheritdoc />
         protected override void CalculateSizeLine()
         {
             base.CalculateSizeLine();
@@ -71,15 +67,6 @@ namespace HoloCAD.UnityTubes
         }
 
         /// <inheritdoc />
-        /// <summary>
-        /// Обработчик нажатия на кнопку из HoloToolKit.
-        /// </summary>
-        /// <param name="obj">Нажатая кнопка</param>
-        /// <param name="eventData">Информация о событии</param>
-        /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью
-        /// <c> base.InputDown()</c>.
-        /// </remarks>
         protected override void InputDown(GameObject obj, InputEventData eventData)
         {
             base.InputDown(obj, eventData);

@@ -5,180 +5,185 @@ using System.IO;
 using JetBrains.Annotations;
 using UnityEngine;
 
-/// <summary>
-/// Класс, реализующий загрузку данных стандартов труб.   
-/// </summary>
-[Serializable]
-public static class TubeLoader
+namespace HoloCAD
 {
-    [Serializable]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    private struct TubeStandard
-    {
-        public string name;
-        public List<TubeData> available_tubes;
-    }
-
     /// <summary>
-    /// Класс, хранящий данные трубы.
+    /// Класс, реализующий загрузку данных стандартов труб.   
     /// </summary>
     [Serializable]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class TubeData
+    public static class TubeLoader
     {
-        /// <value> Имя трубы (может отсутствовать) </value>
-        public string name;
-        
-        /// <value> Диаметр трубы в метрах </value>
-        public float diameter;
-        
-        /// <value> Первый из двух допустимых радиусов погиба. </value>
-        public float first_radius;
-        
-        /// <value> Второй из двух допустимых радиусов погиба. </value>
-        public float second_radius;
-    }
-
-    private static readonly List<TubeStandard> TubeStandards = new List<TubeStandard>();
-
-    static TubeLoader()
-    {
-        byte[] data = UnityEngine.Windows.File.ReadAllBytes(Path.Combine(Application.streamingAssetsPath, "./TubesConfig/OST.json"));
-        string jsonTextFile = System.Text.Encoding.UTF8.GetString(data);
-        TubeStandards.Add(JsonUtility.FromJson<TubeStandard>(jsonTextFile));
-    }
-
-    /// <summary>
-    /// Функция поиска данных о трубе по диаметру и наименованию стандарта.  
-    /// </summary>
-    /// <param name="diameter"> Диаметр искомой трубы. </param>
-    /// <param name="standardName"> Стандарт искомой трубы. </param>
-    /// <returns> Данные о трубе. </returns>
-    [CanBeNull]
-    public static TubeData FindTubeData(float diameter, string standardName)
-    {
-        List<TubeData> tubes = GetAvailableTubes(standardName);
-
-        foreach (TubeData tube in tubes)
+        [Serializable]
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        private struct TubeStandard
         {
-            if (Math.Abs(tube.diameter - diameter) <= float.Epsilon)
+            public string name;
+            public List<TubeData> available_tubes;
+        }
+
+        /// <summary>
+        /// Класс, хранящий данные трубы.
+        /// </summary>
+        [Serializable]
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        public class TubeData
+        {
+            /// <value> Имя трубы (может отсутствовать) </value>
+            public string name;
+
+            /// <value> Диаметр трубы в метрах </value>
+            public float diameter;
+
+            /// <value> Первый из двух допустимых радиусов погиба. </value>
+            public float first_radius;
+
+            /// <value> Второй из двух допустимых радиусов погиба. </value>
+            public float second_radius;
+        }
+
+        private static readonly List<TubeStandard> TubeStandards = new List<TubeStandard>();
+
+        static TubeLoader()
+        {
+            byte[] data =
+                UnityEngine.Windows.File.ReadAllBytes(Path.Combine(Application.streamingAssetsPath,
+                    "./TubesConfig/OST.json"));
+            string jsonTextFile = System.Text.Encoding.UTF8.GetString(data);
+            TubeStandards.Add(JsonUtility.FromJson<TubeStandard>(jsonTextFile));
+        }
+
+        /// <summary>
+        /// Функция поиска данных о трубе по диаметру и наименованию стандарта.  
+        /// </summary>
+        /// <param name="diameter"> Диаметр искомой трубы. </param>
+        /// <param name="standardName"> Стандарт искомой трубы. </param>
+        /// <returns> Данные о трубе. </returns>
+        [CanBeNull]
+        public static TubeData FindTubeData(float diameter, string standardName)
+        {
+            List<TubeData> tubes = GetAvailableTubes(standardName);
+
+            foreach (TubeData tube in tubes)
             {
-                return tube;
-            }
-        }
-
-        return null;
-    }
-
-    /// <summary>
-    /// Функция получения данных о всех трубах из запрошенного стандарта. 
-    /// </summary>
-    /// <param name="standardName"> Запрошенный стандарт. </param>
-    /// <returns> Список труб из запрошенного стандарта. </returns>
-    [NotNull]
-    public static List<TubeData> GetAvailableTubes(string standardName)
-    {
-        if (standardName.Length == 0 && TubeStandards.Count > 0)
-        {
-            return TubeStandards[0].available_tubes;
-        }
-
-        foreach (TubeStandard standard in TubeStandards)
-        {
-            if (standard.name == standardName)
-            {
-                return standard.available_tubes;
-            }
-        }
-
-        return new List<TubeData>();
-    }
-
-    /// <summary>
-    /// Функция получения всех стандартов.
-    /// </summary>
-    /// <returns> Список наименований стандартов. </returns>
-    [NotNull]
-    public static List<string> GetStandardNames()
-    {
-        List<string> standardNames = new List<string>();
-        foreach (TubeStandard tubeStandard in TubeStandards)
-        {
-            standardNames.Add(tubeStandard.name);
-        }
-
-        return standardNames;
-    }
-
-    /// <summary>
-    /// Функция получения всех диаметров труб из запрашиваемого стандарта. 
-    /// </summary>
-    /// <param name="standardName"> Наименование стандарта. </param>
-    /// <returns> Список диаметров. </returns>
-    [NotNull]
-    public static List<float> GetDiameters(string standardName)
-    {
-        List<float> diameters = new List<float>();
-        foreach (TubeStandard tubeStandard in TubeStandards)
-        {
-            if (tubeStandard.name != standardName) continue;
-
-            foreach (TubeData tube in tubeStandard.available_tubes)
-            {
-                diameters.Add(tube.diameter);
-            }
-        }
-
-        return diameters;
-    }
-
-    /// <summary>
-    /// Функция получения данных о последующей по диаметру трубе.
-    /// </summary>
-    /// <param name="tube"> Данная труба. </param>
-    /// <param name="standardName"> Наименование стандарта. </param>
-    /// <returns> Данные о трубе. </returns>
-    [CanBeNull]
-    public static TubeData GetBigger(TubeData tube, string standardName)
-    {
-        foreach (TubeStandard tubeStandard in TubeStandards)
-        {
-            if (tubeStandard.name != standardName) continue;
-
-            for (int i = 0; i < tubeStandard.available_tubes.Count - 1; i++)
-            {
-                if (Math.Abs(tubeStandard.available_tubes[i].diameter - tube.diameter) < float.Epsilon)
+                if (Math.Abs(tube.diameter - diameter) <= float.Epsilon)
                 {
-                    return tubeStandard.available_tubes[i + 1];
+                    return tube;
                 }
             }
+
+            return null;
         }
 
-        return tube;
-    }
-
-    /// <summary>
-    /// Функция получения данных о предыдущей по диаметру трубе.
-    /// </summary>
-    /// <param name="tube"> Данная труба. </param>
-    /// <param name="standardName"> Наименование стандарта. </param>
-    /// <returns> Данные о трубе. </returns>
-    [CanBeNull]
-    public static TubeData GetSmaller(TubeData tube, string standardName)
-    {
-        foreach (TubeStandard tubeStandard in TubeStandards)
+        /// <summary>
+        /// Функция получения данных о всех трубах из запрошенного стандарта. 
+        /// </summary>
+        /// <param name="standardName"> Запрошенный стандарт. </param>
+        /// <returns> Список труб из запрошенного стандарта. </returns>
+        [NotNull]
+        public static List<TubeData> GetAvailableTubes(string standardName)
         {
-            if (tubeStandard.name != standardName) continue;
-
-            for (int i = tubeStandard.available_tubes.Count - 1; i >= 1; i--)
+            if (standardName.Length == 0 && TubeStandards.Count > 0)
             {
-                if (Math.Abs(tubeStandard.available_tubes[i].diameter - tube.diameter) < float.Epsilon)
+                return TubeStandards[0].available_tubes;
+            }
+
+            foreach (TubeStandard standard in TubeStandards)
+            {
+                if (standard.name == standardName)
                 {
-                    return tubeStandard.available_tubes[i - 1];
+                    return standard.available_tubes;
                 }
             }
+
+            return new List<TubeData>();
         }
 
-        return tube;
+        /// <summary>
+        /// Функция получения всех стандартов.
+        /// </summary>
+        /// <returns> Список наименований стандартов. </returns>
+        [NotNull]
+        public static List<string> GetStandardNames()
+        {
+            List<string> standardNames = new List<string>();
+            foreach (TubeStandard tubeStandard in TubeStandards)
+            {
+                standardNames.Add(tubeStandard.name);
+            }
+
+            return standardNames;
+        }
+
+        /// <summary>
+        /// Функция получения всех диаметров труб из запрашиваемого стандарта. 
+        /// </summary>
+        /// <param name="standardName"> Наименование стандарта. </param>
+        /// <returns> Список диаметров. </returns>
+        [NotNull]
+        public static List<float> GetDiameters(string standardName)
+        {
+            List<float> diameters = new List<float>();
+            foreach (TubeStandard tubeStandard in TubeStandards)
+            {
+                if (tubeStandard.name != standardName) continue;
+
+                foreach (TubeData tube in tubeStandard.available_tubes)
+                {
+                    diameters.Add(tube.diameter);
+                }
+            }
+
+            return diameters;
+        }
+
+        /// <summary>
+        /// Функция получения данных о последующей по диаметру трубе.
+        /// </summary>
+        /// <param name="tube"> Данная труба. </param>
+        /// <param name="standardName"> Наименование стандарта. </param>
+        /// <returns> Данные о трубе. </returns>
+        [CanBeNull]
+        public static TubeData GetBigger(TubeData tube, string standardName)
+        {
+            foreach (TubeStandard tubeStandard in TubeStandards)
+            {
+                if (tubeStandard.name != standardName) continue;
+
+                for (int i = 0; i < tubeStandard.available_tubes.Count - 1; i++)
+                {
+                    if (Math.Abs(tubeStandard.available_tubes[i].diameter - tube.diameter) < float.Epsilon)
+                    {
+                        return tubeStandard.available_tubes[i + 1];
+                    }
+                }
+            }
+
+            return tube;
+        }
+
+        /// <summary>
+        /// Функция получения данных о предыдущей по диаметру трубе.
+        /// </summary>
+        /// <param name="tube"> Данная труба. </param>
+        /// <param name="standardName"> Наименование стандарта. </param>
+        /// <returns> Данные о трубе. </returns>
+        [CanBeNull]
+        public static TubeData GetSmaller(TubeData tube, string standardName)
+        {
+            foreach (TubeStandard tubeStandard in TubeStandards)
+            {
+                if (tubeStandard.name != standardName) continue;
+
+                for (int i = tubeStandard.available_tubes.Count - 1; i >= 1; i--)
+                {
+                    if (Math.Abs(tubeStandard.available_tubes[i].diameter - tube.diameter) < float.Epsilon)
+                    {
+                        return tubeStandard.available_tubes[i - 1];
+                    }
+                }
+            }
+
+            return tube;
+        }
     }
 }

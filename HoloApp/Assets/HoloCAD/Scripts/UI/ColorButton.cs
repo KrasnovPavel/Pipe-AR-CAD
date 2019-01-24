@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace HoloCAD.UI
 {
+	/// <inheritdoc />
+	/// <summary>
+	/// Кнопка, которая при наведении и нажатии меняет цвет.
+	/// </summary>
 	public class ColorButton : Button3D
 	{
 		private Material _disabledMaterial;
@@ -15,6 +19,7 @@ namespace HoloCAD.UI
 		public Material DefaultHovered;
 		public Material DefaultPressed;
 
+		/// <inheritdoc />
 		public override ButtonState State
 		{
 			get { return _state; }
@@ -27,6 +32,7 @@ namespace HoloCAD.UI
 			}
 		}
 
+		/// <summary> Материал выключенной кнопки. </summary>
 		public Material DisabledMaterial
 		{
 			get { return _disabledMaterial; }
@@ -38,6 +44,7 @@ namespace HoloCAD.UI
 			}
 		}
 
+		/// <summary> Материал включенной кнопки. </summary>
 		public Material EnabledMaterial
 		{
 			get { return _enabledMaterial; }
@@ -48,6 +55,7 @@ namespace HoloCAD.UI
 			}
 		}
 
+		/// <summary> Материал кнопки, на которую наведен курсор. </summary>
 		public Material HoveredMaterial
 		{
 			get { return _hoveredMaterial; }
@@ -58,6 +66,7 @@ namespace HoloCAD.UI
 			}
 		}
 
+		/// <summary> Материал нажатой кнопки. </summary>
 		public Material PressedMaterial
 		{
 			get { return _pressedMaterial; }
@@ -89,6 +98,7 @@ namespace HoloCAD.UI
 			}
 		}
 
+		/// <inheritdoc />
 		protected override void Start ()
 		{
 			_enabledMaterial  = DefaultEnabled;
@@ -98,6 +108,7 @@ namespace HoloCAD.UI
 			base.Start();
 		}
 
+		/// <inheritdoc />
 		protected override void Update()
 		{
 			base.Update();

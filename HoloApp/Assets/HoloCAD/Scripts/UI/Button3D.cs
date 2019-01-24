@@ -11,9 +11,16 @@ namespace HoloCAD.UI
     [ExecuteInEditMode]
     public class Button3D : MonoBehaviour, IInputHandler, IPointerSpecificFocusable
     {
+        /// <summary> Объект, на который выводится текст. </summary>
         protected TextMesh Label;
+        
+        /// <summary> Объект, на который выводится иконка. </summary>
         protected MeshRenderer IconRenderer;
+        
+        /// <summary> Состояние кнопки. </summary>
         protected ButtonState _state;
+        
+        /// <summary> Объект, который отрисовывает кнопку. </summary>
         protected MeshRenderer ButtonRenderer;
 
         public delegate void OnHoverEnterDel(Button3D button);
@@ -55,11 +62,22 @@ namespace HoloCAD.UI
         /// <summary> Текущее состояние кнопки </summary>
         public virtual ButtonState State { get; protected set; }
 
+        /// <summary> Отображаемый на кнопке текст. </summary>
         public string Text;
 
+        /// <summary> Отображаемая на кнопке иконка. </summary>
         public Material Icon;
+        
+        /// <summary> Материал-заполнитель для отсутствующей иконки. </summary>
         public Material EmptyIcon;    
 
+        /// <summary>
+        /// Функция, инициализирующая трубу в Unity. 
+        /// </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью
+        /// <c> base.Start()</c>.
+        /// </remarks>
         protected virtual void Start()
         {
             ButtonRenderer = GetComponent<MeshRenderer>();
@@ -79,7 +97,14 @@ namespace HoloCAD.UI
             
             State = ButtonState.Enabled;
         }
-
+        
+        /// <summary>
+        /// Функция, выполняющаяся в Unity каждый кадр. 
+        /// </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью
+        /// <c> base.Update()</c>.
+        /// </remarks>
         protected virtual void Update()
         {
             try
@@ -97,11 +122,16 @@ namespace HoloCAD.UI
             catch (UnassignedReferenceException) {}
         }
 
+        /// <summary> Функция, включающая или выключающая кнопку. </summary>
+        /// <param name="isEnabled"> Новое состояние кнопки. </param>
         public void SetEnabled(bool isEnabled)
         {
             State = isEnabled ? ButtonState.Enabled : ButtonState.Disabled;
         }
         
+        /// <summary> Обработчик нажатия на кнопку </summary>
+        /// <param name="eventData"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void OnInputDown(InputEventData eventData)
         {
             switch (State)
@@ -121,6 +151,9 @@ namespace HoloCAD.UI
             }
         }
 
+        /// <summary> Обработчик отпускания кнопки. </summary>
+        /// <param name="eventData"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void OnInputUp(InputEventData eventData)
         {
             switch (State)
@@ -141,6 +174,9 @@ namespace HoloCAD.UI
             }  
         }
 
+        /// <summary> Обработчик наведения курсора на кнопку. </summary>
+        /// <param name="eventData"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void OnFocusEnter(PointerSpecificEventData eventData)
         {
             switch (State)
@@ -160,6 +196,9 @@ namespace HoloCAD.UI
             }
         }
 
+        /// <summary> Обработчик сведения курсора с кнопки. </summary>
+        /// <param name="eventData"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void OnFocusExit(PointerSpecificEventData eventData)
         {
             switch (State)

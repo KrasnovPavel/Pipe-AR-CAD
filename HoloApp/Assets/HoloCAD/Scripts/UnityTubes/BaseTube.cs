@@ -27,7 +27,7 @@ namespace HoloCAD.UnityTubes
 
         public TextMesh LabelText { get; private set; }
         
-        /// <value> Линия размеров. </value>
+        /// <value> Линия, которая отображает размеры трубы. </value>
         protected LineRenderer SizeLine;
 
         /// <value> Цвет трубы </value>
@@ -82,12 +82,21 @@ namespace HoloCAD.UnityTubes
             SizeLine = EndPoint.GetComponent<LineRenderer>();
             CalculateSizeLine();
         }
-
+        /// <summary>
+        /// Функция, выполняющаяся в Unity каждый кадр. 
+        /// </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью
+        /// <c> base.Update()</c>.
+        /// </remarks>
         protected virtual void Update()
         {
             
         }
 
+        /// <summary>
+        /// Функция, пересчитывающая линию, которая указывает размеры трубы.
+        /// </summary>
         protected virtual void CalculateSizeLine()
         {
             

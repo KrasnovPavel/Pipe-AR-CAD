@@ -10,8 +10,14 @@ namespace HoloCAD.UI
         /// <value> Смещение панели кнопок по направлению к камере. </value>
         public float Offset;
 	
-        // Update is called once per frame
-        void Update ()
+        /// <summary>
+        /// Функция, выполняющаяся в Unity каждый кадр. 
+        /// </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью
+        /// <c> base.Update()</c>.
+        /// </remarks>
+        protected virtual void Update ()
         {
             Vector3 direction = (Camera.main.transform.position - transform.parent.position).normalized * Offset;
             Quaternion rotation = Quaternion.FromToRotation(Vector3.back, direction);
