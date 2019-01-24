@@ -16,8 +16,7 @@ namespace HoloCAD.UnityTubes
         private const float Length = 0.03f;
         private bool _isPlacing;
         private GestureRecognizer _recognizer;
-        private LineRenderer line;
-        public GameObject Text_Diameter;
+        public GameObject TextDiameter;
 
         /// <summary>
         /// Функция, инициализирующая трубу в Unity. 
@@ -26,7 +25,7 @@ namespace HoloCAD.UnityTubes
         /// При переопределении в потомке обязательно должна вызываться с помощью
         /// <c> base.Start()</c>.
         /// </remarks>
-        protected new void Start()
+        protected override void Start()
         {
             base.Start();
             EndPoint.transform.localPosition = new Vector3(0, 0, Length);
@@ -36,8 +35,6 @@ namespace HoloCAD.UnityTubes
             
             TubeManager.AddTube(this);
             TubeManager.SelectTube(this);
-
-
         }
 
         private void Awake()
@@ -64,8 +61,9 @@ namespace HoloCAD.UnityTubes
         /// При переопределении в потомке обязательно должна вызываться с помощью
         /// <c> base.Update()</c>.
         /// </remarks>
-        protected void Update()
+        protected override void Update()
         {
+            base.Update();
             Tube.transform.localScale = new Vector3(Data.diameter, Length, Data.diameter);
             if (Data.diameter < 0)
             {
@@ -80,30 +78,28 @@ namespace HoloCAD.UnityTubes
             {
                 Place();
             }
+        }
 
-            
-            line = EndPoint.GetComponent<LineRenderer>();
-
+        protected override void CalculateSizeLine()
+        {
+            base.CalculateSizeLine();
             float x = EndPoint.transform.localPosition.x;
             float y = EndPoint.transform.localPosition.y;
             float z = EndPoint.transform.localPosition.z;
 
+            SizeLine.positionCount = 6;
+            SizeLine.SetPosition(0, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
+            SizeLine.SetPosition(1, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
 
-            line.positionCount = 6;
-            line.SetPosition(0, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
-            line.SetPosition(1, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
+            SizeLine.SetPosition(2, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z));
+            SizeLine.SetPosition(3, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z - Length));
+            SizeLine.SetPosition(4, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
+            SizeLine.SetPosition(5, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
 
-            line.SetPosition(2, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z));
-            line.SetPosition(3, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z - Length));
-            line.SetPosition(4, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
-            line.SetPosition(5, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
+            TextDiameter.transform.position = new Vector3(x + (Data.diameter*3/4) + (Data.diameter / 4), 0, this.transform.position.z + (Data.diameter));
+            TextDiameter.GetComponent<TextMesh>().text = "Диаметр: " + Data.diameter.ToString("0.000") + "м.";
 
-            Text_Diameter.transform.position = new Vector3(x + (Data.diameter*3/4) + (Data.diameter / 4), 0, this.transform.position.z + (Data.diameter));
-            Text_Diameter.GetComponent<TextMesh>().text = "Диаметр: " + Data.diameter.ToString("0.000") + "м.";
-
-            Text_Diameter.transform.rotation = Camera.main.transform.rotation;
-
-
+            TextDiameter.transform.rotation = Camera.main.transform.rotation;
         }
 
         private void Place()
@@ -136,9 +132,11 @@ namespace HoloCAD.UnityTubes
             {
                 case "IncreaseDiameterButton":
                     Data = TubeLoader.GetBigger(Data, StandardName);
+                    CalculateSizeLine();
                     break;
                 case "DecreaseDiameterButton":
                     Data = TubeLoader.GetSmaller(Data, StandardName);
+                    CalculateSizeLine();
                     break;
                 case "PlacingButton":
                     _isPlacing = true;

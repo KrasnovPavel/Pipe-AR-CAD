@@ -12,8 +12,7 @@ namespace HoloCAD.UnityTubes
     {
         private float _length;
         private float _buttonBarOffset;
-        private LineRenderer line;
-        public GameObject Text_Diameter;
+        public GameObject TextDiameter;
 
         /// <value> Длина трубы. </value>
         public float Length
@@ -30,6 +29,7 @@ namespace HoloCAD.UnityTubes
                 Tube.transform.localScale = new Vector3(Data.diameter, _length, Data.diameter);
                 EndPoint.transform.localPosition = new Vector3(0, 0, _length);
                 Label.GetComponent<TextMesh>().text = "Длина: " + _length.ToString("0.00") + "м.";
+                CalculateSizeLine();
             }
         }
 
@@ -40,7 +40,7 @@ namespace HoloCAD.UnityTubes
         /// При переопределении в потомке обязательно должна вызываться с помощью
         /// <c> base.Start()</c>.
         /// </remarks>
-        protected new void Start()
+        protected override void Start()
         {
             base.Start();
             Length = 0.5f;
@@ -48,24 +48,27 @@ namespace HoloCAD.UnityTubes
             TubeManager.SelectTube(this);
         }
 
-        protected void Update()
+        protected override void Update()
         {
-            line = EndPoint.GetComponent<LineRenderer>();
 
+        }
+
+        protected override void CalculateSizeLine()
+        {
+            base.CalculateSizeLine();
             float x = EndPoint.transform.localPosition.x;
             float y = EndPoint.transform.localPosition.y;
             float z = EndPoint.transform.localPosition.z;
 
-            line.positionCount = 6;
-            line.SetPosition(0, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
-            line.SetPosition(1, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
+            SizeLine.positionCount = 6;
+            SizeLine.SetPosition(0, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
+            SizeLine.SetPosition(1, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
           
-            line.SetPosition(2, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z));
-            line.SetPosition(3, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z - Length));
-            line.SetPosition(4, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
-            line.SetPosition(5, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
+            SizeLine.SetPosition(2, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z));
+            SizeLine.SetPosition(3, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z - Length));
+            SizeLine.SetPosition(4, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
+            SizeLine.SetPosition(5, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
         }
-
 
         /// <inheritdoc />
         /// <summary>

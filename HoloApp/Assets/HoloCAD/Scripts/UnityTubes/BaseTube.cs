@@ -26,6 +26,9 @@ namespace HoloCAD.UnityTubes
         public GameObject Label;
 
         public TextMesh LabelText { get; private set; }
+        
+        /// <value> Линия размеров. </value>
+        protected LineRenderer SizeLine;
 
         /// <value> Цвет трубы </value>
         private static readonly Color DefaultTubeColor = new Color(1f, 1f, 0f, 1f);
@@ -64,7 +67,7 @@ namespace HoloCAD.UnityTubes
         /// При переопределении в потомке обязательно должна вызываться с помощью
         /// <c> base.Start()</c>.
         /// </remarks>
-        protected void Start()
+        protected virtual void Start()
         {
             tag = "Tube";
             Tube = transform.Find("Tube").gameObject;
@@ -76,6 +79,18 @@ namespace HoloCAD.UnityTubes
             }
             ButtonBar = bb.gameObject;
             LabelText = Label.GetComponent<TextMesh>();
+            SizeLine = EndPoint.GetComponent<LineRenderer>();
+            CalculateSizeLine();
+        }
+
+        protected virtual void Update()
+        {
+            
+        }
+
+        protected virtual void CalculateSizeLine()
+        {
+            
         }
 
         /// <summary>

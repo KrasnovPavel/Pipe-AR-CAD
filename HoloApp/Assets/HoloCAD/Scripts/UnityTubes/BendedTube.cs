@@ -16,7 +16,6 @@ namespace HoloCAD.UnityTubes
         private bool _useSecondRadius;
         private int _angle;
         private static readonly int Diameter = Shader.PropertyToID("_Diameter");
-        private LineRenderer line;
 
         /// <value> Угол погиба. </value>
         public int Angle
@@ -57,7 +56,7 @@ namespace HoloCAD.UnityTubes
         /// При переопределении в потомке обязательно должна вызываться с помощью
         /// <c> base.Start()</c>.
         /// </remarks>
-        protected new void Start()
+        protected override void Start()
         {
             base.Start();
             _meshes = MeshFactory.CreateMeshes(Data.diameter, Data.first_radius, Data.second_radius);
@@ -66,27 +65,24 @@ namespace HoloCAD.UnityTubes
             Tube.GetComponent<MeshRenderer>().material.SetFloat(Diameter, Data.diameter);
             Angle = 90;
             TubeManager.SelectTube(this);
-            line = EndPoint.GetComponent<LineRenderer>();
         }
 
-
-        protected void Update()
+        protected override void Update()
         {        
-            float x = EndPoint.transform.localPosition.x;
-            float y = EndPoint.transform.localPosition.y;
-            float z = EndPoint.transform.localPosition.z;
-      
-            float Radius = UseSecondRadius ? Data.first_radius : Data.second_radius; // радиус погиба
-
-            line.positionCount = 3;
-
-            line.SetPosition(0, new Vector3(0,0,0));
-            line.SetPosition(1, new Vector3(0, 0, Radius));
-            line.SetPosition(2, new Vector3(Radius * Mathf.Cos(Angle), Radius * Mathf.Sin(Angle), 0) + new Vector3(0, 0, Radius));
-
+            base.Update();
         }
 
+        protected override void CalculateSizeLine()
+        {
+            base.CalculateSizeLine();
+            float radius = UseSecondRadius ? Data.first_radius : Data.second_radius; // радиус погиба
 
+            SizeLine.positionCount = 3;
+
+            SizeLine.SetPosition(0, new Vector3(0,0,0));
+            SizeLine.SetPosition(1, new Vector3(0, 0, radius));
+            SizeLine.SetPosition(2, new Vector3(radius * Mathf.Cos(Angle), radius * Mathf.Sin(Angle), 0) + new Vector3(0, 0, radius));
+        }
 
         /// <inheritdoc />
         /// <summary>
@@ -133,6 +129,8 @@ namespace HoloCAD.UnityTubes
             const int numberOfAngles = 180 / MeshFactory.DeltaAngle;
             Tube.GetComponent<MeshFilter>().mesh = _meshes[_angle / MeshFactory.DeltaAngle - 1 + (UseSecondRadius ? numberOfAngles : 0)];
             Tube.GetComponent<MeshCollider>().sharedMesh = Tube.GetComponent<MeshFilter>().mesh;
+            
+            CalculateSizeLine();
         }
     }
 }
