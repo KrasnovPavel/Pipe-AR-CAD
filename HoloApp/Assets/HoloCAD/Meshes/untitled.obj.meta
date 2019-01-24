@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: d1cd4a00f0a950a47b6784844c8d52b1
+<<<<<<< HEAD:HoloApp/Assets/HoloCAD/Meshes/untitled.obj.meta
+guid: 4495f2f813b9c4848afadb20142e6b4d
+=======
+guid: 84b28fc31543b0146bcdf50b7610f4f5
+>>>>>>> 03f61915ebfea8ae3349c9a96ead12e4dae4f745:HoloApp/Assets/HoloCAD/Meshes/ME_Button3D.obj.meta
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -83,6 +87,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1

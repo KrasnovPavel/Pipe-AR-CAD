@@ -16,6 +16,7 @@ namespace HoloCAD.UnityTubes
         private bool _useSecondRadius;
         private int _angle;
         private static readonly int Diameter = Shader.PropertyToID("_Diameter");
+        private LineRenderer line;
 
         /// <value> Угол погиба. </value>
         public int Angle
@@ -65,8 +66,28 @@ namespace HoloCAD.UnityTubes
             Tube.GetComponent<MeshRenderer>().material.SetFloat(Diameter, Data.diameter);
             Angle = 90;
             TubeManager.SelectTube(this);
+            line = EndPoint.GetComponent<LineRenderer>();
         }
-    
+
+
+        protected void Update()
+        {        
+            float x = EndPoint.transform.localPosition.x;
+            float y = EndPoint.transform.localPosition.y;
+            float z = EndPoint.transform.localPosition.z;
+      
+            float Radius = UseSecondRadius ? Data.first_radius : Data.second_radius; // радиус погиба
+
+            line.positionCount = 3;
+
+            line.SetPosition(0, new Vector3(0,0,0));
+            line.SetPosition(1, new Vector3(0, 0, Radius));
+            line.SetPosition(2, new Vector3(Radius * Mathf.Cos(Angle), Radius * Mathf.Sin(Angle), 0) + new Vector3(0, 0, Radius));
+
+        }
+
+
+
         /// <inheritdoc />
         /// <summary>
         /// Обработчик нажатия на кнопку из HoloToolKit.

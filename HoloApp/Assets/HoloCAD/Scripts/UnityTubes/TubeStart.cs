@@ -16,6 +16,8 @@ namespace HoloCAD.UnityTubes
         private const float Length = 0.03f;
         private bool _isPlacing;
         private GestureRecognizer _recognizer;
+        private LineRenderer line;
+        public GameObject Text_Diameter;
 
         /// <summary>
         /// Функция, инициализирующая трубу в Unity. 
@@ -34,6 +36,8 @@ namespace HoloCAD.UnityTubes
             
             TubeManager.AddTube(this);
             TubeManager.SelectTube(this);
+
+
         }
 
         private void Awake()
@@ -76,6 +80,30 @@ namespace HoloCAD.UnityTubes
             {
                 Place();
             }
+
+            
+            line = EndPoint.GetComponent<LineRenderer>();
+
+            float x = EndPoint.transform.localPosition.x;
+            float y = EndPoint.transform.localPosition.y;
+            float z = EndPoint.transform.localPosition.z;
+
+
+            line.positionCount = 6;
+            line.SetPosition(0, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
+            line.SetPosition(1, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
+
+            line.SetPosition(2, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z));
+            line.SetPosition(3, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z - Length));
+            line.SetPosition(4, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
+            line.SetPosition(5, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
+
+            Text_Diameter.transform.position = new Vector3(x + (Data.diameter*3/4) + (Data.diameter / 4), 0, this.transform.position.z + (Data.diameter));
+            Text_Diameter.GetComponent<TextMesh>().text = "Диаметр: " + Data.diameter.ToString("0.000") + "м.";
+
+            Text_Diameter.transform.rotation = Camera.main.transform.rotation;
+
+
         }
 
         private void Place()
