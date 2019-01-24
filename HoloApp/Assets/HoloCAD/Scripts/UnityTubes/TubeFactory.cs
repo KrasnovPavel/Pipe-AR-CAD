@@ -64,6 +64,7 @@ namespace HoloCAD.UnityTubes
                     throw new ArgumentOutOfRangeException("type", type, null);
             }
             GameObject tube = Instantiate(tubePrefab, pivot);
+            tube.transform.localPosition = Vector3.zero;
             tube.GetComponent<BaseTube>().Data = data;
             tube.GetComponent<BaseTube>().StandardName = standardName;
             TubeManager.AddTube(tube.GetComponent<BaseTube>());
