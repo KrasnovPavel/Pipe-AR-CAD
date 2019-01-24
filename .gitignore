@@ -12,6 +12,9 @@ HoloApp/Assets/AssetStoreTools*
 HoloApp/*.apk
 HoloApp/*.unitypackage
 HoloApp/App/
+
+!HoloApp/**/*.obj
+!HoloApp/**/*.obj.meta
  
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #
