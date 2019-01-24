@@ -4,6 +4,7 @@ namespace HoloCAD.UI
 {
 	public class SimpleButton : Button3D {
 		private static readonly int Fade = Shader.PropertyToID("_Fade");
+		
 		public override ButtonState State
 		{
 			get { return _state; }
@@ -12,19 +13,21 @@ namespace HoloCAD.UI
 				if (_state == value) return;
 
 				_state = value;
-				gameObject.GetComponent<MeshRenderer>().material.SetFloat(Fade, (float)State);
+				if (Application.isPlaying)
+				{
+					ButtonRenderer.material.SetFloat(Fade, (float)State);
+				}
 			}
 		}
-		
-		private void Start()
+
+		protected override void Start()
 		{
-			State = ButtonState.Enabled;
-			_label = transform.Find("Label").GetComponent<TextMesh>();
+			base.Start();
 		}
 
-		private void Update()
+		protected override void Update()
 		{
-			_label.text = Text;
+			base.Update();
 		}
 	}
 }

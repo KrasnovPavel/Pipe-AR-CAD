@@ -66,9 +66,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1683689579423468}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.4357347, y: -1.3631155, z: 11.50467}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalRotation: {x: -0.097440794, y: 0.89666986, z: 0.35469827, w: 0.24632832}
+  m_LocalPosition: {x: -0.457, y: 0.161, z: 0.769}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children:
   - {fileID: 4629383918282792}
   m_Father: {fileID: 0}
@@ -124,7 +124,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1559ca055e83aa3428141874c61f4178, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -170,7 +170,7 @@ TextMesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1038965511623834}
-  m_Text: 
+  m_Text: 1
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -195,4 +195,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c65af1e4d065444829a1dcf92e2ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Text: dddd
+  Text: 1
+  Icon: {fileID: 0}
+  DefaultDisabled: {fileID: 2100000, guid: c52f3bdb3cbf8744fa017d549edc1633, type: 2}
+  DefaultEnabled: {fileID: 2100000, guid: 1559ca055e83aa3428141874c61f4178, type: 2}
+  DefaultHovered: {fileID: 2100000, guid: 77f4719e592a3794990296c926479c75, type: 2}
+  DefaultPressed: {fileID: 2100000, guid: 589851994e2a1994f98d059681e29c14, type: 2}

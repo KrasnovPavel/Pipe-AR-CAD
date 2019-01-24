@@ -106,9 +106,9 @@ namespace HoloStand
                         transform.Find("Tube (4)").GetComponent<MeshRenderer>().material = WaterRight;
                         transform.Find("Tube (5)").GetComponent<MeshRenderer>().material = WaterRight;
                         transform.Find("Tube (6)").GetComponent<MeshRenderer>().material = WaterRight;
-                        transform.Find("Tube (7)").GetComponent<MeshRenderer>().material = WaterRight;
+                        transform.Find("Tube (7)").GetComponent<MeshRenderer>().material = WaterLeft;
                         transform.Find("Tube (9)").GetComponent<MeshRenderer>().material = WaterRight;
-                        transform.Find("Tube (10)").GetComponent<MeshRenderer>().material = WaterRight;
+                        transform.Find("Tube (10)").GetComponent<MeshRenderer>().material = WaterLeft;
                         transform.Find("Tube (28)").GetComponent<MeshRenderer>().material = WaterRight;
                         transform.Find("Tube (29)").GetComponent<MeshRenderer>().material = WaterRight;
                         transform.Find("Cube_C").GetComponent<MeshRenderer>().material = WaterBa;

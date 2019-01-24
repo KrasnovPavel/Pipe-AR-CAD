@@ -11,9 +11,10 @@ namespace HoloCAD.UI
     [ExecuteInEditMode]
     public class Button3D : MonoBehaviour, IInputHandler, IPointerSpecificFocusable
     {
-        protected TextMesh _label;
-//        protected MeshRenderer _iconRenderer;
+        protected TextMesh Label;
+        protected MeshRenderer IconRenderer;
         protected ButtonState _state;
+        protected MeshRenderer ButtonRenderer;
 
         public delegate void OnHoverEnterDel(Button3D button);
 
@@ -56,19 +57,44 @@ namespace HoloCAD.UI
 
         public string Text;
 
-//        public Texture2D Icon;
+        public Material Icon;
+        public Material EmptyIcon;    
 
         protected virtual void Start()
         {
+            ButtonRenderer = GetComponent<MeshRenderer>();
+            
+            try
+            {
+                Label = transform.Find("Label").GetComponent<TextMesh>();
+            }
+            catch (UnassignedReferenceException) {}
+            catch (NullReferenceException) {}
+            try
+            {
+                IconRenderer = transform.Find("Icon").GetComponent<MeshRenderer>(); 
+            }
+            catch (UnassignedReferenceException) {}
+            catch (NullReferenceException) {}
+            
             State = ButtonState.Enabled;
-            _label = transform.Find("Label").GetComponent<TextMesh>();
-//            _iconRenderer = transform.Find("Icon").GetComponent<MeshRenderer>();
         }
 
         protected virtual void Update()
         {
-            _label.text = Text;
-//            _iconRenderer.material.mainTexture = Icon;
+            try
+            {
+                Label.text = Text;
+            }
+            catch (NullReferenceException) {}
+            catch (UnassignedReferenceException) {}
+
+            try
+            {
+                IconRenderer.sharedMaterial = Icon == null ? EmptyIcon : Icon;
+            }
+            catch (NullReferenceException) {}
+            catch (UnassignedReferenceException) {}
         }
 
         public void SetEnabled(bool isEnabled)

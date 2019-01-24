@@ -8,8 +8,9 @@
 		[PerRendererData]_BendRadius("Bend Radius", Float) = 1.2
 	}
 	SubShader{
-			Tags { "Queue" = "Transparent" }
-			Pass {
+		Tags { "Queue" = "Transparent" }
+		Pass {
+		Blend SrcAlpha OneMinusSrcAlpha
 			
 		CGPROGRAM
 		// Define the vertex and fragment shader functions

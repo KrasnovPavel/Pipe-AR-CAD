@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cd5534c97ffa59c47ad2a061d982d063
+guid: 695a22769dc43424ea1ce39913b7c477
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -39,16 +39,16 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
     addColliders: 0
-    importVisibility: 1
+    importVisibility: 0
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1

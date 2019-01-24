@@ -5,12 +5,15 @@ namespace HoloCAD.UI
 {
 	public class ColorButton : Button3D
 	{
-		private MeshRenderer _renderer;
-
 		private Material _disabledMaterial;
 		private Material _enabledMaterial;
 		private Material _hoveredMaterial;
 		private Material _pressedMaterial;
+
+		public Material DefaultDisabled;
+		public Material DefaultEnabled;
+		public Material DefaultHovered;
+		public Material DefaultPressed;
 
 		public override ButtonState State
 		{
@@ -70,16 +73,16 @@ namespace HoloCAD.UI
 			switch (State)
 			{
 				case ButtonState.Disabled:
-					_renderer.material = DisabledMaterial;
+					ButtonRenderer.sharedMaterial = DisabledMaterial;
 					break;
 				case ButtonState.Enabled:
-					_renderer.material = EnabledMaterial;
+					ButtonRenderer.sharedMaterial = EnabledMaterial;
 					break;
 				case ButtonState.Hovered:
-					_renderer.material = HoveredMaterial;
+					ButtonRenderer.sharedMaterial = HoveredMaterial;
 					break;
 				case ButtonState.Pressed:
-					_renderer.material = PressedMaterial;
+					ButtonRenderer.sharedMaterial = PressedMaterial;
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -88,11 +91,14 @@ namespace HoloCAD.UI
 
 		protected override void Start ()
 		{
-			_renderer = GetComponent<MeshRenderer>();
+			_enabledMaterial  = DefaultEnabled;
+			_disabledMaterial = DefaultDisabled;
+			_hoveredMaterial  = DefaultHovered;
+			_pressedMaterial  = DefaultPressed;
 			base.Start();
 		}
 
-		private void Update()
+		protected override void Update()
 		{
 			base.Update();
 			transform.LookAt(Camera.main.transform.position, Vector3.up);
