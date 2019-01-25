@@ -1354,7 +1354,7 @@ MonoBehaviour:
     first_radius: 0
     second_radius: 0
   StandardName: 
-  Text_Diameter: {fileID: 0}
+  TextDiameter: {fileID: 0}
 --- !u!114 &114851355271041602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1415,7 +1415,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.06632614
         inSlope: 0
         outSlope: 0
         tangentMode: 0
