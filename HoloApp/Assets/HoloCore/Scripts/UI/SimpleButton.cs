@@ -20,7 +20,7 @@ namespace HoloCore.UI
 				_state = value;
 				if (Application.isPlaying)
 				{
-					ButtonRenderer.material.SetFloat(Fade, (float)State);
+					if (ButtonRenderer != null) ButtonRenderer.material.SetFloat(Fade, (float) State);
 				}
 			}
 		}

@@ -1,5 +1,6 @@
 ﻿using System;
 using HoloToolkit.Unity.InputModule;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HoloCore.UI
@@ -12,16 +13,16 @@ namespace HoloCore.UI
     public class Button3D : MonoBehaviour, IInputHandler, IPointerSpecificFocusable
     {
         /// <summary> Объект, на который выводится текст. </summary>
-        protected TextMesh Label;
-        
+        [CanBeNull] protected TextMesh Label;
+
         /// <summary> Объект, на который выводится иконка. </summary>
-        protected MeshRenderer IconRenderer;
-        
+        [CanBeNull] protected MeshRenderer IconRenderer;
+
         /// <summary> Состояние кнопки. </summary>
         protected ButtonState _state;
-        
+
         /// <summary> Объект, который отрисовывает кнопку. </summary>
-        protected MeshRenderer ButtonRenderer;
+        [CanBeNull] protected MeshRenderer ButtonRenderer;
 
         public delegate void OnHoverEnterDel(Button3D button);
 
@@ -34,15 +35,19 @@ namespace HoloCore.UI
         public delegate void OnClickDel(Button3D button);
 
         /// <summary> Событие клика по кнопке. </summary>
-        public OnClickDel OnClick = delegate { };
+        [NotNull] public OnClickDel OnClick = delegate { };
+
         /// <summary> Событие наведение курсора на кнопку. </summary>
-        public OnHoverEnterDel OnHoverEnter = delegate { };
+        [NotNull] public OnHoverEnterDel OnHoverEnter = delegate { };
+
         /// <summary> Событие сведения курсора с кнопки. </summary>
-        public OnHoverExitDel OnHoverExit = delegate { };
+        [NotNull] public OnHoverExitDel OnHoverExit = delegate { };
+
         /// <summary> Событие нажатия на кнопку. </summary>
-        public OnPressedDel OnPressed = delegate { };
+        [NotNull] public OnPressedDel OnPressed = delegate { };
+
         /// <summary> Событие отпускания кнопки. </summary>
-        public OnReleasedDel OnReleased = delegate { };
+        [NotNull] public OnReleasedDel OnReleased = delegate { };
 
         /// <summary>
         /// Возможные состояния кнопки.
@@ -50,11 +55,14 @@ namespace HoloCore.UI
         public enum ButtonState
         {
             /// <summary> Кнопка выключена. </summary>
-            Disabled = 10, 
+            Disabled = 10,
+
             /// <summary> Кнопка включена, состояние по умолчанию. </summary>
-            Enabled = 5, 
+            Enabled = 5,
+
             /// <summary> Кнопка включена и на неё наведён взгляд. </summary>
-            Hovered = 2, 
+            Hovered = 2,
+
             /// <summary> Кнопка включена и нажата. </summary>
             Pressed = 1
         }
@@ -63,13 +71,13 @@ namespace HoloCore.UI
         public virtual ButtonState State { get; protected set; }
 
         /// <summary> Отображаемый на кнопке текст. </summary>
-        public string Text;
+        [CanBeNull] public string Text;
 
         /// <summary> Отображаемая на кнопке иконка. </summary>
-        public Material Icon;
-        
+        [CanBeNull] public Material Icon;
+
         /// <summary> Материал-заполнитель для отсутствующей иконки. </summary>
-        public Material EmptyIcon;    
+        [CanBeNull] public Material EmptyIcon;
 
         /// <summary>
         /// Функция, инициализирующая трубу в Unity. 
@@ -81,23 +89,24 @@ namespace HoloCore.UI
         protected virtual void Start()
         {
             ButtonRenderer = GetComponent<MeshRenderer>();
-            
+
             try
             {
                 Label = transform.Find("Label").GetComponent<TextMesh>();
             }
-            catch (UnassignedReferenceException) {}
-            catch (NullReferenceException) {}
+            catch (UnassignedReferenceException){}
+            catch (NullReferenceException){}
+
             try
             {
-                IconRenderer = transform.Find("Icon").GetComponent<MeshRenderer>(); 
+                IconRenderer = transform.Find("Icon").GetComponent<MeshRenderer>();
             }
-            catch (UnassignedReferenceException) {}
-            catch (NullReferenceException) {}
-            
+            catch (UnassignedReferenceException){}
+            catch (NullReferenceException){}
+
             State = ButtonState.Enabled;
         }
-        
+
         /// <summary>
         /// Функция, выполняющаяся в Unity каждый кадр. 
         /// </summary>
@@ -107,19 +116,8 @@ namespace HoloCore.UI
         /// </remarks>
         protected virtual void Update()
         {
-            try
-            {
-                Label.text = Text;
-            }
-            catch (NullReferenceException) {}
-            catch (UnassignedReferenceException) {}
-
-            try
-            {
-                IconRenderer.sharedMaterial = Icon == null ? EmptyIcon : Icon;
-            }
-            catch (NullReferenceException) {}
-            catch (UnassignedReferenceException) {}
+            if (Label != null) Label.text = Text;
+            if (IconRenderer != null) IconRenderer.sharedMaterial = Icon == null ? EmptyIcon : Icon;
         }
 
         /// <summary> Функция, включающая или выключающая кнопку. </summary>
@@ -128,7 +126,7 @@ namespace HoloCore.UI
         {
             State = isEnabled ? ButtonState.Enabled : ButtonState.Disabled;
         }
-        
+
         /// <summary> Обработчик нажатия на кнопку </summary>
         /// <param name="eventData"></param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -171,7 +169,7 @@ namespace HoloCore.UI
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }  
+            }
         }
 
         /// <summary> Обработчик наведения курсора на кнопку. </summary>
