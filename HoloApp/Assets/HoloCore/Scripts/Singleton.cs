@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HoloCAD
+namespace HoloCore
 {
     /// <summary>
     /// Inherit from this base class to create a singleton.
@@ -9,7 +9,7 @@ namespace HoloCAD
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         // Check to see if we're about to be destroyed.
-        private static bool _shuttingDown = false;
+        private static bool _shuttingDown;
         private static object _lock = new object();
         private static T _instance;
  
@@ -40,7 +40,7 @@ namespace HoloCAD
                     // Need to create a new GameObject to attach the singleton to.
                     var singletonObject = new GameObject();
                     _instance = singletonObject.AddComponent<T>();
-                    singletonObject.name = typeof(T).ToString() + " (Singleton)";
+                    singletonObject.name = typeof(T) + " (Singleton)";
  
                     // Make instance persistent.
                     DontDestroyOnLoad(singletonObject);

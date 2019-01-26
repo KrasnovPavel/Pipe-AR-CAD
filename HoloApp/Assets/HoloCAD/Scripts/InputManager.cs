@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using HoloCAD.UI;
-using HoloToolkit.Unity.InputModule;
-using UnityEngine;
-using UnityEngine.XR.WSA.Input;
+using HoloCore;
 
 namespace HoloCAD
 {

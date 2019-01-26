@@ -9,7 +9,14 @@ namespace HoloCAD.UI
     public class ButtonBar : MonoBehaviour {
         /// <value> Смещение панели кнопок по направлению к камере. </value>
         public float Offset;
-	
+
+        private Camera _camera;
+
+        private void Start()
+        {
+            _camera = Camera.main;
+        }
+
         /// <summary>
         /// Функция, выполняющаяся в Unity каждый кадр. 
         /// </summary>
@@ -19,10 +26,13 @@ namespace HoloCAD.UI
         /// </remarks>
         protected virtual void Update ()
         {
-            Vector3 direction = (Camera.main.transform.position - transform.parent.position).normalized * Offset;
-            Quaternion rotation = Quaternion.FromToRotation(Vector3.back, direction);
-            transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
-            transform.position = new Vector3(direction.x, 0, direction.z) + transform.parent.position;
+            if (_camera != null)
+            {
+                Vector3 direction = (_camera.transform.position - transform.parent.position).normalized * Offset;
+                Quaternion rotation = Quaternion.FromToRotation(Vector3.back, direction);
+                transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
+                transform.position = new Vector3(direction.x, 0, direction.z) + transform.parent.position;
+            }
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HoloCAD.UnityTubes
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="MonoBehaviour" />
     /// <summary>
     /// Класс, принимающий событие нажатия на трубу. 
     /// </summary>

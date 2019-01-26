@@ -2,9 +2,9 @@
 using HoloToolkit.Unity.InputModule;
 using UnityEngine;
 
-namespace HoloCAD.UI
+namespace HoloCore.UI
 {
-    /// <inheritdoc/>
+    /// <inheritdoc cref="MonoBehaviour" />
     /// <summary>
     /// Класс, реализующий трёхмерную кнопку.
     /// </summary>
