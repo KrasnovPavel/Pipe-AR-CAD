@@ -1,5 +1,8 @@
 ﻿using HoloToolkit.Unity.InputModule;
+using HoloToolkit.Unity.SpatialMapping;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.XR.WSA;
 using UnityEngine.XR.WSA.Input;
 
 namespace HoloCAD.UnityTubes
@@ -63,6 +66,7 @@ namespace HoloCAD.UnityTubes
             {
                 Place();
             }
+            CalculateSizeLine();
         }
 
         /// <inheritdoc />
@@ -74,18 +78,19 @@ namespace HoloCAD.UnityTubes
             float z = EndPoint.transform.localPosition.z;
 
             SizeLine.positionCount = 6;
-            SizeLine.SetPosition(0, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), transform.position.z));
-            SizeLine.SetPosition(1, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), transform.position.z));
+            SizeLine.SetPosition(0, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
+            SizeLine.SetPosition(1, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
 
-            SizeLine.SetPosition(2, new Vector3(x + (Data.diameter), y - Data.diameter, transform.position.z));
-            SizeLine.SetPosition(3, new Vector3(x + (Data.diameter), y - Data.diameter, transform.position.z - Length));
-            SizeLine.SetPosition(4, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), transform.position.z - Length));
-            SizeLine.SetPosition(5, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), transform.position.z - Length));
-
-            TextDiameter.transform.position = new Vector3(x + (Data.diameter*3/4) + (Data.diameter / 4), 0, transform.position.z + Data.diameter);
+            SizeLine.SetPosition(2, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z));
+            SizeLine.SetPosition(3, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z - Length));
+            SizeLine.SetPosition(4, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
+            SizeLine.SetPosition(5, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
+            TextDiameter.transform.localPosition = new Vector3(x + (Data.diameter), 0 - Data.diameter, 0);           
             TextDiameter.GetComponent<TextMesh>().text = "Диаметр: " + Data.diameter.ToString("0.000") + "м.";
-
-            TextDiameter.transform.rotation = Camera.main.transform.rotation;
+       
+            TextDiameter.transform.rotation = Quaternion.Euler(Camera.main.transform.rotation.eulerAngles.x, Camera.main.transform.rotation.eulerAngles.y, TextDiameter.transform.rotation.eulerAngles.z);
+            SizeLine.transform.rotation = Quaternion.Euler(SizeLine.transform.rotation.eulerAngles.x, Camera.main.transform.rotation.eulerAngles.y, Camera.main.transform.rotation.eulerAngles.z);
+            
         }
 
         private void Place()

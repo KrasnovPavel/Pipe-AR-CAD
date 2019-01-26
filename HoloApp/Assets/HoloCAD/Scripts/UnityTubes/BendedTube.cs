@@ -72,6 +72,8 @@ namespace HoloCAD.UnityTubes
             SizeLine.SetPosition(0, new Vector3(0,0,0));
             SizeLine.SetPosition(1, new Vector3(0, 0, radius));
             SizeLine.SetPosition(2, new Vector3(radius * Mathf.Cos(Angle), radius * Mathf.Sin(Angle), 0) + new Vector3(0, 0, radius));
+      
+
         }
 
         /// <inheritdoc />
