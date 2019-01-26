@@ -93,7 +93,7 @@ namespace HoloCAD.UnityTubes
             SizeLine.transform.rotation = Quaternion.Euler(SizeLine.transform.rotation.eulerAngles.x, Camera.main.transform.rotation.eulerAngles.y, Camera.main.transform.rotation.eulerAngles.z);
 
         }
-      
+
         private void Place()
         {
             Vector3 headPosition = Camera.main.transform.position;

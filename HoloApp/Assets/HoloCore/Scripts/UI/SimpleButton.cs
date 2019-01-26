@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace HoloCAD.UI
+namespace HoloCore.UI
 {
 	/// <inheritdoc />
 	/// <summary>
@@ -23,18 +23,6 @@ namespace HoloCAD.UI
 					ButtonRenderer.material.SetFloat(Fade, (float)State);
 				}
 			}
-		}
-
-		/// <inheritdoc />
-		protected override void Start()
-		{
-			base.Start();
-		}
-
-		/// <inheritdoc />
-		protected override void Update()
-		{
-			base.Update();
 		}
 	}
 }

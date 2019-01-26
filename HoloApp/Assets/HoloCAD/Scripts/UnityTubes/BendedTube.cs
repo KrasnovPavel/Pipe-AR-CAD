@@ -60,12 +60,6 @@ namespace HoloCAD.UnityTubes
             Angle = 90;
             TubeManager.SelectTube(this);
         }
-        
-        /// <inheritdoc />
-        protected override void Update()
-        {        
-            base.Update();
-        }
 
         /// <inheritdoc />
         protected override void CalculateSizeLine()

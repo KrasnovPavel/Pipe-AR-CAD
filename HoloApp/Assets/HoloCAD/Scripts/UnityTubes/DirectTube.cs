@@ -40,8 +40,6 @@ namespace HoloCAD.UnityTubes
             Length = 0.5f;
             ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Data.diameter;
             TubeManager.SelectTube(this);
-           // TextDiameter.transform.localScale.Set(0.14f, 0.14f, 0.14f);
-
         }
 
         /// <inheritdoc />
