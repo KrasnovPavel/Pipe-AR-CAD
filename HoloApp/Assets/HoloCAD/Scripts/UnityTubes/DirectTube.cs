@@ -66,12 +66,12 @@ namespace HoloCAD.UnityTubes
 
             TextDiameter.GetComponent<TextMesh>().fontSize = (int)Mathf.Round(Length * 50);
 
-            TextDiameter.transform.position = new Vector3((Data.diameter * 3 / 4) + (Data.diameter / 4) + x, this.transform.position.y + Length /2 , 0);
+            TextDiameter.transform.position = new Vector3((Data.diameter) + x, this.transform.position.y + Length /2 , 0);
             TextDiameter.GetComponent<TextMesh>().text = "Длина: " + _length.ToString("0.00") + "м.";
 
             TextDiameter.transform.rotation = Quaternion.Euler(Camera.main.transform.rotation.eulerAngles.x, Camera.main.transform.rotation.eulerAngles.y, TextDiameter.transform.rotation.eulerAngles.z);
             SizeLine.transform.rotation = Quaternion.Euler(SizeLine.transform.rotation.eulerAngles.x, Camera.main.transform.rotation.eulerAngles.y, Camera.main.transform.rotation.eulerAngles.z);
-
+            
         }
 
         /// <inheritdoc />

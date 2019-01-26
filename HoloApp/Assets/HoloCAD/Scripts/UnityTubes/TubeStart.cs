@@ -85,12 +85,13 @@ namespace HoloCAD.UnityTubes
             SizeLine.SetPosition(3, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z - Length));
             SizeLine.SetPosition(4, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
             SizeLine.SetPosition(5, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
+
             TextDiameter.transform.localPosition = new Vector3(x + (Data.diameter), 0 - Data.diameter, 0);           
             TextDiameter.GetComponent<TextMesh>().text = "Диаметр: " + Data.diameter.ToString("0.000") + "м.";
        
             TextDiameter.transform.rotation = Quaternion.Euler(Camera.main.transform.rotation.eulerAngles.x, Camera.main.transform.rotation.eulerAngles.y, TextDiameter.transform.rotation.eulerAngles.z);
             SizeLine.transform.rotation = Quaternion.Euler(SizeLine.transform.rotation.eulerAngles.x, Camera.main.transform.rotation.eulerAngles.y, Camera.main.transform.rotation.eulerAngles.z);
-            
+
         }
 
         private void Place()
