@@ -22,8 +22,7 @@ namespace HoloCAD.UnityTubes
         /// <param name="firstBendRadius"> Первый из двух допустимых по ОСТ радиусов. </param>
         /// <param name="secondBendRadius"> Первый из двух допустимых по ОСТ радиусов. </param>
         /// <returns> Список созданных мешей. </returns>
-        [NotNull]
-        public static List<Mesh> CreateMeshes(float tubeDiameter, float firstBendRadius, float secondBendRadius)
+        [NotNull] public static List<Mesh> CreateMeshes(float tubeDiameter, float firstBendRadius, float secondBendRadius)
         {
             List<Mesh> meshes = new List<Mesh>();
             float[] radiuses = { firstBendRadius, secondBendRadius };
@@ -46,7 +45,7 @@ namespace HoloCAD.UnityTubes
             return meshes;
         }
     
-        private static List<Vector3> GenerateVertices(float tubeDiameter, float bendRadius)
+        [NotNull] private static List<Vector3> GenerateVertices(float tubeDiameter, float bendRadius)
         {
             List<Vector3> vertices = new List<Vector3>();
     
@@ -65,7 +64,7 @@ namespace HoloCAD.UnityTubes
             return vertices;
         }
     
-        private static Vector3[] GenerateCircle(float tubeDiameter)
+        [NotNull] private static Vector3[] GenerateCircle(float tubeDiameter)
         {
             Vector3[] vertices = new Vector3[SegmentsCount * 2];
     
@@ -80,7 +79,7 @@ namespace HoloCAD.UnityTubes
             return vertices;
         }
     
-        private static int[] GenerateTriangles(ref List<Vector3> vertices, int level)
+        [NotNull] private static int[] GenerateTriangles(ref List<Vector3> vertices, int level)
         {
             List<int> triangles = new List<int>();
     
@@ -91,7 +90,7 @@ namespace HoloCAD.UnityTubes
             return triangles.ToArray();
         }
     
-        private static List<int> GenerateEdgeTriangles(int level, bool invert = false)
+        [NotNull] private static List<int> GenerateEdgeTriangles(int level, bool invert = false)
         {
             List<int> triangles = new List<int>();
             const int verticesInCircle = SegmentsCount * 2;
@@ -109,7 +108,7 @@ namespace HoloCAD.UnityTubes
             return triangles;
         }
     
-        private static List<int> GenerateTubeTriangles(ref List<Vector3> vertices)
+        [NotNull] private static List<int> GenerateTubeTriangles(ref List<Vector3> vertices)
         {
             List<int> triangles = new List<int>();
             const int verticesInCircle = SegmentsCount * 2;

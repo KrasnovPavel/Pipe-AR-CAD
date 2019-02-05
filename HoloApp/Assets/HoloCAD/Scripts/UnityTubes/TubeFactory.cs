@@ -73,6 +73,12 @@ namespace HoloCAD.UnityTubes
             return tube;
         }
 
+        public static void ShowGrid(bool show)
+        {
+            Instance.MapCollider.enabled = show;
+            Instance.MapRenderer.enabled = show;
+        }
+
         private void Start()
         {
             MapCollider = gameObject.GetComponent<SpatialMappingCollider>();

@@ -80,8 +80,8 @@ namespace HoloCAD.UnityTubes
             ButtonBar = bb.gameObject;
             LabelText = Label.GetComponent<TextMesh>();
             SizeLine = EndPoint.GetComponent<LineRenderer>();
-            CalculateSizeLine();
         }
+        
         /// <summary>
         /// Функция, выполняющаяся в Unity каждый кадр. 
         /// </summary>
@@ -91,15 +91,6 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         protected virtual void Update()
         {
-            
-        }
-
-        /// <summary>
-        /// Функция, пересчитывающая линию, которая указывает размеры трубы.
-        /// </summary>
-        protected virtual void CalculateSizeLine()
-        {
-            
         }
 
         /// <summary>

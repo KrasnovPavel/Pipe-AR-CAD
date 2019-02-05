@@ -1,9 +1,8 @@
 ﻿using HoloToolkit.Unity.InputModule;
-using HoloToolkit.Unity.SpatialMapping;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.XR.WSA;
+#if ENABLE_WINMD_SUPPORT
 using UnityEngine.XR.WSA.Input;
+#endif
 
 namespace HoloCAD.UnityTubes
 {
@@ -15,8 +14,9 @@ namespace HoloCAD.UnityTubes
     {
         private const float Length = 0.03f;
         private bool _isPlacing;
+#if ENABLE_WINMD_SUPPORT
         private GestureRecognizer _recognizer;
-        public GameObject TextDiameter;
+#endif
 
         /// <inheritdoc />
         protected override void Start()
@@ -53,45 +53,14 @@ namespace HoloCAD.UnityTubes
         {
             base.Update();
             Tube.transform.localScale = new Vector3(Data.diameter, Length, Data.diameter);
-            if (Data.diameter < 0)
-            {
-                Data.diameter = 0.05f;
-            }
             LabelText.text = "Диаметр: " + Data.diameter.ToString("0.000") + "м.";
     
             Tube.GetComponent<MeshCollider>().enabled = !_isPlacing;
-            TubeFactory.Instance.MapCollider.enabled = _isPlacing;
-            TubeFactory.Instance.MapRenderer.enabled = _isPlacing;
+            TubeFactory.ShowGrid(_isPlacing);
             if (_isPlacing)
             {
                 Place();
             }
-            CalculateSizeLine();
-        }
-
-        /// <inheritdoc />
-        protected override void CalculateSizeLine()
-        {
-            base.CalculateSizeLine();
-            float x = EndPoint.transform.localPosition.x;
-            float y = EndPoint.transform.localPosition.y;
-            float z = EndPoint.transform.localPosition.z;
-
-            SizeLine.positionCount = 6;
-            SizeLine.SetPosition(0, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
-            SizeLine.SetPosition(1, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z));
-
-            SizeLine.SetPosition(2, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z));
-            SizeLine.SetPosition(3, new Vector3(x + (Data.diameter), y - Data.diameter, this.transform.position.z - Length));
-            SizeLine.SetPosition(4, new Vector3(x + ((Data.diameter / 2) * Mathf.Cos(30)), y + ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
-            SizeLine.SetPosition(5, new Vector3(x - ((Data.diameter / 2) * Mathf.Cos(30)), y - ((Data.diameter / 2) * Mathf.Cos(60)), this.transform.position.z - Length));
-
-            TextDiameter.transform.localPosition = new Vector3(x + (Data.diameter), 0 - Data.diameter, 0);           
-            TextDiameter.GetComponent<TextMesh>().text = "Диаметр: " + Data.diameter.ToString("0.000") + "м.";
-       
-            TextDiameter.transform.rotation = Quaternion.Euler(Camera.main.transform.rotation.eulerAngles.x, Camera.main.transform.rotation.eulerAngles.y, TextDiameter.transform.rotation.eulerAngles.z);
-            SizeLine.transform.rotation = Quaternion.Euler(SizeLine.transform.rotation.eulerAngles.x, Camera.main.transform.rotation.eulerAngles.y, Camera.main.transform.rotation.eulerAngles.z);
-
         }
 
         private void Place()
@@ -115,15 +84,15 @@ namespace HoloCAD.UnityTubes
             {
                 case "IncreaseDiameterButton":
                     Data = TubeLoader.GetBigger(Data, StandardName);
-                    CalculateSizeLine();
                     break;
                 case "DecreaseDiameterButton":
                     Data = TubeLoader.GetSmaller(Data, StandardName);
-                    CalculateSizeLine();
                     break;
                 case "PlacingButton":
                     _isPlacing = true;
+#if ENABLE_WINMD_SUPPORT
                     _recognizer.StartCapturingGestures();
+#endif
                     break;
             }
         }
