@@ -14,6 +14,7 @@ namespace HoloCAD.UnityTubes
     {
         private const float Length = 0.03f;
         private bool _isPlacing;
+        private Camera _camera;
 #if ENABLE_WINMD_SUPPORT
         private GestureRecognizer _recognizer;
 #endif
@@ -21,6 +22,7 @@ namespace HoloCAD.UnityTubes
         /// <inheritdoc />
         protected override void Start()
         {
+            _camera = Camera.main;
             base.Start();
             EndPoint.transform.localPosition = new Vector3(0, 0, Length);
 
@@ -65,8 +67,8 @@ namespace HoloCAD.UnityTubes
 
         private void Place()
         {
-            Vector3 headPosition = Camera.main.transform.position;
-            Vector3 gazeDirection = Camera.main.transform.forward;
+            Vector3 headPosition = _camera.transform.position;
+            Vector3 gazeDirection = _camera.transform.forward;
     
             RaycastHit hitInfo;
             if (!Physics.Raycast(headPosition, gazeDirection, out hitInfo, 30.0f)) return;
