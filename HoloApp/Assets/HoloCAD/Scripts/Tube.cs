@@ -142,5 +142,26 @@ namespace HoloCAD
         {
             Data = TubeLoader.GetSmaller(Data, StandardName);
         }
+
+        /// <summary> Переходит в режим размещения трубы. </summary>
+        public void StartPlacing()
+        {
+            TubeFactory.ShowGrid(true);
+            TubeManager.SelectTubeFragment(_fragments[0]);
+            foreach (TubeFragment tubeFragment in _fragments)
+            {
+                tubeFragment.IsPlacing = true;
+            }
+        }
+
+        /// <summary> Выходит из режима размещения трубы. </summary>
+        public void StopPlacing()
+        {
+            TubeFactory.ShowGrid(false);
+            foreach (TubeFragment tubeFragment in _fragments)
+            {
+                tubeFragment.IsPlacing = false;
+            }
+        }
     }
 }

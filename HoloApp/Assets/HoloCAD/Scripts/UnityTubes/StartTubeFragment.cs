@@ -12,7 +12,6 @@ namespace HoloCAD.UnityTubes
     public class StartTubeFragment : TubeFragment
     {
         private const float Length = 0.03f;
-        private bool _isPlacing;
         private Camera _camera;
 #if ENABLE_WINMD_SUPPORT
         private GestureRecognizer _recognizer;
@@ -30,13 +29,13 @@ namespace HoloCAD.UnityTubes
         private void Awake()
         {
 #if ENABLE_WINMD_SUPPORT
-            _isPlacing = true;
+            Owner.StartPlacing();
             _recognizer = new GestureRecognizer();
             _recognizer.Tapped += args =>
             {
-                if (_isPlacing)
+                if (IsPlacing)
                 {
-                    _isPlacing = false;
+                    Owner.StopPlacing();
                     _recognizer.StopCapturingGestures();
                 }
             };
@@ -62,10 +61,8 @@ namespace HoloCAD.UnityTubes
         protected override void Update()
         {
             base.Update();
-    
-            Tube.GetComponent<MeshCollider>().enabled = !_isPlacing;
-            TubeFactory.ShowGrid(_isPlacing);
-            if (_isPlacing)
+            
+            if (IsPlacing)
             {
                 Place();
             }
@@ -98,7 +95,7 @@ namespace HoloCAD.UnityTubes
                     Owner.SelectSmallerDiameter();
                     break;
                 case "PlacingButton":
-                    _isPlacing = true;
+                    Owner.StartPlacing();
 #if ENABLE_WINMD_SUPPORT
                     _recognizer.StartCapturingGestures();
 #endif

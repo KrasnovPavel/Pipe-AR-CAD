@@ -9,6 +9,7 @@ namespace HoloCAD.UnityTubes
     public class TubeFragment : InteractionReceiver
     {
         private bool _isSelected;
+        private bool _isPlacing;
         private static readonly int GridColor = Shader.PropertyToID("_GridColor");
 
         /// <summary> Цвет участка трубы. </summary>
@@ -35,6 +36,17 @@ namespace HoloCAD.UnityTubes
 
         /// <summary> Объект, отображающий текстовые данные о участке трубе. </summary>
         protected TextMesh LabelText { get; private set; }
+
+        /// <summary> Флаг, находится ли участок трубы в режиме перемещения. </summary>
+        public bool IsPlacing
+        {
+            get { return _isPlacing; }
+            set
+            {
+                _isPlacing = value;
+                Tube.GetComponent<MeshCollider>().enabled = !_isPlacing;
+            }
+        }
 
         /// <summary> Труба-хозяин этого участка. </summary>
         public Tube Owner;
