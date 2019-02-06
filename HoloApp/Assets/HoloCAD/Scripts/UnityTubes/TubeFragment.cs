@@ -10,13 +10,17 @@ namespace HoloCAD.UnityTubes
     {
         private bool _isSelected;
         private bool _isPlacing;
+        private bool _isColliding;
         private static readonly int GridColor = Shader.PropertyToID("_GridColor");
 
         /// <summary> Цвет участка трубы. </summary>
         private static readonly Color DefaultTubeColor = new Color(1f, 1f, 0f, 1f);
         
-        /// <summary> Цвет участка трубы когда она выбрана. </summary>
-        private static readonly Color SelectedTubeColor = new Color(1f, 0f, 0f, 1f);
+        /// <summary> Цвет участка трубы, когда она выбрана. </summary>
+        private static readonly Color SelectedTubeColor = new Color(0f, 1f, 0f, 1f);
+
+        /// <summary> Цвет участка трубы, когда она пересекается с другим участком трубы. </summary>
+        private static readonly Color CollidingTubeColor = new Color(1f, 0f, 0f, 1f);
         
         /// <summary> Поле хранящее диаметр участка трубы. </summary>
         /// <remarks> ВНИМАНИЕ!!! НАПРЯМУЮ ОБРАЩАТЬСЯ К НЕМУ ЗАПРЕЩЕНО!!! Используйте <see cref="Diameter"/>. </remarks>
@@ -24,6 +28,9 @@ namespace HoloCAD.UnityTubes
 
         /// <summary> Объект, содержащий меш участка трубы. </summary>
         protected GameObject Tube;
+
+        /// <summary> Объект, содержащий коллайдер для определения пересечения с другими участками труб. </summary>
+        protected GameObject Collider;
         
         /// <summary> Объект, указывающий конечную точку участка трубы. </summary>
         protected GameObject EndPoint;
@@ -60,8 +67,8 @@ namespace HoloCAD.UnityTubes
                 if (_isSelected == value) return;
             
                 _isSelected = value;
-                Tube.GetComponent<MeshRenderer>().material.SetColor(GridColor, 
-                                                                    _isSelected ? SelectedTubeColor : DefaultTubeColor);
+                
+                SetColor();
                 if (ButtonBar != null)
                 {
                     ButtonBar.SetActive(_isSelected);
@@ -84,6 +91,8 @@ namespace HoloCAD.UnityTubes
         {
             tag = "Tube";
             Tube = transform.Find("Tube").gameObject;
+            Collider = Tube.transform.Find("Collider").gameObject;
+            Collider.GetComponent<TubeFragmentCollider>().Owner = this;
             EndPoint = transform.Find("End Point").gameObject;
             Transform bb = transform.Find("Button Bar");
             if (bb == null)
@@ -132,6 +141,33 @@ namespace HoloCAD.UnityTubes
         protected void OnDestroy()
         {
             Owner.OnFragmentRemoved(this);
+        }
+
+        /// <summary> Функция, которая вызывается когда этот участок трубы пересекается с другим </summary>
+        public virtual void OnTubeCollisionEnter()
+        {
+            _isColliding = true;
+            SetColor();
+        }
+
+        /// <summary> Функция, которая вызывается когда этот участок трубы перестает пересекаться с другим </summary>
+        public virtual void OnTubeCollisionExit()
+        {
+            _isColliding = false;
+            SetColor();
+        }
+
+        /// <summary> Функция, которая устанавлявает соответствующий цвет участку трубы. </summary>
+        protected virtual void SetColor()
+        {
+            if (IsSelected)
+            {
+                Tube.GetComponent<MeshRenderer>().material.SetColor(GridColor, SelectedTubeColor);
+                return;
+            }
+            
+            Tube.GetComponent<MeshRenderer>().material.SetColor(GridColor, 
+                                                                _isColliding ? CollidingTubeColor : DefaultTubeColor);
         }
     }
 }
