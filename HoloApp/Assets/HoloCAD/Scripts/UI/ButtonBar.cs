@@ -7,12 +7,18 @@ namespace HoloCAD.UI
     /// Панель кнопок.
     /// </summary>
     public class ButtonBar : MonoBehaviour {
-        /// <value> Смещение панели кнопок по направлению к камере. </value>
+        /// <summary> Смещение панели кнопок по направлению к камере. </summary>
         public float Offset;
 
         private Camera _camera;
 
-        private void Start()
+        /// <summary>
+        /// Функция, инициализирующая объект в Unity. 
+        /// </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
+        /// </remarks>
+        protected void Start()
         {
             _camera = Camera.main;
         }
@@ -24,7 +30,7 @@ namespace HoloCAD.UI
         /// При переопределении в потомке обязательно должна вызываться с помощью
         /// <c> base.Update()</c>.
         /// </remarks>
-        protected virtual void Update ()
+        protected void Update ()
         {
             if (_camera != null)
             {

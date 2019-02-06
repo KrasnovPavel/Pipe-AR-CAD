@@ -6,9 +6,7 @@ using UnityEngine;
 namespace HoloCore.UI
 {
     /// <inheritdoc cref="MonoBehaviour" />
-    /// <summary>
-    /// Класс, реализующий трёхмерную кнопку.
-    /// </summary>
+    /// <summary> Класс, реализующий трёхмерную кнопку. </summary>
     [ExecuteInEditMode]
     public class Button3D : MonoBehaviour, IInputHandler, IPointerSpecificFocusable
     {
@@ -49,9 +47,7 @@ namespace HoloCore.UI
         /// <summary> Событие отпускания кнопки. </summary>
         [NotNull] public OnReleasedDel OnReleased = delegate { };
 
-        /// <summary>
-        /// Возможные состояния кнопки.
-        /// </summary>
+        /// <summary> Возможные состояния кнопки. </summary>
         public enum ButtonState
         {
             /// <summary> Кнопка выключена. </summary>
@@ -79,12 +75,9 @@ namespace HoloCore.UI
         /// <summary> Материал-заполнитель для отсутствующей иконки. </summary>
         [CanBeNull] public Material EmptyIcon;
 
-        /// <summary>
-        /// Функция, инициализирующая трубу в Unity. 
-        /// </summary>
+        /// <summary> Функция, инициализирующая объект в Unity. </summary>
         /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью
-        /// <c> base.Start()</c>.
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
         /// </remarks>
         protected virtual void Start()
         {
@@ -107,12 +100,9 @@ namespace HoloCore.UI
             State = ButtonState.Enabled;
         }
 
-        /// <summary>
-        /// Функция, выполняющаяся в Unity каждый кадр. 
-        /// </summary>
+        /// <summary> Функция, выполняющаяся в Unity каждый кадр. </summary>
         /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью
-        /// <c> base.Update()</c>.
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Update()</c>.
         /// </remarks>
         protected virtual void Update()
         {
@@ -217,6 +207,24 @@ namespace HoloCore.UI
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        /// <summary> Функция, выполняющаяся при включении объекта в Unity. </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.OnEnable()</c>.
+        /// </remarks>
+        protected virtual void OnEnable()
+        {
+            State = ButtonState.Enabled;
+        }
+
+        /// <summary> Функция, выполняющаяся при выключении объекта в Unity. </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.OnDisable()</c>.
+        /// </remarks>
+        private void OnDisable()
+        {
+            State = ButtonState.Disabled;
         }
     }
 }

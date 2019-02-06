@@ -1,88 +1,76 @@
-﻿using System;
-using HoloCore;
+﻿using HoloCore;
 using UnityEngine;
 using UnityEngine.XR.WSA;
 
 namespace HoloCAD.UnityTubes
 {
     /// <inheritdoc />
-    /// <summary>
-    /// Класс, создающий объект трубы в Unity.
-    /// </summary>
+    /// <summary> Класс, создающий объект участка трубы в Unity. </summary>
+    [RequireComponent(typeof(SpatialMappingCollider), typeof(SpatialMappingRenderer))]
     public class TubeFactory : Singleton<TubeFactory> {
-        
-        /// <summary> Тип трубы. </summary>
-        public enum TubeType
+        private SpatialMappingCollider _mapCollider;
+        private SpatialMappingRenderer _mapRenderer;
+
+        /// <summary> Prefab участка прямой трубы. </summary>
+        public GameObject DirectTubeFragmentPrefab;
+
+        /// <summary> Prefab участка погиба. </summary>
+        public GameObject BendedTubeFragmentPrefab;
+
+        /// <summary> Prefab участка фланца. </summary>
+        public GameObject StartTubeFragmentPrefab;
+
+        /// <summary> Создает на сцене объект начального фланца трубы. </summary>
+        /// <param name="owner"> Труба, которой принадлежит этот фланец.</param>
+        /// <returns> Созданный объект фланца. </returns>
+        public StartTubeFragment CreateStartTubeFragment(Tube owner)
         {
-            /// <value> Прямая труба </value>
-            Direct,
-            /// <value> Погиб </value>
-            Bended,
-            /// <value> Фланец </value>
-            Start
+            GameObject tube = Instantiate(StartTubeFragmentPrefab);
+            tube.GetComponent<TubeFragment>().Owner = owner;
+            return tube.GetComponent<StartTubeFragment>();
         }
-        
-        /// <value> Prefab прямой трубы. </value>
-        public GameObject DirectTubePrefab;
-        
-        /// <value> Prefab погиба. </value>
-        public GameObject BendedTubePrefab;
 
-        /// <value> Prefab фланца. </value>
-        public GameObject StartTubePrefab;
-
-        /// <value> Collider стен </value>
-        public SpatialMappingCollider MapCollider { get; private set; }
-
-        /// <value> Mesh стен </value>
-        public SpatialMappingRenderer MapRenderer { get; private set; }
-
-        /// <summary>
-        /// Создает объект трубы типа <paramref name="type"/>
-        /// с параметрами <paramref name="data"/> из стандарта <paramref name="standardName"/>.
-        /// Устанавливает ему родителя <paramref name="pivot"/>
-        /// </summary>
-        /// <param name="pivot"> Родитель создаваемого объекта в Unity/</param>
-        /// <param name="standardName">Имя стандарта по которому выполняется погиб</param>
-        /// <param name="data">Параметры трубы</param>
-        /// <param name="type">Тип трубы</param>
-        /// <returns> Созданный объект трубы. </returns>
-        public GameObject CreateTube(Transform pivot, TubeLoader.TubeData data, string standardName, TubeType type)
+        /// <summary> Создает на сцене объект прямого участка трубы. </summary>
+        /// <param name="owner"> Труба, которой принадлежит этот участок трубы.</param>
+        /// <param name="pivot"> Местоположение нового участка трубы. </param>
+        /// <returns> Созданный объект прямого участка трубы. </returns>
+        public DirectTubeFragment CreateDirectTubeFragment(Tube owner, Transform pivot)
         {
-            GameObject tubePrefab;
-            switch (type)
-            {
-                case TubeType.Direct:
-                    tubePrefab = DirectTubePrefab;
-                    break;
-                case TubeType.Bended:
-                    tubePrefab = BendedTubePrefab;
-                    break;
-                case TubeType.Start:
-                    tubePrefab = StartTubePrefab;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("type", type, null);
-            }
-            GameObject tube = Instantiate(tubePrefab, pivot);
+            GameObject tube = Instantiate(DirectTubeFragmentPrefab, pivot);
             tube.transform.localPosition = Vector3.zero;
-            tube.GetComponent<BaseTube>().Data = data;
-            tube.GetComponent<BaseTube>().StandardName = standardName;
-            TubeManager.AddTube(tube.GetComponent<BaseTube>());
-
-            return tube;
+            tube.GetComponent<TubeFragment>().Owner = owner;
+            return tube.GetComponent<DirectTubeFragment>();
         }
 
+        /// <summary> Создает на сцене объект погиба трубы. </summary>
+        /// <param name="owner"> Труба, которой принадлежит этот погиб трубы.</param>
+        /// <param name="pivot"> Местоположение нового погиба. </param>
+        /// <returns> Созданный объект прямого погиба трубы. </returns>
+        public BendedTubeFragment CreateBendedTubeFragment(Tube owner, Transform pivot)
+        {
+            GameObject tube = Instantiate(BendedTubeFragmentPrefab, pivot);
+            tube.transform.localPosition = Vector3.zero;
+            tube.GetComponent<TubeFragment>().Owner = owner;
+            return tube.GetComponent<BendedTubeFragment>();
+        }
+
+        /// <summary> Переключает отображение полигональной сетки на сцене. </summary>
+        /// <param name="show"></param>
         public static void ShowGrid(bool show)
         {
-            Instance.MapCollider.enabled = show;
-            Instance.MapRenderer.enabled = show;
+            Instance._mapCollider.enabled = show;
+            Instance._mapRenderer.enabled = show;
         }
 
-        private void Start()
+        /// <summary> Функция, инициализирующая объект в Unity. </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
+        /// </remarks>
+        protected void Start()
         {
-            MapCollider = gameObject.GetComponent<SpatialMappingCollider>();
-            MapRenderer = gameObject.GetComponent<SpatialMappingRenderer>();
+            _mapCollider = gameObject.GetComponent<SpatialMappingCollider>();
+            _mapRenderer = gameObject.GetComponent<SpatialMappingRenderer>();
+            TubeManager.CreateTube();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using HoloToolkit.Unity.InputModule;
+﻿using System;
+using HoloToolkit.Unity.InputModule;
 using UnityEngine;
 #if ENABLE_WINMD_SUPPORT
 using UnityEngine.XR.WSA.Input;
@@ -7,10 +8,8 @@ using UnityEngine.XR.WSA.Input;
 namespace HoloCAD.UnityTubes
 {
     /// <inheritdoc />
-    /// <summary>
-    /// Класс, реализующий фланец трубы.
-    /// </summary>
-    public class TubeStart : BaseTube
+    /// <summary> Класс, реализующий фрагмент фланца трубы. </summary>
+    public class StartTubeFragment : TubeFragment
     {
         private const float Length = 0.03f;
         private bool _isPlacing;
@@ -25,12 +24,7 @@ namespace HoloCAD.UnityTubes
             _camera = Camera.main;
             base.Start();
             EndPoint.transform.localPosition = new Vector3(0, 0, Length);
-
-            StandardName = TubeLoader.GetStandardNames()[0];
-            Data = TubeLoader.GetAvailableTubes(StandardName)[0];
-            
-            TubeManager.AddTube(this);
-            TubeManager.SelectTube(this);
+            TubeManager.SelectTubeFragment(this);
         }
 
         private void Awake()
@@ -49,13 +43,25 @@ namespace HoloCAD.UnityTubes
             _recognizer.StartCapturingGestures();
 #endif
         }
-    
+
+        /// <inheritdoc />
+        public override float Diameter
+        {
+            get { return _diameter; }
+            set
+            {
+                if (Math.Abs(_diameter - value) < float.Epsilon) return;
+
+                _diameter = value;
+                Tube.transform.localScale = new Vector3(Diameter, Length, Diameter);
+                LabelText.text = $"Диаметр: {Diameter:0.000}м.";
+            }
+        }
+
         /// <inheritdoc />
         protected override void Update()
         {
             base.Update();
-            Tube.transform.localScale = new Vector3(Data.diameter, Length, Data.diameter);
-            LabelText.text = "Диаметр: " + Data.diameter.ToString("0.000") + "м.";
     
             Tube.GetComponent<MeshCollider>().enabled = !_isPlacing;
             TubeFactory.ShowGrid(_isPlacing);
@@ -65,6 +71,7 @@ namespace HoloCAD.UnityTubes
             }
         }
 
+        /// <summary> Перемещает фланец в точку на которую смотрит пользователь. </summary>
         private void Place()
         {
             Vector3 headPosition = _camera.transform.position;
@@ -85,10 +92,10 @@ namespace HoloCAD.UnityTubes
             switch (obj.name)
             {
                 case "IncreaseDiameterButton":
-                    Data = TubeLoader.GetBigger(Data, StandardName);
+                    Owner.SelectBiggerDiameter();
                     break;
                 case "DecreaseDiameterButton":
-                    Data = TubeLoader.GetSmaller(Data, StandardName);
+                    Owner.SelectSmallerDiameter();
                     break;
                 case "PlacingButton":
                     _isPlacing = true;

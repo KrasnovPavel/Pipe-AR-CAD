@@ -4,38 +4,31 @@ using UnityEngine;
 
 namespace HoloCAD.UnityTubes
 {
-    /// <summary>
-    /// Класс, создающий меши погиба для всех возможных углов погиба.
-    /// </summary>
+    /// <summary> Класс, создающий меши погиба для всех возможных углов погиба. </summary>
     public static class MeshFactory {
-        /// <value> Шаг изменения угла погиба. </value>
-        public const int DeltaAngle = 15;
+        /// <summary> Шаг изменения угла погиба. </summary>
+        public const int DeltaAngle = 5;
         
-        /// <value> Количество полигонов. </value>
+        /// <summary> Количество полигонов. </summary>
         private const int SegmentsCount = 20;
 
-        /// <summary>
-        /// Создает меши для трубы с диаметром <paramref name="tubeDiameter"/>,
-        /// и радиусами погиба: <paramref name="firstBendRadius"/> и <paramref name="secondBendRadius"/>.
-        /// </summary>
-        /// <param name="tubeDiameter"> Диаметр трубы. </param>
-        /// <param name="firstBendRadius"> Первый из двух допустимых по ОСТ радиусов. </param>
-        /// <param name="secondBendRadius"> Первый из двух допустимых по ОСТ радиусов. </param>
+        /// <summary> Создает меши для погиба трубы. </summary>
+        /// <param name="tubeData"> Параметры погиба. </param>
         /// <returns> Список созданных мешей. </returns>
-        [NotNull] public static List<Mesh> CreateMeshes(float tubeDiameter, float firstBendRadius, float secondBendRadius)
+        [NotNull] public static List<Mesh> CreateMeshes(TubeLoader.TubeData tubeData)
         {
             List<Mesh> meshes = new List<Mesh>();
-            float[] radiuses = { firstBendRadius, secondBendRadius };
+            float[] radiuses = { tubeData.first_radius, tubeData.second_radius };
     
             for (int j = 0; j < 2; ++j)
             {
-                List<Vector3> allVertices = GenerateVertices(tubeDiameter, radiuses[j]);
+                List<Vector3> allVertices = GenerateVertices(tubeData.diameter, radiuses[j]);
                 for (int i = 1; i <= 180 / DeltaAngle; ++i)
                 {
                     List<Vector3> vertices = allVertices.GetRange(0, (i + 1) * SegmentsCount * 2);
                     meshes.Add(new Mesh());
                     meshes[meshes.Count - 1].vertices = vertices.ToArray();
-                    meshes[meshes.Count - 1].triangles = GenerateTriangles(ref vertices, i);
+                    meshes[meshes.Count - 1].triangles = GenerateTriangles(vertices.Count, i);
     
                     meshes[meshes.Count - 1].RecalculateBounds();
                     meshes[meshes.Count - 1].RecalculateNormals();
@@ -45,6 +38,10 @@ namespace HoloCAD.UnityTubes
             return meshes;
         }
     
+        /// <summary> Расчитывает все точки меша погиба. </summary>
+        /// <param name="tubeDiameter"> Диаметр трубы. </param>
+        /// <param name="bendRadius"> Угол погиба. </param>
+        /// <returns> Список вершин. </returns>
         [NotNull] private static List<Vector3> GenerateVertices(float tubeDiameter, float bendRadius)
         {
             List<Vector3> vertices = new List<Vector3>();
@@ -64,6 +61,9 @@ namespace HoloCAD.UnityTubes
             return vertices;
         }
     
+        /// <summary> Расчитывает точки окружности заданного диаметра. </summary>
+        /// <param name="tubeDiameter"> Диаметр окружности. </param>
+        /// <returns> Список вершин окружности. </returns>
         [NotNull] private static Vector3[] GenerateCircle(float tubeDiameter)
         {
             Vector3[] vertices = new Vector3[SegmentsCount * 2];
@@ -79,17 +79,25 @@ namespace HoloCAD.UnityTubes
             return vertices;
         }
     
-        [NotNull] private static int[] GenerateTriangles(ref List<Vector3> vertices, int level)
+        /// <summary> Расчитывает полигоны одного участка погиба. </summary>
+        /// <param name="verticesAmount"> Количество вершин меша. </param>
+        /// <param name="level"> Местоположение границы погиба. </param>
+        /// <returns> Список индексов вершин в порядке их следования в полигонах. </returns>
+        [NotNull] private static int[] GenerateTriangles(int verticesAmount, int level)
         {
             List<int> triangles = new List<int>();
     
             triangles.AddRange(GenerateEdgeTriangles(0));
             triangles.AddRange(GenerateEdgeTriangles(level, true));
-            triangles.AddRange(GenerateTubeTriangles(ref vertices));
+            triangles.AddRange(GenerateTubeTriangles(verticesAmount));
     
             return triangles.ToArray();
         }
     
+        /// <summary> Создает полигоны на границе трубы. </summary>
+        /// <param name="level"> Местоположение границы. </param>
+        /// <param name="invert"> Надо ли инвертировать полигоны. </param>
+        /// <returns> Список индексов вершин в порядке их следования в полигонах. </returns>
         [NotNull] private static List<int> GenerateEdgeTriangles(int level, bool invert = false)
         {
             List<int> triangles = new List<int>();
@@ -108,11 +116,14 @@ namespace HoloCAD.UnityTubes
             return triangles;
         }
     
-        [NotNull] private static List<int> GenerateTubeTriangles(ref List<Vector3> vertices)
+        /// <summary> Создает полигоны трубы. </summary>
+        /// <param name="verticesAmount"> Количество вершин </param>
+        /// <returns> Список индексов вершин в порядке их следования в полигонах. </returns>
+        [NotNull] private static List<int> GenerateTubeTriangles(int verticesAmount)
         {
             List<int> triangles = new List<int>();
             const int verticesInCircle = SegmentsCount * 2;
-            for (int j = 0; j < vertices.Count / verticesInCircle - 1; ++j)
+            for (int j = 0; j < verticesAmount / verticesInCircle - 1; ++j)
             {
                 for (int i = 0; i < verticesInCircle; ++i)
                 {
@@ -127,6 +138,13 @@ namespace HoloCAD.UnityTubes
             return triangles;
         }
     
+        /// <summary> Создает два полигона из четырех индексов вершин. </summary>
+        /// <param name="array"> Список в который добавляется полигоны. </param>
+        /// <param name="point1"> Индекс первой вершины. </param>
+        /// <param name="point2"> Индекс второй вершины. </param>
+        /// <param name="point3"> Индекс третьей вершины. </param>
+        /// <param name="point4"> Индекс четвертой вершины. </param>
+        /// <param name="invert"> Надо ли перевернуть полигон. </param>
         private static void AddQuad(ref List<int> array, int point1, int point2, int point3, int point4, bool invert)
         {
             if (invert)

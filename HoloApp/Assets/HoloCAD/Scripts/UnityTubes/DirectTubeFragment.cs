@@ -1,19 +1,18 @@
-﻿using HoloToolkit.Unity.InputModule;
+﻿using System;
+using HoloToolkit.Unity.InputModule;
 using UnityEngine;
 using HoloCAD.UI;
 
 namespace HoloCAD.UnityTubes
 {
     /// <inheritdoc />
-    /// <summary>
-    /// Класс, реализующий прямую трубу.
-    /// </summary>
-    public class DirectTube : BaseTube
+    /// <summary> Класс, реализующий прямой участок трубы. </summary>
+    public class DirectTubeFragment : TubeFragment
     {
         private float _length;
         private float _buttonBarOffset;
 
-        /// <value> Длина трубы. </value>
+        /// <summary> Длина прямого участка трубы. </summary>
         public float Length
         {
             get { return _length; }
@@ -25,9 +24,23 @@ namespace HoloCAD.UnityTubes
                 }
                 _length = value;
 
-                Tube.transform.localScale = new Vector3(Data.diameter, _length, Data.diameter);
+                Tube.transform.localScale = new Vector3(Diameter, _length, Diameter);
                 EndPoint.transform.localPosition = new Vector3(0, 0, _length);
-                Label.GetComponent<TextMesh>().text = "Длина: " + _length.ToString("0.00") + "м.";
+                Label.GetComponent<TextMesh>().text = $"Длина: {_length:0.00}м.";
+            }
+        }
+
+        /// <inheritdoc />
+        public override float Diameter
+        {
+            get { return _diameter; }
+            set
+            {
+                if (Math.Abs(_diameter - value) < float.Epsilon) return;
+
+                _diameter = value;
+                Tube.transform.localScale = new Vector3(Diameter, _length, Diameter);
+                ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
             }
         }
 
@@ -36,8 +49,8 @@ namespace HoloCAD.UnityTubes
         {
             base.Start();
             Length = 0.5f;
-            ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Data.diameter;
-            TubeManager.SelectTube(this);
+            ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
+            TubeManager.SelectTubeFragment(this);
         }
         
         /// <inheritdoc />

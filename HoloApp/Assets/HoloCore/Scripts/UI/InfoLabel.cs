@@ -4,9 +4,7 @@ using UnityEngine;
 
 namespace HoloCore.UI
 {
-    /// <summary>
-    /// Виджет всплывающих сообщений.
-    /// </summary>
+    /// <summary> Виджет всплывающих сообщений. </summary>
     public class InfoLabel : MonoBehaviour
     {
         // ReSharper disable once NotNullMemberIsNotInitialized
@@ -22,6 +20,7 @@ namespace HoloCore.UI
         [CanBeNull] private string _changingText;
 
         /// <summary> Множитель скорости появления/исчезания сообщений. </summary>
+        [Tooltip("Множитель скорости появления/исчезания сообщений.")]
         public float AnimationSpeed = 3f;
 
         private enum State
@@ -32,12 +31,9 @@ namespace HoloCore.UI
             Closing
         }
 
-        /// <summary>
-        /// Функция, инициализирующая трубу в Unity. 
-        /// </summary>
+        /// <summary> Функция, инициализирующая объект в Unity.  </summary>
         /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью
-        /// <c> base.Start()</c>.
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
         /// </remarks>
         protected virtual void Start()
         {
@@ -46,12 +42,9 @@ namespace HoloCore.UI
             _background.transform.localScale = Vector3.zero;
         }
 
-        /// <summary>
-        /// Функция, выполняющаяся в Unity каждый кадр. 
-        /// </summary>
+        /// <summary> Функция, выполняющаяся в Unity каждый кадр.  </summary>
         /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью
-        /// <c> base.Update()</c>.
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Update()</c>.
         /// </remarks>
         protected virtual void Update()
         {
@@ -119,9 +112,7 @@ namespace HoloCore.UI
             }
         }
 
-        /// <summary>
-        /// Сворачивает виджет окно сообщений. 
-        /// </summary>
+        /// <summary> Сворачивает виджет окна сообщений. </summary>
         public virtual void HideMessageWindow()
         {
             _state = State.Closing;

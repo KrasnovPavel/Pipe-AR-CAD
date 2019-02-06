@@ -3,9 +3,7 @@
 namespace HoloCore.UI
 {
 	/// <inheritdoc />
-	/// <summary>
-	/// Простая трехмерная кнопка.
-	/// </summary>
+	/// <summary> Простая трехмерная кнопка. </summary>
 	public class SimpleButton : Button3D {
 		private static readonly int Fade = Shader.PropertyToID("_Fade");
 		
@@ -18,9 +16,9 @@ namespace HoloCore.UI
 				if (_state == value) return;
 
 				_state = value;
-				if (Application.isPlaying)
+				if (Application.isPlaying && ButtonRenderer != null)
 				{
-					if (ButtonRenderer != null) ButtonRenderer.material.SetFloat(Fade, (float) State);
+					ButtonRenderer.material.SetFloat(Fade, (float) State);
 				}
 			}
 		}

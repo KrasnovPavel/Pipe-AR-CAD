@@ -1,90 +1,64 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using UnityEngine;
 using HoloCAD.UnityTubes;
 
 namespace HoloCAD
 {
-    /// <summary>
-    /// Класс, контролирующий создание и управление трубами.
-    /// </summary>
+    /// <summary> Класс, контролирующий создание и управление трубами. </summary>
     public static class TubeManager
     {
-        private static readonly List<BaseTube> AllTubes = new List<BaseTube>();
+        private static readonly List<Tube> AllTubes = new List<Tube>();
 
-        /// <value> Труба, выбранная в данный момент. </value>
+        /// <summary> Труба, выбранная в данный момент. </summary>
         [CanBeNull]
-        public static BaseTube SelectedTube { get; private set; }
+        public static TubeFragment SelectedTubeFragment { get; private set; }
 
-        /// <summary>
-        /// Создает объект трубы типа <paramref name="type"/>
-        /// с параметрами <paramref name="data"/> из стандарта <paramref name="standardName"/>.
-        /// Устанавливает ему родителя <paramref name="pivot"/>
-        /// </summary>
-        /// <param name="pivot"> Родитель создаваемого объекта в Unity/</param>
-        /// <param name="standardName">Имя стандарта по которому выполняется погиб</param>
-        /// <param name="data">Параметры трубы</param>
-        /// <param name="type">Тип трубы</param>
-        public static void CreateTube(Transform pivot, TubeLoader.TubeData data, string standardName, TubeFactory.TubeType type)
+        /// <summary> Создает новую трубу. </summary>
+        public static void CreateTube()
         {
-            AllTubes.Add(TubeFactory.Instance.CreateTube(pivot, data, standardName, type).GetComponent<BaseTube>());
+            AllTubes.Add(new Tube());
         }
 
-        /// <summary>
-        /// Добавляет объект трубы <paramref name="newTube"/> в список труб.
-        /// </summary>
-        /// <param name="newTube"> Труба которую надо добавить. </param>
-        public static void AddTube(BaseTube newTube)
+        /// <summary> Переключает состояние выбора участка трубы <paramref name="selectedTubeFragment"/>. </summary>
+        /// <param name="selectedTubeFragment"> Участок трубы, состояние которого надо переключить. </param>
+        public static void ToggleTubeSelection(TubeFragment selectedTubeFragment)
         {
-            AllTubes.Add(newTube);
-        }
-
-        /// <summary>
-        /// Переключает состояние выбора трубы <paramref name="selectedTube"/>.
-        /// </summary>
-        /// <param name="selectedTube"> Труба состояние которой надо переключить. </param>
-        public static void ToggleTubeSelection(BaseTube selectedTube)
-        {
-            if (selectedTube.IsSelected)
+            if (selectedTubeFragment.IsSelected)
             {
-                DeselectTubes();
+                DeselectTubeFragments();
             }
             else
             {
-                SelectTube(selectedTube);
+                SelectTubeFragment(selectedTubeFragment);
             }
         }
 
-        /// <summary>
-        /// Выбирает трубу <paramref name="selectedTube"/>. 
-        /// </summary>
-        /// <param name="selectedTube"> Труба которую надо выбрать. </param>
-        public static void SelectTube(BaseTube selectedTube)
+        /// <summary> Выбирает участок трубы <paramref name="selectedTubeFragment"/>. </summary>
+        /// <param name="selectedTubeFragment"> Участок трубы, который надо выбрать. </param>
+        public static void SelectTubeFragment([NotNull] TubeFragment selectedTubeFragment)
         {
-            ClearNulls();
-            SelectedTube = selectedTube;
-
-            foreach (BaseTube tube in AllTubes)
+            if (SelectedTubeFragment != null)
             {
-                tube.IsSelected = tube == SelectedTube;
+                SelectedTubeFragment.IsSelected = false;
             }
+            SelectedTubeFragment = selectedTubeFragment;
+            SelectedTubeFragment.IsSelected = true;
         }
 
-        /// <summary>
-        /// Снимает выбор со всех труб.
-        /// </summary>
-        public static void DeselectTubes()
+        /// <summary> Снимает выбор со всех участков труб. </summary>
+        public static void DeselectTubeFragments()
         {
-            ClearNulls();
-            if (SelectedTube == null) return;
+            if (SelectedTubeFragment == null) return;
             
-            SelectedTube.IsSelected = false;
-            SelectedTube = null;
+            SelectedTubeFragment.IsSelected = false;
+            SelectedTubeFragment = null;
         }
 
-        private static void ClearNulls()
+        /// <summary> Удаляет трубу из списка. </summary>
+        /// <param name="tube"> Удаляемая труба. </param>
+        public static void RemoveTube(Tube tube)
         {
-            AllTubes.RemoveAll(arg => arg == null);
+            AllTubes.Remove(tube);
         }
     }
 }

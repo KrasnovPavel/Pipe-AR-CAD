@@ -75,11 +75,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6a973ea93e7f94b871723269408a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DirectTubePrefab: {fileID: 1566192698486592, guid: 1eba642b6f930594483f7d7cf9c300bc,
+  DirectTubeFragmentPrefab: {fileID: 1566192698486592, guid: 1eba642b6f930594483f7d7cf9c300bc,
     type: 2}
-  BendedTubePrefab: {fileID: 1911631833607840, guid: a691663f808ef3641b6330f8c43dae74,
+  BendedTubeFragmentPrefab: {fileID: 1911631833607840, guid: a691663f808ef3641b6330f8c43dae74,
     type: 2}
-  StartTubePrefab: {fileID: 1985526613567762, guid: 3694dc49cf052604d80a4a1eee049620,
+  StartTubeFragmentPrefab: {fileID: 1985526613567762, guid: 3694dc49cf052604d80a4a1eee049620,
     type: 2}
 --- !u!114 &114749008305633050
 MonoBehaviour:
