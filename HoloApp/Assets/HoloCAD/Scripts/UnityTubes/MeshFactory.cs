@@ -12,11 +12,20 @@ namespace HoloCAD.UnityTubes
         /// <summary> Количество полигонов. </summary>
         private const int SegmentsCount = 20;
 
+        /// <summary> Список уже сгенерированных мешей для каждой трубы. </summary>
+        private static readonly Dictionary<TubeLoader.TubeData, List<Mesh>> GeneratedMeshes = 
+                                                                    new Dictionary<TubeLoader.TubeData, List<Mesh>>();
+        
         /// <summary> Создает меши для погиба трубы. </summary>
         /// <param name="tubeData"> Параметры погиба. </param>
         /// <returns> Список созданных мешей. </returns>
         [NotNull] public static List<Mesh> CreateMeshes(TubeLoader.TubeData tubeData)
         {
+            if (GeneratedMeshes.ContainsKey(tubeData))
+            {
+                return GeneratedMeshes[tubeData];
+            }
+            
             List<Mesh> meshes = new List<Mesh>();
             float[] radiuses = { tubeData.first_radius, tubeData.second_radius };
     
@@ -35,6 +44,8 @@ namespace HoloCAD.UnityTubes
                     meshes[meshes.Count - 1].RecalculateTangents();
                 }
             }
+
+            GeneratedMeshes[tubeData] = meshes;
             return meshes;
         }
     
