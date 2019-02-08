@@ -107,6 +107,7 @@ namespace HoloCAD
         public void CreateDirectTubeFragment(Transform pivot)
         {
             _fragments.Add(TubeFactory.Instance.CreateDirectTubeFragment(this, pivot));
+            _fragments[_fragments.Count - 2].HasChild = true;
         }
 
         /// <summary> Создает для этой трубы участок погиба. </summary>
@@ -114,6 +115,7 @@ namespace HoloCAD
         public void CreateBendedTubeFragment(Transform pivot)
         {
             _fragments.Add(TubeFactory.Instance.CreateBendedTubeFragment(this, pivot));
+            _fragments[_fragments.Count - 2].HasChild = true;
         }
 
         /// <summary> Удаляет участок трубы и все следующие за ним. </summary>
@@ -128,6 +130,14 @@ namespace HoloCAD
             if (_fragments.Count == 0)
             {
                 TubeManager.RemoveTube(this);
+            }
+            else if (_fragments.Count > 1)
+            {
+                _fragments[_fragments.Count - 2].HasChild = false;
+            }
+            else
+            {
+                _fragments[_fragments.Count - 1].HasChild = false;
             }
         }
 

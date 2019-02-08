@@ -1,7 +1,8 @@
 ﻿using System;
-using HoloToolkit.Unity.InputModule;
 using UnityEngine;
 using HoloCAD.UI;
+using HoloCore.UI;
+using JetBrains.Annotations;
 
 namespace HoloCAD.UnityTubes
 {
@@ -11,7 +12,15 @@ namespace HoloCAD.UnityTubes
     {
         private float _length;
         private float _buttonBarOffset;
+        
+        /// <summary> Кнопка увеличения длины. </summary>
+        [Tooltip("Кнопка увеличения длины.")]
+        [CanBeNull] public Button3D IncreaseLengthButton;
 
+        /// <summary> Кнопка уменьшения длины. </summary>
+        [Tooltip("Кнопка уменьшения длины.")]
+        [CanBeNull] public Button3D DecreaseLengthButton;
+        
         /// <summary> Длина прямого участка трубы. </summary>
         public float Length
         {
@@ -52,21 +61,27 @@ namespace HoloCAD.UnityTubes
             ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
             TubeManager.SelectTubeFragment(this);
         }
-        
-        /// <inheritdoc />
-        protected override void InputDown(GameObject obj, InputEventData eventData)
-        {
-            base.InputDown(obj, eventData);
 
-            switch (obj.name)
-            {
-                case "IncreaseLengthButton":
-                    Length += 0.05f;
-                    break;
-                case "DecreaseLengthButton":
-                    Length -= 0.05f;
-                    break;
-            }
+        /// <inheritdoc />
+        protected override void InitButtons()
+        {
+            base.InitButtons();
+            if (IncreaseLengthButton != null) IncreaseLengthButton.OnClick += delegate { IncreaseLength(); };
+            if (DecreaseLengthButton != null) DecreaseLengthButton.OnClick += delegate { DecreaseLength(); };
+        }
+
+        /// <summary> Увеличивает длину. </summary>
+        /// <param name="delta"> Изменение длины. </param>
+        public void IncreaseLength(float delta = 0.05f)
+        {
+            Length += delta;
+        }
+        
+        /// <summary> Уменьшает длину. </summary>
+        /// <param name="delta"> Изменение длины. </param>
+        public void DecreaseLength(float delta = 0.05f)
+        {
+            Length -= delta;
         }
     }
 }

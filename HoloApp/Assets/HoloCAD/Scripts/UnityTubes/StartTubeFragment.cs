@@ -1,5 +1,6 @@
 ﻿using System;
-using HoloToolkit.Unity.InputModule;
+using HoloCore.UI;
+using JetBrains.Annotations;
 using UnityEngine;
 #if ENABLE_WINMD_SUPPORT
 using UnityEngine.XR.WSA.Input;
@@ -17,6 +18,32 @@ namespace HoloCAD.UnityTubes
         private GestureRecognizer _recognizer;
 #endif
 
+        /// <summary> Кнопка увеличения диаметра трубы. </summary>
+        [Tooltip("Кнопка увеличения диаметра трубы.")]
+        [CanBeNull] public Button3D IncreaseDiameterButton;
+        
+        /// <summary> Кнопка уменьшения диаметра трубы. </summary>
+        [Tooltip("Кнопка уменьшения диаметра трубы.")]
+        [CanBeNull] public Button3D DecreaseDiameterButton;
+        
+        /// <summary> Кнопка перехода в режим размещения трубы. </summary>
+        [Tooltip("Кнопка перехода в режим размещения трубы.")]
+        [CanBeNull] public Button3D StartPlacingButton;
+        
+        /// <inheritdoc />
+        public override float Diameter
+        {
+            get { return _diameter; }
+            set
+            {
+                if (Math.Abs(_diameter - value) < float.Epsilon) return;
+
+                _diameter = value;
+                Tube.transform.localScale = new Vector3(Diameter, Length, Diameter);
+                LabelText.text = $"Диаметр: {Diameter:0.000}м.";
+            }
+        }
+        
         /// <inheritdoc />
         protected override void Start()
         {
@@ -44,20 +71,6 @@ namespace HoloCAD.UnityTubes
         }
 
         /// <inheritdoc />
-        public override float Diameter
-        {
-            get { return _diameter; }
-            set
-            {
-                if (Math.Abs(_diameter - value) < float.Epsilon) return;
-
-                _diameter = value;
-                Tube.transform.localScale = new Vector3(Diameter, Length, Diameter);
-                LabelText.text = $"Диаметр: {Diameter:0.000}м.";
-            }
-        }
-
-        /// <inheritdoc />
         protected override void Update()
         {
             base.Update();
@@ -66,6 +79,15 @@ namespace HoloCAD.UnityTubes
             {
                 Place();
             }
+        }
+
+        /// <inheritdoc />
+        protected override void InitButtons()
+        {
+            base.InitButtons();
+            if (IncreaseDiameterButton != null) IncreaseDiameterButton.OnClick += delegate { IncreaseDiameter(); };
+            if (DecreaseDiameterButton != null) DecreaseDiameterButton.OnClick += delegate { DecreaseDiameter(); };
+            if (StartPlacingButton != null)     StartPlacingButton.OnClick     += delegate { StartPlacing(); };
         }
 
         /// <summary> Перемещает фланец в точку на которую смотрит пользователь. </summary>
@@ -80,27 +102,25 @@ namespace HoloCAD.UnityTubes
             transform.position = hitInfo.point + Vector3.up * 0.02f;
             transform.rotation = Quaternion.LookRotation(hitInfo.normal);
         }
-    
-        /// <inheritdoc />
-        protected override void InputDown(GameObject obj, InputEventData eventData)
+
+        /// <summary> Устанавливает следующий из доступных диаметров труб. </summary>
+        public void IncreaseDiameter()
         {
-            base.InputDown(obj, eventData);
-            
-            switch (obj.name)
-            {
-                case "IncreaseDiameterButton":
-                    Owner.SelectBiggerDiameter();
-                    break;
-                case "DecreaseDiameterButton":
-                    Owner.SelectSmallerDiameter();
-                    break;
-                case "PlacingButton":
-                    Owner.StartPlacing();
+            Owner.SelectBiggerDiameter();
+        }
+        /// <summary> Устанавливает предыдущий из доступных диаметров труб. </summary>
+        public void DecreaseDiameter()
+        {
+            Owner.SelectSmallerDiameter();
+        }
+
+        /// <summary> Переход в режим размещения трубы. </summary>
+        public void StartPlacing()
+        {
+            Owner.StartPlacing();
 #if ENABLE_WINMD_SUPPORT
-                    _recognizer.StartCapturingGestures();
+            _recognizer.StartCapturingGestures();
 #endif
-                    break;
-            }
         }
     }
 }

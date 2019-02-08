@@ -10,6 +10,9 @@ namespace HoloCore.UI
     [ExecuteInEditMode]
     public class Button3D : MonoBehaviour, IInputHandler, IPointerSpecificFocusable
     {
+        /// <summary> <c>true</c>, если кнопка была выключена через <see cref="SetEnabled"/>. </summary>
+        private bool _forceDisable;
+        
         /// <summary> Объект, на который выводится текст. </summary>
         [CanBeNull] protected TextMesh Label;
 
@@ -51,7 +54,7 @@ namespace HoloCore.UI
         public enum ButtonState
         {
             /// <summary> Кнопка выключена. </summary>
-            Disabled = 10,
+            Disabled = 20,
 
             /// <summary> Кнопка включена, состояние по умолчанию. </summary>
             Enabled = 5,
@@ -115,6 +118,7 @@ namespace HoloCore.UI
         public void SetEnabled(bool isEnabled)
         {
             State = isEnabled ? ButtonState.Enabled : ButtonState.Disabled;
+            _forceDisable = !isEnabled;
         }
 
         /// <summary> Обработчик нажатия на кнопку </summary>
@@ -215,6 +219,7 @@ namespace HoloCore.UI
         /// </remarks>
         protected virtual void OnEnable()
         {
+            if (_forceDisable) return;
             State = ButtonState.Enabled;
         }
 

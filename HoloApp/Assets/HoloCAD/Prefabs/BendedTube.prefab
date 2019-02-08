@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 114584475650303330}
   - component: {fileID: 65590043686823918}
   m_Layer: 0
-  m_Name: AddTubeButton
+  m_Name: AddDirectFragmentButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 114466753549125920}
   - component: {fileID: 65578427776893622}
   m_Layer: 0
-  m_Name: AnticlockwiseButton
+  m_Name: TurnAnticlockwiseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 114114767553066588}
   - component: {fileID: 65270611788104232}
   m_Layer: 0
-  m_Name: ClockwiseButton
+  m_Name: TurnClockwiseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 114154417752779376}
   - component: {fileID: 65215100321702908}
   m_Layer: 0
-  m_Name: RemoveButton
+  m_Name: RemoveThisFragmentButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 114682087051131676}
   - component: {fileID: 65048502913111506}
   m_Layer: 0
-  m_Name: AddBendButton
+  m_Name: AddBendFragmentButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2263,20 +2263,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b166c7119902b1946aafe876dfc3e5df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactables:
-  - {fileID: 1170494151211576}
-  - {fileID: 1038011438971126}
-  - {fileID: 1345585805138730}
-  - {fileID: 1187804918923372}
-  - {fileID: 1093960872578024}
-  - {fileID: 1551036732255262}
-  - {fileID: 1869305879854100}
-  - {fileID: 1492986096325590}
-  Targets: []
-  lockFocus: 0
   Label: {fileID: 1602889282394158}
+  AddBendFragmentButton: {fileID: 114682087051131676}
+  AddDirectFragmentButton: {fileID: 114584475650303330}
+  CreateTubeButton: {fileID: 0}
+  RemoveThisFragmentButton: {fileID: 114154417752779376}
   ColliderPrefab: {fileID: 1599205281889634, guid: 43c0d25bf6ccbad498ffb185b4972e52,
     type: 2}
+  IncreaseAngleButton: {fileID: 114886109871103118}
+  DecreaseAngleButton: {fileID: 114512140669207768}
+  TurnClockwiseButton: {fileID: 114114767553066588}
+  TurnAnticlockwiseButton: {fileID: 114466753549125920}
+  ChangeRadiusButton: {fileID: 114342784588092672}
 --- !u!114 &114114767553066588
 MonoBehaviour:
   m_ObjectHideFlags: 1

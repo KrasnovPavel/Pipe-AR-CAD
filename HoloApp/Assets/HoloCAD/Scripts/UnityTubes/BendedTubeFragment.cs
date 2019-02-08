@@ -1,9 +1,10 @@
 ﻿using System;
-using HoloToolkit.Unity.InputModule;
 using System.Collections.Generic;
 using UnityEngine;
 using HoloCAD.UI;
+using HoloCore.UI;
 using HoloToolkit.Unity;
+using JetBrains.Annotations;
 
 namespace HoloCAD.UnityTubes
 {
@@ -13,7 +14,7 @@ namespace HoloCAD.UnityTubes
     {
         private List<Mesh> _meshes;
         private float _radius;
-        private List<GameObject> _colliders = new List<GameObject>();
+        private readonly List<GameObject> _colliders = new List<GameObject>();
     
         private bool _useSecondRadius;
         private int _angle = MeshFactory.DeltaAngle;
@@ -21,8 +22,28 @@ namespace HoloCAD.UnityTubes
         private static readonly int ShaderBendRadius = Shader.PropertyToID("_BendRadius");
 
         /// <summary> Prefab коллайдера сегмента погиба. </summary>
-        [Tooltip("Prefab коллайдера сегмента погиба.")]
-        public GameObject ColliderPrefab;
+        [Tooltip("Prefab коллайдера сегмента погиба.")] 
+        [CanBeNull] public GameObject ColliderPrefab;
+
+        /// <summary> Кнопка увеличения угла погиба. </summary>
+        [Tooltip("Кнопка увеличения угла погиба.")]
+        [CanBeNull] public Button3D IncreaseAngleButton;
+        
+        /// <summary> Кнопка уменьшения угла погиба. </summary>
+        [Tooltip("Кнопка уменьшения угла погиба.")]
+        [CanBeNull] public Button3D DecreaseAngleButton;
+        
+        /// <summary> Кнопка поворота погиба по часовой стрелке. </summary>
+        [Tooltip("Кнопка поворота погиба по часовой стрелке.")]
+        [CanBeNull] public Button3D TurnClockwiseButton;
+        
+        /// <summary> Кнопка поворота погиба против часовой стрелки. </summary>
+        [Tooltip("Кнопка поворота погиба против часовой стрелки.")]
+        [CanBeNull] public Button3D TurnAnticlockwiseButton;
+        
+        /// <summary> Кнопка смены радиуса погиба. </summary>
+        [Tooltip("Кнопка смены радиуса погиба.")]
+        [CanBeNull] public Button3D ChangeRadiusButton;
         
         /// <summary> Угол погиба. </summary>
         public int Angle
@@ -96,28 +117,44 @@ namespace HoloCAD.UnityTubes
         }
 
         /// <inheritdoc />
-        protected override void InputDown(GameObject obj, InputEventData eventData)
+        protected override void InitButtons()
         {
-            base.InputDown(obj, eventData);
+            base.InitButtons();
+            if (IncreaseAngleButton != null)     IncreaseAngleButton.OnClick     = delegate { IncreaseAngle(); };
+            if (DecreaseAngleButton != null)     DecreaseAngleButton.OnClick     = delegate { DecreaseAngle(); };
+            if (TurnClockwiseButton != null)     TurnClockwiseButton.OnClick     = delegate { TurnClockwise(); };
+            if (TurnAnticlockwiseButton != null) TurnAnticlockwiseButton.OnClick = delegate { TurnAnticlockwise(); };
+            if (ChangeRadiusButton != null)      ChangeRadiusButton.OnClick      = delegate { ChangeRadius(); };
+        }
 
-            switch (obj.name)
-            {
-                case "IncreaseAngleButton":
-                    Angle += MeshFactory.DeltaAngle;
-                    break;
-                case "DecreaseAngleButton":
-                    Angle -= MeshFactory.DeltaAngle;
-                    break;
-                case "ClockwiseButton":
-                    transform.localRotation *= Quaternion.Euler(0, 0, MeshFactory.DeltaAngle);
-                    break;
-                case "AnticlockwiseButton":
-                    transform.localRotation *= Quaternion.Euler(0, 0, -MeshFactory.DeltaAngle);
-                    break;
-                case "ChangeRadiusButton":
-                    UseSecondRadius = !UseSecondRadius;
-                    break;
-            }
+        /// <summary> Увеличивает угол погиба. </summary>
+        public void IncreaseAngle()
+        {
+            Angle += MeshFactory.DeltaAngle;
+        }
+
+        /// <summary> Уменьшает угол погиба. </summary>
+        public void DecreaseAngle()
+        {
+            Angle -= MeshFactory.DeltaAngle;
+        }
+
+        /// <summary> Поворачивает погиб по часовой стрелке. </summary>
+        public void TurnClockwise()
+        {
+            transform.localRotation *= Quaternion.Euler(0, 0, MeshFactory.DeltaAngle);
+        }
+
+        /// <summary> Поворачивает погиб против часовой стрелки. </summary>
+        public void TurnAnticlockwise()
+        {
+            transform.localRotation *= Quaternion.Euler(0, 0, -MeshFactory.DeltaAngle);
+        }
+
+        /// <summary> Меняет радиус погиба. </summary>
+        public void ChangeRadius()
+        {
+            UseSecondRadius = !UseSecondRadius;
         }
     
         /// <summary> Отображает соответствующий меш. </summary>

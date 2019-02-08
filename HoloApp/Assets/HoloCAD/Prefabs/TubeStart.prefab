@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 114690650857631836}
   - component: {fileID: 65435779942424398}
   m_Layer: 0
-  m_Name: AddTubeButton
+  m_Name: AddDirectFragmentButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 114041839463105858}
   - component: {fileID: 65192255508618062}
   m_Layer: 0
-  m_Name: AddStartButton
+  m_Name: CreateTubeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -372,7 +372,7 @@ GameObject:
   - component: {fileID: 114084288724748050}
   - component: {fileID: 65851843097168242}
   m_Layer: 0
-  m_Name: PlacingButton
+  m_Name: StartPlacingButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -391,7 +391,7 @@ GameObject:
   - component: {fileID: 114096809766909092}
   - component: {fileID: 65032375628504206}
   m_Layer: 0
-  m_Name: AddBendButton
+  m_Name: AddBendFragmentButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -444,7 +444,7 @@ GameObject:
   - component: {fileID: 114261233075121632}
   - component: {fileID: 65176665197070182}
   m_Layer: 0
-  m_Name: RemoveButton
+  m_Name: RemoveThisFragmentButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2192,17 +2192,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d02e9da010afd498c18659d7c43a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactables:
-  - {fileID: 1671672113264106}
-  - {fileID: 1318622896812306}
-  - {fileID: 1731721794732306}
-  - {fileID: 1327255803826298}
-  - {fileID: 1507575577626134}
-  - {fileID: 1472118681125638}
-  - {fileID: 1895074348424264}
-  Targets: []
-  lockFocus: 0
   Label: {fileID: 1474266111723794}
+  AddBendFragmentButton: {fileID: 114096809766909092}
+  AddDirectFragmentButton: {fileID: 114690650857631836}
+  CreateTubeButton: {fileID: 114041839463105858}
+  RemoveThisFragmentButton: {fileID: 114261233075121632}
+  IncreaseDiameterButton: {fileID: 114564773700478738}
+  DecreaseDiameterButton: {fileID: 114537775845490858}
+  StartPlacingButton: {fileID: 114084288724748050}
 --- !u!114 &114803868556820644
 MonoBehaviour:
   m_ObjectHideFlags: 1

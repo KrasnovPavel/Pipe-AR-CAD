@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 114452922723300130}
   - component: {fileID: 65249676310123212}
   m_Layer: 0
-  m_Name: AddBendButton
+  m_Name: AddBendFragmentButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -302,7 +302,7 @@ GameObject:
   - component: {fileID: 114357206790663870}
   - component: {fileID: 65592201881244644}
   m_Layer: 0
-  m_Name: RemoveButton
+  m_Name: RemoveThisFragmentButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1420,14 +1420,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba0de4e2d55bbfe46b12aa8ee5e5d082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactables:
-  - {fileID: 1337508869493792}
-  - {fileID: 1952566766249856}
-  - {fileID: 1126952558097312}
-  - {fileID: 1253208847917154}
-  Targets: []
-  lockFocus: 0
   Label: {fileID: 1727820453962222}
+  AddBendFragmentButton: {fileID: 114452922723300130}
+  AddDirectFragmentButton: {fileID: 0}
+  CreateTubeButton: {fileID: 0}
+  RemoveThisFragmentButton: {fileID: 114357206790663870}
+  IncreaseLengthButton: {fileID: 114099115228196300}
+  DecreaseLengthButton: {fileID: 114851355271041602}
 --- !u!114 &114851355271041602
 MonoBehaviour:
   m_ObjectHideFlags: 1
