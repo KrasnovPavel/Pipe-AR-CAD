@@ -45,7 +45,7 @@
 			vertexOutput output;
 			output.pos = UnityObjectToClipPos(input.vertex);
 			output.worldPos = mul(unity_ObjectToWorld, input.vertex);
-			output.localPos = input.vertex.xyz / _Diameter;
+			output.localPos = float3(input.vertex.x + _BendRadius, input.vertex.yz) / _Diameter;
 			output.worldScale = float3(
 				length(float3(unity_ObjectToWorld[0].x, unity_ObjectToWorld[1].x, unity_ObjectToWorld[2].x)) / _Diameter, // scale x axis
 				length(float3(unity_ObjectToWorld[0].y, unity_ObjectToWorld[1].y, unity_ObjectToWorld[2].y)) / _Diameter, // scale y axis

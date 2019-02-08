@@ -28,9 +28,6 @@ namespace HoloCAD.UnityTubes
 
         /// <summary> Объект, содержащий меш участка трубы. </summary>
         protected GameObject Tube;
-
-        /// <summary> Объект, содержащий коллайдер для определения пересечения с другими участками труб. </summary>
-        protected GameObject Collider;
         
         /// <summary> Объект, указывающий конечную точку участка трубы. </summary>
         protected GameObject EndPoint;
@@ -91,8 +88,11 @@ namespace HoloCAD.UnityTubes
         {
             tag = "Tube";
             Tube = transform.Find("Tube").gameObject;
-            Collider = Tube.transform.Find("Collider").gameObject;
-            Collider.GetComponent<TubeFragmentCollider>().Owner = this;
+            TubeFragmentCollider tubeCollider = Tube.transform.Find("Collider")?.GetComponent<TubeFragmentCollider>();
+            if (tubeCollider != null)
+            {
+                tubeCollider.Owner = this;   
+            }
             EndPoint = transform.Find("End Point").gameObject;
             Transform bb = transform.Find("Button Bar");
             if (bb == null)

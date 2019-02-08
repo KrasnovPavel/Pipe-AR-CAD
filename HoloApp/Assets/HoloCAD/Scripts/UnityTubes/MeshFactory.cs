@@ -54,7 +54,7 @@ namespace HoloCAD.UnityTubes
                 Quaternion rot = Quaternion.Euler(0, -DeltaAngle * j, 0);
                 foreach(Vector3 vertex in circle)
                 {
-                    vertices.Add(rot * (vertex + center));
+                    vertices.Add(rot * (vertex + center) - center);
                 }
             }
     

@@ -9,14 +9,16 @@ namespace HoloCAD.UnityTubes
 
 		private void OnTriggerEnter(Collider other)
 		{
-			if (!other.GetComponent<TubeFragmentCollider>()) return;
+			TubeFragmentCollider otherCollider = other.GetComponent<TubeFragmentCollider>();
+			if (!otherCollider || otherCollider.Owner == Owner) return;
 			numberOfCollisions++;
 			Owner.OnTubeCollisionEnter();
 		}
 
 		private void OnTriggerExit(Collider other)
 		{
-			if (!other.GetComponent<TubeFragmentCollider>()) return;
+			TubeFragmentCollider otherCollider = other.GetComponent<TubeFragmentCollider>();
+			if (!otherCollider || otherCollider.Owner == Owner) return;
 			numberOfCollisions--;
 			if (numberOfCollisions == 0)
 			{

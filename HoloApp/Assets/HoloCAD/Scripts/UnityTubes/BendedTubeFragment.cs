@@ -3,6 +3,7 @@ using HoloToolkit.Unity.InputModule;
 using System.Collections.Generic;
 using UnityEngine;
 using HoloCAD.UI;
+using HoloToolkit.Unity;
 
 namespace HoloCAD.UnityTubes
 {
@@ -12,12 +13,17 @@ namespace HoloCAD.UnityTubes
     {
         private List<Mesh> _meshes;
         private float _radius;
+        private List<GameObject> _colliders = new List<GameObject>();
     
         private bool _useSecondRadius;
         private int _angle = MeshFactory.DeltaAngle;
         private static readonly int ShaderDiameter = Shader.PropertyToID("_Diameter");
         private static readonly int ShaderBendRadius = Shader.PropertyToID("_BendRadius");
 
+        /// <summary> Prefab коллайдера сегмента погиба. </summary>
+        [Tooltip("Prefab коллайдера сегмента погиба.")]
+        public GameObject ColliderPrefab;
+        
         /// <summary> Угол погиба. </summary>
         public int Angle
         {
@@ -28,6 +34,8 @@ namespace HoloCAD.UnityTubes
                 {
                     return;
                 }
+                
+                SetColliders(value, _angle);
                 _angle = value;
     
                 SetMesh();
@@ -81,6 +89,7 @@ namespace HoloCAD.UnityTubes
         {
             base.Start();
             _meshes = MeshFactory.CreateMeshes(Owner.Data);
+            SetColliders(MeshFactory.DeltaAngle, 0);
             UseSecondRadius = false;
             Angle = 90;
             TubeManager.SelectTubeFragment(this);
@@ -114,8 +123,6 @@ namespace HoloCAD.UnityTubes
         /// <summary> Отображает соответствующий меш. </summary>
         private void SetMesh()
         {
-            Tube.transform.localPosition = new Vector3(-Radius, 0, 0);
-    
             Quaternion rot = Quaternion.Euler(0, -Angle, 0);
             Vector3 pos = new Vector3(Radius, 0, 0);
             EndPoint.transform.localPosition = rot * pos - pos;
@@ -123,6 +130,50 @@ namespace HoloCAD.UnityTubes
             const int numberOfAngles = 180 / MeshFactory.DeltaAngle;
             Tube.GetComponent<MeshFilter>().mesh = _meshes[Angle / MeshFactory.DeltaAngle - 1 + (UseSecondRadius ? numberOfAngles : 0)];
             Tube.GetComponent<MeshCollider>().sharedMesh = Tube.GetComponent<MeshFilter>().mesh;
+            
+            for (int i = 0; i < _colliders.Count; i++)
+            {
+                _colliders[i].GetComponent<MeshCollider>().sharedMesh = _meshes[UseSecondRadius ? numberOfAngles : 0];
+                
+                float shiftAngle = (2 * i + 1) / 2f * MeshFactory.DeltaAngle;
+                Vector3 shiftVector = Vector3.zero;
+                shiftVector = shiftVector.RotateAround(new Vector3(-Radius, 0f, 0f), 
+                                                       Quaternion.Euler(0, -shiftAngle, 0));
+                _colliders[i].GetComponent<MeshCollider>().transform.localPosition = shiftVector;
+            }
+        }
+
+        /// <summary> Создает или удаляет необходимое число коллайдеров. </summary>
+        /// <param name="newAngle"> Новый угол поворота. </param>
+        /// <param name="oldAngle"> Старый угол поворота. </param>
+        private void SetColliders(int newAngle, int oldAngle)
+        {
+            int newPos = newAngle / MeshFactory.DeltaAngle;
+            int oldPos = oldAngle / MeshFactory.DeltaAngle;
+
+            if (newPos < oldPos)
+            {
+                for (int i = oldPos - 1; i >= newPos; i--)
+                {
+                    Destroy(_colliders[i]);
+                    _colliders.RemoveAt(_colliders.Count - 1);
+                }
+            }
+            else
+            {
+                for (int i = oldPos + 1; i <= newPos; i++)
+                {
+                    GameObject newCollider = Instantiate(ColliderPrefab, Tube.transform);
+                    newCollider.GetComponent<TubeFragmentCollider>().Owner = this;
+                    MeshCollider meshCollider = newCollider.GetComponent<MeshCollider>();
+                    meshCollider.convex = true;
+                    meshCollider.inflateMesh = true;
+                    meshCollider.skinWidth = 0.0000001f;
+                    meshCollider.isTrigger = true;
+                    newCollider.transform.Rotate(new Vector3(0f, -(i-1) * MeshFactory.DeltaAngle, 0f));
+                    _colliders.Add(newCollider);
+                }
+            }
         }
     }
 }
