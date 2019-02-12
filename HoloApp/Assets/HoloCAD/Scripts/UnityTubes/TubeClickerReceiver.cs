@@ -12,7 +12,9 @@ namespace HoloCAD.UnityTubes
         /// <param name="eventData"></param>
         public void OnInputClicked(InputClickedEventData eventData)
         {
-            TubeManager.ToggleTubeSelection(transform.parent.GetComponent<TubeFragment>());
+            TubeFragment parent = transform.parent.GetComponent<TubeFragment>();
+            TubeManager.ToggleTubeSelection(parent);
+            parent.Owner.FinishTubesConnectorCreation();
         }
     }
 }

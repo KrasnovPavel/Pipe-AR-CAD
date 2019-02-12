@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using HoloCAD.UnityTubes;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HoloCAD
@@ -13,6 +15,24 @@ namespace HoloCAD
 
         private string _standardName;
         private TubeLoader.TubeData _data;
+        [CanBeNull] private TubesConnector _tubesConnectorField;
+
+        /// <summary> Объект соединения труб, соединяющий эту труб с другой. </summary>
+        [CanBeNull] private TubesConnector _tubesConnector
+        {
+            get { return _tubesConnectorField; }
+            set
+            {
+                _tubesConnectorField = value;
+                foreach (TubeFragment tubeFragment in _fragments)
+                {
+                    tubeFragment.CheckConnectButton();
+                }
+            }
+        }
+        
+        /// <summary> Связан ли с этой трубой объект соединения труб. </summary>
+        public bool HasTubesConnector => _tubesConnector != null;
 
         /// <summary> Параметры трубы, взятые из стандарта. </summary>
         public TubeLoader.TubeData Data
@@ -99,14 +119,14 @@ namespace HoloCAD
         /// <summary> Создает объект начального фланца для этой трубы. </summary>
         private void CreateStartTubeFragment()
         {
-            _fragments.Add(TubeFactory.Instance.CreateStartTubeFragment(this));
+            _fragments.Add(TubeUnityManager.CreateStartTubeFragment(this));
         }
         
         /// <summary> Создает для этой трубы прямой участок. </summary>
         /// <param name="pivot"> Местоположение нового фрагмента. </param>
         public void CreateDirectTubeFragment(Transform pivot)
         {
-            _fragments.Add(TubeFactory.Instance.CreateDirectTubeFragment(this, pivot));
+            _fragments.Add(TubeUnityManager.CreateDirectTubeFragment(this, pivot));
             _fragments[_fragments.Count - 2].HasChild = true;
         }
 
@@ -114,8 +134,20 @@ namespace HoloCAD
         /// <param name="pivot"> Местоположение нового фрагмента. </param>
         public void CreateBendedTubeFragment(Transform pivot)
         {
-            _fragments.Add(TubeFactory.Instance.CreateBendedTubeFragment(this, pivot));
+            _fragments.Add(TubeUnityManager.CreateBendedTubeFragment(this, pivot));
             _fragments[_fragments.Count - 2].HasChild = true;
+        }
+
+        /// <summary> Создает соединения труб. </summary>
+        public void CreateTubesConnector()
+        {
+            _tubesConnector = TubeUnityManager.CreateTubesConnector(this);
+        }
+
+        /// <summary> Отвязывается от объекта отображения расстояния между трубами. </summary>
+        public void RemoveTransformError()
+        {
+            _tubesConnector = null;
         }
 
         /// <summary> Удаляет участок трубы и все следующие за ним. </summary>
@@ -130,14 +162,11 @@ namespace HoloCAD
             if (_fragments.Count == 0)
             {
                 TubeManager.RemoveTube(this);
-            }
-            else if (_fragments.Count > 1)
-            {
-                _fragments[_fragments.Count - 2].HasChild = false;
+                if (_tubesConnector != null) _tubesConnector.RemoveThis();
             }
             else
             {
-                _fragments[_fragments.Count - 1].HasChild = false;
+                _fragments.Last().HasChild = false;
             }
         }
 
@@ -156,7 +185,7 @@ namespace HoloCAD
         /// <summary> Переходит в режим размещения трубы. </summary>
         public void StartPlacing()
         {
-            TubeFactory.ShowGrid(true);
+            TubeUnityManager.ShowGrid(true);
             TubeManager.SelectTubeFragment(_fragments[0]);
             foreach (TubeFragment tubeFragment in _fragments)
             {
@@ -167,10 +196,28 @@ namespace HoloCAD
         /// <summary> Выходит из режима размещения трубы. </summary>
         public void StopPlacing()
         {
-            TubeFactory.ShowGrid(false);
+            TubeUnityManager.ShowGrid(false);
             foreach (TubeFragment tubeFragment in _fragments)
             {
                 tubeFragment.IsPlacing = false;
+            }
+        }
+
+        /// <summary> Завершает создание объекта соединения трубы. </summary>
+        public void FinishTubesConnectorCreation()
+        {
+            if (!TubeUnityManager.HasActiveTubesConnector) return;
+
+            if (HasTubesConnector)
+            {
+                TubeUnityManager.ActiveTubesConnector.RemoveThis();
+            }
+            else
+            {
+                _tubesConnector = TubeUnityManager.ActiveTubesConnector;
+                _tubesConnector.SecondTube = this;
+//                _tubesConnector.CheckError();
+                TubeUnityManager.RemoveActiveTubesConnector();
             }
         }
     }

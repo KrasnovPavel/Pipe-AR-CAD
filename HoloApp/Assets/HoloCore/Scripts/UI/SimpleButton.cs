@@ -13,8 +13,6 @@ namespace HoloCore.UI
 			get { return _state; }
 			protected set
 			{
-				if (_state == value) return;
-
 				_state = value;
 				if (Application.isPlaying && ButtonRenderer != null)
 				{

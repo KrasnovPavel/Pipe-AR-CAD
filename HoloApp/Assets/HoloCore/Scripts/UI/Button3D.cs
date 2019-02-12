@@ -100,7 +100,7 @@ namespace HoloCore.UI
             catch (UnassignedReferenceException){}
             catch (NullReferenceException){}
 
-            State = ButtonState.Enabled;
+            State = _forceDisable ? ButtonState.Disabled : ButtonState.Enabled;
         }
 
         /// <summary> Функция, выполняющаяся в Unity каждый кадр. </summary>

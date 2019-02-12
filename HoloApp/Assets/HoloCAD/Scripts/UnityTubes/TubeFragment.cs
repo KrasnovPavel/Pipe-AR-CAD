@@ -1,4 +1,5 @@
 using HoloCore.UI;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HoloCAD.UnityTubes
@@ -11,6 +12,7 @@ namespace HoloCAD.UnityTubes
         private bool _isPlacing;
         private bool _isColliding;
         private bool _hasChild;
+        private bool _hasTransformError;
         private static readonly int GridColor = Shader.PropertyToID("_GridColor");
 
         /// <summary> Цвет участка трубы. </summary>
@@ -30,7 +32,7 @@ namespace HoloCAD.UnityTubes
         protected GameObject Tube;
 
         /// <summary> Объект, указывающий конечную точку участка трубы. </summary>
-        protected GameObject EndPoint;
+        public GameObject EndPoint { get; protected set; }
 
         /// <summary> Панель с кнопками. </summary>
         protected GameObject ButtonBar;
@@ -41,19 +43,23 @@ namespace HoloCAD.UnityTubes
 
         /// <summary> Кнопка добавления погиба. </summary>
         [Tooltip("Кнопка добавления погиба.")]
-        public Button3D AddBendFragmentButton;
+        [CanBeNull] public Button3D AddBendFragmentButton;
 
         /// <summary> Кнопка добавления прямого участка трубы. </summary>
         [Tooltip("Кнопка добавления прямого участка трубы.")]
-        public Button3D AddDirectFragmentButton;
+        [CanBeNull] public Button3D AddDirectFragmentButton;
 
         /// <summary> Кнопка создания новой трубы. </summary>
         [Tooltip("Кнопка создания новой трубы.")]
-        public Button3D CreateTubeButton;
+        [CanBeNull] public Button3D CreateTubeButton;
 
         /// <summary> Кнопка удаления этого участка трубы. </summary>
         [Tooltip("Кнопка удаления этого участка трубы.")]
-        public Button3D RemoveThisFragmentButton;
+        [CanBeNull] public Button3D RemoveThisFragmentButton;
+        
+        /// <summary> Кнопка добавления объекта отображения расстояния между трубами. </summary>
+        [Tooltip("Кнопка добавления объекта отображения расстояния между трубами.")]
+        [CanBeNull] public Button3D ConnectTubesButton;
 
         /// <summary> Объект, отображающий текстовые данные о участке трубе. </summary>
         protected TextMesh LabelText { get; private set; }
@@ -156,6 +162,11 @@ namespace HoloCAD.UnityTubes
             if (AddDirectFragmentButton != null) AddDirectFragmentButton.OnClick += delegate { AddDirectFragment(); };
             if (CreateTubeButton != null) CreateTubeButton.OnClick += delegate { CreateTube(); };
             if (RemoveThisFragmentButton != null)RemoveThisFragmentButton.OnClick += delegate { RemoveThisFragment(); };
+            if (ConnectTubesButton != null)
+            {
+                ConnectTubesButton.SetEnabled(!Owner.HasTubesConnector);
+                ConnectTubesButton.OnClick += delegate { ConnectTubes(); };
+            }
         }
 
         /// <summary> Обработчик удаления этого участка трубы. </summary>
@@ -237,6 +248,26 @@ namespace HoloCAD.UnityTubes
         public virtual void RemoveThisFragment()
         {
             Destroy(gameObject);
+        }
+
+        /// <summary> Создает объект соединения труб. </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.ConnectTubes()</c>.
+        /// </remarks>
+        public virtual void ConnectTubes()
+        {
+            Owner.CreateTubesConnector();
+        }
+
+        /// <summary> Включает или выключает кнопку соединения труб, в зависимости от внутренней логики. </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.CheckConnectButton()</c>.
+        /// </remarks>
+        public virtual void CheckConnectButton()
+        {
+            if (ConnectTubesButton == null) return;
+            
+            ConnectTubesButton.SetEnabled(!Owner.HasTubesConnector && !TubeUnityManager.HasActiveTubesConnector);
         }
     }
 }
