@@ -1,4 +1,5 @@
 ﻿using System;
+using HoloCAD.UI;
 using HoloCore.UI;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -29,6 +30,10 @@ namespace HoloCAD.UnityTubes
         /// <summary> Кнопка перехода в режим размещения трубы. </summary>
         [Tooltip("Кнопка перехода в режим размещения трубы.")]
         [CanBeNull] public Button3D StartPlacingButton;
+
+        /// <summary> Объект, управляющий отображением кнопок и информации о фланце. </summary>
+        [Tooltip("Объект, управляющий отображением кнопок и информации о фланце.")]
+        public StartTubeFragmentControlPanel ControlPanel;
         
         /// <inheritdoc />
         public override float Diameter
@@ -40,7 +45,7 @@ namespace HoloCAD.UnityTubes
 
                 _diameter = value;
                 Tube.transform.localScale = new Vector3(Diameter, Length, Diameter);
-                LabelText.text = $"Диаметр: {Diameter:0.000}м.";
+                ControlPanel.Diameter = Diameter;
             }
         }
         
