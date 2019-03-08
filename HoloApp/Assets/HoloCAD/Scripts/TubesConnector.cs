@@ -9,8 +9,6 @@ namespace HoloCAD
 	[RequireComponent(typeof(LineRenderer))]
 	public class TubesConnector : MonoBehaviour
 	{
-		private LineRenderer _renderer;
-		
 		// ReSharper disable once NotNullMemberIsNotInitialized
 		/// <summary> Первая труба </summary>
 		[NotNull] public Tube FirstTube;
@@ -30,6 +28,20 @@ namespace HoloCAD
 		[Tooltip("Допустимая ошибка по расстоянию.")]
 		public float DistanceThreshold = 0.005f;
 		
+		public void RemoveThis()
+		{
+			Destroy(gameObject);
+			FirstTube.RemoveTransformError();
+			SecondTube?.RemoveTransformError();
+
+			if (TubeUnityManager.ActiveTubesConnector == this)
+			{
+				TubeUnityManager.RemoveActiveTubesConnector();
+			}
+		}
+
+		#region Unity event functions
+
 		/// <summary> Функция, инициализирующая объект в Unity. </summary>
 		/// <remarks>
 		/// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
@@ -39,12 +51,18 @@ namespace HoloCAD
 			_renderer = GetComponent<LineRenderer>();
 		}
 
-		private void Update()
+		protected void Update()
 		{
 			CheckError();
 		}
 
-		protected void CheckError()
+		#endregion
+
+		#region Private definitions
+
+		private LineRenderer _renderer;
+		
+		private void CheckError()
 		{
 			Transform first = FirstTube.Fragments.Last().EndPoint.transform;
 			Transform second = (SecondTube == null) ? Cursor : SecondTube.Fragments.Last().EndPoint.transform;
@@ -64,22 +82,12 @@ namespace HoloCAD
 				ShowError(first, second);
 			}
 		}
-
-		public void RemoveThis()
-		{
-			Destroy(gameObject);
-			FirstTube.RemoveTransformError();
-			SecondTube?.RemoveTransformError();
-
-			if (TubeUnityManager.ActiveTubesConnector == this)
-			{
-				TubeUnityManager.RemoveActiveTubesConnector();
-			}
-		}
-
+		
 		private void ShowError(Transform first, Transform second)
 		{
 			_renderer.SetPositions(new [] { first.position, second.position });
 		}
+
+		#endregion
 	}
 }

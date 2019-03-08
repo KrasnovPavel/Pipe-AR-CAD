@@ -11,11 +11,6 @@ namespace HoloCore
     [SuppressMessage("ReSharper", "StaticMemberInGenericType")]
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        // Check to see if we're about to be destroyed.
-        private static bool _shuttingDown;
-        private static object _lock = new object();
-        private static T _instance;
- 
         /// <summary> Access singleton instance through this propriety. </summary>
         public static T Instance
         {
@@ -49,7 +44,14 @@ namespace HoloCore
                 }
             }
         }
- 
+
+        #region Private definitions
+        
+        // Check to see if we're about to be destroyed.
+        private static bool _shuttingDown;
+        private static object _lock = new object();
+        private static T _instance;
+        
         private void OnApplicationQuit()
         {
             _shuttingDown = true;
@@ -59,5 +61,7 @@ namespace HoloCore
         {
             _shuttingDown = true;
         }
+        
+        #endregion
     }
 }

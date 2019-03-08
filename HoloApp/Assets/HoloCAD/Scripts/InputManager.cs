@@ -3,9 +3,8 @@ using HoloCore;
 
 namespace HoloCAD
 {
-    public class InputManager : Singleton<InputManager>  {
-        private static readonly Dictionary<string,float> Inputs = new Dictionary<string, float>();
-
+    public class InputManager : Singleton<InputManager>  
+    {
         public static float GetAxis(string axis){
             if(!Inputs.ContainsKey(axis)){
                 Inputs.Add(axis, 0);
@@ -21,5 +20,11 @@ namespace HoloCAD
          
             Inputs[axis] = value;
         }
+
+        #region Private definitions
+
+        private static readonly Dictionary<string,float> Inputs = new Dictionary<string, float>();
+
+        #endregion
     }
 }

@@ -4,19 +4,25 @@ namespace HoloCAD.UI
 {
 	public class Menu : MonoBehaviour
 	{
-		private Camera _camera;
+		#region Unity event functions
 
-		private void Start()
+		protected void Start()
 		{
 			_camera = Camera.main;
 		}
 
 		private const float MovingSpeed = 0.0011f;
 	
-		private void Update ()
+		protected void Update ()
 		{
 			PlaceMenu();
 		}
+
+		#endregion
+
+		#region Private definitions
+		
+		private Camera _camera;
 
 		private void PlaceMenu()
 		{
@@ -36,5 +42,8 @@ namespace HoloCAD.UI
 			transform.position = Vector3.Lerp(transform.position, labelPosition, Time.time * MovingSpeed);
 			transform.rotation = Quaternion.Lerp(transform.rotation, labelRotation, Time.time * MovingSpeed);
 		}
+
+		#endregion
+
 	}
 }

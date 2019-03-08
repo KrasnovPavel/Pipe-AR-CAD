@@ -10,9 +10,6 @@ namespace HoloCore.UI
     [ExecuteInEditMode]
     public class Button3D : MonoBehaviour, IInputHandler, IPointerSpecificFocusable
     {
-        /// <summary> <c>true</c>, если кнопка была выключена через <see cref="SetEnabled"/>. </summary>
-        private bool _forceDisable;
-        
         /// <summary> Объект, на который выводится текст. </summary>
         [CanBeNull] protected TextMesh Label;
 
@@ -67,7 +64,11 @@ namespace HoloCore.UI
         }
 
         /// <summary> Текущее состояние кнопки </summary>
-        public virtual ButtonState State { get; protected set; }
+        public virtual ButtonState State
+        {
+            get => _state;
+            protected set => _state = value;
+        }
 
         /// <summary> Отображаемый на кнопке текст. </summary>
         [CanBeNull] public string Text;
@@ -78,41 +79,6 @@ namespace HoloCore.UI
         /// <summary> Материал-заполнитель для отсутствующей иконки. </summary>
         [CanBeNull] public Material EmptyIcon;
 
-        /// <summary> Функция, инициализирующая объект в Unity. </summary>
-        /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
-        /// </remarks>
-        protected virtual void Start()
-        {
-            ButtonRenderer = GetComponent<MeshRenderer>();
-
-            try
-            {
-                Label = transform.Find("Label").GetComponent<TextMesh>();
-            }
-            catch (UnassignedReferenceException){}
-            catch (NullReferenceException){}
-
-            try
-            {
-                IconRenderer = transform.Find("Icon").GetComponent<MeshRenderer>();
-            }
-            catch (UnassignedReferenceException){}
-            catch (NullReferenceException){}
-
-            State = _forceDisable ? ButtonState.Disabled : ButtonState.Enabled;
-        }
-
-        /// <summary> Функция, выполняющаяся в Unity каждый кадр. </summary>
-        /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Update()</c>.
-        /// </remarks>
-        protected virtual void Update()
-        {
-            if (Label != null) Label.text = Text;
-            if (IconRenderer != null) IconRenderer.sharedMaterial = Icon == null ? EmptyIcon : Icon;
-        }
-
         /// <summary> Функция, включающая или выключающая кнопку. </summary>
         /// <param name="isEnabled"> Новое состояние кнопки. </param>
         public void SetEnabled(bool isEnabled)
@@ -120,6 +86,8 @@ namespace HoloCore.UI
             State = isEnabled ? ButtonState.Enabled : ButtonState.Disabled;
             _forceDisable = !isEnabled;
         }
+
+        #region HoloToolKit event functions
 
         /// <summary> Обработчик нажатия на кнопку </summary>
         /// <param name="eventData"></param>
@@ -213,6 +181,45 @@ namespace HoloCore.UI
             }
         }
 
+        #endregion
+
+        #region Unity event functions
+
+        /// <summary> Функция, инициализирующая объект в Unity. </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
+        /// </remarks>
+        protected virtual void Start()
+        {
+            ButtonRenderer = GetComponent<MeshRenderer>();
+
+            try
+            {
+                Label = transform.Find("Label").GetComponent<TextMesh>();
+            }
+            catch (UnassignedReferenceException){}
+            catch (NullReferenceException){}
+
+            try
+            {
+                IconRenderer = transform.Find("Icon").GetComponent<MeshRenderer>();
+            }
+            catch (UnassignedReferenceException){}
+            catch (NullReferenceException){}
+
+            State = _forceDisable ? ButtonState.Disabled : ButtonState.Enabled;
+        }
+
+        /// <summary> Функция, выполняющаяся в Unity каждый кадр. </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Update()</c>.
+        /// </remarks>
+        protected virtual void Update()
+        {
+            if (Label != null) Label.text = Text;
+            if (IconRenderer != null) IconRenderer.sharedMaterial = Icon == null ? EmptyIcon : Icon;
+        }
+        
         /// <summary> Функция, выполняющаяся при включении объекта в Unity. </summary>
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.OnEnable()</c>.
@@ -227,9 +234,18 @@ namespace HoloCore.UI
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.OnDisable()</c>.
         /// </remarks>
-        private void OnDisable()
+        protected virtual  void OnDisable()
         {
             State = ButtonState.Disabled;
         }
+
+        #endregion
+        
+        #region Private definitions
+
+        /// <summary> <c>true</c>, если кнопка была выключена через <see cref="SetEnabled"/>. </summary>
+        private bool _forceDisable;
+
+        #endregion
     }
 }

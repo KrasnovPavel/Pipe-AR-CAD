@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace HoloCore
 {
-    public static class VectorExtentions
+    public static class VectorExtensions
     {
         public static float ProjectOn(this Vector3 vector, Vector3 axis)
         {

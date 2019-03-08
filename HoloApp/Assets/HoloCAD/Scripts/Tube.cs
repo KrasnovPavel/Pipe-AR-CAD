@@ -11,62 +11,6 @@ namespace HoloCAD
     /// <summary> Класс трубы. </summary>
     public class Tube
     {
-        private readonly List<TubeFragment> _fragments = new List<TubeFragment>();
-
-        private string _standardName;
-        private TubeLoader.TubeData _data;
-        [CanBeNull] private TubesConnector _tubesConnectorField;
-
-        /// <summary> Объект соединения труб, соединяющий эту труб с другой. </summary>
-        [CanBeNull] private TubesConnector _tubesConnector
-        {
-            get { return _tubesConnectorField; }
-            set
-            {
-                _tubesConnectorField = value;
-                foreach (TubeFragment tubeFragment in _fragments)
-                {
-                    tubeFragment.CheckConnectButton();
-                }
-            }
-        }
-        
-        /// <summary> Связан ли с этой трубой объект соединения труб. </summary>
-        public bool HasTubesConnector => _tubesConnector != null;
-
-        /// <summary> Параметры трубы, взятые из стандарта. </summary>
-        public TubeLoader.TubeData Data
-        {
-            get { return _data; }
-            private set
-            {
-                if (_data != null && _data.Equals(value)) return;
-                
-                _data = value;
-
-                foreach (TubeFragment tubeFragment in _fragments)
-                {
-                    tubeFragment.Diameter = Data.diameter;
-                }
-            }
-        }
-
-        /// <summary> Наименование стандарта, по которому выполнена данная труба. </summary>
-        public string StandardName
-        {
-            get { return _standardName; }
-            set
-            {
-                if (_standardName == value || TubeLoader.GetAvailableTubes(value).Count == 0) return;
-                
-                _standardName = value;
-                Data = TubeLoader.GetAvailableTubes(_standardName)[0];
-            }
-        }
-
-        /// <summary> Участки из которых состоит эта труба. </summary>
-        public ReadOnlyCollection<TubeFragment> Fragments => _fragments.AsReadOnly();
-
         /// <summary> Конструктор по умолчанию. Создает трубу по превому найденному стандарту. </summary>
         /// <exception cref="Exception"> Выбрасывается, если ни одного стандарта не было найдено. </exception>
         public Tube()
@@ -115,12 +59,42 @@ namespace HoloCAD
             Data = data;
             CreateStartTubeFragment();
         }
+        
+        /// <summary> Связан ли с этой трубой объект соединения труб. </summary>
+        public bool HasTubesConnector => _tubesConnector != null;
 
-        /// <summary> Создает объект начального фланца для этой трубы. </summary>
-        private void CreateStartTubeFragment()
+        /// <summary> Параметры трубы, взятые из стандарта. </summary>
+        public TubeLoader.TubeData Data
         {
-            _fragments.Add(TubeUnityManager.CreateStartTubeFragment(this));
+            get => _data;
+            private set
+            {
+                if (_data != null && _data.Equals(value)) return;
+                
+                _data = value;
+
+                foreach (TubeFragment tubeFragment in _fragments)
+                {
+                    tubeFragment.Diameter = Data.diameter;
+                }
+            }
         }
+
+        /// <summary> Наименование стандарта, по которому выполнена данная труба. </summary>
+        public string StandardName
+        {
+            get => _standardName;
+            set
+            {
+                if (_standardName == value || TubeLoader.GetAvailableTubes(value).Count == 0) return;
+                
+                _standardName = value;
+                Data = TubeLoader.GetAvailableTubes(_standardName)[0];
+            }
+        }
+
+        /// <summary> Участки из которых состоит эта труба. </summary>
+        public ReadOnlyCollection<TubeFragment> Fragments => _fragments.AsReadOnly();
         
         /// <summary> Создает для этой трубы прямой участок. </summary>
         /// <param name="pivot"> Местоположение нового фрагмента. </param>
@@ -216,9 +190,38 @@ namespace HoloCAD
             {
                 _tubesConnector = TubeUnityManager.ActiveTubesConnector;
                 _tubesConnector.SecondTube = this;
-//                _tubesConnector.CheckError();
                 TubeUnityManager.RemoveActiveTubesConnector();
             }
         }
+
+        #region Private definitions
+
+        private readonly List<TubeFragment> _fragments = new List<TubeFragment>();
+
+        private string _standardName;
+        private TubeLoader.TubeData _data;
+        [CanBeNull] private TubesConnector _tubesConnectorField;
+
+        /// <summary> Объект соединения труб, соединяющий эту труб с другой. </summary>
+        [CanBeNull] private TubesConnector _tubesConnector
+        {
+            get => _tubesConnectorField;
+            set
+            {
+                _tubesConnectorField = value;
+                foreach (TubeFragment tubeFragment in _fragments)
+                {
+                    tubeFragment.CheckConnectButton();
+                }
+            }
+        }
+        
+        /// <summary> Создает объект начального фланца для этой трубы. </summary>
+        private void CreateStartTubeFragment()
+        {
+            _fragments.Add(TubeUnityManager.CreateStartTubeFragment(this));
+        }
+
+        #endregion
     }
 }

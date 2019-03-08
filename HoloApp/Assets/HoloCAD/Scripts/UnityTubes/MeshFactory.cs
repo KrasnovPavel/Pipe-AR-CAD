@@ -6,15 +6,6 @@ namespace HoloCAD.UnityTubes
 {
     /// <summary> Класс, создающий меши погиба для всех возможных углов погиба. </summary>
     public static class MeshFactory {
-        /// <summary> Шаг изменения угла погиба. </summary>
-        public const int DeltaAngle = 5;
-        
-        /// <summary> Количество полигонов. </summary>
-        private const int SegmentsCount = 20;
-
-        /// <summary> Список уже сгенерированных мешей для каждой трубы. </summary>
-        private static readonly Dictionary<TubeLoader.TubeData, List<Mesh>> GeneratedMeshes = 
-                                                                    new Dictionary<TubeLoader.TubeData, List<Mesh>>();
         
         /// <summary> Создает меши для погиба трубы. </summary>
         /// <param name="tubeData"> Параметры погиба. </param>
@@ -48,6 +39,18 @@ namespace HoloCAD.UnityTubes
             GeneratedMeshes[tubeData] = meshes;
             return meshes;
         }
+
+        #region Private definitions
+        
+        /// <summary> Шаг изменения угла погиба. </summary>
+        public const int DeltaAngle = 5;
+        
+        /// <summary> Количество полигонов. </summary>
+        private const int SegmentsCount = 20;
+
+        /// <summary> Список уже сгенерированных мешей для каждой трубы. </summary>
+        private static readonly Dictionary<TubeLoader.TubeData, List<Mesh>> GeneratedMeshes = 
+            new Dictionary<TubeLoader.TubeData, List<Mesh>>();
     
         /// <summary> Расчитывает все точки меша погиба. </summary>
         /// <param name="tubeDiameter"> Диаметр трубы. </param>
@@ -177,5 +180,7 @@ namespace HoloCAD.UnityTubes
                 array.Add(point3);
             }
         }
+        
+        #endregion
     }
 }

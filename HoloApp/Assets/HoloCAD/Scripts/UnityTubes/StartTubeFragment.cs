@@ -13,12 +13,6 @@ namespace HoloCAD.UnityTubes
     /// <summary> Класс, реализующий фрагмент фланца трубы. </summary>
     public class StartTubeFragment : TubeFragment
     {
-        private const float Length = 0.03f;
-        private Camera _camera;
-#if ENABLE_WINMD_SUPPORT
-        private GestureRecognizer _recognizer;
-#endif
-
         /// <summary> Кнопка увеличения диаметра трубы. </summary>
         [Tooltip("Кнопка увеличения диаметра трубы.")]
         [CanBeNull] public Button3D IncreaseDiameterButton;
@@ -38,7 +32,7 @@ namespace HoloCAD.UnityTubes
         /// <inheritdoc />
         public override float Diameter
         {
-            get { return _diameter; }
+            get => _diameter;
             set
             {
                 if (Math.Abs(_diameter - value) < float.Epsilon) return;
@@ -48,7 +42,38 @@ namespace HoloCAD.UnityTubes
                 ControlPanel.Diameter = Diameter;
             }
         }
+
+        /// <summary> Устанавливает следующий из доступных диаметров труб. </summary>
+        public void IncreaseDiameter()
+        {
+            Owner.SelectBiggerDiameter();
+        }
+        /// <summary> Устанавливает предыдущий из доступных диаметров труб. </summary>
+        public void DecreaseDiameter()
+        {
+            Owner.SelectSmallerDiameter();
+        }
+
+        /// <summary> Переход в режим размещения трубы. </summary>
+        public void StartPlacing()
+        {
+            Owner.StartPlacing();
+#if ENABLE_WINMD_SUPPORT
+            _recognizer.StartCapturingGestures();
+#endif
+        }
         
+        /// <inheritdoc />
+        protected override void InitButtons()
+        {
+            base.InitButtons();
+            if (IncreaseDiameterButton != null) IncreaseDiameterButton.OnClick += delegate { IncreaseDiameter(); };
+            if (DecreaseDiameterButton != null) DecreaseDiameterButton.OnClick += delegate { DecreaseDiameter(); };
+            if (StartPlacingButton != null)     StartPlacingButton.OnClick     += delegate { StartPlacing(); };
+        }
+
+        #region Unity event functions
+
         /// <inheritdoc />
         protected override void Start()
         {
@@ -86,15 +111,16 @@ namespace HoloCAD.UnityTubes
             }
         }
 
-        /// <inheritdoc />
-        protected override void InitButtons()
-        {
-            base.InitButtons();
-            if (IncreaseDiameterButton != null) IncreaseDiameterButton.OnClick += delegate { IncreaseDiameter(); };
-            if (DecreaseDiameterButton != null) DecreaseDiameterButton.OnClick += delegate { DecreaseDiameter(); };
-            if (StartPlacingButton != null)     StartPlacingButton.OnClick     += delegate { StartPlacing(); };
-        }
+        #endregion
 
+        #region Private definitions
+
+        private const float Length = 0.03f;
+        private Camera _camera;
+#if ENABLE_WINMD_SUPPORT
+        private GestureRecognizer _recognizer;
+#endif
+        
         /// <summary> Перемещает фланец в точку на которую смотрит пользователь. </summary>
         private void Place()
         {
@@ -108,24 +134,6 @@ namespace HoloCAD.UnityTubes
             transform.rotation = Quaternion.LookRotation(hitInfo.normal);
         }
 
-        /// <summary> Устанавливает следующий из доступных диаметров труб. </summary>
-        public void IncreaseDiameter()
-        {
-            Owner.SelectBiggerDiameter();
-        }
-        /// <summary> Устанавливает предыдущий из доступных диаметров труб. </summary>
-        public void DecreaseDiameter()
-        {
-            Owner.SelectSmallerDiameter();
-        }
-
-        /// <summary> Переход в режим размещения трубы. </summary>
-        public void StartPlacing()
-        {
-            Owner.StartPlacing();
-#if ENABLE_WINMD_SUPPORT
-            _recognizer.StartCapturingGestures();
-#endif
-        }
+        #endregion
     }
 }

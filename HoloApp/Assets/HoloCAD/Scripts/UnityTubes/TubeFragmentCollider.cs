@@ -2,10 +2,15 @@
 
 namespace HoloCAD.UnityTubes
 {
+	/// <summary>
+	/// Класс коллайдера для участка трубы.
+	/// Проверяет есть ли пересечения с другими трубами и сообщяет о них хозяину.
+	/// </summary>
 	public class TubeFragmentCollider : MonoBehaviour
 	{
-		private int numberOfCollisions;
 		public TubeFragment Owner;
+
+		#region Unity event functions
 
 		private void OnTriggerEnter(Collider other)
 		{
@@ -25,5 +30,13 @@ namespace HoloCAD.UnityTubes
 				Owner.OnTubeCollisionExit();
 			}
 		}
+
+		#endregion
+
+		#region Private definitions
+
+		private int numberOfCollisions;
+
+		#endregion
 	}
 }

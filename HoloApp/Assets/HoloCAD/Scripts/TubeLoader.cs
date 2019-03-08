@@ -11,14 +11,6 @@ namespace HoloCAD
     [Serializable]
     public static class TubeLoader
     {
-        [Serializable]
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private struct TubeStandard
-        {
-            public string name;
-            public List<TubeData> available_tubes;
-        }
-
         /// <summary> Класс, хранящий данные трубы. </summary>
         [Serializable]
         [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -72,18 +64,6 @@ namespace HoloCAD
 
             /// <summary> Второй из двух допустимых радиусов погиба. </summary>
             public float second_radius;
-        }
-
-        private static readonly List<TubeStandard> TubeStandards = new List<TubeStandard>();
-
-        /// <summary> Статический конструктор. Читает данные стандартов из файлов. </summary>
-        static TubeLoader()
-        {
-            // TODO: Чтение из всех файлов в директории ./StreamingAssets/TubesConfig
-            byte[] data = UnityEngine.Windows.File.ReadAllBytes(Path.Combine(Application.streamingAssetsPath,
-                                                                "./TubesConfig/OST.json"));
-            string jsonTextFile = System.Text.Encoding.UTF8.GetString(data);
-            TubeStandards.Add(JsonUtility.FromJson<TubeStandard>(jsonTextFile));
         }
 
         /// <summary> Функция поиска данных о трубе по диаметру и наименованию стандарта. </summary>
@@ -201,5 +181,29 @@ namespace HoloCAD
 
             return tube;
         }
+
+        #region Priavate definitions
+        
+        [Serializable]
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        private struct TubeStandard
+        {
+            public string name;
+            public List<TubeData> available_tubes;
+        }
+
+        private static readonly List<TubeStandard> TubeStandards = new List<TubeStandard>();
+
+        /// <summary> Статический конструктор. Читает данные стандартов из файлов. </summary>
+        static TubeLoader()
+        {
+            // TODO: Чтение из всех файлов в директории ./StreamingAssets/TubesConfig
+            byte[] data = UnityEngine.Windows.File.ReadAllBytes(Path.Combine(Application.streamingAssetsPath,
+                "./TubesConfig/OST.json"));
+            string jsonTextFile = System.Text.Encoding.UTF8.GetString(data);
+            TubeStandards.Add(JsonUtility.FromJson<TubeStandard>(jsonTextFile));
+        }
+
+        #endregion
     }
 }

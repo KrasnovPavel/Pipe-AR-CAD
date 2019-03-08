@@ -8,6 +8,17 @@ namespace HoloCAD.UI
 		/// <summary> Диаметр трубы. </summary>
 		public virtual float Diameter { get; set; }
 
+		/// <summary> Расчет местоположения панели кнопок. </summary>
+		protected abstract void CalculateBarPosition();
+
+		/// <summary> Расчет линии размеров. </summary>
+		protected abstract void CalculateLine();
+
+		/// <summary> Отображение текста. </summary>
+		protected abstract void SetText();
+
+		#region Unity event functions
+
 		/// <summary> Функция, инициализирующая объект в Unity. </summary>
 		/// <remarks>
 		/// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
@@ -27,13 +38,6 @@ namespace HoloCAD.UI
 			CalculateLine();
 		}
 
-		/// <summary> Расчет местоположения панели кнопок. </summary>
-		protected abstract void CalculateBarPosition();
-
-		/// <summary> Расчет линии размеров. </summary>
-		protected abstract void CalculateLine();
-
-		/// <summary> Отображение текста. </summary>
-		protected abstract void SetText();
+		#endregion
 	}
 }

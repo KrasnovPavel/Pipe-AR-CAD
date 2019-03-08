@@ -10,7 +10,7 @@ namespace HoloCore.UI
 		/// <inheritdoc />
 		public override ButtonState State
 		{
-			get { return _state; }
+			get => _state;
 			protected set
 			{
 				_state = value;

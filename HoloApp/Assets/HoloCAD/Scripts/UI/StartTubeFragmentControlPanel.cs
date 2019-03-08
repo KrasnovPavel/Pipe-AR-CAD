@@ -7,9 +7,6 @@ namespace HoloCAD.UI
 	/// <summary> Класс, отображающий кнопки и информацию о фланце. </summary>
 	[RequireComponent(typeof(LineRenderer))]
 	public class StartTubeFragmentControlPanel : TubeFragmentControlPanel {
-		private Camera _camera;
-		private LineRenderer _lineRenderer;
-
 		/// <summary> Панель с кнопками и информацией о трубе. </summary>
 		[Tooltip("Панель с кнопками и информацией о трубе.")]
 		public GameObject ButtonBar;
@@ -17,13 +14,6 @@ namespace HoloCAD.UI
 		/// <summary> Объект, отображающий текстовые данные о участке трубе. </summary>
 		[Tooltip("Объект, отображающий текстовые данные о участке трубе.")]
 		public TextMesh TextLabel;
-
-		/// <inheritdoc />
-		protected override void Start()
-		{
-			_camera = Camera.main;
-			_lineRenderer = GetComponent<LineRenderer>();
-		}
 
 		/// <inheritdoc />
 		protected override void CalculateBarPosition()
@@ -65,5 +55,33 @@ namespace HoloCAD.UI
 		{
 			TextLabel.text = $"Ø:{Diameter:0.000}м";
 		}
+
+		#region Unity event functions
+
+		/// <inheritdoc />
+		protected override void Start()
+		{
+			_camera = Camera.main;
+			_lineRenderer = GetComponent<LineRenderer>();
+		}
+
+		private void OnDisable()
+		{
+			if (_lineRenderer != null) _lineRenderer.enabled = false;
+		}
+
+		private void OnEnable()
+		{
+			if (_lineRenderer != null) _lineRenderer.enabled = true;
+		}
+
+		#endregion
+
+		#region Private definitions
+
+		private Camera _camera;
+		private LineRenderer _lineRenderer;
+
+		#endregion
 	}
 }

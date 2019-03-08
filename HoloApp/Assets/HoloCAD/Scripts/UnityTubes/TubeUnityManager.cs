@@ -9,12 +9,8 @@ namespace HoloCAD.UnityTubes
     /// <inheritdoc />
     /// <summary> Класс, создающий объект участка трубы в Unity. </summary>
     [RequireComponent(typeof(SpatialMappingCollider), typeof(SpatialMappingRenderer))]
-    public class TubeUnityManager : Singleton<TubeUnityManager> {
-        private SpatialMappingCollider _mapCollider;
-        private SpatialMappingRenderer _mapRenderer;
-        private TubesConnector _activeTubesConnector;
-        private static readonly List<TubeFragment> AllFragments = new List<TubeFragment>();
-
+    public class TubeUnityManager : Singleton<TubeUnityManager> 
+    {
         /// <summary> Prefab прямого участка трубы. </summary>
         [Tooltip("Prefab участка прямой трубы.")]
         public GameObject DirectTubeFragmentPrefab;
@@ -41,8 +37,8 @@ namespace HoloCAD.UnityTubes
         /// <summary> Объект соединения, который в данный момент редактируется. </summary>
         public static TubesConnector ActiveTubesConnector
         {
-            get { return Instance._activeTubesConnector; }
-            private set { Instance._activeTubesConnector = value; }
+            get => Instance._activeTubesConnector;
+            private set => Instance._activeTubesConnector = value;
         }
         
         /// <summary> Создает на сцене объект начального фланца трубы. </summary>
@@ -110,6 +106,9 @@ namespace HoloCAD.UnityTubes
             Instance._mapRenderer.enabled = show;
         }
 
+        
+        #region Unity event functions
+        
         /// <summary> Функция, инициализирующая объект в Unity. </summary>
         protected void Start()
         {
@@ -118,6 +117,15 @@ namespace HoloCAD.UnityTubes
             TubeManager.CreateTube();
         }
 
+        #endregion
+
+        #region Private definitions
+
+        private SpatialMappingCollider _mapCollider;
+        private SpatialMappingRenderer _mapRenderer;
+        private TubesConnector _activeTubesConnector;
+        private static readonly List<TubeFragment> AllFragments = new List<TubeFragment>();
+        
         /// <summary> Включает или выключает кнопку "Соединить" на трубах. </summary>
         private static void CheckConnectButtons()
         {
@@ -133,5 +141,7 @@ namespace HoloCAD.UnityTubes
                 }
             }
         }
+
+        #endregion
     }
 }

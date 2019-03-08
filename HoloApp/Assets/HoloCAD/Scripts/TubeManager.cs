@@ -7,8 +7,6 @@ namespace HoloCAD
     /// <summary> Класс, контролирующий создание и управление трубами. </summary>
     public static class TubeManager
     {
-        private static readonly List<Tube> AllTubes = new List<Tube>();
-
         /// <summary> Труба, выбранная в данный момент. </summary>
         [CanBeNull]
         public static TubeFragment SelectedTubeFragment { get; private set; }
@@ -60,5 +58,11 @@ namespace HoloCAD
         {
             AllTubes.Remove(tube);
         }
+
+        #region Private definitions
+
+        private static readonly List<Tube> AllTubes = new List<Tube>();
+
+        #endregion
     }
 }

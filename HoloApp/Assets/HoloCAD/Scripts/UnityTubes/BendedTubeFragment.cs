@@ -12,15 +12,6 @@ namespace HoloCAD.UnityTubes
     /// <summary> Класс, реализующий участок погиба трубы. </summary>
     public class BendedTubeFragment : TubeFragment
     {
-        private List<Mesh> _meshes;
-        private float _radius;
-        private readonly List<GameObject> _colliders = new List<GameObject>();
-    
-        private bool _useSecondRadius;
-        private int _angle = MeshFactory.DeltaAngle;
-        private static readonly int ShaderDiameter = Shader.PropertyToID("_Diameter");
-        private static readonly int ShaderBendRadius = Shader.PropertyToID("_BendRadius");
-
         /// <summary> Prefab коллайдера сегмента погиба. </summary>
         [Tooltip("Prefab коллайдера сегмента погиба.")] 
         [CanBeNull] public GameObject ColliderPrefab;
@@ -48,7 +39,7 @@ namespace HoloCAD.UnityTubes
         /// <summary> Угол погиба. </summary>
         public int Angle
         {
-            get { return _angle; }
+            get => _angle;
             set
             {
                 if (value < MeshFactory.DeltaAngle || value > 180)
@@ -67,7 +58,7 @@ namespace HoloCAD.UnityTubes
         /// <summary> Флаг, указывающий какой из двух радиусов погиба используется. <c>true</c> если второй.  </summary>
         public bool UseSecondRadius
         {
-            get { return _useSecondRadius; }
+            get => _useSecondRadius;
             set
             {
                 _useSecondRadius = value;
@@ -79,7 +70,7 @@ namespace HoloCAD.UnityTubes
         /// <summary> Используемый радиус погиба. </summary>
         public float Radius
         {
-            get { return _radius; }
+            get => _radius;
             protected set
             {
                 _radius = value;
@@ -91,7 +82,7 @@ namespace HoloCAD.UnityTubes
         /// <inheritdoc />
         public override float Diameter
         {
-            get { return _diameter; }
+            get => _diameter;
             set
             {
                 if (Math.Abs(_diameter - value) < float.Epsilon) return;
@@ -103,28 +94,6 @@ namespace HoloCAD.UnityTubes
                 ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
                 SetMesh();
             }
-        }
-
-        /// <inheritdoc />
-        protected override void Start()
-        {
-            base.Start();
-            _meshes = MeshFactory.CreateMeshes(Owner.Data);
-            SetColliders(MeshFactory.DeltaAngle, 0);
-            UseSecondRadius = false;
-            Angle = 90;
-            TubeManager.SelectTubeFragment(this);
-        }
-
-        /// <inheritdoc />
-        protected override void InitButtons()
-        {
-            base.InitButtons();
-            if (IncreaseAngleButton != null)     IncreaseAngleButton.OnClick     = delegate { IncreaseAngle(); };
-            if (DecreaseAngleButton != null)     DecreaseAngleButton.OnClick     = delegate { DecreaseAngle(); };
-            if (TurnClockwiseButton != null)     TurnClockwiseButton.OnClick     = delegate { TurnClockwise(); };
-            if (TurnAnticlockwiseButton != null) TurnAnticlockwiseButton.OnClick = delegate { TurnAnticlockwise(); };
-            if (ChangeRadiusButton != null)      ChangeRadiusButton.OnClick      = delegate { ChangeRadius(); };
         }
 
         /// <summary> Увеличивает угол погиба. </summary>
@@ -156,6 +125,43 @@ namespace HoloCAD.UnityTubes
         {
             UseSecondRadius = !UseSecondRadius;
         }
+
+        /// <inheritdoc />
+        protected override void InitButtons()
+        {
+            base.InitButtons();
+            if (IncreaseAngleButton != null)     IncreaseAngleButton.OnClick     = delegate { IncreaseAngle(); };
+            if (DecreaseAngleButton != null)     DecreaseAngleButton.OnClick     = delegate { DecreaseAngle(); };
+            if (TurnClockwiseButton != null)     TurnClockwiseButton.OnClick     = delegate { TurnClockwise(); };
+            if (TurnAnticlockwiseButton != null) TurnAnticlockwiseButton.OnClick = delegate { TurnAnticlockwise(); };
+            if (ChangeRadiusButton != null)      ChangeRadiusButton.OnClick      = delegate { ChangeRadius(); };
+        }
+
+        #region Unity event functions
+
+        /// <inheritdoc />
+        protected override void Start()
+        {
+            base.Start();
+            _meshes = MeshFactory.CreateMeshes(Owner.Data);
+            SetColliders(MeshFactory.DeltaAngle, 0);
+            UseSecondRadius = false;
+            Angle = 90;
+            TubeManager.SelectTubeFragment(this);
+        }
+
+        #endregion
+        
+        #region Private defintions
+        
+        private List<Mesh> _meshes;
+        private float _radius;
+        private readonly List<GameObject> _colliders = new List<GameObject>();
+    
+        private bool _useSecondRadius;
+        private int _angle = MeshFactory.DeltaAngle;
+        private static readonly int ShaderDiameter = Shader.PropertyToID("_Diameter");
+        private static readonly int ShaderBendRadius = Shader.PropertyToID("_BendRadius");
     
         /// <summary> Отображает соответствующий меш. </summary>
         private void SetMesh()
@@ -175,7 +181,7 @@ namespace HoloCAD.UnityTubes
                 float shiftAngle = (2 * i + 1) / 2f * MeshFactory.DeltaAngle;
                 Vector3 shiftVector = Vector3.zero;
                 shiftVector = shiftVector.RotateAround(new Vector3(-Radius, 0f, 0f), 
-                                                       Quaternion.Euler(0, -shiftAngle, 0));
+                    Quaternion.Euler(0, -shiftAngle, 0));
                 _colliders[i].GetComponent<MeshCollider>().transform.localPosition = shiftVector;
             }
         }
@@ -204,13 +210,13 @@ namespace HoloCAD.UnityTubes
                     newCollider.GetComponent<TubeFragmentCollider>().Owner = this;
                     MeshCollider meshCollider = newCollider.GetComponent<MeshCollider>();
                     meshCollider.convex = true;
-                    meshCollider.inflateMesh = true;
-                    meshCollider.skinWidth = 0.0000001f;
                     meshCollider.isTrigger = true;
                     newCollider.transform.Rotate(new Vector3(0f, -(i-1) * MeshFactory.DeltaAngle, 0f));
                     _colliders.Add(newCollider);
                 }
             }
         }
+
+        #endregion
     }
 }
