@@ -1,6 +1,4 @@
 using System;
-using System.Data.SqlTypes;
-using System.IO;
 using HoloCAD.UI;
 using HoloCore.UI;
 using JetBrains.Annotations;
@@ -204,8 +202,7 @@ namespace HoloCAD.UnityTubes
             {
                 SaveSceneButton.OnClick += delegate
                 {
-                    SchemeExporter.Export(TubeManager.AllTubes, 
-                                          Path.Combine(Application.streamingAssetsPath, "./export.json"));
+                    SchemeExporter.Export(TubeManager.AllTubes);
                 };
             }
         }

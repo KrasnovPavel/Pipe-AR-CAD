@@ -81,10 +81,7 @@ namespace HoloCAD.UnityTubes
             base.Start();
             EndPoint.transform.localPosition = new Vector3(0, 0, Length);
             TubeManager.SelectTubeFragment(this);
-        }
-
-        private void Awake()
-        {
+            
 #if ENABLE_WINMD_SUPPORT
             Owner.StartPlacing();
             _recognizer = new GestureRecognizer();
@@ -99,6 +96,7 @@ namespace HoloCAD.UnityTubes
             _recognizer.StartCapturingGestures();
 #endif
         }
+
 
         /// <inheritdoc />
         protected override void Update()

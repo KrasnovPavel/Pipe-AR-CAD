@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Windows;
-using System.Text;
 using HoloCAD.UnityTubes;
-using UnityEngine.Assertions.Must;
-using Vector2 = GLTF.Math.Vector2;
+#if ENABLE_WINMD_SUPPORT
+    using Windows.Storage;
+    using Windows.Storage.Pickers;
+#endif
 
 namespace HoloCAD
 {
@@ -15,9 +16,12 @@ namespace HoloCAD
         /// <summary> Экспорт схемы. </summary>
         /// <param name="tubes"> Массив всех труб на сцене. </param>
         /// <param name="fileName"> Имя файла в который надо сохранить схему. </param>
-        public static void Export(IEnumerable<Tube> tubes, string fileName)
+        public static void Export(IEnumerable<Tube> tubes)
         {
-            File.WriteAllBytes(fileName, Encoding.UTF8.GetBytes(SerializeScheme(tubes)));
+            string data = SerializeScheme(tubes);
+#if ENABLE_WINMD_SUPPORT
+        UnityEngine.WSA.Application.InvokeOnUIThread(() => WriteFileInHololens(data), true);
+#endif
         }
 
         #region Private definitioins
@@ -136,6 +140,19 @@ namespace HoloCAD
             
             return result;
         }
+        
+        private static async void WriteFileInHololens(string data)
+        {
+#if ENABLE_WINMD_SUPPORT
+            FileSavePicker savePicker = new FileSavePicker();
+            savePicker.DefaultFileExtension = ".json";
+            savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+            savePicker.FileTypeChoices.Add("HoloCAD json", new List<string>() { ".json" });
+            StorageFile file = await savePicker.PickSaveFileAsync();
+
+            await FileIO.WriteTextAsync(file, data);
+#endif
+        }    
         
         #endregion
     }
