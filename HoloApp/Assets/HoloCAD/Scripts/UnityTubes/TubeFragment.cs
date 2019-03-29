@@ -1,4 +1,6 @@
 using System;
+using System.Data.SqlTypes;
+using System.IO;
 using HoloCAD.UI;
 using HoloCore.UI;
 using JetBrains.Annotations;
@@ -27,7 +29,8 @@ namespace HoloCAD.UnityTubes
         [Tooltip("Надпись с информацией о участке трубы.")]
         [Obsolete("Теперь вместо прямого доступа к надписи используется TubeFragmentControlPanel")]
         public GameObject Label;
-
+        
+        // TODO: Перенести работу с кнопками в ControlPanel.
         /// <summary> Кнопка добавления погиба. </summary>
         [Tooltip("Кнопка добавления погиба.")]
         [CanBeNull] public Button3D AddBendFragmentButton;
@@ -47,6 +50,11 @@ namespace HoloCAD.UnityTubes
         /// <summary> Кнопка добавления объекта отображения расстояния между трубами. </summary>
         [Tooltip("Кнопка добавления объекта отображения расстояния между трубами.")]
         [CanBeNull] public Button3D ConnectTubesButton;
+        
+        //TODO: Сделать по другому. Вешать на каждый фрагмент кнопку сохранения всей сцены - ущербно.
+        /// <summary> Кнопка сохранения сцены. </summary>
+        [Tooltip("Кнопка добавления объекта отображения расстояния между трубами.")]
+        [CanBeNull] public Button3D SaveSceneButton;
 
         /// <summary> Флаг, находится ли участок трубы в режиме перемещения. </summary>
         public bool IsPlacing
@@ -191,6 +199,14 @@ namespace HoloCAD.UnityTubes
             {
                 ConnectTubesButton.SetEnabled(!Owner.HasTubesConnector);
                 ConnectTubesButton.OnClick += delegate { ConnectTubes(); };
+            }
+            if (SaveSceneButton != null)
+            {
+                SaveSceneButton.OnClick += delegate
+                {
+                    SchemeExporter.Export(TubeManager.AllTubes, 
+                                          Path.Combine(Application.streamingAssetsPath, "./export.json"));
+                };
             }
         }
         

@@ -1,0 +1,20 @@
+﻿<Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApplication1"
+        mc:Ignorable="d"
+        Title="Экспорт из HoloCAD" Height="200" Width="525">
+    <Grid>
+        <TextBlock x:Name="jsonInstructionBlock" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="177"><Run Text="Укажите файл для конвертации"/></TextBlock>
+        <Button x:Name="jsonSelectFileButton" Content="..." Margin="0,31,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="24" Height="23" Click="SelectJsonFile"/>
+        <TextBox x:Name="jsonFileNameBox" Height="23" Margin="10,31,39,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="FileOrDirectoryChanged"/>
+        <TextBlock x:Name="directoryInstructionBlock" Margin="10,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Укажите директорию для сохранения"/></TextBlock>
+        <Button x:Name="directorySelectButton" Content="..." Margin="0,80,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="24" Height="23" RenderTransformOrigin="0.667,-0.435" Click="SelectOutputDirectory"/>
+        <TextBox x:Name="directoryPathBox" Height="23" Margin="10,80,39,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="FileOrDirectoryChanged"/>
+        <Button x:Name="convertButton" Content="Конвертировать" Margin="10,108,10,0" VerticalAlignment="Top" Click="ConvertButtonPressed"/>
+        <TextBlock x:Name="statusBlock" HorizontalAlignment="Left" Margin="10,0,0,3" TextWrapping="Wrap" RenderTransformOrigin="0.807,-2.353" Height="17" VerticalAlignment="Bottom" Text="Завершено"/>
+        <ProgressBar x:Name="statusBar" Margin="110,0,0,0" Height="22" VerticalAlignment="Bottom"/>
+    </Grid>
+</Window>

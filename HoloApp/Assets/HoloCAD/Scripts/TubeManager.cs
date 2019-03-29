@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using JetBrains.Annotations;
 using HoloCAD.UnityTubes;
 
@@ -8,13 +9,15 @@ namespace HoloCAD
     public static class TubeManager
     {
         /// <summary> Труба, выбранная в данный момент. </summary>
-        [CanBeNull]
-        public static TubeFragment SelectedTubeFragment { get; private set; }
+        [CanBeNull] public static TubeFragment SelectedTubeFragment { get; private set; }
+
+        /// <summary> Массив всех труб находящихся на сцене. </summary>
+        [NotNull] public static ReadOnlyCollection<Tube> AllTubes => _allTubes.AsReadOnly();
 
         /// <summary> Создает новую трубу. </summary>
         public static void CreateTube()
         {
-            AllTubes.Add(new Tube());
+            _allTubes.Add(new Tube());
         }
 
         /// <summary> Переключает состояние выбора участка трубы <paramref name="selectedTubeFragment"/>. </summary>
@@ -56,12 +59,13 @@ namespace HoloCAD
         /// <param name="tube"> Удаляемая труба. </param>
         public static void RemoveTube(Tube tube)
         {
-            AllTubes.Remove(tube);
+            _allTubes.Remove(tube);
         }
 
         #region Private definitions
 
-        private static readonly List<Tube> AllTubes = new List<Tube>();
+        // ReSharper disable once InconsistentNaming
+        private static readonly List<Tube> _allTubes = new List<Tube>();
 
         #endregion
     }

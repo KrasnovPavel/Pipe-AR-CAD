@@ -34,6 +34,22 @@ HoloApp/*.booproj
 HoloApp/*.consulo
 HoloApp/*.tmp
 HoloApp/*.svd
+
+HoloCADExporter/[Ee]xported[Oo]bj/
+HoloCADExporter/.vs/
+HoloCADExporter/.idea/
+HoloCADExporter/*.userprefs
+HoloCADExporter/*.csproj
+HoloCADExporter/*.pidb
+HoloCADExporter/*.pidb.meta
+HoloCADExporter/*.suo
+HoloCADExporter/*.sln*
+HoloCADExporter/*.user
+HoloCADExporter/*.unityproj
+HoloCADExporter/*.booproj
+HoloCADExporter/*.consulo
+HoloCADExporter/*.tmp
+HoloCADExporter/*.svd
  
 # ============ #
 # OS generated #
@@ -48,10 +64,13 @@ HoloApp/[Dd]esktop.ini
 HoloApp/Corridor/Library/ShaderCache/
 HoloApp/Corridor/Library/metadata/ 
 
-# ============ #
-# Android Studio generated #
-# ============ #
-MobileController/.idea/
-MobileController/.gitignore
-MobileController/app/src/test
-MobileController/app/src/androidTest
+HoloCADExporter/.DS_Store*
+HoloCADExporter/._*
+HoloCADExporter/.Spotlight-V100
+HoloCADExporter/.Trashes
+HoloCADExporter/ehthumbs.db
+HoloCADExporter/[Tt]humbs.db
+HoloCADExporter/[Dd]esktop.ini
+HoloCADExporter/Corridor/Library/ShaderCache/
+HoloCADExporter/Corridor/Library/metadata/ 
+
