@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using UnityEngine;
 using HoloCAD.UnityTubes;
@@ -15,12 +16,11 @@ namespace HoloCAD
     {
         /// <summary> Экспорт схемы. </summary>
         /// <param name="tubes"> Массив всех труб на сцене. </param>
-        /// <param name="fileName"> Имя файла в который надо сохранить схему. </param>
         public static void Export(IEnumerable<Tube> tubes)
         {
-            string data = SerializeScheme(tubes);
 #if ENABLE_WINMD_SUPPORT
-        UnityEngine.WSA.Application.InvokeOnUIThread(() => WriteFileInHololens(data), true);
+            string data = SerializeScheme(tubes);
+            UnityEngine.WSA.Application.InvokeOnUIThread(() => WriteFileInHololens(data), true);
 #endif
         }
 
@@ -52,6 +52,7 @@ namespace HoloCAD
 
         /// <summary> Экспортируемый объект фрагмента трубы. </summary>
         [Serializable]
+        [SuppressMessage("ReSharper", "NotAccessedField.Local")]
         private class ExpFragment
         {
             public double[] transform;
@@ -69,6 +70,7 @@ namespace HoloCAD
             public int bendAngle;
         }
 
+        // ReSharper disable once UnusedMember.Local
         private static string SerializeScheme(IEnumerable<Tube> tubes)
         {
             ExpTubesArray array = new ExpTubesArray();
@@ -141,6 +143,7 @@ namespace HoloCAD
             return result;
         }
         
+        // ReSharper disable once UnusedMember.Local
         private static async void WriteFileInHololens(string data)
         {
 #if ENABLE_WINMD_SUPPORT

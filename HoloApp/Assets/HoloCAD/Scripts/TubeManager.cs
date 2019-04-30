@@ -15,9 +15,9 @@ namespace HoloCAD
         [NotNull] public static ReadOnlyCollection<Tube> AllTubes => _allTubes.AsReadOnly();
 
         /// <summary> Создает новую трубу. </summary>
-        public static void CreateTube()
+        public static void CreateTube(Tube basedOn = null)
         {
-            _allTubes.Add(new Tube());
+            _allTubes.Add(basedOn == null ? new Tube() : new Tube(basedOn.StandardName, basedOn.Data));
         }
 
         /// <summary> Переключает состояние выбора участка трубы <paramref name="selectedTubeFragment"/>. </summary>

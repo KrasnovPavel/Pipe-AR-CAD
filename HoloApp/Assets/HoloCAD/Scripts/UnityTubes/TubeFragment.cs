@@ -151,7 +151,7 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         public virtual void CreateTube()
         {
-            TubeManager.CreateTube();
+            TubeManager.CreateTube(Owner);
         }
 
         /// <summary> Удаление этого участка трубы. </summary>
