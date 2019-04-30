@@ -20,6 +20,7 @@ namespace HoloCAD.UnityTubes
         /// <summary> Объект, указывающий конечную точку участка трубы. </summary>
         public GameObject EndPoint { get; protected set; }
 
+        // TODO: Перенести в ControlPanel
         /// <summary> Панель с кнопками. </summary>
         protected GameObject ButtonBar;
 
@@ -55,13 +56,14 @@ namespace HoloCAD.UnityTubes
         [CanBeNull] public Button3D SaveSceneButton;
 
         /// <summary> Флаг, находится ли участок трубы в режиме перемещения. </summary>
-        public bool IsPlacing
+        public virtual bool IsPlacing
         {
             get => _isPlacing;
             set
             {
                 _isPlacing = value;
                 Tube.GetComponent<MeshCollider>().enabled = !_isPlacing;
+                Tube.transform.Find("Collider").GetComponent<MeshCollider>().enabled = !_isPlacing;
             }
         }
 
@@ -189,9 +191,9 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         protected virtual void InitButtons()
         {
-            if (AddBendFragmentButton != null) AddBendFragmentButton.OnClick += delegate { AddBendFragment(); };
-            if (AddDirectFragmentButton != null) AddDirectFragmentButton.OnClick += delegate { AddDirectFragment(); };
-            if (CreateTubeButton != null) CreateTubeButton.OnClick += delegate { CreateTube(); };
+            if (AddBendFragmentButton != null)   AddBendFragmentButton.OnClick    += delegate { AddBendFragment();    };
+            if (AddDirectFragmentButton != null) AddDirectFragmentButton.OnClick  += delegate { AddDirectFragment();  };
+            if (CreateTubeButton != null)        CreateTubeButton.OnClick         += delegate { CreateTube();         };
             if (RemoveThisFragmentButton != null)RemoveThisFragmentButton.OnClick += delegate { RemoveThisFragment(); };
             if (ConnectTubesButton != null)
             {
@@ -200,10 +202,7 @@ namespace HoloCAD.UnityTubes
             }
             if (SaveSceneButton != null)
             {
-                SaveSceneButton.OnClick += delegate
-                {
-                    SchemeExporter.Export(TubeManager.AllTubes);
-                };
+                SaveSceneButton.OnClick += delegate { SchemeExporter.Export(TubeManager.AllTubes); };
             }
         }
         
@@ -220,7 +219,7 @@ namespace HoloCAD.UnityTubes
             }
 
             Tube.GetComponent<MeshRenderer>().material.SetColor(GridColor,
-                _isColliding ? CollidingTubeColor : DefaultTubeColor);
+                                                                _isColliding ? CollidingTubeColor : DefaultTubeColor);
         }
 
         #region Unity event functions

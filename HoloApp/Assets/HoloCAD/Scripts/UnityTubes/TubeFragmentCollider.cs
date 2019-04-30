@@ -15,7 +15,7 @@ namespace HoloCAD.UnityTubes
 		private void OnTriggerEnter(Collider other)
 		{
 			TubeFragmentCollider otherCollider = other.GetComponent<TubeFragmentCollider>();
-			if (!otherCollider || otherCollider.Owner == Owner) return;
+			if (!otherCollider || otherCollider.Owner == Owner || IsNearFragment(otherCollider.Owner)) return;
 			numberOfCollisions++;
 			Owner.OnTubeCollisionEnter();
 		}
@@ -23,12 +23,19 @@ namespace HoloCAD.UnityTubes
 		private void OnTriggerExit(Collider other)
 		{
 			TubeFragmentCollider otherCollider = other.GetComponent<TubeFragmentCollider>();
-			if (!otherCollider || otherCollider.Owner == Owner) return;
+			if (!otherCollider || otherCollider.Owner == Owner || IsNearFragment(otherCollider.Owner)) return;
 			numberOfCollisions--;
 			if (numberOfCollisions == 0)
 			{
 				Owner.OnTubeCollisionExit();
 			}
+		}
+
+		private bool IsNearFragment(TubeFragment other)
+		{
+			Tube tube = Owner.Owner;
+
+			return tube.GetNextFragment(Owner) == other || tube.GetPreviousFragment(Owner) == other;
 		}
 
 		#endregion

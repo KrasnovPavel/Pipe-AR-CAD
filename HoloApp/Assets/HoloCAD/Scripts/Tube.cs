@@ -194,6 +194,26 @@ namespace HoloCAD
             }
         }
 
+        /// <summary> Выдает следующий фрагмент трубы. </summary>
+        /// <param name="current"> Фрагмент трубы для которого надо найти следующий. </param>
+        /// <returns> Следующий фрагмент трубы или null, если его нет. </returns>
+        [CanBeNull] public TubeFragment GetNextFragment(TubeFragment current)
+        {
+            int index = _fragments.FindIndex(f => current == f);
+
+            return (index == _fragments.Count - 1) ? null : _fragments[index + 1];
+        }
+        
+        /// <summary> Выдает предыдущий фрагмент трубы. </summary>
+        /// <param name="current"> Фрагмент трубы для которого надо найти предыдущий. </param>
+        /// <returns> Предыдущий фрагмент трубы или null, если его нет. </returns>
+        [CanBeNull] public TubeFragment GetPreviousFragment(TubeFragment current)
+        {
+            int index = _fragments.FindIndex(f => current == f);
+            
+            return (index == 0) ? null : _fragments[index - 1];
+        }
+
         #region Private definitions
 
         private readonly List<TubeFragment> _fragments = new List<TubeFragment>();

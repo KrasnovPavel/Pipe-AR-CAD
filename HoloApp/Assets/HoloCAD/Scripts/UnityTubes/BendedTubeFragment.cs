@@ -96,6 +96,20 @@ namespace HoloCAD.UnityTubes
             }
         }
 
+        public override bool IsPlacing
+        {
+            get => base.IsPlacing;
+            set
+            {
+                base.IsPlacing = value;
+
+                foreach (GameObject col in _colliders)
+                {
+                    col.GetComponent<MeshCollider>().enabled = !IsPlacing;
+                }
+            }
+        }
+
         /// <summary> Увеличивает угол погиба. </summary>
         public void IncreaseAngle()
         {
@@ -181,7 +195,7 @@ namespace HoloCAD.UnityTubes
                 float shiftAngle = (2 * i + 1) / 2f * MeshFactory.DeltaAngle;
                 Vector3 shiftVector = Vector3.zero;
                 shiftVector = shiftVector.RotateAround(new Vector3(-Radius, 0f, 0f), 
-                    Quaternion.Euler(0, -shiftAngle, 0));
+                                                       Quaternion.Euler(0, -shiftAngle, 0));
                 _colliders[i].GetComponent<MeshCollider>().transform.localPosition = shiftVector;
             }
         }
