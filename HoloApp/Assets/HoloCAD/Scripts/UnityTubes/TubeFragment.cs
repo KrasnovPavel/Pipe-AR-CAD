@@ -10,10 +10,6 @@ namespace HoloCAD.UnityTubes
     /// <summary> Базовый класс участка трубы. От него наследуются все остальные классы участков труб. </summary>
     public class TubeFragment : MonoBehaviour
     {
-        /// <summary> Поле хранящее диаметр участка трубы. </summary>
-        /// <remarks> ВНИМАНИЕ!!! НАПРЯМУЮ ОБРАЩАТЬСЯ К НЕМУ ЗАПРЕЩЕНО!!! Используйте <see cref="Diameter"/>. </remarks>
-        protected float _diameter;
-
         /// <summary> Объект, содержащий меш участка трубы. </summary>
         protected GameObject Tube;
 
@@ -276,6 +272,7 @@ namespace HoloCAD.UnityTubes
         private bool _isColliding;
         private bool _hasChild;
         private bool _hasTransformError;
+        private float _diameter;
         private static readonly int GridColor = Shader.PropertyToID("_GridColor");
 
         /// <summary> Цвет участка трубы. </summary>

@@ -82,12 +82,12 @@ namespace HoloCAD.UnityTubes
         /// <inheritdoc />
         public override float Diameter
         {
-            get => _diameter;
+            get => base.Diameter;
             set
             {
-                if (Math.Abs(_diameter - value) < float.Epsilon) return;
+                if (Math.Abs(base.Diameter - value) < float.Epsilon) return;
 
-                _diameter = value;
+                base.Diameter = value;
                 _meshes = MeshFactory.CreateMeshes(Owner.Data);
                 Radius = _useSecondRadius ? Owner.Data.second_radius : Owner.Data.first_radius;
                 Tube.GetComponent<MeshRenderer>().material.SetFloat(ShaderDiameter, Diameter);

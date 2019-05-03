@@ -39,12 +39,12 @@ namespace HoloCAD.UnityTubes
         /// <inheritdoc />
         public override float Diameter
         {
-            get => _diameter;
+            get => base.Diameter;
             set
             {
-                if (Math.Abs(_diameter - value) < float.Epsilon) return;
+                if (Math.Abs(base.Diameter - value) < float.Epsilon) return;
 
-                _diameter = value;
+                base.Diameter = value;
                 Tube.transform.localScale = new Vector3(Diameter, _length, Diameter);
                 ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
             }

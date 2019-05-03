@@ -5,13 +5,10 @@ namespace HoloCAD.UI
 	/// <summary> Класс, отображающий кнопки и информацию о трубах. </summary>
 	public abstract class TubeFragmentControlPanel : MonoBehaviour
 	{
-		/// <summary> Диаметр трубы. </summary>
-		public virtual float Diameter { get; set; }
-
 		/// <summary> Расчет местоположения панели кнопок. </summary>
 		protected abstract void CalculateBarPosition();
 
-		/// <summary> Расчет линии размеров. </summary>
+		/// <summary> Расчет линий размеров. </summary>
 		protected abstract void CalculateLine();
 
 		/// <summary> Отображение текста. </summary>
@@ -23,7 +20,7 @@ namespace HoloCAD.UI
 		/// <remarks>
 		/// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
 		/// </remarks>
-		protected virtual void Start() 
+		protected virtual void Start()
 		{
 		}
 	

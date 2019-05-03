@@ -1,11 +1,12 @@
-﻿using HoloCore;
+﻿using HoloCAD.UnityTubes;
+using HoloCore;
 using UnityEngine;
 
 namespace HoloCAD.UI
 {
 	/// <inheritdoc />
 	/// <summary> Класс, отображающий кнопки и информацию о фланце. </summary>
-	[RequireComponent(typeof(LineRenderer))]
+	[RequireComponent(typeof(LineRenderer)), RequireComponent(typeof(StartTubeFragment))]
 	public class StartTubeFragmentControlPanel : TubeFragmentControlPanel {
 		/// <summary> Панель с кнопками и информацией о трубе. </summary>
 		[Tooltip("Панель с кнопками и информацией о трубе.")]
@@ -21,8 +22,11 @@ namespace HoloCAD.UI
 			Vector3 barPosition = Vector3.zero;
 			Vector3 cameraPosition = _camera.transform.position - transform.position; 
 
-			barPosition.x = (cameraPosition.ProjectOn(transform.right) > 0) ? (Diameter/2 + 0.3f) : (-Diameter/2 - 0.3f);
-			barPosition.y = (cameraPosition.ProjectOn(transform.up) > 0) ? (Diameter/2 + 0.2f) : (-Diameter/2 - 0.2f);
+			barPosition.x = (cameraPosition.ProjectOn(transform.right) > 0) ? ( _fragment.Diameter/2 + 0.3f) 
+																			: (-_fragment.Diameter/2 - 0.3f);
+			
+			barPosition.y = (cameraPosition.ProjectOn(transform.up) > 0) ? ( _fragment.Diameter/2 + 0.2f) 
+																	     : (-_fragment.Diameter/2 - 0.2f);
 
 			ButtonBar.transform.localPosition = barPosition;
 		}
@@ -41,19 +45,19 @@ namespace HoloCAD.UI
 			{
 				angle = 360f - angle;
 			}
-			linePositions[0] = Quaternion.Euler(0f, 0f, angle) * Vector3.right * Diameter / 2;
+			linePositions[0] = Quaternion.Euler(0f, 0f, angle) * Vector3.right * _fragment.Diameter / 2;
 			linePositions[1] = barPosition;
 			linePositions[2] = barPosition 
 			                   + ((cameraPosition.ProjectOn(transform.right) > 0) ? new Vector3(0.5f, 0f, 0f)
 																				 : new Vector3(-0.5f, 0f, 0f));
 			_lineRenderer.SetPositions(linePositions);
-			_lineRenderer.startWidth = _lineRenderer.endWidth = 0.1f * Diameter/2;
+			_lineRenderer.startWidth = _lineRenderer.endWidth = 0.1f * _fragment.Diameter/2;
 		}
 
 		/// <inheritdoc />
 		protected override void SetText()
 		{
-			TextLabel.text = $"Ø:{Diameter:0.000}м";
+			TextLabel.text = $"Ø:{_fragment.Diameter:0.000}м";
 		}
 
 		#region Unity event functions
@@ -63,6 +67,7 @@ namespace HoloCAD.UI
 		{
 			_camera = Camera.main;
 			_lineRenderer = GetComponent<LineRenderer>();
+			_fragment = GetComponent<StartTubeFragment>();
 		}
 
 		private void OnDisable()
@@ -81,6 +86,7 @@ namespace HoloCAD.UI
 
 		private Camera _camera;
 		private LineRenderer _lineRenderer;
+		private StartTubeFragment _fragment;
 
 		#endregion
 	}
