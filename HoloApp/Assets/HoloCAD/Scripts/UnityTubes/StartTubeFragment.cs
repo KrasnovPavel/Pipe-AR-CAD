@@ -43,6 +43,21 @@ namespace HoloCAD.UnityTubes
 #endif
         }
 
+        /// <inheritdoc />
+        public override void RemoveThisFragment()
+        {
+            if (TubeManager.AllTubes.Count == 1)
+            {
+                TubeFragment next = Owner.GetNextFragment(this);
+                if (next != null) next.RemoveThisFragment();
+                StartPlacing();
+            }
+            else
+            {
+                base.RemoveThisFragment();
+            }
+        }
+
         #region Unity event functions
 
         /// <inheritdoc />
