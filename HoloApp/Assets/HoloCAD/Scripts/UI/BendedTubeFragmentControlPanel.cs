@@ -40,7 +40,16 @@ namespace HoloCAD.UI
 		/// <inheritdoc />
 		protected override void CalculateBarPosition()
 		{
-			// TODO: Calculate bar position for bended tube 
+			if (_camera == null) return;
+
+			Vector3 endPointPosition = ButtonBar.transform.parent.position;
+			
+			Vector3 direction = (_camera.transform.position - endPointPosition).normalized 
+			                    * _fragment.Diameter * 1.1f;
+			
+			Quaternion rotation = Quaternion.FromToRotation(Vector3.back, direction);
+			ButtonBar.transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
+			ButtonBar.transform.position = new Vector3(direction.x, 0, direction.z) + endPointPosition;
 		}
 
 		/// <inheritdoc />
