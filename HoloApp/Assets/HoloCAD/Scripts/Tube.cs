@@ -115,7 +115,10 @@ namespace HoloCAD
         /// <summary> Создает соединения труб. </summary>
         public void CreateTubesConnector()
         {
-            _tubesConnector = TubeUnityManager.CreateTubesConnector(this);
+            if (_tubesConnector == null)
+            {
+                _tubesConnector = TubeUnityManager.CreateTubesConnector(this);
+            }
         }
 
         /// <summary> Отвязывается от объекта отображения расстояния между трубами. </summary>
@@ -220,21 +223,9 @@ namespace HoloCAD
 
         private string _standardName;
         private TubeLoader.TubeData _data;
-        [CanBeNull] private TubesConnector _tubesConnectorField;
-
+        
         /// <summary> Объект соединения труб, соединяющий эту труб с другой. </summary>
-        [CanBeNull] private TubesConnector _tubesConnector
-        {
-            get => _tubesConnectorField;
-            set
-            {
-                _tubesConnectorField = value;
-                foreach (TubeFragment tubeFragment in _fragments)
-                {
-                    tubeFragment.CheckConnectButton();
-                }
-            }
-        }
+        [CanBeNull] private TubesConnector _tubesConnector;
         
         /// <summary> Создает объект начального фланца для этой трубы. </summary>
         private void CreateStartTubeFragment()

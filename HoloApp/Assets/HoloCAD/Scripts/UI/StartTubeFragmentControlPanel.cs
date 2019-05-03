@@ -1,5 +1,7 @@
 ﻿using HoloCAD.UnityTubes;
 using HoloCore;
+using HoloCore.UI;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HoloCAD.UI
@@ -10,15 +12,37 @@ namespace HoloCAD.UI
 	public class StartTubeFragmentControlPanel : TubeFragmentControlPanel {
 		/// <summary> Панель с кнопками и информацией о трубе. </summary>
 		[Tooltip("Панель с кнопками и информацией о трубе.")]
-		public GameObject ButtonBar;
+		[CanBeNull] public GameObject ButtonBar;
 
 		/// <summary> Объект, отображающий текстовые данные о участке трубе. </summary>
 		[Tooltip("Объект, отображающий текстовые данные о участке трубе.")]
-		public TextMesh TextLabel;
+		[CanBeNull] public TextMesh TextLabel;
 
+		/// <summary> Кнопка увеличения диаметра трубы. </summary>
+		[Tooltip("Кнопка увеличения диаметра трубы.")]
+		[CanBeNull] public Button3D IncreaseDiameterButton;
+        
+		/// <summary> Кнопка уменьшения диаметра трубы. </summary>
+		[Tooltip("Кнопка уменьшения диаметра трубы.")]
+		[CanBeNull] public Button3D DecreaseDiameterButton;
+        
+		/// <summary> Кнопка перехода в режим размещения трубы. </summary>
+		[Tooltip("Кнопка перехода в режим размещения трубы.")]
+		[CanBeNull] public Button3D StartPlacingButton;
+		
+		/// <summary> Кнопка сохранения сцены. </summary>
+		[Tooltip("Кнопка добавления объекта отображения расстояния между трубами.")]
+		[CanBeNull] public Button3D SaveSceneButton;
+		
+		/// <summary> Кнопка создания новой трубы. </summary>
+		[Tooltip("Кнопка создания новой трубы.")]
+		[CanBeNull] public Button3D CreateTubeButton;
+		
 		/// <inheritdoc />
 		protected override void CalculateBarPosition()
 		{
+			if (ButtonBar == null) return;
+			
 			Vector3 barPosition = Vector3.zero;
 			Vector3 cameraPosition = _camera.transform.position - transform.position; 
 
@@ -34,6 +58,8 @@ namespace HoloCAD.UI
 		/// <inheritdoc />
 		protected override void CalculateLine()
 		{
+			if (ButtonBar == null) return;
+			
 			Vector3 cameraPosition = _camera.transform.position - transform.position;
 			Vector3 barPosition = ButtonBar.transform.localPosition;
 			Vector3[] linePositions = { Vector3.zero, Vector3.zero, Vector3.zero };
@@ -57,7 +83,61 @@ namespace HoloCAD.UI
 		/// <inheritdoc />
 		protected override void SetText()
 		{
-			TextLabel.text = $"Ø:{_fragment.Diameter:0.000}м";
+			if (TextLabel != null) TextLabel.text = $"Ø:{_fragment.Diameter:0.000}м";
+		}
+
+		protected override void InitButtons()
+		{
+			if (AddBendFragmentButton != null)
+			{
+				AddBendFragmentButton.OnClick += delegate { _fragment.AddBendFragment(); };
+			}
+			if (AddDirectFragmentButton != null)
+			{
+				AddDirectFragmentButton.OnClick += delegate { _fragment.AddDirectFragment(); };
+			}
+			if (RemoveThisFragmentButton != null)
+			{
+				RemoveThisFragmentButton.OnClick += delegate { _fragment.RemoveThisFragment(); };
+			}
+			if (ConnectTubesButton != null)
+			{
+				ConnectTubesButton.OnClick += delegate { _fragment.Owner.CreateTubesConnector(); };
+			}
+			
+			
+			if (CreateTubeButton != null)
+			{
+				CreateTubeButton.OnClick += delegate { _fragment.CreateTube(); };
+			}
+			if (SaveSceneButton != null)
+			{
+				SaveSceneButton.OnClick += delegate { SchemeExporter.Export(TubeManager.AllTubes); };
+			}
+			if (IncreaseDiameterButton != null)
+			{
+				IncreaseDiameterButton.OnClick += delegate { _fragment.IncreaseDiameter(); };
+			}
+			if (DecreaseDiameterButton != null)
+			{
+				DecreaseDiameterButton.OnClick += delegate { _fragment.DecreaseDiameter(); };
+			}
+			if (StartPlacingButton != null)
+			{
+				StartPlacingButton.OnClick += delegate { _fragment.StartPlacing(); };
+			}
+		}
+
+		protected override void CheckIsButtonsEnabled()
+		{
+			if (ConnectTubesButton != null)
+			{
+				ConnectTubesButton.SetEnabled(!_fragment.Owner.HasTubesConnector 
+				                              && !TubeUnityManager.HasActiveTubesConnector);
+			}
+			
+			if (AddBendFragmentButton != null) AddBendFragmentButton.SetEnabled(!_fragment.HasChild);
+			if (AddDirectFragmentButton != null) AddDirectFragmentButton.SetEnabled(!_fragment.HasChild);
 		}
 
 		#region Unity event functions
@@ -65,6 +145,7 @@ namespace HoloCAD.UI
 		/// <inheritdoc />
 		protected override void Start()
 		{
+			base.Start();
 			_camera = Camera.main;
 			_lineRenderer = GetComponent<LineRenderer>();
 			_fragment = GetComponent<StartTubeFragment>();
@@ -73,11 +154,13 @@ namespace HoloCAD.UI
 		private void OnDisable()
 		{
 			if (_lineRenderer != null) _lineRenderer.enabled = false;
+			if (ButtonBar != null) ButtonBar.SetActive(false);
 		}
 
 		private void OnEnable()
 		{
 			if (_lineRenderer != null) _lineRenderer.enabled = true;
+			if (ButtonBar != null) ButtonBar.SetActive(true);
 		}
 
 		#endregion

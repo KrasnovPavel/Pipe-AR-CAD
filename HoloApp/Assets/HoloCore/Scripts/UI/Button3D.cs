@@ -83,6 +83,8 @@ namespace HoloCore.UI
         /// <param name="isEnabled"> Новое состояние кнопки. </param>
         public void SetEnabled(bool isEnabled)
         {
+            if (isEnabled && State != ButtonState.Disabled) return;
+            
             State = isEnabled ? ButtonState.Enabled : ButtonState.Disabled;
             _forceDisable = !isEnabled;
         }

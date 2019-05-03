@@ -1,7 +1,4 @@
-using System;
 using HoloCAD.UI;
-using HoloCore.UI;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HoloCAD.UnityTubes
@@ -15,41 +12,6 @@ namespace HoloCAD.UnityTubes
 
         /// <summary> Объект, указывающий конечную точку участка трубы. </summary>
         public GameObject EndPoint { get; protected set; }
-
-        // TODO: Перенести в ControlPanel
-        /// <summary> Панель с кнопками. </summary>
-        protected GameObject ButtonBar;
-
-        /// <summary> Надпись с информацией о участке трубы. </summary>
-        [Tooltip("Надпись с информацией о участке трубы.")]
-        [Obsolete("Теперь вместо прямого доступа к надписи используется TubeFragmentControlPanel")]
-        public GameObject Label;
-        
-        // TODO: Перенести работу с кнопками в ControlPanel.
-        /// <summary> Кнопка добавления погиба. </summary>
-        [Tooltip("Кнопка добавления погиба.")]
-        [CanBeNull] public Button3D AddBendFragmentButton;
-
-        /// <summary> Кнопка добавления прямого участка трубы. </summary>
-        [Tooltip("Кнопка добавления прямого участка трубы.")]
-        [CanBeNull] public Button3D AddDirectFragmentButton;
-
-        /// <summary> Кнопка создания новой трубы. </summary>
-        [Tooltip("Кнопка создания новой трубы.")]
-        [CanBeNull] public Button3D CreateTubeButton;
-
-        /// <summary> Кнопка удаления этого участка трубы. </summary>
-        [Tooltip("Кнопка удаления этого участка трубы.")]
-        [CanBeNull] public Button3D RemoveThisFragmentButton;
-        
-        /// <summary> Кнопка добавления объекта отображения расстояния между трубами. </summary>
-        [Tooltip("Кнопка добавления объекта отображения расстояния между трубами.")]
-        [CanBeNull] public Button3D ConnectTubesButton;
-        
-        //TODO: Сделать по другому. Вешать на каждый фрагмент кнопку сохранения всей сцены - ущербно.
-        /// <summary> Кнопка сохранения сцены. </summary>
-        [Tooltip("Кнопка добавления объекта отображения расстояния между трубами.")]
-        [CanBeNull] public Button3D SaveSceneButton;
 
         /// <summary> Флаг, находится ли участок трубы в режиме перемещения. </summary>
         public virtual bool IsPlacing
@@ -77,7 +39,6 @@ namespace HoloCAD.UnityTubes
                 _isSelected = value;
 
                 SetColor();
-                if (ButtonBar != null) ButtonBar.SetActive(_isSelected);
                 
                 var controlPanel = GetComponent<TubeFragmentControlPanel>();
                 if (controlPanel != null) controlPanel.enabled = _isSelected;
@@ -85,25 +46,10 @@ namespace HoloCAD.UnityTubes
         }
 
         /// <summary> Диаметр участка трубы. </summary>
-        public virtual float Diameter
-        {
-            get => _diameter;
-            set => _diameter = value;
-        }
+        public virtual float Diameter { get; set; }
 
         /// <summary> Выходит ли из этого участка трубы другой? </summary>
-        public virtual bool HasChild
-        {
-            get => _hasChild;
-            set
-            {
-                if (_hasChild == value) return;
-
-                _hasChild = value;
-                if (AddBendFragmentButton != null) AddBendFragmentButton.SetEnabled(!_hasChild);
-                if (AddDirectFragmentButton != null) AddDirectFragmentButton.SetEnabled(!_hasChild);
-            }
-        }
+        public bool HasChild;
 
         /// <summary> Функция, которая вызывается когда этот участок трубы пересекается с другим </summary>
         /// <remarks>
@@ -160,47 +106,6 @@ namespace HoloCAD.UnityTubes
         {
             Destroy(gameObject);
         }
-
-        /// <summary> Создает объект соединения труб. </summary>
-        /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.ConnectTubes()</c>.
-        /// </remarks>
-        public virtual void ConnectTubes()
-        {
-            Owner.CreateTubesConnector();
-        }
-
-        /// <summary> Включает или выключает кнопку соединения труб, в зависимости от внутренней логики. </summary>
-        /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.CheckConnectButton()</c>.
-        /// </remarks>
-        public virtual void CheckConnectButton()
-        {
-            if (ConnectTubesButton == null) return;
-            
-            ConnectTubesButton.SetEnabled(!Owner.HasTubesConnector && !TubeUnityManager.HasActiveTubesConnector);
-        }
-        
-        /// <summary> Функция, инициализирующая кнопки. </summary>
-        /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.InitButtons()</c>.
-        /// </remarks>
-        protected virtual void InitButtons()
-        {
-            if (AddBendFragmentButton != null)   AddBendFragmentButton.OnClick    += delegate { AddBendFragment();    };
-            if (AddDirectFragmentButton != null) AddDirectFragmentButton.OnClick  += delegate { AddDirectFragment();  };
-            if (CreateTubeButton != null)        CreateTubeButton.OnClick         += delegate { CreateTube();         };
-            if (RemoveThisFragmentButton != null)RemoveThisFragmentButton.OnClick += delegate { RemoveThisFragment(); };
-            if (ConnectTubesButton != null)
-            {
-                ConnectTubesButton.SetEnabled(!Owner.HasTubesConnector);
-                ConnectTubesButton.OnClick += delegate { ConnectTubes(); };
-            }
-            if (SaveSceneButton != null)
-            {
-                SaveSceneButton.OnClick += delegate { SchemeExporter.Export(TubeManager.AllTubes); };
-            }
-        }
         
         /// <summary> Функция, которая устанавлявает соответствующий цвет участку трубы. </summary>
         /// <remarks>
@@ -235,15 +140,7 @@ namespace HoloCAD.UnityTubes
             }
 
             EndPoint = transform.Find("End Point").gameObject;
-            Transform bb = transform.Find("Button Bar");
-            if (bb == null)
-            {
-                bb = EndPoint.transform.Find("Button Bar");
-            }
-
-            ButtonBar = bb.gameObject;
             Diameter = Owner.Data.diameter;
-            InitButtons();
         }
 
         /// <summary> Функция, выполняющаяся в Unity каждый кадр. </summary>
@@ -270,9 +167,7 @@ namespace HoloCAD.UnityTubes
         private bool _isSelected;
         private bool _isPlacing;
         private bool _isColliding;
-        private bool _hasChild;
         private bool _hasTransformError;
-        private float _diameter;
         private static readonly int GridColor = Shader.PropertyToID("_GridColor");
 
         /// <summary> Цвет участка трубы. </summary>

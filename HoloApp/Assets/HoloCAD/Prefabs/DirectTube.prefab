@@ -516,7 +516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4938557740096270
 Transform:
   m_ObjectHideFlags: 0
@@ -837,6 +837,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4889934449365492}
   - component: {fileID: 114804592397603184}
+  - component: {fileID: 7511755430344904979}
   m_Layer: 0
   m_Name: DirectTube
   m_TagString: Untagged
@@ -872,13 +873,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba0de4e2d55bbfe46b12aa8ee5e5d082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Label: {fileID: 1727820453962222}
+  HasChild: 0
+--- !u!114 &7511755430344904979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566192698486592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d141120aaf764717a4fedaaaf9d544dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   AddBendFragmentButton: {fileID: 114452922723300130}
   AddDirectFragmentButton: {fileID: 0}
-  CreateTubeButton: {fileID: 0}
   RemoveThisFragmentButton: {fileID: 114719097841017952}
-  ConnectTubesButton: {fileID: 114357206790663870}
-  SaveSceneButton: {fileID: 0}
+  ConnectTubesButton: {fileID: 0}
+  ButtonBar: {fileID: 1306852727649166}
+  TextLabel: {fileID: 102783463596146694}
   IncreaseLengthButton: {fileID: 114099115228196300}
   DecreaseLengthButton: {fileID: 114851355271041602}
 --- !u!1 &1634664800106386

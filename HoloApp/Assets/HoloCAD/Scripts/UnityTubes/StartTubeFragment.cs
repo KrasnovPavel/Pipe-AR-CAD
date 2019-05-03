@@ -1,7 +1,4 @@
 ﻿using System;
-using HoloCAD.UI;
-using HoloCore.UI;
-using JetBrains.Annotations;
 using UnityEngine;
 #if ENABLE_WINMD_SUPPORT
 using UnityEngine.XR.WSA.Input;
@@ -13,22 +10,6 @@ namespace HoloCAD.UnityTubes
     /// <summary> Класс, реализующий фрагмент фланца трубы. </summary>
     public class StartTubeFragment : TubeFragment
     {
-        /// <summary> Кнопка увеличения диаметра трубы. </summary>
-        [Tooltip("Кнопка увеличения диаметра трубы.")]
-        [CanBeNull] public Button3D IncreaseDiameterButton;
-        
-        /// <summary> Кнопка уменьшения диаметра трубы. </summary>
-        [Tooltip("Кнопка уменьшения диаметра трубы.")]
-        [CanBeNull] public Button3D DecreaseDiameterButton;
-        
-        /// <summary> Кнопка перехода в режим размещения трубы. </summary>
-        [Tooltip("Кнопка перехода в режим размещения трубы.")]
-        [CanBeNull] public Button3D StartPlacingButton;
-
-        /// <summary> Объект, управляющий отображением кнопок и информации о фланце. </summary>
-        [Tooltip("Объект, управляющий отображением кнопок и информации о фланце.")]
-        public StartTubeFragmentControlPanel ControlPanel;
-        
         /// <inheritdoc />
         public override float Diameter
         {
@@ -60,15 +41,6 @@ namespace HoloCAD.UnityTubes
 #if ENABLE_WINMD_SUPPORT
             _recognizer.StartCapturingGestures();
 #endif
-        }
-        
-        /// <inheritdoc />
-        protected override void InitButtons()
-        {
-            base.InitButtons();
-            if (IncreaseDiameterButton != null) IncreaseDiameterButton.OnClick += delegate { IncreaseDiameter(); };
-            if (DecreaseDiameterButton != null) DecreaseDiameterButton.OnClick += delegate { DecreaseDiameter(); };
-            if (StartPlacingButton != null)     StartPlacingButton.OnClick     += delegate { StartPlacing(); };
         }
 
         #region Unity event functions

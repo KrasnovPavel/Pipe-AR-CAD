@@ -1,8 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using HoloCAD.UI;
-using HoloCore.UI;
-using JetBrains.Annotations;
 
 namespace HoloCAD.UnityTubes
 {
@@ -10,14 +7,6 @@ namespace HoloCAD.UnityTubes
     /// <summary> Класс, реализующий прямой участок трубы. </summary>
     public class DirectTubeFragment : TubeFragment
     {
-        /// <summary> Кнопка увеличения длины. </summary>
-        [Tooltip("Кнопка увеличения длины.")]
-        [CanBeNull] public Button3D IncreaseLengthButton;
-
-        /// <summary> Кнопка уменьшения длины. </summary>
-        [Tooltip("Кнопка уменьшения длины.")]
-        [CanBeNull] public Button3D DecreaseLengthButton;
-        
         /// <summary> Длина прямого участка трубы. </summary>
         public float Length
         {
@@ -32,7 +21,6 @@ namespace HoloCAD.UnityTubes
 
                 Tube.transform.localScale = new Vector3(Diameter, _length, Diameter);
                 EndPoint.transform.localPosition = new Vector3(0, 0, _length);
-                Label.GetComponent<TextMesh>().text = $"Длина: {_length:0.00}м.";
             }
         }
 
@@ -46,7 +34,6 @@ namespace HoloCAD.UnityTubes
 
                 base.Diameter = value;
                 Tube.transform.localScale = new Vector3(Diameter, _length, Diameter);
-                ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
             }
         }
 
@@ -64,14 +51,6 @@ namespace HoloCAD.UnityTubes
             Length -= delta;
         }
 
-        /// <inheritdoc />
-        protected override void InitButtons()
-        {
-            base.InitButtons();
-            if (IncreaseLengthButton != null) IncreaseLengthButton.OnClick += delegate { IncreaseLength(); };
-            if (DecreaseLengthButton != null) DecreaseLengthButton.OnClick += delegate { DecreaseLength(); };
-        }
-
         #region Unity event functions
 
         /// <inheritdoc />
@@ -79,7 +58,6 @@ namespace HoloCAD.UnityTubes
         {
             base.Start();
             Length = 0.5f;
-            ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
             TubeManager.SelectTubeFragment(this);
         }
 

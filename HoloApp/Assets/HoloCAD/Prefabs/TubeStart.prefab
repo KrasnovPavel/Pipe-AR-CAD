@@ -197,7 +197,7 @@ Transform:
   m_GameObject: {fileID: 1106004801525476}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 0.35, z: 1}
+  m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 4185015372888086}
   m_RootOrder: 0
@@ -2539,17 +2539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d02e9da010afd498c18659d7c43a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Label: {fileID: 1474266111723794}
-  AddBendFragmentButton: {fileID: 114096809766909092}
-  AddDirectFragmentButton: {fileID: 114690650857631836}
-  CreateTubeButton: {fileID: 114353379736445284}
-  RemoveThisFragmentButton: {fileID: 114261233075121632}
-  ConnectTubesButton: {fileID: 114041839463105858}
-  SaveSceneButton: {fileID: 2586293183971484039}
-  IncreaseDiameterButton: {fileID: 114564773700478738}
-  DecreaseDiameterButton: {fileID: 114537775845490858}
-  StartPlacingButton: {fileID: 114084288724748050}
-  ControlPanel: {fileID: 114363830457878150}
+  HasChild: 0
 --- !u!114 &114363830457878150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2562,8 +2552,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaeec4867aaf4a54789c863d9486147d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddBendFragmentButton: {fileID: 114096809766909092}
+  AddDirectFragmentButton: {fileID: 114690650857631836}
+  RemoveThisFragmentButton: {fileID: 114261233075121632}
+  ConnectTubesButton: {fileID: 114041839463105858}
   ButtonBar: {fileID: 1472619541709954}
   TextLabel: {fileID: 102451658413282012}
+  IncreaseDiameterButton: {fileID: 114564773700478738}
+  DecreaseDiameterButton: {fileID: 114537775845490858}
+  StartPlacingButton: {fileID: 114084288724748050}
+  SaveSceneButton: {fileID: 2586293183971484039}
+  CreateTubeButton: {fileID: 114353379736445284}
 --- !u!120 &120796924274746500
 LineRenderer:
   m_ObjectHideFlags: 0

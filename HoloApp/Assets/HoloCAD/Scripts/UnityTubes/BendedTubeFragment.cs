@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using HoloCAD.UI;
-using HoloCore.UI;
 using HoloToolkit.Unity;
 using JetBrains.Annotations;
 
@@ -15,26 +13,6 @@ namespace HoloCAD.UnityTubes
         /// <summary> Prefab коллайдера сегмента погиба. </summary>
         [Tooltip("Prefab коллайдера сегмента погиба.")] 
         [CanBeNull] public GameObject ColliderPrefab;
-
-        /// <summary> Кнопка увеличения угла погиба. </summary>
-        [Tooltip("Кнопка увеличения угла погиба.")]
-        [CanBeNull] public Button3D IncreaseAngleButton;
-        
-        /// <summary> Кнопка уменьшения угла погиба. </summary>
-        [Tooltip("Кнопка уменьшения угла погиба.")]
-        [CanBeNull] public Button3D DecreaseAngleButton;
-        
-        /// <summary> Кнопка поворота погиба по часовой стрелке. </summary>
-        [Tooltip("Кнопка поворота погиба по часовой стрелке.")]
-        [CanBeNull] public Button3D TurnClockwiseButton;
-        
-        /// <summary> Кнопка поворота погиба против часовой стрелки. </summary>
-        [Tooltip("Кнопка поворота погиба против часовой стрелки.")]
-        [CanBeNull] public Button3D TurnAnticlockwiseButton;
-        
-        /// <summary> Кнопка смены радиуса погиба. </summary>
-        [Tooltip("Кнопка смены радиуса погиба.")]
-        [CanBeNull] public Button3D ChangeRadiusButton;
         
         /// <summary> Угол погиба. </summary>
         public int Angle
@@ -51,7 +29,6 @@ namespace HoloCAD.UnityTubes
                 _angle = value;
     
                 SetMesh();
-                Label.GetComponent<TextMesh>().text = $"Угол погиба: {_angle}°";
             }
         }
     
@@ -91,7 +68,6 @@ namespace HoloCAD.UnityTubes
                 _meshes = MeshFactory.CreateMeshes(Owner.Data);
                 Radius = _useSecondRadius ? Owner.Data.second_radius : Owner.Data.first_radius;
                 Tube.GetComponent<MeshRenderer>().material.SetFloat(ShaderDiameter, Diameter);
-                ButtonBar.GetComponent<ButtonBar>().Offset = 0.7f * Diameter;
                 SetMesh();
             }
         }
@@ -140,16 +116,6 @@ namespace HoloCAD.UnityTubes
             UseSecondRadius = !UseSecondRadius;
         }
 
-        /// <inheritdoc />
-        protected override void InitButtons()
-        {
-            base.InitButtons();
-            if (IncreaseAngleButton != null)     IncreaseAngleButton.OnClick     = delegate { IncreaseAngle(); };
-            if (DecreaseAngleButton != null)     DecreaseAngleButton.OnClick     = delegate { DecreaseAngle(); };
-            if (TurnClockwiseButton != null)     TurnClockwiseButton.OnClick     = delegate { TurnClockwise(); };
-            if (TurnAnticlockwiseButton != null) TurnAnticlockwiseButton.OnClick = delegate { TurnAnticlockwise(); };
-            if (ChangeRadiusButton != null)      ChangeRadiusButton.OnClick      = delegate { ChangeRadius(); };
-        }
 
         #region Unity event functions
 

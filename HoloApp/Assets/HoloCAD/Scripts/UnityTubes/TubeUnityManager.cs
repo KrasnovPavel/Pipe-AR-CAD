@@ -87,7 +87,6 @@ namespace HoloCAD.UnityTubes
             err.GetComponent<TubesConnector>().FirstTube = firstOwner;
             err.GetComponent<TubesConnector>().Cursor = Instance.Cursor.transform;
             ActiveTubesConnector = err.GetComponent<TubesConnector>();
-            CheckConnectButtons();
             return err.GetComponent<TubesConnector>();
         }
 
@@ -95,7 +94,6 @@ namespace HoloCAD.UnityTubes
         public static void RemoveActiveTubesConnector()
         {
             ActiveTubesConnector = null;
-            CheckConnectButtons();
         }
 
         /// <summary> Переключает отображение полигональной сетки на сцене. </summary>
@@ -125,22 +123,6 @@ namespace HoloCAD.UnityTubes
         private SpatialMappingRenderer _mapRenderer;
         private TubesConnector _activeTubesConnector;
         private static readonly List<TubeFragment> AllFragments = new List<TubeFragment>();
-        
-        /// <summary> Включает или выключает кнопку "Соединить" на трубах. </summary>
-        private static void CheckConnectButtons()
-        {
-            for (int i = AllFragments.Count - 1; i >= 0; i--)
-            {
-                if (AllFragments[i] == null)
-                {
-                    AllFragments.RemoveAt(i);
-                }
-                else
-                {
-                    AllFragments[i].CheckConnectButton();
-                }
-            }
-        }
 
         #endregion
     }

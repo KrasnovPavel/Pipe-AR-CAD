@@ -1,10 +1,29 @@
-﻿using UnityEngine;
+﻿using HoloCore.UI;
+using JetBrains.Annotations;
+using UnityEngine;
 
 namespace HoloCAD.UI
 {
 	/// <summary> Класс, отображающий кнопки и информацию о трубах. </summary>
 	public abstract class TubeFragmentControlPanel : MonoBehaviour
 	{
+		/// <summary> Кнопка добавления погиба. </summary>
+		[Tooltip("Кнопка добавления погиба.")]
+		[CanBeNull] public Button3D AddBendFragmentButton;
+
+		/// <summary> Кнопка добавления прямого участка трубы. </summary>
+		[Tooltip("Кнопка добавления прямого участка трубы.")]
+		[CanBeNull] public Button3D AddDirectFragmentButton;
+
+		/// <summary> Кнопка удаления этого участка трубы. </summary>
+		[Tooltip("Кнопка удаления этого участка трубы.")]
+		[CanBeNull] public Button3D RemoveThisFragmentButton;
+        
+		/// <summary> Кнопка добавления объекта отображения расстояния между трубами. </summary>
+		[Tooltip("Кнопка добавления объекта отображения расстояния между трубами.")]
+		[CanBeNull] public Button3D ConnectTubesButton;
+        
+		
 		/// <summary> Расчет местоположения панели кнопок. </summary>
 		protected abstract void CalculateBarPosition();
 
@@ -14,6 +33,15 @@ namespace HoloCAD.UI
 		/// <summary> Отображение текста. </summary>
 		protected abstract void SetText();
 
+		/// <summary> Функция, инициализирующая кнопки. </summary>
+		/// <remarks>
+		/// При переопределении в потомке обязательно должна вызываться с помощью <c> base.InitButtons()</c>.
+		/// </remarks>
+		protected abstract void InitButtons();
+
+		/// <summary> Функция, проверяющая какие кнопки должны быть выключены. </summary>
+		protected abstract void CheckIsButtonsEnabled();
+
 		#region Unity event functions
 
 		/// <summary> Функция, инициализирующая объект в Unity. </summary>
@@ -22,6 +50,7 @@ namespace HoloCAD.UI
 		/// </remarks>
 		protected virtual void Start()
 		{
+			InitButtons();
 		}
 	
 		/// <summary> Функция, выполняющаяся в Unity каждый кадр. </summary>
@@ -33,6 +62,7 @@ namespace HoloCAD.UI
 			SetText();
 			CalculateBarPosition();
 			CalculateLine();
+			CheckIsButtonsEnabled();
 		}
 
 		#endregion
