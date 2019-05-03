@@ -8,41 +8,51 @@ namespace HoloCAD.UnityTubes
 	/// </summary>
 	public class TubeFragmentCollider : MonoBehaviour
 	{
+		/// <summary> Участок трубы к которому присоединён коллайдер. </summary>
 		public TubeFragment Owner;
 
 		#region Unity event functions
-
-		private void OnTriggerEnter(Collider other)
+		
+		private void Update()
 		{
-			TubeFragmentCollider otherCollider = other.GetComponent<TubeFragmentCollider>();
-			if (!otherCollider || otherCollider.Owner == Owner || IsNearFragment(otherCollider.Owner)) return;
-			numberOfCollisions++;
-			Owner.OnTubeCollisionEnter();
-		}
-
-		private void OnTriggerExit(Collider other)
-		{
-			TubeFragmentCollider otherCollider = other.GetComponent<TubeFragmentCollider>();
-			if (!otherCollider || otherCollider.Owner == Owner || IsNearFragment(otherCollider.Owner)) return;
-			numberOfCollisions--;
-			if (numberOfCollisions == 0)
+			if (_isInTrigger)
+			{
+				_counter = 0;
+				Owner.OnTubeCollisionEnter();
+			}
+			else if (_counter >= 5)
 			{
 				Owner.OnTubeCollisionExit();
 			}
+
+			_counter++;
+
+			_isInTrigger = false;
 		}
 
+		private void OnTriggerStay(Collider other)
+		{
+			TubeFragmentCollider otherCollider = other.GetComponent<TubeFragmentCollider>();
+			if (!otherCollider || otherCollider.Owner == Owner || IsNearFragment(otherCollider.Owner)) return;
+			
+			_isInTrigger = true;
+		}
+
+
+		#endregion
+
+		#region Private definitions
+
+		private int _numberOfCollisions;
+		private bool _isInTrigger;
+		private int _counter;
+		
 		private bool IsNearFragment(TubeFragment other)
 		{
 			Tube tube = Owner.Owner;
 
 			return tube.GetNextFragment(Owner) == other || tube.GetPreviousFragment(Owner) == other;
 		}
-
-		#endregion
-
-		#region Private definitions
-
-		private int numberOfCollisions;
 
 		#endregion
 	}
