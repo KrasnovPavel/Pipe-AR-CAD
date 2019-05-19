@@ -38,7 +38,7 @@ namespace HoloCAD.UnityTubes
         }
 
         /// <summary> Переход в режим размещения трубы. </summary>
-        public void StartPlacing()
+        public override void StartPlacing()
         {
             Owner.StartPlacing();
 #if ENABLE_WINMD_SUPPORT
@@ -61,6 +61,18 @@ namespace HoloCAD.UnityTubes
             }
         }
 
+        /// <summary> Выход из режима размещения трубы. </summary>
+        public override void StopPlacing()
+        {
+            if (IsPlacing)
+            {
+                Owner.StopPlacing();
+#if ENABLE_WINMD_SUPPORT
+                _recognizer.StopCapturingGestures();
+#endif
+            }
+        }
+
         #region Unity event functions
 
         /// <inheritdoc />
@@ -76,11 +88,7 @@ namespace HoloCAD.UnityTubes
             _recognizer = new GestureRecognizer();
             _recognizer.Tapped += args =>
             {
-                if (IsPlacing)
-                {
-                    Owner.StopPlacing();
-                    _recognizer.StopCapturingGestures();
-                }
+                StopPlacing();
             };
             _recognizer.StartCapturingGestures();
 #endif

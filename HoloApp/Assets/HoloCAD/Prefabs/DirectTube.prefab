@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 64684214407877184}
   - component: {fileID: 114110030720397364}
   - component: {fileID: 54309142560325252}
+  - component: {fileID: 8484242213132387742}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -176,6 +177,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8484242213132387742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074495318272164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed1900ecd4d85ba4fad2dc40969781c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1126952558097312
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,7 +309,6 @@ GameObject:
   - component: {fileID: 4720043317764478}
   - component: {fileID: 33787159959463460}
   - component: {fileID: 23899633820114346}
-  - component: {fileID: 114199513693375756}
   - component: {fileID: 64779348597398738}
   m_Layer: 0
   m_Name: Tube
@@ -365,18 +377,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &114199513693375756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146321060333328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed1900ecd4d85ba4fad2dc40969781c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!64 &64779348597398738
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -875,7 +875,7 @@ MonoBehaviour:
   AddBendFragmentButton: {fileID: 114452922723300130}
   AddDirectFragmentButton: {fileID: 0}
   RemoveThisFragmentButton: {fileID: 114719097841017952}
-  ConnectTubesButton: {fileID: 0}
+  ConnectTubesButton: {fileID: 114357206790663870}
   ButtonBar: {fileID: 1306852727649166}
   TextLabel: {fileID: 102783463596146694}
   IncreaseLengthButton: {fileID: 114099115228196300}

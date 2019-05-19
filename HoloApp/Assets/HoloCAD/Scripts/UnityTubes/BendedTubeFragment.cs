@@ -102,15 +102,17 @@ namespace HoloCAD.UnityTubes
         }
 
         /// <summary> Поворачивает погиб по часовой стрелке. </summary>
-        public void TurnClockwise()
+        /// <param name="deltaAngle"> Угол поворота. </param>
+        public void TurnClockwise(float deltaAngle = MeshFactory.DeltaAngle)
         {
-            transform.localRotation *= Quaternion.Euler(0, 0, MeshFactory.DeltaAngle);
+            transform.localRotation *= Quaternion.Euler(0, 0, deltaAngle);
         }
 
         /// <summary> Поворачивает погиб против часовой стрелки. </summary>
-        public void TurnAnticlockwise()
+        /// <param name="deltaAngle"> Угол поворота. </param>
+        public void TurnAnticlockwise(float deltaAngle = MeshFactory.DeltaAngle)
         {
-            transform.localRotation *= Quaternion.Euler(0, 0, -MeshFactory.DeltaAngle);
+            transform.localRotation *= Quaternion.Euler(0, 0, -deltaAngle);
         }
 
         /// <summary> Меняет радиус погиба. </summary>

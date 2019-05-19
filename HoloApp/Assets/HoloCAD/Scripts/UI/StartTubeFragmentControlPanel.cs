@@ -115,7 +115,7 @@ namespace HoloCAD.UI
 			}
 			if (SaveSceneButton != null)
 			{
-				SaveSceneButton.OnClick += delegate { SchemeExporter.Export(TubeManager.AllTubes); };
+				SaveSceneButton.OnClick += delegate { TubeManager.SaveScene(); };
 			}
 			if (IncreaseDiameterButton != null)
 			{

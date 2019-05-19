@@ -65,6 +65,36 @@ namespace HoloCAD
             _allTubes.Remove(tube);
         }
 
+        /// <summary> Сохраняет сцену в выбираемый пользователем файл. </summary>
+        public static void SaveScene()
+        {
+            SchemeExporter.Export(AllTubes);
+        }
+        
+        /// <summary> Выбирает следующий фрагмент трубы. </summary>
+        public static void SelectNext()
+        {
+            if (SelectedTubeFragment == null) return;
+
+            TubeFragment nextFragment = SelectedTubeFragment.GetNextTubeFragment();
+
+            if (nextFragment == null) return;
+            
+            SelectTubeFragment(nextFragment);
+        }
+        
+        /// <summary> Выбирает следующий фрагмент трубы. </summary>
+        public static void SelectPrevious()
+        {
+            if (SelectedTubeFragment == null) return;
+
+            TubeFragment previousFragment = SelectedTubeFragment.GetPreviousTubeFragment();
+
+            if (previousFragment == null) return;
+            
+            SelectTubeFragment(previousFragment);
+        }
+
         #region Private definitions
 
         // ReSharper disable once InconsistentNaming

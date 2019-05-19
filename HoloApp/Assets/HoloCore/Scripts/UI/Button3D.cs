@@ -1,4 +1,4 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
@@ -90,6 +90,53 @@ namespace HoloCore.UI
             
             State = isEnabled ? ButtonState.Enabled : ButtonState.Disabled;
             _forceDisable = !isEnabled;
+        }
+
+        /// <summary> Виртуальное нажатие на кнопку. </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public void Press()
+        {
+            switch (State)
+            {
+                case ButtonState.Disabled:
+                    break;
+                case ButtonState.Enabled:
+                    State = ButtonState.Pressed;
+                    OnPressed(this);
+                    break;
+                case ButtonState.Hovered:
+                    State = ButtonState.Pressed;
+                    OnPressed(this);
+                    break;
+                case ButtonState.Pressed:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary> Виртуальное отпускание кнопки. </summary>
+        /// <param name="setHover"> Если true, то кнопка перейдет в состояние Hovered, иначе в Enabled. </param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public void Release(bool setHover = true)
+        {
+            
+            switch (State)
+            {
+                case ButtonState.Disabled:
+                    break;
+                case ButtonState.Enabled:
+                    break;
+                case ButtonState.Hovered:
+                    break;
+                case ButtonState.Pressed:
+                    State = setHover ? ButtonState.Hovered : ButtonState.Enabled;
+                    OnReleased(this);
+                    OnClick(this);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         #region HoloToolKit event functions

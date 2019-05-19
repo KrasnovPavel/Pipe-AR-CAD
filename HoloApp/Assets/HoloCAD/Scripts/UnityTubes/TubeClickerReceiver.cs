@@ -11,11 +11,18 @@ namespace HoloCAD.UnityTubes
     /// <remarks> Должен быть присоединен компонентом к объекту содержащему меш трубы. </remarks>
     public class TubeClickerReceiver : MonoBehaviour, IInputClickHandler
     {
-        /// <summary> Обработчик события нажатия на трубу. </summary>
+        /// <summary> Обработчик события нажатия на трубу для HoloToolKit. </summary>
         /// <param name="eventData"></param>
         public void OnInputClicked(InputClickedEventData eventData)
         {
+            Click();
+        }
+
+        /// <summary> Обработчик события нажатия на трубу. </summary>
+        public void Click()
+        {
             TubeFragment parent = transform.parent.GetComponent<TubeFragment>();
+            if (parent == null) parent = transform.parent.parent.GetComponent<TubeFragment>();
             TubeManager.ToggleTubeSelection(parent);
             parent.Owner.FinishTubesConnectorCreation();
         }

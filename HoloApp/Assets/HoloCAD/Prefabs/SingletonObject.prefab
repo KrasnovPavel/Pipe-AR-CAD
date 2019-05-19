@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 773190230}
   - component: {fileID: 2173582593384371675}
   - component: {fileID: 1739458833221257050}
+  - component: {fileID: 4382598698365037645}
   m_Layer: 0
-  m_Name: SingletonObject 1
+  m_Name: SingletonObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,3 +101,17 @@ MonoBehaviour:
   m_CurrentRenderState: 1
   m_VisualMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
   m_OcclusionMaterial: {fileID: 15302, guid: 0000000000000000f000000000000000, type: 0}
+--- !u!114 &4382598698365037645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773190229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daea6feefe6b4758bb6cec8cb68f759a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeThreshold: 0.3
+  TimeFactor: 1

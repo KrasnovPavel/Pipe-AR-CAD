@@ -214,6 +214,20 @@ PrefabInstance:
       propertyPath: Cursor
       value: 
       objectReference: {fileID: 3781869}
+    - target: {fileID: 1329858366469352, guid: 3eddd1c29199313478dd3f912bfab2ab, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114367590399833948, guid: 3eddd1c29199313478dd3f912bfab2ab,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114512526664342106, guid: 3eddd1c29199313478dd3f912bfab2ab,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3eddd1c29199313478dd3f912bfab2ab, type: 3}
 --- !u!1001 &1073616207
@@ -340,6 +354,11 @@ PrefabInstance:
       propertyPath: m_VisualMaterial
       value: 
       objectReference: {fileID: 2100000, guid: d698790d3facd3d4289a13fa1243030a, type: 2}
+    - target: {fileID: 4382598698365037645, guid: 8f93a7cdd80955d4aac94164c508ab1d,
+        type: 3}
+      propertyPath: TimeThreshold
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f93a7cdd80955d4aac94164c508ab1d, type: 3}
 --- !u!1001 &1380242489

@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using HoloCAD.UI;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HoloCAD.UnityTubes
@@ -80,7 +81,7 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         public virtual void AddBendFragment()
         {
-            Owner.CreateBendedTubeFragment(EndPoint.transform);
+            if (!HasChild) Owner.CreateBendedTubeFragment(EndPoint.transform);
         }
 
         /// <summary> Добавление нового прямого участка трубы. </summary>
@@ -89,7 +90,7 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         public virtual void AddDirectFragment()
         {
-            Owner.CreateDirectTubeFragment(EndPoint.transform);
+            if (!HasChild) Owner.CreateDirectTubeFragment(EndPoint.transform);
         }
 
         /// <summary> Создание новой трубы. </summary>
@@ -124,6 +125,48 @@ namespace HoloCAD.UnityTubes
 
             Tube.GetComponent<MeshRenderer>().material.SetColor(GridColor,
                                                                 _isColliding ? CollidingTubeColor : DefaultTubeColor);
+        }
+
+        /// <summary> Возвращает следующий за этим фрагмент трубы или null, если этот фрагмент крайний. </summary>
+        /// <returns> Следующий фрагмент трубы. </returns>
+        [CanBeNull] public TubeFragment GetNextTubeFragment()
+        {
+            int index = Owner.Fragments.IndexOf(this);
+            if (index < 0 || index >= Owner.Fragments.Count - 1) return null;
+            
+            return Owner.Fragments[index + 1];
+        }
+        
+        /// <summary> Возвращает предыдущий за этим фрагмент трубы или null, если этот фрагмент крайний. </summary>
+        /// <returns> Следующий фрагмент трубы. </returns>
+        [CanBeNull] public TubeFragment GetPreviousTubeFragment()
+        {
+            int index = Owner.Fragments.IndexOf(this);
+            if (index <= 0 || index > Owner.Fragments.Count - 1) return null;
+            
+            return Owner.Fragments[index - 1];
+        }
+
+        public void TogglePlacing()
+        {
+            StartTubeFragment startFragment = ((StartTubeFragment) Owner.Fragments[0]);
+            
+            if (startFragment.IsPlacing) startFragment.StopPlacing();
+            else                         startFragment.StartPlacing();
+        }
+        
+        public virtual void StartPlacing()
+        {
+            StartTubeFragment startFragment = ((StartTubeFragment) Owner.Fragments[0]);
+            
+            if (!startFragment.IsPlacing) startFragment.StartPlacing();
+        }
+
+        public virtual void StopPlacing()
+        {
+            StartTubeFragment startFragment = ((StartTubeFragment) Owner.Fragments[0]);
+            
+            if (startFragment.IsPlacing) startFragment.StopPlacing();
         }
 
         #region Unity event functions
