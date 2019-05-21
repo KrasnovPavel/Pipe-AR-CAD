@@ -16,14 +16,12 @@ MonoBehaviour:
     vuforiaLicenseKey: AQwbQST/////AAABmTYVRYrdfEqOrnUEUvlKr4BChkIfIFVEpFzPJOShOrpAj9uJ/xmSMVJIsQUkiGqjtolZJi0h5TZk5QUSuZsX27YWAGHCSzxW9+UD/oJrgeG67YkicHPcXIh60zJ8exi38pZ37LF4MhI98Zcl/zVGGLxMBIFyYhg1qpgyeSbb4RPpOWTqZSjKHgRW7Wg+uf3G8Upk0PmHSHonoy9KDQ/PsFGFLX5gTS/hyjnF/Z0aoBefJCv3q5qZiu8YZXkJ74IyEdnMBY3vwAjJj5J3ywRQ+BZCPmzDigUd8DidMWNuxOj3B1RvEqSkIf75gXAkhdBpTEvmgQtamypXLh0Qu15AiHTxwRCyzLkNwnpYsqd+djDt
     ufoLicenseKey: QVlWY2h6ci8vLy8vQUFBQUtMaXpxdStHQlVQcHBSS0EyUGNEV1hhR200UlF2WWQzME80ODYvZm9iVXFib3RBZGZSK3dLaDZSMzdGVEI5NlI2VjhIWWVHbW9WYXpJQVVmVkIrVWJRcE9OdFhGNGdtclJsdmIxL3MwUUNXZXhvTFJWUHY0M2hYMGoxNHlxbSsyMjgxNkMrVUpjbm1EbkpGc3NEajRvb3Z6NjVFUFVjM2txYW9jdkZjUCtUTlAwZXVkK3FucVBpNVV0RW53S3dQZVZyMGFwOWJpSGpPS0gzL2FwS3I0UzdJbFQyMkt5dnAvSWRwaVVqQ2o4ekVYN2VEdmtHNDNDdmdtajY0MXl6UWt4bE9hUU0ycjFwbWpjUGFiSEovcXIzQnVncER4U2xHSkFpTVJnbnp2RFA1b3pFdW9ZZnFrek5UZjVPMGNDQ0hCeFkyWlZPTWpibDB1S2dSemVFbmp2YU4zd1hhelVNVlBCOS9OOXZrV1cxQXE=
     delayedInitialization: 0
-    cameraDeviceModeSetting: -1
+    cameraDeviceModeSetting: -3
     maxSimultaneousImageTargets: 1
     maxSimultaneousObjectTargets: 1
     useDelayedLoadingObjectTargets: 0
-    cameraDirection: 0
-    mirrorVideoBackground: 0
-    version: 8.0.10
-    eulaAcceptedVersions: '{"Values":["7.2","7.5","8.0"]}'
+    version: 8.1.10
+    eulaAcceptedVersions: '{"Values":["7.2","7.5","8.0","8.1"]}'
   digitalEyewear:
     cameraOffset: 0.06
     distortionRenderingLayer: 31
@@ -45,15 +43,18 @@ MonoBehaviour:
       DistortionCoefficients: {x: 0, y: 0}
       FieldOfView: {x: 0, y: 0, z: 0, w: 0}
       ContainsMagnet: 0
+  database:
+    disableModelExtraction: 0
   videoBackground:
     clippingMode: 0
     numDivisions: 2
-    videoBackgroundShader: {fileID: 0}
+    videoBackgroundShader: {fileID: 4800000, guid: f40623b353e2f1943b1b3ba42975db7a,
+      type: 3}
     matteShader: {fileID: 15310, guid: 0000000000000000f000000000000000, type: 0}
     videoBackgroundEnabled: 0
   deviceTracker:
-    autoInitTracker: 0
-    autoStartTracker: 0
+    autoInitTracker: 1
+    autoStartTracker: 1
     trackingMode: 1
     posePrediction: 0
     modelCorrectionMode: 0
@@ -64,6 +65,5 @@ MonoBehaviour:
     autoStartTracker: 0
   webcam:
     deviceNameSetInEditor: 
-    flipHorizontally: 0
     turnOffWebCam: 0
     renderTextureLayer: 30

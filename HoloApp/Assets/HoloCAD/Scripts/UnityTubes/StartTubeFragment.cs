@@ -124,8 +124,16 @@ namespace HoloCAD.UnityTubes
     
             RaycastHit hitInfo;
             if (!Physics.Raycast(headPosition, gazeDirection, out hitInfo, 30.0f)) return;
+
+            if (hitInfo.transform.name == "Marker")
+            {
+                transform.position = hitInfo.transform.position;
+            }
+            else
+            {
+                transform.position = hitInfo.point + Vector3.up * 0.02f;
+            }
             
-            transform.position = hitInfo.point + Vector3.up * 0.02f;
             transform.rotation = Quaternion.LookRotation(hitInfo.normal);
         }
 
