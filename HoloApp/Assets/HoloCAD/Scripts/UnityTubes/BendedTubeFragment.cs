@@ -75,6 +75,7 @@ namespace HoloCAD.UnityTubes
             }
         }
 
+        /// <inheritdoc />
         public override bool IsPlacing
         {
             get => base.IsPlacing;
@@ -88,6 +89,9 @@ namespace HoloCAD.UnityTubes
                 }
             }
         }
+
+        /// <summary> Угол поворота вокруг оси. </summary>
+        public float RotationAngle { get; private set; }
 
         /// <summary> Увеличивает угол погиба. </summary>
         public void IncreaseAngle()
@@ -105,6 +109,7 @@ namespace HoloCAD.UnityTubes
         /// <param name="deltaAngle"> Угол поворота. </param>
         public void TurnClockwise(float deltaAngle = MeshFactory.DeltaAngle)
         {
+            RotationAngle += deltaAngle;
             transform.localRotation *= Quaternion.Euler(0, 0, deltaAngle);
         }
 
@@ -112,6 +117,7 @@ namespace HoloCAD.UnityTubes
         /// <param name="deltaAngle"> Угол поворота. </param>
         public void TurnAnticlockwise(float deltaAngle = MeshFactory.DeltaAngle)
         {
+            RotationAngle -= deltaAngle;
             transform.localRotation *= Quaternion.Euler(0, 0, -deltaAngle);
         }
 

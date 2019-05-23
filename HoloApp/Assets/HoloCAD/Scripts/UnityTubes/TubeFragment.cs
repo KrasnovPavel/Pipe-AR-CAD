@@ -24,7 +24,6 @@ namespace HoloCAD.UnityTubes
             set
             {
                 _isPlacing = value;
-                Tube.GetComponent<MeshCollider>().enabled = !_isPlacing;
                 Tube.transform.Find("Collider").GetComponent<MeshCollider>().enabled = !_isPlacing;
             }
         }

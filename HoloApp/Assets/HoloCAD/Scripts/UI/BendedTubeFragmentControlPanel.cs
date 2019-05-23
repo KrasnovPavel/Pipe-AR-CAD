@@ -64,7 +64,7 @@ namespace HoloCAD.UI
 		/// <inheritdoc />
 		protected override void SetText()
 		{
-			TextLabel.text = $"A:{_fragment.Angle}";
+			TextLabel.text = $"A:{_fragment.Angle} B:{_fragment.RotationAngle}";
 		}
 
 		protected override void InitButtons()
