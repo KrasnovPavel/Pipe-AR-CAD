@@ -72,6 +72,14 @@ namespace HoloCAD.UI
 			{
 				ConnectTubesButton.OnClick += delegate { _fragment.Owner.CreateTubesConnector(); };
 			}
+			if (NextFragmentButton != null)
+			{
+				NextFragmentButton.OnClick += delegate { TubeManager.SelectNext(); };
+			}
+			if (PreviousFragmentButton != null)
+			{
+				PreviousFragmentButton.OnClick += delegate { TubeManager.SelectPrevious(); };
+			}
 			
 			
 			if (IncreaseLengthButton != null)
@@ -94,6 +102,7 @@ namespace HoloCAD.UI
 			
 			if (AddBendFragmentButton != null) AddBendFragmentButton.SetEnabled(!_fragment.HasChild);
 			if (AddDirectFragmentButton != null) AddDirectFragmentButton.SetEnabled(!_fragment.HasChild);
+			if (NextFragmentButton != null) NextFragmentButton.SetEnabled(_fragment.HasChild);
 		}
 
 		#region Unity event functions

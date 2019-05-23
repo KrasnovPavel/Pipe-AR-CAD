@@ -26,6 +26,13 @@ namespace HoloCAD.UI
 		[Tooltip("Кнопка добавления объекта отображения расстояния между трубами.")]
 		[CanBeNull] public Button3D ConnectTubesButton;
         
+		/// <summary> Кнопка перехода на следующий отрезок трубы. </summary>
+		[Tooltip("Кнопка перехода на следующий отрезок трубы.")]
+		[CanBeNull] public Button3D NextFragmentButton;
+		
+		/// <summary> Кнопка перехода на предыдущий отрезок трубы. </summary>
+		[Tooltip("Кнопка перехода на предыдущий отрезок трубы.")]
+		[CanBeNull] public Button3D PreviousFragmentButton;
 		
 		/// <summary> Расчет местоположения панели кнопок. </summary>
 		protected abstract void CalculateBarPosition();

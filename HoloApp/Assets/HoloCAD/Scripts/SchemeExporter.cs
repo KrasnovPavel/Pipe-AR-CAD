@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using UnityEngine;
 using HoloCAD.UnityTubes;
 #if ENABLE_WINMD_SUPPORT
@@ -146,10 +145,9 @@ namespace HoloCAD
             return result;
         }
         
-        // ReSharper disable once UnusedMember.Local
+#if ENABLE_WINMD_SUPPORT
         private static async void WriteFileInHololens(string data)
         {
-#if ENABLE_WINMD_SUPPORT
             FileSavePicker savePicker = new FileSavePicker();
             savePicker.DefaultFileExtension = ".json";
             savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
@@ -157,8 +155,8 @@ namespace HoloCAD
             StorageFile file = await savePicker.PickSaveFileAsync();
 
             await FileIO.WriteTextAsync(file, data);
-#endif
         }    
+#endif
         
         #endregion
     }

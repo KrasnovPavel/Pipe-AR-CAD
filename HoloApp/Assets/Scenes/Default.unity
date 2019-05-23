@@ -566,7 +566,7 @@ PrefabInstance:
     - target: {fileID: 773190230, guid: 8f93a7cdd80955d4aac94164c508ab1d, type: 3}
       propertyPath: Cursor
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1475422063}
     - target: {fileID: 2173582593384371675, guid: 8f93a7cdd80955d4aac94164c508ab1d,
         type: 3}
       propertyPath: m_SecondsBetweenUpdates
@@ -856,3 +856,9 @@ Transform:
   m_Father: {fileID: 1236047984}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1475422063 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000011844533774, guid: a611e772ef8ddf64d8106a9cbb70f31c,
+    type: 3}
+  m_PrefabInstance: {fileID: 398232457}
+  m_PrefabAsset: {fileID: 0}
