@@ -74,3 +74,12 @@ HoloCADExporter/[Dd]esktop.ini
 HoloCADExporter/Corridor/Library/ShaderCache/
 HoloCADExporter/Corridor/Library/metadata/ 
 
+# ================ #
+# Third-party libs #
+# ================ #
+HoloApp/Assets/StandaloneFileBrowser/
+HoloApp/Assets/StandaloneFileBrowser.meta
+HoloApp/Plugins/Editor/JetBrains/
+HoloApp/Plugins/Editor/JetBrains.meta
+HoloApp/Assets/HoloToolkit/
+HoloApp/Assets/HoloToolkit.meta

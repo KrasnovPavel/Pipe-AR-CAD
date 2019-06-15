@@ -18,6 +18,7 @@ namespace HoloCAD.UnityTubes
 		
 		private void Update()
 		{
+			// Workaround для бага, когда пересечение отображалось после того как труба удалена.
 			if (_isInTrigger)
 			{
 				_counter = 0;
@@ -50,6 +51,9 @@ namespace HoloCAD.UnityTubes
 		private bool _isInTrigger;
 		private int _counter;
 		
+		/// <summary> Является ли переданный фрагмент соседним для хозяина этого коллайдера? </summary>
+		/// <param name="other"> Фрагмент трубы, который надо проверить. </param>
+		/// <returns></returns>
 		private bool IsNearFragment(TubeFragment other)
 		{
 			Tube tube = Owner.Owner; // TODO: FIX NRE
