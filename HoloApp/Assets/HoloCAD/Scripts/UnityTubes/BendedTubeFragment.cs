@@ -127,6 +127,20 @@ namespace HoloCAD.UnityTubes
             UseSecondRadius = !UseSecondRadius;
         }
 
+        /// <inheritdoc/>
+        public override void OnTubeCollisionEnter()
+        {
+            // Так как погиб не является выпуклой фигурой, он требует особенной обработки коллизий.
+            // Для этого создается несколько маленьких выпуклых коллайдеров. 
+            // Если хоть один коллайдер обнаружил коллизию, значит вся труба в коллизии.
+            _hasCollision = true;
+        }
+
+        /// <inheritdoc/>
+        public override void OnTubeCollisionExit()
+        {
+            // Do nothing
+        }
 
         #region Unity event functions
 
@@ -141,6 +155,25 @@ namespace HoloCAD.UnityTubes
             TubeManager.SelectTubeFragment(this);
         }
 
+        /// <inheritdoc/>
+        protected override void Update()
+        {
+            base.Update();
+            if (_hasCollision)
+            {
+                _counter = 0;
+                base.OnTubeCollisionEnter();
+            }
+            else if (_counter >= 5)
+            {
+                base.OnTubeCollisionExit();
+            }
+
+            _counter++;
+            
+            _hasCollision = false;
+        }
+
         #endregion
         
         #region Private defintions
@@ -148,6 +181,8 @@ namespace HoloCAD.UnityTubes
         private List<Mesh> _meshes;
         private float _radius;
         private readonly List<GameObject> _colliders = new List<GameObject>();
+        private bool _hasCollision;
+        private int _counter;
     
         private bool _useSecondRadius;
         private int _angle = MeshFactory.DeltaAngle;
