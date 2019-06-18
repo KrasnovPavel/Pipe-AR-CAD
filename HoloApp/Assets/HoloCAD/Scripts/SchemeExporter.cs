@@ -84,7 +84,7 @@ namespace HoloCAD
 
             // ReSharper disable once InconsistentNaming
             /// <summary> Угол погиба (только если bended). </summary>
-            public int bendAngle;
+            public float bendAngle;
         }
 
         /// <summary> Сериализует все трубы в json формат. </summary>

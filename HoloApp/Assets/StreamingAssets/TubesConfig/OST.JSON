@@ -2,11 +2,6 @@
   "name": "OST5.95057-90",
   "available_tubes": [
     {
-      "diameter": 0.050,
-      "first_radius": 0.05,
-      "second_radius": 0.05
-    },
-    {
       "diameter": 0.014,
       "first_radius": 0.035,
       "second_radius": 0.035
@@ -100,6 +95,11 @@
       "diameter": 0.050,
       "first_radius": 0.120,
       "second_radius": 0.090
+    },
+    {
+      "diameter": 0.051,
+      "first_radius": 0.05,
+      "second_radius": 0.05
     },
     {
       "diameter": 0.054,

@@ -55,13 +55,16 @@ namespace HoloCAD.UnityTubes
         /// <summary> Выходит ли из этого участка трубы другой? </summary>
         public bool HasChild;
 
+        /// <summary> Пересекается ли этот участок трубы с другим? </summary>
+        public bool IsColliding { get; private set; }
+
         /// <summary> Функция, которая вызывается когда этот участок трубы пересекается с другим </summary>
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.OnTubeCollisionEnter()</c>.
         /// </remarks>
         public virtual void OnTubeCollisionEnter()
         {
-            _isColliding = true;
+            IsColliding = true;
             SetColor();
         }
 
@@ -71,7 +74,7 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         public virtual void OnTubeCollisionExit()
         {
-            _isColliding = false;
+            IsColliding = false;
             SetColor();
         }
 
@@ -117,14 +120,12 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         protected virtual void SetColor()
         {
-            if (IsSelected)
-            {
-                Tube.GetComponent<MeshRenderer>().material.SetColor(GridColor, SelectedTubeColor);
-                return;
-            }
+            Color color;
+            
+            if (IsSelected) color = SelectedTubeColor;
+            else            color = IsColliding ? CollidingTubeColor : DefaultTubeColor;
 
-            Tube.GetComponent<MeshRenderer>().material.SetColor(GridColor,
-                                                                _isColliding ? CollidingTubeColor : DefaultTubeColor);
+            Tube.GetComponent<MeshRenderer>().material.SetColor(GridColor, color);
         }
 
         /// <summary> Возвращает следующий за этим фрагмент трубы или null, если этот фрагмент крайний. </summary>
@@ -212,7 +213,6 @@ namespace HoloCAD.UnityTubes
 
         private bool _isSelected;
         private bool _isPlacing;
-        private bool _isColliding;
         private bool _hasTransformError;
         private static readonly int GridColor = Shader.PropertyToID("_GridColor");
 

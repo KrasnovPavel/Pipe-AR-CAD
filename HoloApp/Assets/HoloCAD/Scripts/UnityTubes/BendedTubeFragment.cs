@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using HoloToolkit.Unity;
 using JetBrains.Annotations;
@@ -16,9 +17,21 @@ namespace HoloCAD.UnityTubes
         /// <summary> Prefab коллайдера сегмента погиба. </summary>
         [Tooltip("Prefab коллайдера сегмента погиба.")] 
         [CanBeNull] public GameObject ColliderPrefab;
+
+        /// <summary> Материал цвета трубы по умолчанию. </summary>
+        [Tooltip("Материал цвета трубы по умолчанию.")] 
+        public Material DefaultTubeMaterial;
+        
+        /// <summary> Материал цвета выбранной трубы. </summary>
+        [Tooltip("Материал цвета выбранной трубы.")] 
+        public Material SelectedTubeMaterial;
+        
+        /// <summary> Материал цвета пересекающейся трубы. </summary>
+        [Tooltip("Материал цвета пересекающейся трубы.")] 
+        public Material CollidingTubeMaterial;
         
         /// <summary> Угол погиба. </summary>
-        public int Angle
+        public float Angle
         {
             get => _angle;
             set
@@ -28,10 +41,10 @@ namespace HoloCAD.UnityTubes
                     return;
                 }
                 
-                SetColliders(value, _angle);
+                SetColliders(_angle);
                 _angle = value;
-    
-                SetMesh();
+                Tube.GetComponent<MeshRenderer>().material.SetFloat(ShaderAngle, _angle / 180f * (float)Math.PI);
+                SetEndpoint();
             }
         }
     
@@ -56,6 +69,7 @@ namespace HoloCAD.UnityTubes
                 _radius = value;
                 
                 Tube.GetComponent<MeshRenderer>().material.SetFloat(ShaderBendRadius, Radius);
+                SetEndpoint();
             }
         }
 
@@ -68,10 +82,11 @@ namespace HoloCAD.UnityTubes
                 if (Math.Abs(base.Diameter - value) < float.Epsilon) return;
 
                 base.Diameter = value;
-                _meshes = MeshFactory.CreateMeshes(Owner.Data);
+                _meshes = MeshFactory.GetMeshes(Owner.Data);
                 Radius = _useSecondRadius ? Owner.Data.second_radius : Owner.Data.first_radius;
                 Tube.GetComponent<MeshRenderer>().material.SetFloat(ShaderDiameter, Diameter);
                 SetMesh();
+                SetEndpoint();
             }
         }
 
@@ -94,15 +109,15 @@ namespace HoloCAD.UnityTubes
         public float RotationAngle { get; private set; }
 
         /// <summary> Увеличивает угол погиба. </summary>
-        public void IncreaseAngle()
+        public void IncreaseAngle(float delta = MeshFactory.DeltaAngle)
         {
-            Angle += MeshFactory.DeltaAngle;
+            Angle += delta;
         }
 
         /// <summary> Уменьшает угол погиба. </summary>
-        public void DecreaseAngle()
+        public void DecreaseAngle(float delta = MeshFactory.DeltaAngle)
         {
-            Angle -= MeshFactory.DeltaAngle;
+            Angle -= delta;
         }
 
         /// <summary> Поворачивает погиб по часовой стрелке. </summary>
@@ -142,14 +157,28 @@ namespace HoloCAD.UnityTubes
             // Do nothing
         }
 
+        /// <inheritdoc/>
+        protected override void SetColor()
+        {
+            base.SetColor();
+            
+            Material mat;
+            
+            if (IsSelected) mat = SelectedTubeMaterial;
+            else            mat = IsColliding ? CollidingTubeMaterial : DefaultTubeMaterial;
+
+            
+            EndPoint.GetComponent<MeshRenderer>().material = mat;
+        }
+
         #region Unity event functions
 
         /// <inheritdoc />
         protected override void Start()
         {
             base.Start();
-            _meshes = MeshFactory.CreateMeshes(Owner.Data);
-            SetColliders(MeshFactory.DeltaAngle, 0);
+            _meshes = MeshFactory.GetMeshes(Owner.Data);
+            CreateColliders();
             UseSecondRadius = false;
             Angle = 90;
             TubeManager.SelectTubeFragment(this);
@@ -178,32 +207,34 @@ namespace HoloCAD.UnityTubes
         
         #region Private defintions
         
+        /// <summary> Список мешей для погиба данного диаметра. </summary>
+        /// <remarks> Содержит три меша: погиб первого радиуса, погиб второго радиуса, плоское кольцо. </remarks>
         private List<Mesh> _meshes;
-        private float _radius;
+        
+        /// <summary> Список плоских выпуклых коллайдеров. </summary>
         private readonly List<GameObject> _colliders = new List<GameObject>();
-        private bool _hasCollision;
+        
+        /// <summary> Счетчик для задержки пр обработке коллизии. </summary>
         private int _counter;
     
-        private bool _useSecondRadius;
-        private int _angle = MeshFactory.DeltaAngle;
         private static readonly int ShaderDiameter = Shader.PropertyToID("_Diameter");
         private static readonly int ShaderBendRadius = Shader.PropertyToID("_BendRadius");
+        private static readonly int ShaderAngle = Shader.PropertyToID("_Angle");
+        private bool _useSecondRadius;
+        private float _angle = MeshFactory.DeltaAngle;
+        private bool _hasCollision;
+        private float _radius;
     
         /// <summary> Отображает соответствующий меш. </summary>
         private void SetMesh()
         {
-            Quaternion rot = Quaternion.Euler(0, -Angle, 0);
-            Vector3 pos = new Vector3(Radius, 0, 0);
-            EndPoint.transform.localPosition = rot * pos - pos;
-            EndPoint.transform.localRotation = rot;
-            const int numberOfAngles = 180 / MeshFactory.DeltaAngle;
-            Tube.GetComponent<MeshFilter>().mesh = _meshes[Angle / MeshFactory.DeltaAngle - 1 + (UseSecondRadius ? numberOfAngles : 0)];
+            Tube.GetComponent<MeshFilter>().mesh = _meshes[UseSecondRadius ? 1 : 0];
             Tube.GetComponent<MeshCollider>().sharedMesh = Tube.GetComponent<MeshFilter>().mesh;
+            EndPoint.GetComponent<MeshFilter>().mesh = _meshes.Last();
             
             for (int i = 0; i < _colliders.Count; i++)
             {
-                _colliders[i].GetComponent<MeshCollider>().sharedMesh = _meshes[UseSecondRadius ? numberOfAngles : 0];
-                
+                _colliders[i].GetComponent<MeshCollider>().sharedMesh = _meshes.Last();
                 float shiftAngle = (2 * i + 1) / 2f * MeshFactory.DeltaAngle;
                 Vector3 shiftVector = Vector3.zero;
                 shiftVector = shiftVector.RotateAround(new Vector3(-Radius, 0f, 0f), 
@@ -212,35 +243,40 @@ namespace HoloCAD.UnityTubes
             }
         }
 
-        /// <summary> Создает или удаляет необходимое число коллайдеров. </summary>
+        /// <summary> Включает или выключает необходимое число коллайдеров. </summary>
         /// <param name="newAngle"> Новый угол поворота. </param>
-        /// <param name="oldAngle"> Старый угол поворота. </param>
-        private void SetColliders(int newAngle, int oldAngle)
+        private void SetColliders(float newAngle)
         {
-            int newPos = newAngle / MeshFactory.DeltaAngle;
-            int oldPos = oldAngle / MeshFactory.DeltaAngle;
+            int newPos = (int)Math.Floor(newAngle / MeshFactory.DeltaAngle);
 
-            if (newPos < oldPos)
+            for (int i = 0; i < _colliders.Count; i++)
             {
-                for (int i = oldPos - 1; i >= newPos; i--)
-                {
-                    Destroy(_colliders[i]);
-                    _colliders.RemoveAt(_colliders.Count - 1);
-                }
+                _colliders[i].SetActive(i <= newPos);
             }
-            else
+        }
+
+        /// <summary> Создаёт коллайдеры. </summary>
+        private void CreateColliders()
+        {
+            for (int i = 0; i <= 180 / MeshFactory.DeltaAngle; i++)
             {
-                for (int i = oldPos + 1; i <= newPos; i++)
-                {
-                    GameObject newCollider = Instantiate(ColliderPrefab, Tube.transform);
-                    newCollider.GetComponent<TubeFragmentCollider>().Owner = this;
-                    MeshCollider meshCollider = newCollider.GetComponent<MeshCollider>();
-                    meshCollider.convex = true;
-                    meshCollider.isTrigger = true;
-                    newCollider.transform.Rotate(new Vector3(0f, -(i-1) * MeshFactory.DeltaAngle, 0f));
-                    _colliders.Add(newCollider);
-                }
+                GameObject newCollider = Instantiate(ColliderPrefab, Tube.transform);
+                newCollider.GetComponent<TubeFragmentCollider>().Owner = this;
+                MeshCollider meshCollider = newCollider.GetComponent<MeshCollider>();
+                meshCollider.convex = true;
+                meshCollider.isTrigger = true;
+                newCollider.transform.Rotate(new Vector3(0f, -(i - 1) * MeshFactory.DeltaAngle, 0f));
+                _colliders.Add(newCollider);
             }
+        }
+
+        /// <summary> Перемещает конечную точку трубы в нужное место. </summary>
+        private void SetEndpoint()
+        {
+            Quaternion rot = Quaternion.Euler(0, -Angle, 0);
+            Vector3 pos = new Vector3(Radius, 0, 0);
+            EndPoint.transform.localPosition = rot * pos - pos;
+            EndPoint.transform.localRotation = rot;
         }
 
         #endregion

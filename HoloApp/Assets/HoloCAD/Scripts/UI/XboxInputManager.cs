@@ -56,9 +56,7 @@ namespace HoloCAD.UI
                     break;
                 case BendedTubeFragment bendedFragment:
                     CheckFireOnce("RightBumper", bendedFragment.AddDirectFragment);
-                    CheckRepeatPressingAxis("RightStickHorizontal",
-                                            bendedFragment.IncreaseAngle, 
-                                            bendedFragment.DecreaseAngle);
+                    CheckAxisChange("RightStickHorizontal", bendedFragment.IncreaseAngle, TimeFactor * 6);
                     CheckAxisChange("LeftStickHorizontal", bendedFragment.TurnClockwise, TimeFactor * 6);
                     CheckRepeatPressing("DPADVertical", bendedFragment.ChangeRadius);
                     break;

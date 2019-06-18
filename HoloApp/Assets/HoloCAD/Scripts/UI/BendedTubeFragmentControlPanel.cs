@@ -47,8 +47,7 @@ namespace HoloCAD.UI
 
 			Vector3 endPointPosition = ButtonBar.transform.parent.position;
 			
-			Vector3 direction = (_camera.transform.position - endPointPosition).normalized 
-			                    * _fragment.Diameter * 1.1f;
+			Vector3 direction = _fragment.Diameter * 1.1f * (_camera.transform.position - endPointPosition).normalized;
 			
 			Quaternion rotation = Quaternion.FromToRotation(Vector3.back, direction);
 			ButtonBar.transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
