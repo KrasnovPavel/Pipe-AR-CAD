@@ -8,12 +8,12 @@ using UnityEngine;
 namespace HoloCAD.UnityTubes
 {
     /// <summary> Класс, создающий меши погиба для всех возможных углов погиба. </summary>
-    public static class MeshFactory {
-        
-        /// <summary> Создает меши для погиба трубы. </summary>
-        /// <param name="tubeData"> Параметры погиба. </param>
-        /// <returns> Список созданных мешей. </returns>
-        [NotNull] public static List<Mesh> CreateMeshes(TubeLoader.TubeData tubeData)
+    public static class MeshFactory
+    {
+        /// <summary> Получение мешей погиба трубы.</summary>
+        /// <param name="tubeData"> Данные о трубе трубы. </param>
+        /// <returns> Список из трех мешей: погиб первого радиуса, погиб второго радиуса, плоское кольцо. </returns>
+        [NotNull] public static List<Mesh> GetMeshes(TubeLoader.TubeData tubeData)
         {
             if (GeneratedMeshes.ContainsKey(tubeData))
             {
@@ -21,23 +21,14 @@ namespace HoloCAD.UnityTubes
             }
             
             List<Mesh> meshes = new List<Mesh>();
-            float[] radiuses = { tubeData.first_radius, tubeData.second_radius };
-    
-            for (int j = 0; j < 2; ++j)
+            
+            float[] radiuses = {tubeData.first_radius, tubeData.second_radius};
+            foreach (float r in radiuses)
             {
-                List<Vector3> allVertices = GenerateVertices(tubeData.diameter, radiuses[j]);
-                for (int i = 1; i <= 180 / DeltaAngle; ++i)
-                {
-                    List<Vector3> vertices = allVertices.GetRange(0, (i + 1) * SegmentsCount * 2);
-                    meshes.Add(new Mesh());
-                    meshes[meshes.Count - 1].vertices = vertices.ToArray();
-                    meshes[meshes.Count - 1].triangles = GenerateTriangles(vertices.Count, i);
-    
-                    meshes[meshes.Count - 1].RecalculateBounds();
-                    meshes[meshes.Count - 1].RecalculateNormals();
-                    meshes[meshes.Count - 1].RecalculateTangents();
-                }
+                meshes.Add(GenerateTube(tubeData.diameter, r));
             }
+            
+            meshes.Add(GenerateRing(tubeData.diameter));
 
             GeneratedMeshes[tubeData] = meshes;
             return meshes;
@@ -52,9 +43,49 @@ namespace HoloCAD.UnityTubes
         private const int SegmentsCount = 20;
 
         /// <summary> Список уже сгенерированных мешей для каждой трубы. </summary>
-        private static readonly Dictionary<TubeLoader.TubeData, List<Mesh>> GeneratedMeshes = 
-            new Dictionary<TubeLoader.TubeData, List<Mesh>>();
-    
+        private static readonly Dictionary<TubeLoader.TubeData, List<Mesh>> GeneratedMeshes 
+                                                                    = new Dictionary<TubeLoader.TubeData, List<Mesh>>();
+
+        /// <summary> Генерирует трубу для погиба. </summary>
+        /// <param name="tubeDiameter"> Диаметр трубы. </param>
+        /// <param name="bendRadius"> Радиус погиба. </param>
+        /// <returns> Меш трубы. </returns>
+        [NotNull] private static Mesh GenerateTube(float tubeDiameter, float bendRadius)
+        {
+            List<Vector3> allVertices = GenerateVertices(tubeDiameter, bendRadius);
+            List<Vector3> vertices = allVertices.GetRange(0, (180 / DeltaAngle + 1) * SegmentsCount * 2);
+            Mesh mesh = new Mesh
+            {
+                vertices = vertices.ToArray(), 
+                triangles = GenerateTriangles(vertices.Count, 180 / DeltaAngle)
+            };
+
+            mesh.RecalculateBounds();
+            mesh.RecalculateNormals();
+            mesh.RecalculateTangents();
+
+            return mesh;
+        }
+
+
+        /// <summary> Генерирует кольцо заданного диаметра. </summary>
+        /// <param name="diameter"> Диаметр кольца. </param>
+        /// <returns> Меш кольца. </returns>
+        [NotNull] private static Mesh GenerateRing(float diameter)
+        {
+            Mesh mesh = new Mesh
+            {
+                vertices = GenerateCircle(diameter), 
+                triangles = GenerateEdgeTriangles(0, true).ToArray()
+            };
+
+            mesh.RecalculateBounds();
+            mesh.RecalculateNormals();
+            mesh.RecalculateTangents();
+
+            return mesh;
+        }
+        
         /// <summary> Расчитывает все точки меша погиба. </summary>
         /// <param name="tubeDiameter"> Диаметр трубы. </param>
         /// <param name="bendRadius"> Угол погиба. </param>
