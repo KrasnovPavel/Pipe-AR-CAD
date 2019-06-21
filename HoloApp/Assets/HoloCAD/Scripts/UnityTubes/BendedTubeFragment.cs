@@ -98,9 +98,18 @@ namespace HoloCAD.UnityTubes
             {
                 base.IsPlacing = value;
 
-                foreach (GameObject col in _colliders)
+                Tube.GetComponent<MeshCollider>().enabled = !IsPlacing;
+                
+                if (IsPlacing)
                 {
-                    col.GetComponent<MeshCollider>().enabled = !IsPlacing;
+                    foreach (GameObject col in _colliders)
+                    {
+                        col.SetActive(false);
+                    }
+                }
+                else
+                {
+                    SetColliders(Angle);
                 }
             }
         }
@@ -148,13 +157,19 @@ namespace HoloCAD.UnityTubes
             // Так как погиб не является выпуклой фигурой, он требует особенной обработки коллизий.
             // Для этого создается несколько маленьких выпуклых коллайдеров. 
             // Если хоть один коллайдер обнаружил коллизию, значит вся труба в коллизии.
-            _hasCollision = true;
+            if (GetNumberOfCollisions() == 1)
+            {
+                base.OnTubeCollisionEnter();
+            }
         }
 
         /// <inheritdoc/>
         public override void OnTubeCollisionExit()
         {
-            // Do nothing
+            if (GetNumberOfCollisions() == 0)
+            {
+                base.OnTubeCollisionExit();
+            }
         }
 
         /// <inheritdoc/>
@@ -184,25 +199,6 @@ namespace HoloCAD.UnityTubes
             TubeManager.SelectTubeFragment(this);
         }
 
-        /// <inheritdoc/>
-        protected override void Update()
-        {
-            base.Update();
-            if (_hasCollision)
-            {
-                _counter = 0;
-                base.OnTubeCollisionEnter();
-            }
-            else if (_counter >= 5)
-            {
-                base.OnTubeCollisionExit();
-            }
-
-            _counter++;
-            
-            _hasCollision = false;
-        }
-
         #endregion
         
         #region Private defintions
@@ -210,19 +206,16 @@ namespace HoloCAD.UnityTubes
         /// <summary> Список мешей для погиба данного диаметра. </summary>
         /// <remarks> Содержит три меша: погиб первого радиуса, погиб второго радиуса, плоское кольцо. </remarks>
         private List<Mesh> _meshes;
-        
+
         /// <summary> Список плоских выпуклых коллайдеров. </summary>
         private readonly List<GameObject> _colliders = new List<GameObject>();
-        
-        /// <summary> Счетчик для задержки пр обработке коллизии. </summary>
-        private int _counter;
-    
+        private readonly List<TubeFragmentCollider> _collidersComponents = new List<TubeFragmentCollider>();
+
         private static readonly int ShaderDiameter = Shader.PropertyToID("_Diameter");
         private static readonly int ShaderBendRadius = Shader.PropertyToID("_BendRadius");
         private static readonly int ShaderAngle = Shader.PropertyToID("_Angle");
         private bool _useSecondRadius;
         private float _angle = MeshFactory.DeltaAngle;
-        private bool _hasCollision;
         private float _radius;
     
         /// <summary> Отображает соответствующий меш. </summary>
@@ -234,12 +227,11 @@ namespace HoloCAD.UnityTubes
             
             for (int i = 0; i < _colliders.Count; i++)
             {
-                _colliders[i].GetComponent<MeshCollider>().sharedMesh = _meshes.Last();
-                float shiftAngle = (2 * i + 1) / 2f * MeshFactory.DeltaAngle;
-                Vector3 shiftVector = Vector3.zero;
-                shiftVector = shiftVector.RotateAround(new Vector3(-Radius, 0f, 0f), 
-                                                       Quaternion.Euler(0, -shiftAngle, 0));
-                _colliders[i].GetComponent<MeshCollider>().transform.localPosition = shiftVector;
+                _colliders[i].GetComponent<SphereCollider>().radius = Diameter / 2;
+                float shiftAngle = (2 * i + 2) / 2f * MeshFactory.DeltaAngle;
+                Vector3 shiftVector = Vector3.zero.RotateAround(new Vector3(-Radius, 0f, 0f), 
+                                                        Quaternion.Euler(0, -shiftAngle, 0));
+                _colliders[i].transform.localPosition = shiftVector;
             }
         }
 
@@ -249,9 +241,22 @@ namespace HoloCAD.UnityTubes
         {
             int newPos = (int)Math.Floor(newAngle / MeshFactory.DeltaAngle);
 
-            for (int i = 0; i < _colliders.Count; i++)
+            if (newPos < 3)
             {
-                _colliders[i].SetActive(i <= newPos);
+                foreach (GameObject col in _colliders)
+                {
+                    col.SetActive(false);
+                }
+                
+                _colliders[0].SetActive(true);
+                
+            }
+            else
+            {
+                for (int i = 0; i < _colliders.Count; i++)
+                {
+                    _colliders[i].SetActive((i < newPos - 2));
+                }
             }
         }
 
@@ -262,11 +267,8 @@ namespace HoloCAD.UnityTubes
             {
                 GameObject newCollider = Instantiate(ColliderPrefab, Tube.transform);
                 newCollider.GetComponent<TubeFragmentCollider>().Owner = this;
-                MeshCollider meshCollider = newCollider.GetComponent<MeshCollider>();
-                meshCollider.convex = true;
-                meshCollider.isTrigger = true;
-                newCollider.transform.Rotate(new Vector3(0f, -(i - 1) * MeshFactory.DeltaAngle, 0f));
                 _colliders.Add(newCollider);
+                _collidersComponents.Add(newCollider.GetComponent<TubeFragmentCollider>());
             }
         }
 
@@ -277,6 +279,21 @@ namespace HoloCAD.UnityTubes
             Vector3 pos = new Vector3(Radius, 0, 0);
             EndPoint.transform.localPosition = rot * pos - pos;
             EndPoint.transform.localRotation = rot;
+        }
+
+        private int GetNumberOfCollisions()
+        {
+            int angle = (int)Math.Floor(Angle / MeshFactory.DeltaAngle);
+            int numberOfCollisions = 0;
+            for (int i = 0; i < _colliders.Count && i < angle - 2; i++)
+            {
+                if (_colliders[i].activeSelf && _collidersComponents[i].IsInTrigger)
+                {
+                    numberOfCollisions++;
+                }
+            }
+
+            return numberOfCollisions;
         }
 
         #endregion

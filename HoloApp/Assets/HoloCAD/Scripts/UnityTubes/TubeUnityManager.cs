@@ -62,8 +62,8 @@ namespace HoloCAD.UnityTubes
         [NotNull] public static DirectTubeFragment CreateDirectTubeFragment(Tube owner, Transform pivot)
         {
             GameObject tube = Instantiate(Instance.DirectTubeFragmentPrefab, pivot);
-            tube.transform.localPosition = Vector3.zero;
             tube.GetComponent<TubeFragment>().Owner = owner;
+            tube.transform.localPosition = Vector3.zero;
             AllFragments.Add(tube.GetComponent<TubeFragment>());
             return tube.GetComponent<DirectTubeFragment>();
         }
@@ -75,8 +75,8 @@ namespace HoloCAD.UnityTubes
         [NotNull] public static BendedTubeFragment CreateBendedTubeFragment(Tube owner, Transform pivot)
         {
             GameObject tube = Instantiate(Instance.BendedTubeFragmentPrefab, pivot);
-            tube.transform.localPosition = Vector3.zero;
             tube.GetComponent<TubeFragment>().Owner = owner;
+            tube.transform.localPosition = Vector3.zero;
             AllFragments.Add(tube.GetComponent<TubeFragment>());
             return tube.GetComponent<BendedTubeFragment>();
         }

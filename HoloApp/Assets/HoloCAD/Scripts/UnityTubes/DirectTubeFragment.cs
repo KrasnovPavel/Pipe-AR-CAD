@@ -40,6 +40,19 @@ namespace HoloCAD.UnityTubes
             }
         }
 
+        /// <inheritdoc/>
+        public override bool IsPlacing
+        {
+            get => base.IsPlacing;
+            set
+            {
+                base.IsPlacing = value;
+                
+                Transform tubeCollider = Tube.transform.Find("Collider"); 
+                if (tubeCollider != null) tubeCollider.GetComponent<CapsuleCollider>().enabled = !IsPlacing;
+            }
+        }
+
         /// <summary> Увеличивает длину. </summary>
         /// <param name="delta"> Изменение длины. </param>
         public void IncreaseLength(float delta = 0.05f)

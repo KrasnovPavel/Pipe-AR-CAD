@@ -25,6 +25,19 @@ namespace HoloCAD.UnityTubes
                 Tube.transform.localScale = new Vector3(Diameter, Length, Diameter);
             }
         }
+        
+        /// <inheritdoc/>
+        public override bool IsPlacing
+        {
+            get => base.IsPlacing;
+            set
+            {
+                base.IsPlacing = value;
+                
+                Transform tubeCollider = Tube.transform.Find("Collider"); 
+                if (tubeCollider != null) tubeCollider.GetComponent<BoxCollider>().enabled = !IsPlacing;
+            }
+        }
 
         /// <summary> Устанавливает следующий из доступных диаметров труб. </summary>
         public void IncreaseDiameter()

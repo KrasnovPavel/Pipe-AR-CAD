@@ -18,16 +18,7 @@ namespace HoloCAD.UnityTubes
         public GameObject EndPoint { get; protected set; }
 
         /// <summary> Флаг, находится ли участок трубы в режиме перемещения. </summary>
-        public virtual bool IsPlacing
-        {
-            get => _isPlacing;
-            set
-            {
-                _isPlacing = value;
-                Transform tubeCollider = Tube.transform.Find("Collider"); 
-                if (tubeCollider != null) tubeCollider.GetComponent<MeshCollider>().enabled = !_isPlacing;
-            }
-        }
+        public virtual bool IsPlacing { get; set; }
 
         /// <summary> Труба-хозяин этого участка. </summary>
         public Tube Owner;
@@ -212,7 +203,6 @@ namespace HoloCAD.UnityTubes
         #region Private definitions
 
         private bool _isSelected;
-        private bool _isPlacing;
         private bool _hasTransformError;
         private static readonly int GridColor = Shader.PropertyToID("_GridColor");
 
