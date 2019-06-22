@@ -111,12 +111,22 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         protected virtual void SetColor()
         {
-            Color color;
-            
-            if (IsSelected) color = SelectedTubeColor;
-            else            color = IsColliding ? CollidingTubeColor : DefaultTubeColor;
+            Color gridColor;
+            Color baseColor;
 
-            Tube.GetComponent<MeshRenderer>().material.SetColor(GridColor, color);
+            if (IsSelected)
+            {
+                gridColor = SelectedTubeGridColor;
+                baseColor = IsColliding ? CollidingTubeBaseColor : SelectedTubeBaseColor;
+            }
+            else
+            {
+                gridColor = IsColliding ? CollidingTubeGridColor : DefaultTubeGridColor;
+                baseColor = DefaultTubeBaseColor;
+            }
+
+            Tube.GetComponent<MeshRenderer>().material.SetColor(GridColor, gridColor);
+            Tube.GetComponent<MeshRenderer>().material.SetColor(BaseColor, baseColor);
         }
 
         /// <summary> Возвращает следующий за этим фрагмент трубы или null, если этот фрагмент крайний. </summary>
@@ -204,16 +214,26 @@ namespace HoloCAD.UnityTubes
 
         private bool _isSelected;
         private bool _hasTransformError;
-        private static readonly int GridColor = Shader.PropertyToID("_GridColor");
+        protected static readonly int GridColor = Shader.PropertyToID("_GridColor");
+        protected static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+
+        /// <summary> Цвет сетки участка трубы. </summary>
+        protected static readonly Color DefaultTubeGridColor = new Color(1f, 1f, 0f, 1f);
+
+        /// <summary> Цвет сетки участка трубы, когда она выбрана. </summary>
+        protected static readonly Color SelectedTubeGridColor = new Color(0f, 1f, 0f, 1f);
+
+        /// <summary> Цвет сетки участка трубы, когда она пересекается с другим участком трубы. </summary>
+        protected static readonly Color CollidingTubeGridColor = new Color(1f, 0f, 0f, 1f);
 
         /// <summary> Цвет участка трубы. </summary>
-        private static readonly Color DefaultTubeColor = new Color(1f, 1f, 0f, 1f);
+        protected static readonly Color DefaultTubeBaseColor = new Color(1f, 1f, 0f, 0.25f);
 
         /// <summary> Цвет участка трубы, когда она выбрана. </summary>
-        private static readonly Color SelectedTubeColor = new Color(0f, 1f, 0f, 1f);
+        protected static readonly Color SelectedTubeBaseColor = new Color(0f, 1f, 0f, 0.25f);
 
         /// <summary> Цвет участка трубы, когда она пересекается с другим участком трубы. </summary>
-        private static readonly Color CollidingTubeColor = new Color(1f, 0f, 0f, 1f);
+        protected static readonly Color CollidingTubeBaseColor = new Color(1f, 0f, 0f, 0.25f);
 
         #endregion
     }

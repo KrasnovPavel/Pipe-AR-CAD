@@ -18,17 +18,9 @@ namespace HoloCAD.UnityTubes
         [Tooltip("Prefab коллайдера сегмента погиба.")] 
         [CanBeNull] public GameObject ColliderPrefab;
 
-        /// <summary> Материал цвета трубы по умолчанию. </summary>
-        [Tooltip("Материал цвета трубы по умолчанию.")] 
-        public Material DefaultTubeMaterial;
-        
-        /// <summary> Материал цвета выбранной трубы. </summary>
-        [Tooltip("Материал цвета выбранной трубы.")] 
-        public Material SelectedTubeMaterial;
-        
-        /// <summary> Материал цвета пересекающейся трубы. </summary>
-        [Tooltip("Материал цвета пересекающейся трубы.")] 
-        public Material CollidingTubeMaterial;
+        /// <summary> Материал последнего кольца трубы. </summary>
+        [Tooltip("Материал последнего кольца трубы.")] 
+        public Material EndRingMaterial;
         
         /// <summary> Угол погиба. </summary>
         public float Angle
@@ -85,6 +77,7 @@ namespace HoloCAD.UnityTubes
                 _meshes = MeshFactory.GetMeshes(Owner.Data);
                 Radius = _useSecondRadius ? Owner.Data.second_radius : Owner.Data.first_radius;
                 Tube.GetComponent<MeshRenderer>().material.SetFloat(ShaderDiameter, Diameter);
+                EndPoint.GetComponent<MeshRenderer>().material.SetFloat(ShaderDiameter, Diameter);
                 SetMesh();
                 SetEndpoint();
             }
@@ -176,14 +169,13 @@ namespace HoloCAD.UnityTubes
         protected override void SetColor()
         {
             base.SetColor();
-            
-            Material mat;
-            
-            if (IsSelected) mat = SelectedTubeMaterial;
-            else            mat = IsColliding ? CollidingTubeMaterial : DefaultTubeMaterial;
 
+            Color color;
             
-            EndPoint.GetComponent<MeshRenderer>().material = mat;
+            if (IsSelected) color = SelectedTubeGridColor;
+            else            color = IsColliding ? CollidingTubeGridColor : DefaultTubeGridColor;
+
+            EndPoint.GetComponent<MeshRenderer>().material.SetColor(GridColor, color);
         }
 
         #region Unity event functions
@@ -224,7 +216,8 @@ namespace HoloCAD.UnityTubes
             Tube.GetComponent<MeshFilter>().mesh = _meshes[UseSecondRadius ? 1 : 0];
             Tube.GetComponent<MeshCollider>().sharedMesh = Tube.GetComponent<MeshFilter>().mesh;
             EndPoint.GetComponent<MeshFilter>().mesh = _meshes.Last();
-            
+            EndPoint.GetComponent<MeshRenderer>().material = EndRingMaterial;
+
             for (int i = 0; i < _colliders.Count; i++)
             {
                 _colliders[i].GetComponent<SphereCollider>().radius = Diameter / 2;
