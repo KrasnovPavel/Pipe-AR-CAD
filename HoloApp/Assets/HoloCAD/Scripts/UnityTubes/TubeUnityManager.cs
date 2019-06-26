@@ -51,33 +51,34 @@ namespace HoloCAD.UnityTubes
         {
             GameObject tube = Instantiate(Instance.StartTubeFragmentPrefab);
             tube.GetComponent<TubeFragment>().Owner = owner;
-            AllFragments.Add(tube.GetComponent<TubeFragment>());
             return tube.GetComponent<StartTubeFragment>();
         }
 
         /// <summary> Создает на сцене объект прямого участка трубы. </summary>
         /// <param name="owner"> Труба, которой принадлежит этот участок трубы.</param>
         /// <param name="pivot"> Местоположение нового участка трубы. </param>
+        /// <param name="parent"> Предыдущий участок трубы. </param>
         /// <returns> Созданный объект прямого участка трубы. </returns>
-        [NotNull] public static DirectTubeFragment CreateDirectTubeFragment(Tube owner, Transform pivot)
+        [NotNull] public static DirectTubeFragment CreateDirectTubeFragment(Tube owner, Transform pivot, TubeFragment parent)
         {
             GameObject tube = Instantiate(Instance.DirectTubeFragmentPrefab, pivot);
             tube.GetComponent<TubeFragment>().Owner = owner;
+            tube.GetComponent<TubeFragment>().Parent = parent;
             tube.transform.localPosition = Vector3.zero;
-            AllFragments.Add(tube.GetComponent<TubeFragment>());
             return tube.GetComponent<DirectTubeFragment>();
         }
 
         /// <summary> Создает на сцене объект погиба трубы. </summary>
         /// <param name="owner"> Труба, которой принадлежит этот погиб трубы.</param>
         /// <param name="pivot"> Местоположение нового погиба. </param>
+        /// <param name="parent"> Предыдущий участок трубы. </param>
         /// <returns> Созданный объект прямого погиба трубы. </returns>
-        [NotNull] public static BendedTubeFragment CreateBendedTubeFragment(Tube owner, Transform pivot)
+        [NotNull] public static BendedTubeFragment CreateBendedTubeFragment(Tube owner, Transform pivot, TubeFragment parent)
         {
             GameObject tube = Instantiate(Instance.BendedTubeFragmentPrefab, pivot);
             tube.GetComponent<TubeFragment>().Owner = owner;
+            tube.GetComponent<TubeFragment>().Parent = parent;
             tube.transform.localPosition = Vector3.zero;
-            AllFragments.Add(tube.GetComponent<TubeFragment>());
             return tube.GetComponent<BendedTubeFragment>();
         }
 
@@ -106,7 +107,6 @@ namespace HoloCAD.UnityTubes
             Instance._mapCollider.enabled = show;
             Instance._mapRenderer.enabled = show;
         }
-
         
         #region Unity event functions
         
@@ -125,7 +125,6 @@ namespace HoloCAD.UnityTubes
         private SpatialMappingCollider _mapCollider;
         private SpatialMappingRenderer _mapRenderer;
         private TubesConnector _activeTubesConnector;
-        private static readonly List<TubeFragment> AllFragments = new List<TubeFragment>();
 
         #endregion
     }

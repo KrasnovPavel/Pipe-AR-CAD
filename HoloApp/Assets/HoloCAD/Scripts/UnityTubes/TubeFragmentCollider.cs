@@ -139,8 +139,7 @@ namespace HoloCAD.UnityTubes
 		/// <returns></returns>
 		private bool IsNearFragment(TubeFragment other)
 		{
-			Tube tube = Owner.Owner;
-			return tube.GetNextFragment(Owner) == other || tube.GetPreviousFragment(Owner) == other;
+			return Owner.Child == other || Owner.Parent == other;
 		}
 
 		#endregion

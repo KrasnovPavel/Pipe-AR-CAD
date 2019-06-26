@@ -145,7 +145,7 @@ namespace HoloCAD
             Matrix4x4 toROS = new Matrix4x4(new Vector4(1,  0,  0, 0), 
                                             new Vector4(0,  0, -1, 0),
                                             new Vector4(0,  1,  0, 0),
-                                            new Vector4(-tubeOrigin.x,  tubeOrigin.z,  tubeOrigin.y, 1));
+                                            new Vector4(-tubeOrigin.x,  -tubeOrigin.z,  tubeOrigin.y, 1));
 
             tr = toROS * tr;
             

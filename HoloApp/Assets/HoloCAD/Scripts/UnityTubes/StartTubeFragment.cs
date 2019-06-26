@@ -64,8 +64,7 @@ namespace HoloCAD.UnityTubes
         {
             if (TubeManager.AllTubes.Count == 1)
             {
-                TubeFragment next = Owner.GetNextFragment(this);
-                if (next != null) next.RemoveThisFragment();
+                if (Child != null) Child.RemoveThisFragment();
                 StartPlacing();
             }
             else

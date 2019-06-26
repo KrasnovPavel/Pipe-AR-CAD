@@ -22,6 +22,7 @@ namespace HoloCAD
             {
                 throw new Exception("No standards found.");
             }
+
             StandardName = TubeLoader.GetStandardNames()[0];
             CreateStartTubeFragment();
         }
@@ -76,10 +77,7 @@ namespace HoloCAD
                 
                 _data = value;
 
-                foreach (TubeFragment tubeFragment in _fragments)
-                {
-                    tubeFragment.Diameter = Data.diameter;
-                }
+                MapFragments((fragment => fragment.Diameter = Data.diameter));
             }
         }
 
@@ -95,27 +93,25 @@ namespace HoloCAD
                 Data = TubeLoader.GetAvailableTubes(_standardName)[0];
             }
         }
+        
+        public StartTubeFragment StartFragment { get; private set; }
 
         /// <summary> Участки из которых состоит эта труба. </summary>
-        public ReadOnlyCollection<TubeFragment> Fragments => _fragments.AsReadOnly();
+        public ReadOnlyCollection<TubeFragment> Fragments
+        {
+            get
+            {
+                List<TubeFragment> fragments = new List<TubeFragment>();
+                MapFragments((fragment => fragments.Add(fragment)));
+                return fragments.AsReadOnly();
+            }
+        }
         
-        /// <summary> Создает для этой трубы прямой участок. </summary>
-        /// <param name="pivot"> Местоположение нового фрагмента. </param>
-        public void CreateDirectTubeFragment(Transform pivot)
-        {
-            _fragments.Add(TubeUnityManager.CreateDirectTubeFragment(this, pivot));
-            _fragments[_fragments.Count - 2].HasChild = true;
-        }
+        /// <summary> Делегат для функций над участками труб. </summary>
+        /// <param name="fragment"> Фрагмент, над которым будет выполнена функция. </param>
+        public delegate void FragmentFunctionDel(TubeFragment fragment);
 
-        /// <summary> Создает для этой трубы участок погиба. </summary>
-        /// <param name="pivot"> Местоположение нового фрагмента. </param>
-        public void CreateBendedTubeFragment(Transform pivot)
-        {
-            _fragments.Add(TubeUnityManager.CreateBendedTubeFragment(this, pivot));
-            _fragments[_fragments.Count - 2].HasChild = true;
-        }
-
-        /// <summary> Создает соединения труб. </summary>
+        /// <summary> Создает соединение труб. </summary>
         public void CreateTubesConnector()
         {
             if (_tubesConnector == null)
@@ -124,8 +120,8 @@ namespace HoloCAD
             }
         }
 
-        /// <summary> Отвязывается от объекта отображения расстояния между трубами. </summary>
-        public void RemoveTransformError()
+        /// <summary> Отвязывается от соединения труб. </summary>
+        public void RemoveTubeConnection()
         {
             _tubesConnector = null;
         }
@@ -134,19 +130,10 @@ namespace HoloCAD
         /// <param name="fragment"> Удаляемый фрагмент. </param>
         public void OnFragmentRemoved(TubeFragment fragment)
         {
-            int index = _fragments.IndexOf(fragment);
-            if (index < 0) return;
-            
-            _fragments.RemoveRange(index, _fragments.Count - index);
-
-            if (_fragments.Count == 0)
+            if (fragment == StartFragment)
             {
                 TubeManager.RemoveTube(this);
                 if (_tubesConnector != null) _tubesConnector.RemoveThis();
-            }
-            else
-            {
-                _fragments.Last().HasChild = false;
             }
         }
 
@@ -166,20 +153,24 @@ namespace HoloCAD
         public void StartPlacing()
         {
             TubeUnityManager.ShowGrid(true);
-            TubeManager.SelectTubeFragment(_fragments[0]);
-            foreach (TubeFragment tubeFragment in _fragments)
-            {
-                tubeFragment.IsPlacing = true;
-            }
+            TubeManager.SelectTubeFragment(StartFragment);
+            MapFragments((fragment => fragment.IsPlacing = true));
         }
 
         /// <summary> Выходит из режима размещения трубы. </summary>
         public void StopPlacing()
         {
             TubeUnityManager.ShowGrid(false);
-            foreach (TubeFragment tubeFragment in _fragments)
+            MapFragments((fragment => fragment.IsPlacing = false));
+        }
+
+        public void MapFragments(FragmentFunctionDel function)
+        {
+            TubeFragment current = StartFragment;
+            while (current != null)
             {
-                tubeFragment.IsPlacing = false;
+                function.Invoke(current);
+                current = current.Child;
             }
         }
 
@@ -200,29 +191,7 @@ namespace HoloCAD
             }
         }
 
-        /// <summary> Выдает следующий фрагмент трубы. </summary>
-        /// <param name="current"> Фрагмент трубы для которого надо найти следующий. </param>
-        /// <returns> Следующий фрагмент трубы или null, если его нет. </returns>
-        [CanBeNull] public TubeFragment GetNextFragment(TubeFragment current)
-        {
-            int index = _fragments.FindIndex(f => current == f);
-
-            return (index == _fragments.Count - 1) ? null : _fragments[index + 1];
-        }
-        
-        /// <summary> Выдает предыдущий фрагмент трубы. </summary>
-        /// <param name="current"> Фрагмент трубы для которого надо найти предыдущий. </param>
-        /// <returns> Предыдущий фрагмент трубы или null, если его нет. </returns>
-        [CanBeNull] public TubeFragment GetPreviousFragment(TubeFragment current)
-        {
-            int index = _fragments.FindIndex(f => current == f);
-            
-            return (index == 0) ? null : _fragments[index - 1];
-        }
-
         #region Private definitions
-
-        private readonly List<TubeFragment> _fragments = new List<TubeFragment>();
 
         private string _standardName;
         private TubeLoader.TubeData _data;
@@ -233,7 +202,7 @@ namespace HoloCAD
         /// <summary> Создает объект начального фланца для этой трубы. </summary>
         private void CreateStartTubeFragment()
         {
-            _fragments.Add(TubeUnityManager.CreateStartTubeFragment(this));
+            StartFragment = TubeUnityManager.CreateStartTubeFragment(this);
         }
 
         #endregion

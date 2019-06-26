@@ -34,8 +34,8 @@ namespace HoloCAD
 		public void RemoveThis()
 		{
 			Destroy(gameObject);
-			FirstTube.RemoveTransformError();
-			SecondTube?.RemoveTransformError();
+			FirstTube.RemoveTubeConnection();
+			SecondTube?.RemoveTubeConnection();
 
 			if (TubeUnityManager.ActiveTubesConnector == this)
 			{
