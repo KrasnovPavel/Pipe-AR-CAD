@@ -37,7 +37,7 @@ namespace HoloCAD.UI
             if (fragment == null) return;
             
             CheckFireOnce("LeftBumper", fragment.AddBendFragment);
-            CheckFireOnce("JoystickBack", fragment.RemoveThisFragment); //TODO: при удалении выбирать предыдущий отрезок
+            CheckFireOnce("JoystickBack", fragment.RemoveThisFragment);
             CheckRepeatPressingAxis("DPADHorizontal", TubeManager.SelectNext, 
                                                                   TubeManager.SelectPrevious);
             CheckFireOnce("JoystickY", fragment.TogglePlacing);
@@ -52,12 +52,12 @@ namespace HoloCAD.UI
                                             startFragment.DecreaseDiameter);
                     break;
                 case DirectTubeFragment directFragment:
-                    CheckAxisChange("LeftStickHorizontal", directFragment.IncreaseLength, TimeFactor);
+                    CheckAxisChange("LeftStickHorizontal", directFragment.ChangeLength, TimeFactor);
                     break;
                 case BendedTubeFragment bendedFragment:
                     CheckFireOnce("RightBumper", bendedFragment.AddDirectFragment);
-                    CheckAxisChange("RightStickHorizontal", bendedFragment.IncreaseAngle, TimeFactor * 6);
-                    CheckAxisChange("LeftStickHorizontal", bendedFragment.TurnClockwise, TimeFactor * 6);
+                    CheckAxisChange("RightStickHorizontal", bendedFragment.ChangeAngle, TimeFactor * 6);
+                    CheckAxisChange("LeftStickHorizontal", bendedFragment.TurnAround, TimeFactor * 6);
                     CheckRepeatPressing("DPADVertical", bendedFragment.ChangeRadius);
                     break;
             }

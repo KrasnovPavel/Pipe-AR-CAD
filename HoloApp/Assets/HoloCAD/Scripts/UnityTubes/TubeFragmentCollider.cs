@@ -39,7 +39,12 @@ namespace HoloCAD.UnityTubes
 		/// <param name="otherCollider"></param>
 		public void CheckAgain(TubeFragmentCollider otherCollider)
 		{
-			if (otherCollider.Owner == Owner || IsNearFragment(otherCollider.Owner)) return;
+			if (otherCollider.Owner == Owner
+			    || IsNearFragment(otherCollider.Owner)
+			    || CollisionWithOutgrowth(otherCollider.Owner))
+			{
+				return;
+			}
 			
 			if (_otherColliders.Count == 0)
 			{
@@ -80,8 +85,13 @@ namespace HoloCAD.UnityTubes
 			// Второй коллайдер не инициализирован, ждем вызова CheckAgain.
 			if (otherCollider.Owner == null) return;
 
-			// Коллизия с соседним участком или самим собой(для погиба), игнорируем.
-			if (otherCollider.Owner == Owner || IsNearFragment(otherCollider.Owner)) return;
+			// Коллизия с соседним участком или самим собой(для погиба), или своим отростком -- игнорируем.
+			if (otherCollider.Owner == Owner
+			    || IsNearFragment(otherCollider.Owner)
+			    || CollisionWithOutgrowth(otherCollider.Owner))
+			{
+				return;
+			}
 
 			if (_otherColliders.Count == 0)
 			{
@@ -140,6 +150,25 @@ namespace HoloCAD.UnityTubes
 		private bool IsNearFragment(TubeFragment other)
 		{
 			return Owner.Child == other || Owner.Parent == other;
+		}
+
+		/// <summary> Проверяет, является ли пересечение коллизией между отростком и его родителем. </summary>
+		/// <param name="other"> Фрагмент трубы, который надо проверить. </param>
+		/// <returns></returns>
+		private bool CollisionWithOutgrowth(TubeFragment other)
+		{
+			DirectTubeFragment ownerDirect = Owner as DirectTubeFragment;
+			DirectTubeFragment otherDirect = other as DirectTubeFragment;
+
+			// Отростком и его родителем могут быть только прямые участки.
+			if (ownerDirect == null || otherDirect == null) return false;
+
+			if (ownerDirect.Outgrowths.Contains(otherDirect) || otherDirect.Outgrowths.Contains(ownerDirect))
+			{
+				return true;
+			}
+
+			return false;
 		}
 
 		#endregion

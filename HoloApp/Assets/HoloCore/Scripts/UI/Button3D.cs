@@ -101,9 +101,6 @@ namespace HoloCore.UI
                 case ButtonState.Disabled:
                     break;
                 case ButtonState.Enabled:
-                    State = ButtonState.Pressed;
-                    OnPressed(this);
-                    break;
                 case ButtonState.Hovered:
                     State = ButtonState.Pressed;
                     OnPressed(this);

@@ -14,11 +14,11 @@ namespace HoloCAD.UI
 	public class DirectTubeFragmentControlPanel : TubeFragmentControlPanel {
 		/// <summary> Панель с кнопками и информацией о трубе. </summary>
 		[Tooltip("Панель с кнопками и информацией о трубе.")]
-		public GameObject ButtonBar;
+		[CanBeNull] public GameObject ButtonBar;
 
-		/// <summary> Объект, отображающий текстовые данные о участке трубе. </summary>
-		[Tooltip("Объект, отображающий текстовые данные о участке трубе.")]
-		public TextMesh TextLabel;
+		/// <summary> Объект, отображающий текстовые данные о участке трубы. </summary>
+		[Tooltip("Объект, отображающий текстовые данные о участке трубы.")]
+		[CanBeNull] public TextMesh TextLabel;
 
 		/// <summary> Кнопка увеличения длины. </summary>
 		[Tooltip("Кнопка увеличения длины.")]
@@ -28,10 +28,18 @@ namespace HoloCAD.UI
 		[Tooltip("Кнопка уменьшения длины.")]
 		[CanBeNull] public Button3D DecreaseLengthButton;
 		
+		/// <summary> Кнопка добавления отростка. </summary>
+		[Tooltip("Кнопка добавления отростка.")]
+		[CanBeNull] public Button3D AddOutgrowthButton;
+
+		/// <summary> Шаг изменения длины при нажатии на кнопку. </summary>
+		[Tooltip("Шаг изменения длины при нажатии на кнопку.")]
+		public float LengthStep = 0.05f;
+		
 		/// <inheritdoc />
 		protected override void CalculateBarPosition()
 		{
-			if (_camera == null) return;
+			if (_camera == null || ButtonBar == null) return;
 
 			Vector3 endPointPosition = ButtonBar.transform.parent.position;
 			
@@ -50,7 +58,7 @@ namespace HoloCAD.UI
 		/// <inheritdoc />
 		protected override void SetText()
 		{
-			TextLabel.text = $"L:{_fragment.Length:0.000}м";
+			if (TextLabel != null) TextLabel.text = $"L:{_fragment.Length:0.000}м";
 		}
 
 		protected override void InitButtons()
@@ -83,11 +91,15 @@ namespace HoloCAD.UI
 			
 			if (IncreaseLengthButton != null)
 			{
-				IncreaseLengthButton.OnClick += delegate { _fragment.IncreaseLength(); };
+				IncreaseLengthButton.OnClick += delegate { _fragment.ChangeLength(LengthStep); };
 			}
 			if (DecreaseLengthButton != null)
 			{
-				DecreaseLengthButton.OnClick += delegate { _fragment.DecreaseLength(); };
+				DecreaseLengthButton.OnClick += delegate { _fragment.ChangeLength(-LengthStep); };
+			}
+			if (AddOutgrowthButton != null)
+			{
+				AddOutgrowthButton.OnClick += delegate { _fragment.AddOutgrowth(); };				
 			}
 		}
 

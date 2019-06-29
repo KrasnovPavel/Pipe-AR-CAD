@@ -1,7 +1,6 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-using System.Collections.Generic;
 using HoloCore;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -28,7 +27,11 @@ namespace HoloCAD.UnityTubes
 
         /// <summary> Prefab объекта отображения расстояния между трубами. </summary>
         [Tooltip("Prefab объекта отображения расстояния между трубами.")]
-        public GameObject TransformErrorPrefab;
+        public GameObject ConnectorPrefab;
+        
+        /// <summary> Prefab панели управления отростком трубы. </summary>
+        [Tooltip("Prefab панели управления отростком трубы.")]
+        public GameObject OutgrowthPanelPrefab;
 
         /// <summary> Ссылка на объект трехмерного курсора. </summary>
         [Tooltip("Ссылка на объект трехмерного курсора.")]
@@ -87,11 +90,27 @@ namespace HoloCAD.UnityTubes
         /// <returns></returns>
         [NotNull] public static TubesConnector CreateTubesConnector(Tube firstOwner)
         {
-            GameObject err = Instantiate(Instance.TransformErrorPrefab);
-            err.GetComponent<TubesConnector>().FirstTube = firstOwner;
-            err.GetComponent<TubesConnector>().Cursor = Instance.Cursor.transform;
-            ActiveTubesConnector = err.GetComponent<TubesConnector>();
-            return err.GetComponent<TubesConnector>();
+            GameObject connector = Instantiate(Instance.ConnectorPrefab);
+            connector.GetComponent<TubesConnector>().FirstTube = firstOwner;
+            connector.GetComponent<TubesConnector>().Cursor = Instance.Cursor.transform;
+            ActiveTubesConnector = connector.GetComponent<TubesConnector>();
+            return connector.GetComponent<TubesConnector>();
+        }
+
+        /// <summary> Создает на сцене объект отростка. </summary>
+        /// <param name="owner"> Труба, которой принадлежит этот погиб трубы.</param>
+        /// <param name="parent"> Предыдущий участок трубы. </param>
+        /// <returns></returns>
+        [NotNull] public static Outgrowth CreateOutgrowth(Tube owner, DirectTubeFragment parent)
+        {
+            DirectTubeFragment outgrowth = CreateDirectTubeFragment(owner, parent.transform, parent);
+            outgrowth.transform.localPosition = Vector3.forward * parent.Length / 2;
+            outgrowth.transform.localRotation = Quaternion.Euler(0, 90, 0);
+            outgrowth.gameObject.AddComponent<Outgrowth>();
+            GameObject outgrowthPanel = 
+                    Instantiate(Instance.OutgrowthPanelPrefab, outgrowth.EndPoint.transform.Find("Button Bar"));
+            outgrowthPanel.transform.localPosition += Vector3.down * 0.25f;
+            return outgrowth.GetComponent<Outgrowth>();
         }
 
         /// <summary> Перестает отслеживать активный коннектор. </summary>

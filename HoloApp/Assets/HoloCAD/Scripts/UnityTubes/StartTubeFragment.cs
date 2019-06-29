@@ -88,13 +88,18 @@ namespace HoloCAD.UnityTubes
         #region Unity event functions
 
         /// <inheritdoc />
-        protected override void Start()
+        protected override void Awake()
         {
             _camera = Camera.main;
-            base.Start();
+            base.Awake();
             EndPoint.transform.localPosition = new Vector3(0, 0, Length);
             TubeManager.SelectTubeFragment(this);
-            
+        }
+
+        /// <inheritdoc />
+        protected override void Start()
+        {
+            base.Start();
 #if ENABLE_WINMD_SUPPORT
             Owner.StartPlacing();
             _recognizer = new GestureRecognizer();

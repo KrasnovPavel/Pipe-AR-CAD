@@ -4,10 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using HoloCAD.UnityTubes;
 using JetBrains.Annotations;
-using UnityEngine;
 
 namespace HoloCAD
 {
@@ -77,7 +75,7 @@ namespace HoloCAD
                 
                 _data = value;
 
-                MapFragments((fragment => fragment.Diameter = Data.diameter));
+                MapFragmentsWithOutgrowth((fragment => fragment.Diameter = Data.diameter));
             }
         }
 
@@ -94,9 +92,10 @@ namespace HoloCAD
             }
         }
         
+        /// <summary> Фланец. </summary>
         public StartTubeFragment StartFragment { get; private set; }
 
-        /// <summary> Участки из которых состоит эта труба. </summary>
+        /// <summary> Участки из которых состоит эта труба (без учета отростков). </summary>
         public ReadOnlyCollection<TubeFragment> Fragments
         {
             get
@@ -154,22 +153,50 @@ namespace HoloCAD
         {
             TubeUnityManager.ShowGrid(true);
             TubeManager.SelectTubeFragment(StartFragment);
-            MapFragments((fragment => fragment.IsPlacing = true));
+            MapFragmentsWithOutgrowth((fragment => fragment.IsPlacing = true));
         }
 
         /// <summary> Выходит из режима размещения трубы. </summary>
         public void StopPlacing()
         {
             TubeUnityManager.ShowGrid(false);
-            MapFragments((fragment => fragment.IsPlacing = false));
+            MapFragmentsWithOutgrowth((fragment => fragment.IsPlacing = false));
         }
 
-        public void MapFragments(FragmentFunctionDel function)
+        /// <summary> Проходит по всем участкам трубы(без отростков) и вызывает переданную функцию. </summary>
+        /// <param name="function"> Функция, которая будет вызвана для каждого участка.</param>
+        /// <param name="firstFragment">
+        /// Участок, с которого будет начат обход. Если он равен null, то обход начинается с фланца.
+        /// </param>
+        public void MapFragments(FragmentFunctionDel function, TubeFragment firstFragment = null)
         {
-            TubeFragment current = StartFragment;
+            TubeFragment current = (firstFragment != null) ? firstFragment : StartFragment;
             while (current != null)
             {
                 function.Invoke(current);
+                current = current.Child;
+            }
+        }
+
+        /// <summary> Проходит по всем участкам трубы(включая отростки) и вызывает переданную функцию. </summary>
+        /// <param name="function"> Функция, которая будет вызвана для каждого участка.</param>
+        /// <param name="firstFragment">
+        /// Участок, с которого будет начат обход. Если он равен null, то обход начинается с фланца.
+        /// </param>
+        public void MapFragmentsWithOutgrowth(FragmentFunctionDel function, TubeFragment firstFragment = null)
+        {
+            TubeFragment current = (firstFragment != null) ? firstFragment : StartFragment;
+            while (current != null)
+            {
+                function.Invoke(current);
+                DirectTubeFragment currentDirect = current as DirectTubeFragment;
+                if (currentDirect != null)
+                {
+                    foreach (var outgrowth in currentDirect.Outgrowths)
+                    {
+                        MapFragmentsWithOutgrowth(function, outgrowth);
+                    }
+                }
                 current = current.Child;
             }
         }

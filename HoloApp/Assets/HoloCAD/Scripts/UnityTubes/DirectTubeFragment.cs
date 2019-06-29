@@ -2,6 +2,8 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace HoloCAD.UnityTubes
@@ -53,18 +55,38 @@ namespace HoloCAD.UnityTubes
             }
         }
 
+        /// <summary> Список отростков из этого участка трубы. </summary>
+        public ReadOnlyCollection<DirectTubeFragment> Outgrowths => _outgrowths.AsReadOnly();
+
         /// <summary> Увеличивает длину. </summary>
         /// <param name="delta"> Изменение длины. </param>
-        public void IncreaseLength(float delta = 0.05f)
+        public void ChangeLength(float delta)
         {
             Length += delta;
         }
-        
-        /// <summary> Уменьшает длину. </summary>
-        /// <param name="delta"> Изменение длины. </param>
-        public void DecreaseLength(float delta = 0.05f)
+
+        /// <summary> Добавляет новый отросток. </summary>
+        public void AddOutgrowth()
         {
-            Length -= delta;
+            _outgrowths.Add(TubeUnityManager.CreateOutgrowth(Owner, this).GetComponent<DirectTubeFragment>());
+        }
+        
+        /// <summary> Удаляет указанный отросток из списка. </summary>
+        /// <param name="outgrowth"> Удалённый отросток. </param>
+        public void RemoveOutgrowth(DirectTubeFragment outgrowth)
+        {
+            _outgrowths.Remove(outgrowth);
+        }
+
+        /// <inheritdoc />
+        public override void RemoveThisFragment()
+        {
+            if (Parent != null)
+            {
+                if (Parent.Child == this) Parent.Child = null;
+                else                      ((DirectTubeFragment)Parent).RemoveOutgrowth(this);
+            }
+            Destroy(gameObject);
         }
 
         #region Unity event functions
@@ -83,6 +105,7 @@ namespace HoloCAD.UnityTubes
 
         private float _length;
         private float _buttonBarOffset;
+        private readonly List<DirectTubeFragment> _outgrowths = new List<DirectTubeFragment>();
 
         #endregion
     }

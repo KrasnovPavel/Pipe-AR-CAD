@@ -52,7 +52,9 @@ MonoBehaviour:
     type: 3}
   StartTubeFragmentPrefab: {fileID: 1985526613567762, guid: 3694dc49cf052604d80a4a1eee049620,
     type: 3}
-  TransformErrorPrefab: {fileID: 1954487033063958, guid: e0c4527182944fb47819b123bdfc4bcd,
+  ConnectorPrefab: {fileID: 1954487033063958, guid: e0c4527182944fb47819b123bdfc4bcd,
+    type: 3}
+  OutgrowthPanelPrefab: {fileID: 2403874822043473765, guid: 0ade21cce2793294daa53317e3e98c79,
     type: 3}
   Cursor: {fileID: 0}
 --- !u!114 &2173582593384371675

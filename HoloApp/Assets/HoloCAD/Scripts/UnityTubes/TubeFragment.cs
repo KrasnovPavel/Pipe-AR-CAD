@@ -2,7 +2,6 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using HoloCAD.UI;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HoloCAD.UnityTubes
@@ -51,7 +50,6 @@ namespace HoloCAD.UnityTubes
         
         /// <summary> Предыдущий фрагмент трубы. </summary>
         public TubeFragment Parent { get; set; }
-        
 
         /// <summary> Пересекается ли этот участок трубы с другим? </summary>
         public bool IsColliding { get; private set; }
@@ -157,9 +155,9 @@ namespace HoloCAD.UnityTubes
 
         /// <summary> Функция, инициализирующая участок трубы в Unity. </summary>
         /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Awake()</c>.
         /// </remarks>
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             tag = "Tube";
             Tube = transform.Find("Tube").gameObject;
@@ -170,6 +168,14 @@ namespace HoloCAD.UnityTubes
             }
 
             EndPoint = transform.Find("End Point").gameObject;
+        }
+
+        /// <summary> Функция, выполняющаяся после инициализизации участка трубы в Unity. </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
+        /// </remarks>
+        protected virtual void Start()
+        {
             Diameter = Owner.Data.diameter;
         }
 
