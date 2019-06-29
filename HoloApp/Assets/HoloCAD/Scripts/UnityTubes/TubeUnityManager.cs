@@ -1,7 +1,6 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-using System.Collections.Generic;
 using HoloCore;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -28,7 +27,11 @@ namespace HoloCAD.UnityTubes
 
         /// <summary> Prefab объекта отображения расстояния между трубами. </summary>
         [Tooltip("Prefab объекта отображения расстояния между трубами.")]
-        public GameObject TransformErrorPrefab;
+        public GameObject ConnectorPrefab;
+        
+        /// <summary> Prefab панели управления отростком трубы. </summary>
+        [Tooltip("Prefab панели управления отростком трубы.")]
+        public GameObject OutgrowthPanelPrefab;
 
         /// <summary> Ссылка на объект трехмерного курсора. </summary>
         [Tooltip("Ссылка на объект трехмерного курсора.")]
@@ -51,33 +54,34 @@ namespace HoloCAD.UnityTubes
         {
             GameObject tube = Instantiate(Instance.StartTubeFragmentPrefab);
             tube.GetComponent<TubeFragment>().Owner = owner;
-            AllFragments.Add(tube.GetComponent<TubeFragment>());
             return tube.GetComponent<StartTubeFragment>();
         }
 
         /// <summary> Создает на сцене объект прямого участка трубы. </summary>
         /// <param name="owner"> Труба, которой принадлежит этот участок трубы.</param>
         /// <param name="pivot"> Местоположение нового участка трубы. </param>
+        /// <param name="parent"> Предыдущий участок трубы. </param>
         /// <returns> Созданный объект прямого участка трубы. </returns>
-        [NotNull] public static DirectTubeFragment CreateDirectTubeFragment(Tube owner, Transform pivot)
+        [NotNull] public static DirectTubeFragment CreateDirectTubeFragment(Tube owner, Transform pivot, TubeFragment parent)
         {
             GameObject tube = Instantiate(Instance.DirectTubeFragmentPrefab, pivot);
             tube.GetComponent<TubeFragment>().Owner = owner;
+            tube.GetComponent<TubeFragment>().Parent = parent;
             tube.transform.localPosition = Vector3.zero;
-            AllFragments.Add(tube.GetComponent<TubeFragment>());
             return tube.GetComponent<DirectTubeFragment>();
         }
 
         /// <summary> Создает на сцене объект погиба трубы. </summary>
         /// <param name="owner"> Труба, которой принадлежит этот погиб трубы.</param>
         /// <param name="pivot"> Местоположение нового погиба. </param>
+        /// <param name="parent"> Предыдущий участок трубы. </param>
         /// <returns> Созданный объект прямого погиба трубы. </returns>
-        [NotNull] public static BendedTubeFragment CreateBendedTubeFragment(Tube owner, Transform pivot)
+        [NotNull] public static BendedTubeFragment CreateBendedTubeFragment(Tube owner, Transform pivot, TubeFragment parent)
         {
             GameObject tube = Instantiate(Instance.BendedTubeFragmentPrefab, pivot);
             tube.GetComponent<TubeFragment>().Owner = owner;
+            tube.GetComponent<TubeFragment>().Parent = parent;
             tube.transform.localPosition = Vector3.zero;
-            AllFragments.Add(tube.GetComponent<TubeFragment>());
             return tube.GetComponent<BendedTubeFragment>();
         }
 
@@ -86,11 +90,27 @@ namespace HoloCAD.UnityTubes
         /// <returns></returns>
         [NotNull] public static TubesConnector CreateTubesConnector(Tube firstOwner)
         {
-            GameObject err = Instantiate(Instance.TransformErrorPrefab);
-            err.GetComponent<TubesConnector>().FirstTube = firstOwner;
-            err.GetComponent<TubesConnector>().Cursor = Instance.Cursor.transform;
-            ActiveTubesConnector = err.GetComponent<TubesConnector>();
-            return err.GetComponent<TubesConnector>();
+            GameObject connector = Instantiate(Instance.ConnectorPrefab);
+            connector.GetComponent<TubesConnector>().FirstTube = firstOwner;
+            connector.GetComponent<TubesConnector>().Cursor = Instance.Cursor.transform;
+            ActiveTubesConnector = connector.GetComponent<TubesConnector>();
+            return connector.GetComponent<TubesConnector>();
+        }
+
+        /// <summary> Создает на сцене объект отростка. </summary>
+        /// <param name="owner"> Труба, которой принадлежит этот погиб трубы.</param>
+        /// <param name="parent"> Предыдущий участок трубы. </param>
+        /// <returns></returns>
+        [NotNull] public static Outgrowth CreateOutgrowth(Tube owner, DirectTubeFragment parent)
+        {
+            DirectTubeFragment outgrowth = CreateDirectTubeFragment(owner, parent.transform, parent);
+            outgrowth.transform.localPosition = Vector3.forward * parent.Length / 2;
+            outgrowth.transform.localRotation = Quaternion.Euler(0, 90, 0);
+            outgrowth.gameObject.AddComponent<Outgrowth>();
+            GameObject outgrowthPanel = 
+                    Instantiate(Instance.OutgrowthPanelPrefab, outgrowth.EndPoint.transform.Find("Button Bar"));
+            outgrowthPanel.transform.localPosition += Vector3.down * 0.25f;
+            return outgrowth.GetComponent<Outgrowth>();
         }
 
         /// <summary> Перестает отслеживать активный коннектор. </summary>
@@ -106,7 +126,6 @@ namespace HoloCAD.UnityTubes
             Instance._mapCollider.enabled = show;
             Instance._mapRenderer.enabled = show;
         }
-
         
         #region Unity event functions
         
@@ -125,7 +144,6 @@ namespace HoloCAD.UnityTubes
         private SpatialMappingCollider _mapCollider;
         private SpatialMappingRenderer _mapRenderer;
         private TubesConnector _activeTubesConnector;
-        private static readonly List<TubeFragment> AllFragments = new List<TubeFragment>();
 
         #endregion
     }

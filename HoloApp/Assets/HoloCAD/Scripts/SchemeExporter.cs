@@ -100,33 +100,35 @@ namespace HoloCAD
                 expTube.diameter = tube.Data.diameter * 1000;
                 expTube.width = expTube.diameter * 0.1;
 
-                for (int i = 1; i < tube.Fragments.Count; i++)
-                {
-                    ExpFragment fragment = new ExpFragment();
-
-                    switch (tube.Fragments[i])
-                    {
-                        case DirectTubeFragment dtf:
-                            fragment.type = "Direct";
-                            fragment.length = dtf.Length * 1000;
-                            break;
-                        case BendedTubeFragment btf:
-                            fragment.type = "Bended";
-                            fragment.bendAngle = btf.Angle;
-                            fragment.radius = btf.Radius * 1000;
-                            break;
-                        default:
-                            // Фланец не добавляем, он не является частью трубы
-                            continue;
-                    }
-
-                    fragment.transform = SerializeTransform(tube.Fragments[i], tube.Fragments[1].transform.position);
-
-                    expTube.fragments.Add(fragment);
-                }
+                tube.MapFragmentsWithOutgrowth(fragment => expTube.fragments.Add(ConvertToExportFormat(fragment)));
+                expTube.fragments.RemoveAll(element => element == null);
             }
 
             return JsonUtility.ToJson(array);
+        }
+
+        private static ExpFragment ConvertToExportFormat(TubeFragment fragment)
+        {
+            ExpFragment expFragment = new ExpFragment();
+
+            switch (fragment)
+            {
+                case DirectTubeFragment dtf:
+                    expFragment.type = "Direct";
+                    expFragment.length = dtf.Length * 1000;
+                    break;
+                case BendedTubeFragment btf:
+                    expFragment.type = "Bended";
+                    expFragment.bendAngle = btf.Angle;
+                    expFragment.radius = btf.Radius * 1000;
+                    break;
+                default:
+                    // Фланец не добавляем, он не является частью трубы
+                    return null;
+            }
+
+            expFragment.transform = SerializeTransform(fragment, fragment.Owner.StartFragment.EndPoint.transform.position);
+            return expFragment;
         }
 
         /// <summary>
@@ -145,7 +147,7 @@ namespace HoloCAD
             Matrix4x4 toROS = new Matrix4x4(new Vector4(1,  0,  0, 0), 
                                             new Vector4(0,  0, -1, 0),
                                             new Vector4(0,  1,  0, 0),
-                                            new Vector4(-tubeOrigin.x,  tubeOrigin.z,  tubeOrigin.y, 1));
+                                            new Vector4(-tubeOrigin.x,  -tubeOrigin.z,  tubeOrigin.y, 1));
 
             tr = toROS * tr;
             

@@ -14,11 +14,11 @@ namespace HoloCAD.UI
 	public class BendedTubeFragmentControlPanel : TubeFragmentControlPanel {
 		/// <summary> Панель с кнопками и информацией о трубе. </summary>
 		[Tooltip("Панель с кнопками и информацией о трубе.")]
-		public GameObject ButtonBar;
+		[CanBeNull] public GameObject ButtonBar;
 
 		/// <summary> Объект, отображающий текстовые данные о участке трубе. </summary>
 		[Tooltip("Объект, отображающий текстовые данные о участке трубе.")]
-		public TextMesh TextLabel;
+		[CanBeNull] public TextMesh TextLabel;
 
 		/// <summary> Кнопка увеличения угла погиба. </summary>
 		[Tooltip("Кнопка увеличения угла погиба.")]
@@ -40,11 +40,15 @@ namespace HoloCAD.UI
 		[Tooltip("Кнопка смены радиуса погиба.")]
 		[CanBeNull] public Button3D ChangeRadiusButton;
 		
+		/// <summary> Шаг изменения угла при нажатии на кнопку. </summary>
+		[Tooltip("Шаг изменения угла при нажатии на кнопку.")]
+		public float AngleStep = 5f;
+		
 		/// <inheritdoc />
 		protected override void CalculateBarPosition()
 		{
-			if (_camera == null) return;
-
+			if (_camera == null || ButtonBar == null) return;
+			
 			Vector3 endPointPosition = ButtonBar.transform.parent.position;
 			
 			Vector3 direction = _fragment.Diameter * 1.1f * (_camera.transform.position - endPointPosition).normalized;
@@ -57,13 +61,12 @@ namespace HoloCAD.UI
 		/// <inheritdoc />
 		protected override void CalculateLine()
 		{
-			// TODO: Calculate lines for bended tube 
 		}
 
 		/// <inheritdoc />
 		protected override void SetText()
 		{
-			TextLabel.text = $"A:{_fragment.Angle} B:{_fragment.RotationAngle}";
+			if (TextLabel != null) TextLabel.text = $"A:{_fragment.Angle} B:{_fragment.RotationAngle}";
 		}
 
 		protected override void InitButtons()
@@ -96,19 +99,19 @@ namespace HoloCAD.UI
 
 			if (IncreaseAngleButton != null)
 			{
-				IncreaseAngleButton.OnClick = delegate { _fragment.IncreaseAngle(); };
+				IncreaseAngleButton.OnClick = delegate { _fragment.ChangeAngle(AngleStep); };
 			}
 			if (DecreaseAngleButton != null)
 			{
-				DecreaseAngleButton.OnClick = delegate { _fragment.DecreaseAngle(); };
+				DecreaseAngleButton.OnClick = delegate { _fragment.ChangeAngle(-AngleStep); };
 			}
 			if (TurnClockwiseButton != null)
 			{
-				TurnClockwiseButton.OnClick = delegate { _fragment.TurnClockwise(); };
+				TurnClockwiseButton.OnClick = delegate { _fragment.TurnAround(AngleStep); };
 			}
 			if (TurnAnticlockwiseButton != null)
 			{
-				TurnAnticlockwiseButton.OnClick = delegate { _fragment.TurnAnticlockwise(); };
+				TurnAnticlockwiseButton.OnClick = delegate { _fragment.TurnAround(-AngleStep); };
 			}
 			if (ChangeRadiusButton != null)
 			{

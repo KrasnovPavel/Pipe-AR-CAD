@@ -76,7 +76,7 @@ namespace HoloCAD
         {
             if (SelectedTubeFragment == null) return;
 
-            TubeFragment nextFragment = SelectedTubeFragment.GetNextTubeFragment();
+            TubeFragment nextFragment = SelectedTubeFragment.Child;
 
             if (nextFragment == null) return;
             
@@ -88,7 +88,7 @@ namespace HoloCAD
         {
             if (SelectedTubeFragment == null) return;
 
-            TubeFragment previousFragment = SelectedTubeFragment.GetPreviousTubeFragment();
+            TubeFragment previousFragment = SelectedTubeFragment.Parent;
 
             if (previousFragment == null) return;
             

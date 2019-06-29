@@ -2,7 +2,6 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using HoloCAD.UI;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HoloCAD.UnityTubes
@@ -44,7 +43,13 @@ namespace HoloCAD.UnityTubes
         public virtual float Diameter { get; set; }
 
         /// <summary> Выходит ли из этого участка трубы другой? </summary>
-        public bool HasChild;
+        public bool HasChild => Child != null;
+
+        /// <summary> Следующий фрагмент трубы. </summary>
+        public TubeFragment Child { get; set; }
+        
+        /// <summary> Предыдущий фрагмент трубы. </summary>
+        public TubeFragment Parent { get; set; }
 
         /// <summary> Пересекается ли этот участок трубы с другим? </summary>
         public bool IsColliding { get; private set; }
@@ -75,7 +80,7 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         public virtual void AddBendFragment()
         {
-            if (!HasChild) Owner.CreateBendedTubeFragment(EndPoint.transform);
+            if (!HasChild) Child = TubeUnityManager.CreateBendedTubeFragment(Owner, EndPoint.transform, this);
         }
 
         /// <summary> Добавление нового прямого участка трубы. </summary>
@@ -84,7 +89,7 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         public virtual void AddDirectFragment()
         {
-            if (!HasChild) Owner.CreateDirectTubeFragment(EndPoint.transform);
+            if (!HasChild) Child = TubeUnityManager.CreateDirectTubeFragment(Owner, EndPoint.transform, this);
         }
 
         /// <summary> Создание новой трубы. </summary>
@@ -102,6 +107,7 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         public virtual void RemoveThisFragment()
         {
+            if (Parent != null) Parent.Child = null;
             Destroy(gameObject);
         }
         
@@ -129,55 +135,29 @@ namespace HoloCAD.UnityTubes
             Tube.GetComponent<MeshRenderer>().material.SetColor(BaseColor, baseColor);
         }
 
-        /// <summary> Возвращает следующий за этим фрагмент трубы или null, если этот фрагмент крайний. </summary>
-        /// <returns> Следующий фрагмент трубы. </returns>
-        [CanBeNull] public TubeFragment GetNextTubeFragment()
-        {
-            int index = Owner.Fragments.IndexOf(this);
-            if (index < 0 || index >= Owner.Fragments.Count - 1) return null;
-            
-            return Owner.Fragments[index + 1];
-        }
-        
-        /// <summary> Возвращает предыдущий за этим фрагмент трубы или null, если этот фрагмент крайний. </summary>
-        /// <returns> Следующий фрагмент трубы. </returns>
-        [CanBeNull] public TubeFragment GetPreviousTubeFragment()
-        {
-            int index = Owner.Fragments.IndexOf(this);
-            if (index <= 0 || index > Owner.Fragments.Count - 1) return null;
-            
-            return Owner.Fragments[index - 1];
-        }
-
         public void TogglePlacing()
         {
-            StartTubeFragment startFragment = ((StartTubeFragment) Owner.Fragments[0]);
-            
-            if (startFragment.IsPlacing) startFragment.StopPlacing();
-            else                         startFragment.StartPlacing();
+            if (Owner.StartFragment.IsPlacing) Owner.StartFragment.StopPlacing();
+            else                               Owner.StartFragment.StartPlacing();
         }
         
         public virtual void StartPlacing()
         {
-            StartTubeFragment startFragment = ((StartTubeFragment) Owner.Fragments[0]);
-            
-            if (!startFragment.IsPlacing) startFragment.StartPlacing();
+            if (!Owner.StartFragment.IsPlacing)Owner.StartFragment.StartPlacing();
         }
 
         public virtual void StopPlacing()
         {
-            StartTubeFragment startFragment = ((StartTubeFragment) Owner.Fragments[0]);
-            
-            if (startFragment.IsPlacing) startFragment.StopPlacing();
+            if (Owner.StartFragment.IsPlacing) Owner.StartFragment.StopPlacing();
         }
 
         #region Unity event functions
 
         /// <summary> Функция, инициализирующая участок трубы в Unity. </summary>
         /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Awake()</c>.
         /// </remarks>
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             tag = "Tube";
             Tube = transform.Find("Tube").gameObject;
@@ -188,6 +168,14 @@ namespace HoloCAD.UnityTubes
             }
 
             EndPoint = transform.Find("End Point").gameObject;
+        }
+
+        /// <summary> Функция, выполняющаяся после инициализизации участка трубы в Unity. </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
+        /// </remarks>
+        protected virtual void Start()
+        {
             Diameter = Owner.Data.diameter;
         }
 
