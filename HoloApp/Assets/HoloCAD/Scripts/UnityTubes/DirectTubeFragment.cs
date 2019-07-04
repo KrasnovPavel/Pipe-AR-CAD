@@ -83,6 +83,8 @@ namespace HoloCAD.UnityTubes
         {
             if (Parent != null)
             {
+                TubeManager.SelectTubeFragment(Parent);
+                
                 if (Parent.Child == this) Parent.Child = null;
                 else                      ((DirectTubeFragment)Parent).RemoveOutgrowth(this);
             }

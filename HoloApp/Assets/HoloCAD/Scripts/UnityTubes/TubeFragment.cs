@@ -107,7 +107,11 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         public virtual void RemoveThisFragment()
         {
-            if (Parent != null) Parent.Child = null;
+            if (Parent != null)
+            {
+                TubeManager.SelectTubeFragment(Parent);
+                Parent.Child = null;
+            }
             Destroy(gameObject);
         }
         
