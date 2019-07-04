@@ -4,14 +4,15 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: MRTK_Standard_Lime
   m_Shader: {fileID: 4800000, guid: d45c0efca53019e43891b0f610f8146e, type: 3}
-  m_ShaderKeywords: _BORDER_LIGHT_USES_HOVER_COLOR _DIRECTIONAL_LIGHT _DISABLE_ALBEDO_MAP
-    _LIGHTMAPPING_REALTIME _SPECULAR_HIGHLIGHTS
+  m_ShaderKeywords: _BORDER_LIGHT_USES_HOVER_COLOR _DISABLE_ALBEDO_MAP _LIGHTMAPPING_REALTIME
+    _SPECULAR_HIGHLIGHTS
   m_LightmapFlags: 1
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
   stringTagMap:
@@ -77,7 +78,7 @@ Material:
     - _CustomMode: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DirectionalLight: 1
+    - _DirectionalLight: 0
     - _DstBlend: 0
     - _EdgeSmoothingValue: 0.002
     - _EmissionScaleUI: 0
