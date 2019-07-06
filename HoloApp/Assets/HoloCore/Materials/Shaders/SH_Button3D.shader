@@ -1,7 +1,7 @@
 ﻿Shader "Custom/SH_Button3D" {
 	Properties {
-		_MainColor ("MainColor", Color) = (0.5,0.5,0.5,0.5)
-		_HighLightColor ("HighLightColor" , Color) = (1,1,1,1)
+		_MainColor ("MainColor", Color) = (0.5, 0.5, 0.5, 0.5)
+		_HighLightColor ("HighLightColor" , Color) = (1, 1, 1, 1)
 		[PerRendererData]_Fade("Fade", float) = 1
 	}
 	SubShader {

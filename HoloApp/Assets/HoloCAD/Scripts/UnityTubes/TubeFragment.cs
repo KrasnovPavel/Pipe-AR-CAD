@@ -1,14 +1,18 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using HoloCAD.UI;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HoloCAD.UnityTubes
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="MonoBehaviour" />
     /// <summary> Базовый класс участка трубы. От него наследуются все остальные классы участков труб. </summary>
-    public class TubeFragment : MonoBehaviour
+    public class TubeFragment : MonoBehaviour, INotifyPropertyChanged
     {
         /// <summary> Объект, содержащий меш участка трубы. </summary>
         protected GameObject Tube;
@@ -36,23 +40,64 @@ namespace HoloCAD.UnityTubes
                 
                 var controlPanel = GetComponent<TubeFragmentControlPanel>();
                 if (controlPanel != null) controlPanel.enabled = _isSelected;
+                OnPropertyChanged();
             }
         }
 
         /// <summary> Диаметр участка трубы. </summary>
-        public virtual float Diameter { get; set; }
+        public virtual float Diameter
+        {
+            get => _diameter;
+            set
+            {
+                if (Math.Abs(_diameter - value) < float.Epsilon) return;
+
+                _diameter = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary> Выходит ли из этого участка трубы другой? </summary>
         public bool HasChild => Child != null;
 
         /// <summary> Следующий фрагмент трубы. </summary>
-        public TubeFragment Child { get; set; }
-        
+        public TubeFragment Child
+        {
+            get => _child;
+            set
+            {
+                if (_child == value) return;
+
+                _child = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <summary> Предыдущий фрагмент трубы. </summary>
-        public TubeFragment Parent { get; set; }
+        public TubeFragment Parent
+        {
+            get => _parent;
+            set
+            {
+                if (_parent == value) return;
+
+                _parent = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary> Пересекается ли этот участок трубы с другим? </summary>
-        public bool IsColliding { get; private set; }
+        public bool IsColliding
+        {
+            get => _isColliding;
+            private set
+            {
+                if (_isColliding == value) return;
+
+                _isColliding = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary> Функция, которая вызывается когда этот участок трубы пересекается с другим </summary>
         /// <remarks>
@@ -154,6 +199,17 @@ namespace HoloCAD.UnityTubes
         {
             if (Owner.StartFragment.IsPlacing) Owner.StartFragment.StopPlacing();
         }
+        
+        /// <summary> Событие, вызываемое при изменении какого-либо свойства. </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary> Обработчик изменения свойств. </summary>
+        /// <param name="propertyName"> Имя изменившегося свойства. </param>
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         #region Unity event functions
 
@@ -206,6 +262,10 @@ namespace HoloCAD.UnityTubes
 
         private bool _isSelected;
         private bool _hasTransformError;
+        private float _diameter;
+        private TubeFragment _child;
+        private TubeFragment _parent;
+        private bool _isColliding;
         protected static readonly int GridColor = Shader.PropertyToID("_GridColor");
         protected static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
 

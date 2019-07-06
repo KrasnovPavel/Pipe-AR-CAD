@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
+using System.ComponentModel;
 using HoloCAD.UnityTubes;
 using HoloCore.UI;
 using JetBrains.Annotations;
@@ -12,10 +13,6 @@ namespace HoloCAD.UI
     /// <summary> Класс, отображающий информацию об отростке. </summary>
     public class OutgrowthControlPanel : TubeFragmentControlPanel
     {
-        /// <summary> Объект, отображающий текстовые данные о участке трубе. </summary>
-        [Tooltip("Объект, отображающий текстовые данные о участке трубе.")]
-        [CanBeNull] public TextMesh TextLabel;
-
         /// <summary> Кнопка, двигающая отросток к концу родительской трубы. </summary>
         [Tooltip("Кнопка, двигающая отросток к концу родительской трубы.")]
         [CanBeNull] public Button3D ForwardButton;
@@ -52,19 +49,6 @@ namespace HoloCAD.UI
         }
 
         /// <inheritdoc />
-        protected override void CalculateLine()
-        {
-            // Do nothing
-        }
-
-        /// <inheritdoc />
-        protected override void SetText()
-        {
-            Transform t = _outgrowth.transform;
-            if (TextLabel != null) TextLabel.text = $"D:{t.localPosition.z:0.000} A:{_outgrowth.Angle}";
-        }
-
-        /// <inheritdoc />
         protected override void InitButtons()
         {
             if (ForwardButton != null)
@@ -93,24 +77,6 @@ namespace HoloCAD.UI
             }
         }
 
-        /// <inheritdoc />
-        protected override void CheckIsButtonsEnabled()
-        {
-            Vector3 pos = _outgrowth.transform.localPosition;
-            float maxDistance = _outgrowth.ParentFragment.Length - _outgrowth.Fragment.Diameter / 2;
-            float minDistance = _outgrowth.Fragment.Diameter / 2;
-            
-            bool canForward  = pos.z + Outgrowth.Step < maxDistance;
-            bool canBackward = pos.z - Outgrowth.Step > minDistance;
-            bool canIncrease = Math.Round(_outgrowth.Angle + MeshFactory.DeltaAngle) <= Outgrowth.MaxAngle;
-            bool canDecrease = Math.Round(_outgrowth.Angle - MeshFactory.DeltaAngle) >= Outgrowth.MinAngle;
-
-            if (ForwardButton  != null) ForwardButton.SetEnabled(canForward);
-            if (BackwardButton != null) BackwardButton.SetEnabled(canBackward);
-            if (IncreaseAngle  != null) IncreaseAngle.SetEnabled(canIncrease);
-            if (DecreaseAngle  != null) DecreaseAngle.SetEnabled(canDecrease);
-        }
-
         #region Unity event functions
 
         /// <inheritdoc />
@@ -118,6 +84,34 @@ namespace HoloCAD.UI
         {
             base.Start();
             _outgrowth = transform.parent.parent.parent.GetComponent<Outgrowth>();
+            
+            _outgrowth.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+            {
+                switch (args.PropertyName)
+                {
+                    case nameof(Outgrowth.Position):
+                        CheckMoveButtons();
+                        SetText();
+                        break;
+                    case nameof(Outgrowth.Angle):
+                        bool canIncrease = Math.Round(_outgrowth.Angle + MeshFactory.DeltaAngle) <= Outgrowth.MaxAngle;
+                        bool canDecrease = Math.Round(_outgrowth.Angle - MeshFactory.DeltaAngle) >= Outgrowth.MinAngle;
+
+                        if (IncreaseAngle  != null) IncreaseAngle.SetEnabled(canIncrease);
+                        if (DecreaseAngle  != null) DecreaseAngle.SetEnabled(canDecrease);
+                        SetText();
+                        break;
+                }
+            };
+            _outgrowth.Fragment.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+            {
+                if (args.PropertyName == nameof(DirectTubeFragment.Length))
+                {
+                    CheckMoveButtons();
+                    SetText();
+                }
+            };
+            SetText();
         }
 
         #endregion
@@ -125,6 +119,22 @@ namespace HoloCAD.UI
         #region Private definitions
 
         private Outgrowth _outgrowth;
+
+        private void CheckMoveButtons()
+        {
+            float maxDistance = _outgrowth.ParentFragment.Length - _outgrowth.Fragment.Diameter / 2;
+            float minDistance = _outgrowth.Fragment.Diameter / 2;
+            bool canForward = _outgrowth.Position + Outgrowth.Step < maxDistance;
+            bool canBackward = _outgrowth.Position - Outgrowth.Step > minDistance;
+
+            if (ForwardButton != null) ForwardButton.SetEnabled(canForward);
+            if (BackwardButton != null) BackwardButton.SetEnabled(canBackward);
+        }
+
+        private void SetText()
+        {
+            if (TextLabel != null) TextLabel.text = $"D:{_outgrowth.Position:0.000} A:{_outgrowth.Angle:0.00}";
+        }
 
         #endregion
     }

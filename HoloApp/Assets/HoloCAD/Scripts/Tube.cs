@@ -4,13 +4,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using HoloCAD.UnityTubes;
 using JetBrains.Annotations;
 
 namespace HoloCAD
 {
     /// <summary> Класс трубы. </summary>
-    public class Tube
+    public sealed class Tube : INotifyPropertyChanged
     {
         /// <summary> Конструктор по умолчанию. Создает трубу по превому найденному стандарту. </summary>
         /// <exception cref="Exception"> Выбрасывается, если ни одного стандарта не было найдено. </exception>
@@ -76,6 +78,7 @@ namespace HoloCAD
                 _data = value;
 
                 MapFragmentsWithOutgrowth((fragment => fragment.Diameter = Data.diameter));
+                OnPropertyChanged();
             }
         }
 
@@ -89,6 +92,7 @@ namespace HoloCAD
                 
                 _standardName = value;
                 Data = TubeLoader.GetAvailableTubes(_standardName)[0];
+                OnPropertyChanged();
             }
         }
         
@@ -116,6 +120,7 @@ namespace HoloCAD
             if (_tubesConnector == null)
             {
                 _tubesConnector = TubeUnityManager.CreateTubesConnector(this);
+                OnPropertyChanged(nameof(HasTubesConnector));
             }
         }
 
@@ -217,6 +222,9 @@ namespace HoloCAD
                 TubeUnityManager.RemoveActiveTubesConnector();
             }
         }
+        
+        /// <summary> Событие, вызываемое при изменении какого-либо свойства. </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #region Private definitions
 
@@ -230,6 +238,14 @@ namespace HoloCAD
         private void CreateStartTubeFragment()
         {
             StartFragment = TubeUnityManager.CreateStartTubeFragment(this);
+        }
+        
+        /// <summary> Обработчик изменения свойств. </summary>
+        /// <param name="propertyName"> Имя изменившегося свойства. </param>
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion
