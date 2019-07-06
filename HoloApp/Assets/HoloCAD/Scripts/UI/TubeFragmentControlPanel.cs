@@ -24,7 +24,7 @@ namespace HoloCAD.UI
 		[Tooltip("Кнопка добавления погиба.")]
 		[CanBeNull] public Button3D AddBendFragmentButton;
 
-		/// <summary> Кнопка добавления прямого участка трубы. </summary>
+	    /// <summary> Кнопка добавления прямого участка трубы. </summary>
 		[Tooltip("Кнопка добавления прямого участка трубы.")]
 		[CanBeNull] public Button3D AddDirectFragmentButton;
 
@@ -100,8 +100,8 @@ namespace HoloCAD.UI
 		}
 
 		#region Unity event functions
-
-		/// <summary> Функция, инициализирующая объект в Unity. </summary>
+		
+		/// <summary> Функция, выполняющаяся после инициализизации участка трубы в Unity. </summary>
 		/// <remarks>
 		/// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
 		/// </remarks>

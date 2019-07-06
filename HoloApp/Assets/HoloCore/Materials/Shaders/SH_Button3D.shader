@@ -40,7 +40,7 @@
 		}
 		
 		float4 frag(vertexOutput input) : COLOR {
-		    float I = pow(abs(input.localPos.y*2), 4) + pow(abs(input.localPos.z*2), 4);
+		    float I = pow(abs(input.localPos.y), 4) + pow(abs(input.localPos.z), 4);
             return _MainColor + _HighLightColor * I / _Fade;
 		}
 	    ENDCG

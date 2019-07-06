@@ -40,6 +40,7 @@ namespace HoloCAD.UnityTubes
                 
                 var controlPanel = GetComponent<TubeFragmentControlPanel>();
                 if (controlPanel != null) controlPanel.enabled = _isSelected;
+                OnPropertyChanged();
             }
         }
 

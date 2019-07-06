@@ -388,14 +388,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaeec4867aaf4a54789c863d9486147d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonBar: {fileID: 4701840408529450}
+  TextLabel: {fileID: 102451658413282012}
   AddBendFragmentButton: {fileID: 8409719376280244481}
   AddDirectFragmentButton: {fileID: 398854847830192322}
   RemoveThisFragmentButton: {fileID: 5088588570272115234}
   ConnectTubesButton: {fileID: 3156347407321287218}
   NextFragmentButton: {fileID: 5820104511109757100}
   PreviousFragmentButton: {fileID: 0}
-  ButtonBar: {fileID: 4701840408529450}
-  TextLabel: {fileID: 102451658413282012}
   IncreaseDiameterButton: {fileID: 2345681324171349399}
   DecreaseDiameterButton: {fileID: 8112715830079583415}
   StartPlacingButton: {fileID: 8327635296082824932}
@@ -408,7 +408,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1985526613567762}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -504,10 +504,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4701840408529450}
     m_Modifications:
-    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
-      propertyPath: m_Name
-      value: AddDirectFragmentButton
-      objectReference: {fileID: 0}
     - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: Icon
@@ -562,6 +558,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
+      propertyPath: m_Name
+      value: AddDirectFragmentButton
+      objectReference: {fileID: 0}
     - target: {fileID: 102185691136956992, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: m_Text
@@ -599,10 +599,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4701840408529450}
     m_Modifications:
-    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
-      propertyPath: m_Name
-      value: IncreaseDiameterButton
-      objectReference: {fileID: 0}
     - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: Text
@@ -657,6 +653,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
+      propertyPath: m_Name
+      value: IncreaseDiameterButton
+      objectReference: {fileID: 0}
     - target: {fileID: 102185691136956992, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: m_Text
@@ -694,10 +694,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4701840408529450}
     m_Modifications:
-    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
-      propertyPath: m_Name
-      value: ConnectTubesButton
-      objectReference: {fileID: 0}
     - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: Text
@@ -752,6 +748,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
+      propertyPath: m_Name
+      value: ConnectTubesButton
+      objectReference: {fileID: 0}
     - target: {fileID: 102185691136956992, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: m_Text
@@ -789,10 +789,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4701840408529450}
     m_Modifications:
-    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
-      propertyPath: m_Name
-      value: RemoveThisFragmentButton
-      objectReference: {fileID: 0}
     - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: Text
@@ -847,6 +843,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
+      propertyPath: m_Name
+      value: RemoveThisFragmentButton
+      objectReference: {fileID: 0}
     - target: {fileID: 102185691136956992, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: m_Text
@@ -884,10 +884,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4701840408529450}
     m_Modifications:
-    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
-      propertyPath: m_Name
-      value: NextFragmentButton
-      objectReference: {fileID: 0}
     - target: {fileID: 4071031671000098, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.2
@@ -932,6 +928,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
+      propertyPath: m_Name
+      value: NextFragmentButton
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
 --- !u!4 &5860049451203308304 stripped
@@ -959,10 +959,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4701840408529450}
     m_Modifications:
-    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
-      propertyPath: m_Name
-      value: SaveSchemeButton
-      objectReference: {fileID: 0}
     - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: Text
@@ -1017,6 +1013,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
+      propertyPath: m_Name
+      value: SaveSchemeButton
+      objectReference: {fileID: 0}
     - target: {fileID: 102185691136956992, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: m_Text
@@ -1054,10 +1054,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4701840408529450}
     m_Modifications:
-    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
-      propertyPath: m_Name
-      value: CreateTubeButton
-      objectReference: {fileID: 0}
     - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: Text
@@ -1112,6 +1108,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
+      propertyPath: m_Name
+      value: CreateTubeButton
+      objectReference: {fileID: 0}
     - target: {fileID: 102185691136956992, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: m_Text
@@ -1149,10 +1149,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4701840408529450}
     m_Modifications:
-    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
-      propertyPath: m_Name
-      value: DecreaseDiameterButton
-      objectReference: {fileID: 0}
     - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: Icon
@@ -1207,6 +1203,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
+      propertyPath: m_Name
+      value: DecreaseDiameterButton
+      objectReference: {fileID: 0}
     - target: {fileID: 102185691136956992, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: m_Text
@@ -1244,10 +1244,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4701840408529450}
     m_Modifications:
-    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
-      propertyPath: m_Name
-      value: StartPlacingButton
-      objectReference: {fileID: 0}
     - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: Text
@@ -1302,6 +1298,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
+      propertyPath: m_Name
+      value: StartPlacingButton
+      objectReference: {fileID: 0}
     - target: {fileID: 102185691136956992, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: m_Text
@@ -1339,10 +1339,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4701840408529450}
     m_Modifications:
-    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
-      propertyPath: m_Name
-      value: AddBendFragmentButton
-      objectReference: {fileID: 0}
     - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: Text
@@ -1396,6 +1392,10 @@ PrefabInstance:
     - target: {fileID: 4071031671000098, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1839543883935502, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
+      propertyPath: m_Name
+      value: AddBendFragmentButton
       objectReference: {fileID: 0}
     - target: {fileID: 102185691136956992, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
