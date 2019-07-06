@@ -1,7 +1,7 @@
 ﻿Shader "Custom/SH_Button3D" {
 	Properties {
-		_MainColor ("MainColor", Color) = (0.5,0.5,0.5,0.5)
-		_HighLightColor ("HighLightColor" , Color) = (1,1,1,1)
+		_MainColor ("MainColor", Color) = (0.5, 0.5, 0.5, 0.5)
+		_HighLightColor ("HighLightColor" , Color) = (1, 1, 1, 1)
 		[PerRendererData]_Fade("Fade", float) = 1
 	}
 	SubShader {
@@ -40,7 +40,7 @@
 		}
 		
 		float4 frag(vertexOutput input) : COLOR {
-		    float I = pow(abs(input.localPos.y), 4) + pow(abs(input.localPos.z), 4);
+		    float I = pow(abs(input.localPos.y*2), 4) + pow(abs(input.localPos.z*2), 4);
             return _MainColor + _HighLightColor * I / _Fade;
 		}
 	    ENDCG

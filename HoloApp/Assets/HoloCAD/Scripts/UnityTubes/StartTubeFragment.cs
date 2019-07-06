@@ -44,6 +44,7 @@ namespace HoloCAD.UnityTubes
         {
             Owner.SelectBiggerDiameter();
         }
+        
         /// <summary> Устанавливает предыдущий из доступных диаметров труб. </summary>
         public void DecreaseDiameter()
         {

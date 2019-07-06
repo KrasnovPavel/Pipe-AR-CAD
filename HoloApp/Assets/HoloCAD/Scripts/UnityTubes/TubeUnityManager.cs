@@ -1,6 +1,8 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using HoloCore;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -8,10 +10,10 @@ using UnityEngine.XR.WSA;
 
 namespace HoloCAD.UnityTubes
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="Singleton{T}"/>
     /// <summary> Класс, создающий объект участка трубы в Unity. </summary>
     [RequireComponent(typeof(SpatialMappingCollider), typeof(SpatialMappingRenderer))]
-    public class TubeUnityManager : Singleton<TubeUnityManager> 
+    public sealed class TubeUnityManager : Singleton<TubeUnityManager>, INotifyPropertyChanged
     {
         /// <summary> Prefab прямого участка трубы. </summary>
         [Tooltip("Prefab участка прямой трубы.")]
@@ -44,7 +46,11 @@ namespace HoloCAD.UnityTubes
         public static TubesConnector ActiveTubesConnector
         {
             get => Instance._activeTubesConnector;
-            private set => Instance._activeTubesConnector = value;
+            private set
+            {
+                Instance._activeTubesConnector = value;
+                Instance.OnPropertyChanged();
+            }
         }
         
         /// <summary> Создает на сцене объект начального фланца трубы. </summary>
@@ -127,10 +133,13 @@ namespace HoloCAD.UnityTubes
             Instance._mapRenderer.enabled = show;
         }
         
+        /// <summary> Событие, вызываемое при изменении какого-либо свойства. </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+        
         #region Unity event functions
         
         /// <summary> Функция, инициализирующая объект в Unity. </summary>
-        protected void Start()
+        private void Start()
         {
             _mapCollider = gameObject.GetComponent<SpatialMappingCollider>();
             _mapRenderer = gameObject.GetComponent<SpatialMappingRenderer>();
@@ -145,6 +154,14 @@ namespace HoloCAD.UnityTubes
         private SpatialMappingRenderer _mapRenderer;
         private TubesConnector _activeTubesConnector;
 
+        /// <summary> Обработчик изменения свойств. </summary>
+        /// <param name="propertyName"> Имя изменившегося свойства. </param>
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
         #endregion
     }
 }

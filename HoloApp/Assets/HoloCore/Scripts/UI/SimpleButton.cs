@@ -13,10 +13,10 @@ namespace HoloCore.UI
 		/// <inheritdoc />
 		public override ButtonState State
 		{
-			get => _state;
+			get => base.State;
 			protected set
 			{
-				_state = value;
+				base.State = value;
 				if (Application.isPlaying && ButtonRenderer != null)
 				{
 					ButtonRenderer.material.SetFloat(Fade, (float) State);

@@ -28,15 +28,13 @@ namespace HoloCAD.UnityTubes
             get => _angle;
             set
             {
-                if (value < MeshFactory.DeltaAngle || value > 180)
-                {
-                    return;
-                }
-                
-                SetColliders(_angle);
+                if (value < MeshFactory.DeltaAngle || value > 180 || Math.Abs(_angle - value) < float.Epsilon) return;
+
                 _angle = value;
+                SetColliders(_angle);
                 Tube.GetComponent<MeshRenderer>().material.SetFloat(ShaderAngle, _angle / 180f * (float)Math.PI);
                 SetEndpoint();
+                OnPropertyChanged();
             }
         }
     
@@ -46,9 +44,12 @@ namespace HoloCAD.UnityTubes
             get => _useSecondRadius;
             set
             {
+                if (_useSecondRadius == value) return;
+                
                 _useSecondRadius = value;
                 Radius = _useSecondRadius ? Owner.Data.second_radius : Owner.Data.first_radius;
                 SetMesh();
+                OnPropertyChanged();
             }
         }
 
@@ -58,10 +59,13 @@ namespace HoloCAD.UnityTubes
             get => _radius;
             protected set
             {
+                if (Math.Abs(_radius - value) < float.Epsilon) return;
+                
                 _radius = value;
                 
                 Tube.GetComponent<MeshRenderer>().material.SetFloat(ShaderBendRadius, Radius);
                 SetEndpoint();
+                OnPropertyChanged();
             }
         }
 
@@ -108,7 +112,17 @@ namespace HoloCAD.UnityTubes
         }
 
         /// <summary> Угол поворота вокруг оси. </summary>
-        public float RotationAngle { get; private set; }
+        public float RotationAngle
+        {
+            get => _rotationAngle;
+            private set
+            {
+                if (Math.Abs(_rotationAngle - value) < float.Epsilon) return;
+                
+                _rotationAngle = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary> Увеличивает угол погиба. </summary>
         public void ChangeAngle(float delta)
@@ -169,9 +183,9 @@ namespace HoloCAD.UnityTubes
         /// <inheritdoc />
         protected override void Start()
         {
+            CreateColliders();
             base.Start();
             _meshes = MeshFactory.GetMeshes(Owner.Data);
-            CreateColliders();
             UseSecondRadius = false;
             Angle = 90;
             TubeManager.SelectTubeFragment(this);
@@ -195,7 +209,8 @@ namespace HoloCAD.UnityTubes
         private bool _useSecondRadius;
         private float _angle = MeshFactory.DeltaAngle;
         private float _radius;
-    
+        private float _rotationAngle;
+
         /// <summary> Отображает соответствующий меш. </summary>
         private void SetMesh()
         {

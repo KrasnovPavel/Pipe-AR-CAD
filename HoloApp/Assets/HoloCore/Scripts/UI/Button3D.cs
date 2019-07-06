@@ -19,9 +19,6 @@ namespace HoloCore.UI
         /// <summary> Объект, на который выводится иконка. </summary>
         [CanBeNull] protected MeshRenderer IconRenderer;
 
-        /// <summary> Состояние кнопки. </summary>
-        protected ButtonState _state;
-
         /// <summary> Объект, который отрисовывает кнопку. </summary>
         [CanBeNull] protected MeshRenderer ButtonRenderer;
 
@@ -67,11 +64,7 @@ namespace HoloCore.UI
         }
 
         /// <summary> Текущее состояние кнопки </summary>
-        public virtual ButtonState State
-        {
-            get => _state;
-            protected set => _state = value;
-        }
+        public virtual ButtonState State { get; protected set; }
 
         /// <summary> Отображаемый на кнопке текст. </summary>
         [CanBeNull] public string Text;
@@ -257,6 +250,7 @@ namespace HoloCore.UI
             catch (NullReferenceException){}
 
             State = _forceDisable ? ButtonState.Disabled : ButtonState.Enabled;
+            SetVisual();
         }
 
         /// <summary> Функция, выполняющаяся в Unity каждый кадр. </summary>
@@ -265,8 +259,9 @@ namespace HoloCore.UI
         /// </remarks>
         protected virtual void Update()
         {
-            if (Label != null) Label.text = Text;
-            if (IconRenderer != null) IconRenderer.sharedMaterial = Icon == null ? EmptyIcon : Icon;
+#if UNITY_EDITOR
+            SetVisual();
+#endif
         }
         
         /// <summary> Функция, выполняющаяся при включении объекта в Unity. </summary>
@@ -283,7 +278,7 @@ namespace HoloCore.UI
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.OnDisable()</c>.
         /// </remarks>
-        protected virtual  void OnDisable()
+        protected virtual void OnDisable()
         {
             State = ButtonState.Disabled;
         }
@@ -294,6 +289,12 @@ namespace HoloCore.UI
 
         /// <summary> <c>true</c>, если кнопка была выключена через <see cref="SetEnabled"/>. </summary>
         private bool _forceDisable;
+
+        private void SetVisual()
+        {
+            if (Label != null) Label.text = Text;
+            if (IconRenderer != null) IconRenderer.sharedMaterial = Icon != null ? Icon : EmptyIcon;
+        }
 
         #endregion
     }

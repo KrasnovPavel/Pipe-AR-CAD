@@ -18,6 +18,9 @@ namespace HoloCAD.UI
         /// <summary> Множитель показаний осей. </summary>
         public float TimeFactor = 1;
 
+        //TODO: Механизм определения подключен ли геймпад.
+        public bool IsGamepadConnected = false;
+
         #region Unity event functioin
 
         private void Start()
@@ -27,6 +30,8 @@ namespace HoloCAD.UI
         
         private void Update()
         {
+            if (!IsGamepadConnected) return;
+            
             CalculatePressingTime();
             
             CheckFireOnce("JoystickA", Click);

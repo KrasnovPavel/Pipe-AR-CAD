@@ -1,6 +1,7 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System.ComponentModel;
 using HoloCAD.UnityTubes;
 using HoloCore;
 using HoloCore.UI;
@@ -11,16 +12,10 @@ namespace HoloCAD.UI
 {
 	/// <inheritdoc />
 	/// <summary> Класс, отображающий кнопки и информацию о фланце. </summary>
-	[RequireComponent(typeof(LineRenderer)), RequireComponent(typeof(StartTubeFragment))]
-	public class StartTubeFragmentControlPanel : TubeFragmentControlPanel {
-		/// <summary> Панель с кнопками и информацией о трубе. </summary>
-		[Tooltip("Панель с кнопками и информацией о трубе.")]
-		[CanBeNull] public GameObject ButtonBar;
-
-		/// <summary> Объект, отображающий текстовые данные о участке трубе. </summary>
-		[Tooltip("Объект, отображающий текстовые данные о участке трубе.")]
-		[CanBeNull] public TextMesh TextLabel;
-
+	/// <remarks> </remarks>
+	[RequireComponent(typeof(StartTubeFragment))]
+	public class StartTubeFragmentControlPanel : TubeFragmentControlPanel 
+	{
 		/// <summary> Кнопка увеличения диаметра трубы. </summary>
 		[Tooltip("Кнопка увеличения диаметра трубы.")]
 		[CanBeNull] public Button3D IncreaseDiameterButton;
@@ -44,10 +39,8 @@ namespace HoloCAD.UI
 		/// <inheritdoc />
 		protected override void CalculateBarPosition()
 		{
-			if (ButtonBar == null) return;
-			
 			Vector3 barPosition = Vector3.zero;
-			Vector3 cameraPosition = _camera.transform.position - transform.position; 
+			Vector3 cameraPosition = _camera.position - transform.position; 
 
 			barPosition.x = (cameraPosition.ProjectOn(transform.right) > 0) ? ( _fragment.Diameter/2 + 0.3f) 
 																			: (-_fragment.Diameter/2 - 0.3f);
@@ -55,38 +48,9 @@ namespace HoloCAD.UI
 			barPosition.y = (cameraPosition.ProjectOn(transform.up) > 0) ? ( _fragment.Diameter/2 + 0.2f) 
 																	     : (-_fragment.Diameter/2 - 0.2f);
 
-			ButtonBar.transform.localPosition = barPosition;
-		}
-
-		/// <inheritdoc />
-		protected override void CalculateLine()
-		{
-			if (ButtonBar == null) return;
+			if (ButtonBar.localPosition.FloatEquals(barPosition)) return;
 			
-			Vector3 cameraPosition = _camera.transform.position - transform.position;
-			Vector3 barPosition = ButtonBar.transform.localPosition;
-			Vector3[] linePositions = { Vector3.zero, Vector3.zero, Vector3.zero };
-
-			barPosition.x += (cameraPosition.ProjectOn(transform.right) > 0) ? -0.25f : +0.25f;
-			barPosition.y -= 0.07f;
-			float angle = Vector3.Angle(Vector3.left, barPosition);
-			if (cameraPosition.ProjectOn(transform.up) > 0)
-			{
-				angle = 360f - angle;
-			}
-			linePositions[0] = Quaternion.Euler(0f, 0f, angle) * Vector3.right * _fragment.Diameter / 2;
-			linePositions[1] = barPosition;
-			linePositions[2] = barPosition 
-			                   + ((cameraPosition.ProjectOn(transform.right) > 0) ? new Vector3(0.5f, 0f, 0f)
-																				 : new Vector3(-0.5f, 0f, 0f));
-			_lineRenderer.SetPositions(linePositions);
-			_lineRenderer.startWidth = _lineRenderer.endWidth = 0.1f * _fragment.Diameter/2;
-		}
-
-		/// <inheritdoc />
-		protected override void SetText()
-		{
-			if (TextLabel != null) TextLabel.text = $"Ø:{_fragment.Diameter:0.000}м";
+			ButtonBar.localPosition = barPosition;
 		}
 
 		protected override void InitButtons()
@@ -135,49 +99,37 @@ namespace HoloCAD.UI
 			}
 		}
 
-		protected override void CheckIsButtonsEnabled()
-		{
-			if (ConnectTubesButton != null)
-			{
-				ConnectTubesButton.SetEnabled(!_fragment.Owner.HasTubesConnector 
-				                              && !TubeUnityManager.HasActiveTubesConnector);
-			}
-			
-			if (AddBendFragmentButton != null) AddBendFragmentButton.SetEnabled(!_fragment.HasChild);
-			if (AddDirectFragmentButton != null) AddDirectFragmentButton.SetEnabled(!_fragment.HasChild);
-			if (NextFragmentButton != null) NextFragmentButton.SetEnabled(_fragment.HasChild);
-		}
-
 		#region Unity event functions
 
 		/// <inheritdoc />
 		protected override void Start()
 		{
 			base.Start();
-			_camera = Camera.main;
-			_lineRenderer = GetComponent<LineRenderer>();
+			_camera = Camera.main.transform;
 			_fragment = GetComponent<StartTubeFragment>();
-		}
-
-		private void OnDisable()
-		{
-			if (_lineRenderer != null) _lineRenderer.enabled = false;
-			if (ButtonBar != null) ButtonBar.SetActive(false);
-		}
-
-		private void OnEnable()
-		{
-			if (_lineRenderer != null) _lineRenderer.enabled = true;
-			if (ButtonBar != null) ButtonBar.SetActive(true);
+			_fragment.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+			{
+				if (args.PropertyName == nameof(_fragment.Diameter))
+				{
+					SetText();
+				}
+			};
+			
+			CheckIsButtonsEnabled(_fragment);
+			SetText();
 		}
 
 		#endregion
 
 		#region Private definitions
 
-		private Camera _camera;
-		private LineRenderer _lineRenderer;
+		private Transform _camera;
 		private StartTubeFragment _fragment;
+
+		private void SetText()
+		{
+			if (TextLabel != null) TextLabel.text = $"Ø:{_fragment.Diameter:0.000}м";
+		}
 
 		#endregion
 	}

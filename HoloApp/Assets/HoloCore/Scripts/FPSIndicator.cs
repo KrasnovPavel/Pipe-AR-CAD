@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace HoloCore
@@ -16,20 +15,24 @@ namespace HoloCore
 
 		protected void Start()
 		{
-			_camera = Camera.main;
 			_textMesh = transform.Find("Label").GetComponent<TextMesh>();
+			_cameraTransform = Camera.main.transform;
 		}
 	
 		protected void Update ()
 		{
-			_fpsValues.RemoveAt(0);
-			_fpsValues.Add(1 / Time.deltaTime);
+			_fpsValues[pointer] = 1 / Time.deltaTime;
+			pointer++;
 
-			_textMesh.text = $"FPS: {_fpsValues.Average():0}";
-			
-			transform.LookAt(_camera.transform);
+			if (pointer == 5)
+			{
+				pointer = 0;
+				_textMesh.text = $"FPS: {_fpsValues.Average():0}";
+			}
 
-			Vector3 newPos = _camera.transform.position + _camera.transform.forward * DistanceFromCamera;
+			transform.LookAt(_cameraTransform);
+
+			Vector3 newPos = _cameraTransform.position + _cameraTransform.forward * DistanceFromCamera;
 			
 			transform.position = Vector3.Lerp(transform.position, newPos, MoveSpeed);
 		}
@@ -41,9 +44,11 @@ namespace HoloCore
 		private TextMesh _textMesh;
 		
 		/// <summary> Список значений FPS за последние 5 кадров. </summary>
-		private readonly List<float> _fpsValues = new List<float>(new[]{0f,0f,0f,0f,0f});
+		private readonly float[] _fpsValues = {0f,0f,0f,0f,0f};
 
-		private Camera _camera;
+		private int pointer;
+
+		private Transform _cameraTransform;
 
 		#endregion
 	}

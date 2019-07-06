@@ -18,14 +18,13 @@ namespace HoloCAD.UnityTubes
             get => _length;
             set
             {
-                if (value <= 0)
-                {
-                    return;
-                }
+                if (value <= 0 || Math.Abs(_length - value) < float.Epsilon) return;
+                
                 _length = value;
 
                 Tube.transform.localScale = new Vector3(Diameter, _length, Diameter);
                 EndPoint.transform.localPosition = new Vector3(0, 0, _length);
+                OnPropertyChanged();
             }
         }
 
