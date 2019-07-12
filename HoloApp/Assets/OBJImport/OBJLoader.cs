@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using System;
+using System.IO.Compression;
 using Dummiesman;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -184,7 +185,7 @@ namespace Dummiesman
                     }
                     continue;
                 }
-
+				
                 //new object
                 if ((buffer.Is("o") || buffer.Is("g")) && SplitMode == SplitMode.Object) {
                     buffer.ReadUntilNewLine();

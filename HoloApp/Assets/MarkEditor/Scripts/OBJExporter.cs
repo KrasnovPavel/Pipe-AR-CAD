@@ -7,6 +7,7 @@ public static class OBJExporter
 {
     public static string MeshToString(MeshFilter mf)
     {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
         var m = mf.mesh;
         var mats = mf.GetComponent<MeshRenderer>().materials;
 
@@ -31,15 +32,29 @@ public static class OBJExporter
         }
 
         return sb.ToString();
+        
+#endif
+        return "";
     }
 
     public static void MeshToFile(MeshFilter mf, string filename)
     {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
         using (var sw = new StreamWriter(filename))
         {
             sw.Write(MeshToString(mf));
         }
+#endif
     }
-    
 
+    public static void FileToFile(string inputPath, string outputPath)
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+        StreamWriter outputWriter = new StreamWriter(outputPath);
+        StreamReader inputReader = new StreamReader(inputPath);
+        outputWriter.Write(inputReader.ReadToEnd());
+        outputWriter.Close();
+        inputReader.Close();
+#endif
+    }
 }

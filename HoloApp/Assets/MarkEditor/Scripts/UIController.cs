@@ -13,4 +13,8 @@ public class UIController : MonoBehaviour
     {
         FileSaverLoader.SaveSceneFile();
     }
+    public void LoadSceneFile()
+    {
+        FileSaverLoader.LoadSceneFile();
+    }
 }

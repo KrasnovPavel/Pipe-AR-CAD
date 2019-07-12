@@ -4,11 +4,16 @@ using System.Collections.Generic;
 using HoloToolkit.Unity;
 using UnityEngine;
 using Vuforia;
+#if ENABLE_WINMD_SUPPORT
+    using Windows.Storage;
+    using Windows.Storage.Pickers;
+    using HoloToolkit.Unity;
+#endif
 public class MarksHandler : MonoBehaviour
 {
-    public GameObject[] AllMarks;
-    public Vector3[] PositionsOfMarks;
-    public Vector3[] RotationsOfMarks;
+    public List<GameObject> AllMarks = new List<GameObject>();
+    public List<Vector3> PositionsOfMarks = new List<Vector3>();
+    public List<Vector3> RotationsOfMarks = new List<Vector3>();
     public Vector3 PrevRotation;
     public Vector3 PrevPos;
     private void Update()
@@ -47,4 +52,5 @@ public class MarksHandler : MonoBehaviour
 
 
     }
+
 }
