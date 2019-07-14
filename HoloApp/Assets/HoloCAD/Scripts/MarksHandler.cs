@@ -4,11 +4,7 @@ using System.Collections.Generic;
 using HoloToolkit.Unity;
 using UnityEngine;
 using Vuforia;
-#if ENABLE_WINMD_SUPPORT
-    using Windows.Storage;
-    using Windows.Storage.Pickers;
-    using HoloToolkit.Unity;
-#endif
+
 public class MarksHandler : MonoBehaviour
 {
     public List<GameObject> AllMarks = new List<GameObject>();
@@ -22,6 +18,7 @@ public class MarksHandler : MonoBehaviour
         {
             if (!currentMark.GetComponent<MarkTrackableEventHandler>().IsActive) continue;
             var rendererComponents = GetComponentsInChildren<Renderer>(true);
+            Debug.Log($"!!!!!!!{currentMark.GetComponent<MarkTrackableEventHandler>().Id}, {AllMarks.Count}");
             foreach (var component in rendererComponents)
                 component.enabled = true;
             PrevRotation = new Vector3(
@@ -31,14 +28,16 @@ public class MarksHandler : MonoBehaviour
                 RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].y,
                 currentMark.transform.eulerAngles.z -
                 RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].z);
-            Vector3 RotationOfMark = new Vector3(
+            Debug.Log($"{currentMark.transform.eulerAngles.x}, {currentMark.transform.eulerAngles.y}, {currentMark.transform.eulerAngles.z}");
+            Debug.Log($"{currentMark.transform.eulerAngles.x}, {currentMark.transform.eulerAngles.y}, {currentMark.transform.eulerAngles.z}");
+            /*Vector3 RotationOfMark = new Vector3(
                 currentMark.transform.eulerAngles.x -
                 RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].x,
                 currentMark.transform.eulerAngles.y -
                 RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].y,
                 currentMark.transform.eulerAngles.z -
-                RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].z);
-            Vector3 VectorOfRotationCenter = Quaternion.Euler(RotationOfMark) *
+                RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].z);*/
+            Vector3 VectorOfRotationCenter = Quaternion.Euler(PrevRotation) *
                                          PositionsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id];
             PrevPos = (currentMark.transform.position - VectorOfRotationCenter);
             break;

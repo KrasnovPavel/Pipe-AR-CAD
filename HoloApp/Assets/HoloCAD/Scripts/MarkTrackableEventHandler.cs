@@ -20,8 +20,6 @@ public class MarkTrackableEventHandler : DefaultTrackableEventHandler
       // table add mark
       
       Debug.Log($"Target {Id} found");
-      GameObject TableObject = GameObject.Find("Table");
-      MarksHandler TableObjectMarksHandler =  TableObject.GetComponent<MarksHandler>();
       IsActive = true;
    }
    protected  void OnTrackingLostMark()
@@ -30,8 +28,6 @@ public class MarkTrackableEventHandler : DefaultTrackableEventHandler
        // table remove mark
        
        Debug.Log($"Target {Id} lost");
-       GameObject TableObject = GameObject.Find("Table");
-       MarksHandler TableObjectMarksHandler =  TableObject.GetComponent<MarksHandler>();
        IsActive = false;
    }
 

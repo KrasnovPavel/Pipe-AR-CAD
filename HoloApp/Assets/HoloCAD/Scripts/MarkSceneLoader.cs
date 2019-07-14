@@ -2,65 +2,27 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using HoloCore.UI;
 using UnityEngine;
-
 #if ENABLE_WINMD_SUPPORT
     using Windows.Storage;
     using Windows.Storage.Pickers;
     using HoloToolkit.Unity;
 #endif
+
 public class MarkSceneLoader : MonoBehaviour
 {
-    
-    [Serializable]
-    private struct SerializedMarks
-    {
-        public List<SerializedMark> AllMarks;
-
-        public SerializedMarks(ReadOnlyCollection<SerializedMark> allMarks)
-        {
-            AllMarks = new List<SerializedMark>();
-            foreach (var mark in allMarks)
-                AllMarks.Add(mark);
-        }
-    }
-    
-    
-    [Serializable]
-    private struct SerializedMark
-    {
-        public int X;
-        public int Y;
-        public int Z;
-        public int RotationX;
-        public int RotationY;
-        public int RotationZ;
-        public string Name;
-        public string DrawObjectName;
-
-        public SerializedMark(int x, int y, int z, int rotationX, int rotationY, int rotationZ, string name, string drawObjectName)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-            RotationX = rotationX;
-            RotationY = rotationY;
-            RotationZ = rotationZ;
-            Name = name;
-            DrawObjectName = drawObjectName;
-        }
-    }
     void Start()
     {
         JsonText = "";
 #if ENABLE_WINMD_SUPPORT
-        UnityEngine.WSA.Application.InvokeOnUIThread(PickJson, true);
-
+       UnityEngine.WSA.Application.InvokeOnUIThread(PickJson, true);
+       // UnityEngine.WSA.Application.InvokeOnUIThread(PickObj, true);
 #endif
     }
 
-    private void PickJson()
+    private async void PickJson()
     {
 #if ENABLE_WINMD_SUPPORT
         FileOpenPicker openPicker = new FileOpenPicker();
@@ -70,12 +32,12 @@ public class MarkSceneLoader : MonoBehaviour
         if(file==null) return;
         JsonText = await FileIO.ReadTextAsync(file);
         if (JsonText.Length == 0)  return;
-        UnityEngine.WSA.Application.InvokeOnUIThread(ReadJsonAndBuildMarkScene, true);
+        UnityEngine.WSA.Application.InvokeOnAppThread(ReadJsonAndBuildMarkScene, false);
 #endif
 
     }
 
-    private void ReadJsonAndBuildMarkScene()
+    private async void ReadJsonAndBuildMarkScene()
     {
         try
         {
@@ -85,13 +47,19 @@ public class MarkSceneLoader : MonoBehaviour
         {
             return;
         }
-       
         foreach (SerializedMark mark in SetializedMarksList.AllMarks)
         {
-            MarksHandler currentMarksHandler = GameObject.Find(mark.DrawObjectName).GetComponent<MarksHandler>();
+            
+            MarksHandler currentMarksHandler = GameObject.Find(mark.DrawObjectName).GetComponent<MarksHandler>();  
             currentMarksHandler.AllMarks.Add(GameObject.Find(mark.Name));
+            MarkTrackableEventHandler markTrackableEventHandler =
+                GameObject.Find(mark.Name).GetComponent<MarkTrackableEventHandler>();
+            markTrackableEventHandler.Id =
+                currentMarksHandler.AllMarks.Count - 1;
+            Debug.Log($"{mark.X}, {mark.Y}, {mark.Z}");
+            markTrackableEventHandler.IsActive = false;
             currentMarksHandler.PositionsOfMarks.Add(new Vector3(mark.X,mark.Y,mark.Z));
-            currentMarksHandler.PositionsOfMarks.Add(new Vector3(mark.RotationX,mark.RotationY, mark.RotationZ));    
+            currentMarksHandler.RotationsOfMarks.Add(new Vector3(mark.RotationX,mark.RotationY, mark.RotationZ));    
         }
     }
 

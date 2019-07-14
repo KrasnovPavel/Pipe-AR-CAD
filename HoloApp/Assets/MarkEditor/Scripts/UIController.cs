@@ -17,4 +17,14 @@ public class UIController : MonoBehaviour
     {
         FileSaverLoader.LoadSceneFile();
     }
+
+    public void LoadJsonFile()
+    {
+        
+    }
+
+    public void SaveJsonFile()
+    {
+        
+    }
 }
