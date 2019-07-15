@@ -50,15 +50,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e9988db09f4c07895861f8062031d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonBar: {fileID: 0}
+  TextLabel: {fileID: 983021347450661989}
   AddBendFragmentButton: {fileID: 0}
   AddDirectFragmentButton: {fileID: 0}
   RemoveThisFragmentButton: {fileID: 0}
   ConnectTubesButton: {fileID: 0}
   NextFragmentButton: {fileID: 0}
   PreviousFragmentButton: {fileID: 0}
-  TextLabel: {fileID: 983021347450661989}
-  BackwardButton: {fileID: 4401638609727679331}
   ForwardButton: {fileID: 2835435693781290996}
+  BackwardButton: {fileID: 4401638609727679331}
   IncreaseAngle: {fileID: 1451538143068783111}
   DecreaseAngle: {fileID: 8646329077900735228}
   ClockwiseButton: {fileID: 8129079359662428605}
@@ -169,7 +170,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Icon
       value: 
-      objectReference: {fileID: 2100000, guid: 67883a21ff6bc3e488a2560771890106, type: 2}
+      objectReference: {fileID: 2800000, guid: 80c588921dddc5b419c4aec063d215e9, type: 3}
     - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: Text
@@ -228,7 +229,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 67883a21ff6bc3e488a2560771890106, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
 --- !u!4 &1563557876505629115 stripped
@@ -265,6 +266,16 @@ PrefabInstance:
       propertyPath: Text
       value: "\u0412\u043F\u0435\u0440\u0451\u0434"
       objectReference: {fileID: 0}
+    - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
+        type: 3}
+      propertyPath: IconTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 80c588921dddc5b419c4aec063d215e9, type: 3}
+    - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
+        type: 3}
+      propertyPath: Icon
+      value: 
+      objectReference: {fileID: 2800000, guid: ec8b4073237c9724ba8422f71fda3694, type: 3}
     - target: {fileID: 4071031671000098, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.15
@@ -314,6 +325,11 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\u0412\u043F\u0435\u0440\u0451\u0434"
       objectReference: {fileID: 0}
+    - target: {fileID: 23661629385205858, guid: bea44da96c0e69b40baea864d666c2fc,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
 --- !u!4 &2796529104842021960 stripped
@@ -350,6 +366,16 @@ PrefabInstance:
       propertyPath: Text
       value: "\u041D\u0430\u0437\u0430\u0434"
       objectReference: {fileID: 0}
+    - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
+        type: 3}
+      propertyPath: IconTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: c47988c900309034c979796ab5c46295, type: 3}
+    - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
+        type: 3}
+      propertyPath: Icon
+      value: 
+      objectReference: {fileID: 2800000, guid: 11e4524f21fc6434abbbba83d70d0040, type: 3}
     - target: {fileID: 4071031671000098, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.15
@@ -399,6 +425,11 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\u041D\u0430\u0437\u0430\u0434"
       objectReference: {fileID: 0}
+    - target: {fileID: 23661629385205858, guid: bea44da96c0e69b40baea864d666c2fc,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
 --- !u!4 &4360604997455198431 stripped
@@ -434,7 +465,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Icon
       value: 
-      objectReference: {fileID: 2100000, guid: 67883a21ff6bc3e488a2560771890106, type: 2}
+      objectReference: {fileID: 2800000, guid: 80c588921dddc5b419c4aec063d215e9, type: 3}
     - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: Text
@@ -493,7 +524,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 67883a21ff6bc3e488a2560771890106, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
 --- !u!4 &6698479580486075052 stripped
@@ -529,7 +560,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Icon
       value: 
-      objectReference: {fileID: 2100000, guid: 6f867aaecd1751048a41b3cb642ea7a6, type: 2}
+      objectReference: {fileID: 2800000, guid: 86ef179193f80fa4abd50be380d2c44e, type: 3}
     - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: Text
@@ -588,7 +619,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 6f867aaecd1751048a41b3cb642ea7a6, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
 --- !u!4 &8162338099725713921 stripped
@@ -624,7 +655,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Icon
       value: 
-      objectReference: {fileID: 2100000, guid: 6f867aaecd1751048a41b3cb642ea7a6, type: 2}
+      objectReference: {fileID: 2800000, guid: 86ef179193f80fa4abd50be380d2c44e, type: 3}
     - target: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
         type: 3}
       propertyPath: Text
@@ -683,7 +714,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 6f867aaecd1751048a41b3cb642ea7a6, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
 --- !u!4 &8533151029465522496 stripped
