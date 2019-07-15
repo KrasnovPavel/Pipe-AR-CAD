@@ -16,7 +16,6 @@ public class MarkParamPanel : MonoBehaviour
         InputField inputFieldX = gameObject.transform.GetChild(1).GetChild(0).GetComponent<InputField>();
         InputField inputFieldY = gameObject.transform.GetChild(1).GetChild(1).GetComponent<InputField>();
         InputField inputFieldZ = gameObject.transform.GetChild(1).GetChild(2).GetComponent<InputField>();
-        Debug.Log($"{inputFieldX.text},{inputFieldY.text},{inputFieldZ.text}");
 
         Mark.transform.position = new Vector3(float.Parse(inputFieldX.text,ci), float.Parse(inputFieldY.text,ci),float.Parse(inputFieldZ.text,ci));
         InputField inputFieldRotationX = gameObject.transform.GetChild(2).GetChild(0).GetComponent<InputField>();

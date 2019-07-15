@@ -12,7 +12,7 @@ using HoloCore;
     using HoloToolkit.Unity;
 #endif
 
-public class MarkSceneLoader : Singleton<MarkSceneLoader>
+public class MarkSceneLoader : MonoBehaviour
 {
     void Start()
     {

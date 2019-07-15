@@ -17,6 +17,7 @@ public class MarksController : Singleton<MarksController>
         
         if (AllMarks.Count <= id) return;
         if (AllMarks[id].IsSelected) SelectedMark = null;
+        ParentOfPanels.transform.GetChild(id).gameObject.SetActive(false);
         Destroy(ParentOfPanels.transform.GetChild(id).gameObject);
         Destroy(AllMarks[id].gameObject);
         AllMarks.RemoveAt(id);
@@ -65,8 +66,11 @@ public class MarksController : Singleton<MarksController>
         {
             serializedMarksList.Add(new SerializedMark(mark.gameObject.transform.position.x,
                 mark.gameObject.transform.position.y, mark.gameObject.transform.position.z,
-                gameObject.transform.rotation.x, gameObject.transform.rotation.y, gameObject.transform.rotation.z, $"Mark{i}",
+                mark.gameObject.transform.eulerAngles.x, mark.gameObject.transform.eulerAngles.y, mark.gameObject.transform.eulerAngles.z, $"ImageTarget{i}",
                 "Target"));
+            Debug.Log($"{gameObject.transform.eulerAngles.x}, {gameObject.transform.eulerAngles.y}, {gameObject.transform.eulerAngles.z}");
+         //   Debug.Log($"{gameObject.transform.rotation.x}, {gameObject.transform.rotation.y}, {gameObject.transform.rotation.z}");
+
             i++;
         }
         SerializedMarks serializedMarks = new SerializedMarks(serializedMarksList.ToArray());

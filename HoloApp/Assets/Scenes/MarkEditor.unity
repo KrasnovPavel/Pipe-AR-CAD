@@ -209,6 +209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   RotationSpeed: 2
+  SelectedmMarkSpeed: 0.005
 --- !u!1 &83615594
 GameObject:
   m_ObjectHideFlags: 0
@@ -2287,7 +2288,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 883199952}
-        m_MethodName: LoadObjModel
+        m_MethodName: SaveJsonFile
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

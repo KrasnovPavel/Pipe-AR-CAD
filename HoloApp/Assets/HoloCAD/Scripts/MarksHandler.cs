@@ -5,7 +5,7 @@ using HoloToolkit.Unity;
 using UnityEngine;
 using Vuforia;
 
-public class MarksHandler : MonoBehaviour
+public class MarksHandler : Singleton<MarksHandler>
 {
     public List<GameObject> AllMarks = new List<GameObject>();
     public List<Vector3> PositionsOfMarks = new List<Vector3>();
@@ -30,14 +30,14 @@ public class MarksHandler : MonoBehaviour
                 RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].z);
             Debug.Log($"{currentMark.transform.eulerAngles.x}, {currentMark.transform.eulerAngles.y}, {currentMark.transform.eulerAngles.z}");
             Debug.Log($"{currentMark.transform.eulerAngles.x}, {currentMark.transform.eulerAngles.y}, {currentMark.transform.eulerAngles.z}");
-            /*Vector3 RotationOfMark = new Vector3(
+            Vector3 RotationOfMark = new Vector3(
                 currentMark.transform.eulerAngles.x -
                 RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].x,
                 currentMark.transform.eulerAngles.y -
                 RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].y,
                 currentMark.transform.eulerAngles.z -
-                RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].z);*/
-            Vector3 VectorOfRotationCenter = Quaternion.Euler(PrevRotation) *
+                RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].z);
+            Vector3 VectorOfRotationCenter = Quaternion.Euler(RotationOfMark) *
                                          PositionsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id];
             PrevPos = (currentMark.transform.position - VectorOfRotationCenter);
             break;
