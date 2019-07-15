@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using HoloCore;
 using UnityEngine;
 
@@ -55,13 +56,41 @@ public class MarksController : Singleton<MarksController>
         markParamPanel.Mark = currentMark.gameObject;
     }
 
-    public SerializedMarks FormListOfAllMarksForSerialize()
+    public string CreateJsonString()
     {
-        return new SerializedMarks();
+        string jsonText = "";
+        List<SerializedMark> serializedMarksList = new List<SerializedMark>();
+        int i = 0;
+        foreach (MarkOnScene mark in AllMarks)
+        {
+            serializedMarksList.Add(new SerializedMark(mark.gameObject.transform.position.x,
+                mark.gameObject.transform.position.y, mark.gameObject.transform.position.z,
+                gameObject.transform.rotation.x, gameObject.transform.rotation.y, gameObject.transform.rotation.z, $"Mark{i}",
+                "Target"));
+            i++;
+        }
+        SerializedMarks serializedMarks = new SerializedMarks(serializedMarksList.ToArray());
+        jsonText = JsonUtility.ToJson(serializedMarks);
+        return jsonText;
     }
-
-    public void FormListOfAllMarksFromListOfSerialized(SerializedMarks serializedMarks)
+    
+    
+    
+    public void ReadJsonString(string jsonText)
     {
-        
+       SerializedMarks serializedMarks = JsonUtility.FromJson<SerializedMarks>(jsonText);
+       for (; AllMarks.Count > 0;)
+       {
+           DeleteMark(0);
+       }
+       for (int i = 0; i < serializedMarks.AllMarks.Length; i++)
+       {
+           AddMark();
+           AllMarks[i].gameObject.transform.position = new Vector3(serializedMarks.AllMarks[i].X,
+               serializedMarks.AllMarks[i].Y, serializedMarks.AllMarks[i].Z);
+           AllMarks[i].gameObject.transform.rotation = Quaternion.Euler(serializedMarks.AllMarks[i].RotationX,
+               serializedMarks.AllMarks[i].RotationY, serializedMarks.AllMarks[i].RotationZ);
+           AllMarks[i].HasUpdate = true;
+       }
     }
 }

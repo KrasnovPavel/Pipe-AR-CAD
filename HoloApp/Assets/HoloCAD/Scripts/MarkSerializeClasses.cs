@@ -8,7 +8,7 @@ public struct SerializedMarks
 {
     public SerializedMark[] AllMarks;
 
-    public SerializedMarks(ReadOnlyCollection<SerializedMark> allMarks)
+    public SerializedMarks(SerializedMark[] allMarks)
     {
         AllMarks = allMarks.ToArray();
     }

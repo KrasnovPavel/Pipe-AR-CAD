@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 public static class FileSaverLoader
 {
    private static string ObjFilePath;
-   private static string JsonText;
+
    public static void LoadObjModel()
    {
  
@@ -22,9 +22,18 @@ public static class FileSaverLoader
 
    public static void SaveSceneFile()
    {
-    
-   }
 
+   }
+   public static void SaveSceneJsonFile(string jsonText)
+   {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+      string path;
+      path=SaveFilePanel("","","","json");
+      StreamWriter sw =  new StreamWriter(path); 
+      sw.Write(jsonText);
+      sw.Close();
+#endif
+   }
    public static void LoadSceneFile()
    {
     
@@ -38,5 +47,17 @@ public static class FileSaverLoader
    private static void CreateFile(string path, string[] filesToCompressPaths)
    {
      
+   }
+   public static string LoadJsonFile()
+   {
+      string jsonText = "";
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+         string[] paths;
+         paths = OpenFilePanel("Open scene","","json",false);
+         if (paths.Length == 0) return null;
+         StreamReader sr = File.OpenText(paths[0]);
+         jsonText = sr.ReadToEnd();
+#endif
+      return jsonText;
    }
 }

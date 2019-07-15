@@ -5,13 +5,14 @@ using System.IO;
 using System.Linq;
 using HoloCore.UI;
 using UnityEngine;
+using HoloCore;
 #if ENABLE_WINMD_SUPPORT
     using Windows.Storage;
     using Windows.Storage.Pickers;
     using HoloToolkit.Unity;
 #endif
 
-public class MarkSceneLoader : MonoBehaviour
+public class MarkSceneLoader : Singleton<MarkSceneLoader>
 {
     void Start()
     {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class UIController : MonoBehaviour
@@ -24,12 +25,12 @@ public class UIController : MonoBehaviour
     }
     public void LoadJsonFile()
     {
-        
+        MarksController.Instance.ReadJsonString(FileSaverLoader.LoadJsonFile());
     }
 
     public void SaveJsonFile()
     {
-        
+        FileSaverLoader.SaveSceneJsonFile(MarksController.Instance.CreateJsonString());
     }
 
     public void SelectMark()

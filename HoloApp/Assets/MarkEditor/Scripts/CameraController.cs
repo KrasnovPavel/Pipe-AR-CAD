@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
 
     public float Speed;
     public float RotationSpeed;
-
+    public float SelectedmMarkSpeed;
     void Update()
     {
         if (Input.GetKey(KeyCode.Mouse1))
@@ -38,32 +38,32 @@ public class CameraController : MonoBehaviour
        }
        if(Input.GetKey(KeyCode.W))
        {
-           Vector3 selectedMarkVector3 =  MarksController.Instance.SelectedMark.transform.forward * (float) 0.01;
+           Vector3 selectedMarkVector3 =  MarksController.Instance.SelectedMark.transform.forward * SelectedmMarkSpeed   ;
            MarksController.Instance.MoveMark(selectedMarkVector3);
        }
        if(Input.GetKey(KeyCode.S))
        {
-           Vector3 selectedMarkVector3 = -  MarksController.Instance.SelectedMark.transform.forward * (float) 0.01;
+           Vector3 selectedMarkVector3 = -  MarksController.Instance.SelectedMark.transform.forward * SelectedmMarkSpeed;
            MarksController.Instance.MoveMark(selectedMarkVector3);
        }
        if(Input.GetKey(KeyCode.A))
        {
-           Vector3 selectedMarkVector3 = -  MarksController.Instance.SelectedMark.transform.right * (float) 0.01;
+           Vector3 selectedMarkVector3 = -  MarksController.Instance.SelectedMark.transform.right * SelectedmMarkSpeed;
            MarksController.Instance.MoveMark(selectedMarkVector3);
        }
        if(Input.GetKey(KeyCode.D))
        {
-           Vector3 selectedMarkVector3 = MarksController.Instance.SelectedMark.transform.right * (float) 0.01;
+           Vector3 selectedMarkVector3 = MarksController.Instance.SelectedMark.transform.right * SelectedmMarkSpeed;
            MarksController.Instance.MoveMark(selectedMarkVector3);
        }
        if(Input.GetKey(KeyCode.R))
        {
-           Vector3 selectedMarkVector3 = MarksController.Instance.SelectedMark.transform.up * (float) 0.01;
+           Vector3 selectedMarkVector3 = MarksController.Instance.SelectedMark.transform.up * SelectedmMarkSpeed;
            MarksController.Instance.MoveMark(selectedMarkVector3);
        }
        if(Input.GetKey(KeyCode.F))
        {
-           Vector3 selectedMarkVector3 = -MarksController.Instance.SelectedMark.transform.up * (float) 0.01;
+           Vector3 selectedMarkVector3 = -MarksController.Instance.SelectedMark.transform.up * SelectedmMarkSpeed;
            MarksController.Instance.MoveMark(selectedMarkVector3);
        }
 
