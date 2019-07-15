@@ -7,11 +7,10 @@ using UnityEngine.UI;
 public class MarkParamPanel : MonoBehaviour
 {
     public GameObject Mark;
-   
+    CultureInfo ci = new CultureInfo("en-US");
     
     public void SetParamsToMarkFromInputs()
     {
-        CultureInfo ci = new CultureInfo("en-US");
         Text idText = gameObject.transform.GetChild(0).GetComponent<Text>();
         idText.text = Convert.ToString(Mark.GetComponent<MarkOnScene>().Id);
         InputField inputFieldX = gameObject.transform.GetChild(1).GetChild(0).GetComponent<InputField>();
@@ -30,21 +29,22 @@ public class MarkParamPanel : MonoBehaviour
 
     private void Update()
     {
-        /*
+        if (!Mark.GetComponent<MarkOnScene>().HasUpdate) return;
         Text idText = gameObject.transform.GetChild(0).GetComponent<Text>();
         idText.text = Convert.ToString(Mark.GetComponent<MarkOnScene>().Id);
         InputField inputFieldX = gameObject.transform.GetChild(1).GetChild(0).GetComponent<InputField>();
-        inputFieldX.text =Convert.ToString(Mark.transform.position.x);
+        inputFieldX.text =Mark.transform.position.x.ToString(ci);
         InputField inputFieldY = gameObject.transform.GetChild(1).GetChild(1).GetComponent<InputField>();
-        inputFieldY.text =Convert.ToString(Mark.transform.position.y);
+        inputFieldY.text =Mark.transform.position.y.ToString(ci);
         InputField inputFieldZ = gameObject.transform.GetChild(1).GetChild(2).GetComponent<InputField>();
-        inputFieldZ.text =Convert.ToString(Mark.transform.position.z);
+        inputFieldZ.text =Mark.transform.position.z.ToString(ci);
         InputField inputFieldRotationX = gameObject.transform.GetChild(2).GetChild(0).GetComponent<InputField>();
-        inputFieldRotationX.text = Convert.ToString(Mark.transform.eulerAngles.x);
+        inputFieldRotationX.text = Mark.transform.eulerAngles.x.ToString(ci);
         InputField inputFieldRotationY = gameObject.transform.GetChild(2).GetChild(1).GetComponent<InputField>();
-        inputFieldRotationY.text = Convert.ToString(Mark.transform.eulerAngles.y);
+        inputFieldRotationY.text = Mark.transform.eulerAngles.y.ToString(ci);
         InputField inputFieldRotationZ = gameObject.transform.GetChild(2).GetChild(2).GetComponent<InputField>();
-        inputFieldRotationZ.text = Convert.ToString(Mark.transform.eulerAngles.z);
-        */
+        inputFieldRotationZ.text = Mark.transform.eulerAngles.z.ToString(ci);
+        Mark.GetComponent<MarkOnScene>().HasUpdate = false;
+
     }
 }

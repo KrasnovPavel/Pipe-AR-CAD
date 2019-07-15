@@ -8,9 +8,15 @@ public class MarkOnScene : MonoBehaviour
 {
     public int Id;
     public bool IsSelected;
+    public bool HasUpdate=true;
+
+    private void Start()
+    {
+        HasUpdate = true;
+    }
 
     public void ChangeIdOnTextMesh(int id)
     {
-        GetComponentInChildren<Text>().text = Convert.ToString(id);
+        GetComponentInChildren<TextMesh>().text = Convert.ToString(id);
     }
 }

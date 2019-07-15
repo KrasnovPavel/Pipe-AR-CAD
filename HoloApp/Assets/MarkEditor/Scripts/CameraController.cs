@@ -20,6 +20,10 @@ public class CameraController : MonoBehaviour
             transform.rotation = Quaternion.Euler(X, Y, 0);
         }
 
+       if(Input.GetKey(KeyCode.UpArrow))
+       {
+           transform.Translate(new Vector3(0,0,Speed * Time.deltaTime));
+       }
        if(Input.GetKey(KeyCode.RightArrow))
        {
            transform.Translate(new Vector3(Speed * Time.deltaTime,0,0));
@@ -32,10 +36,37 @@ public class CameraController : MonoBehaviour
        {
            transform.Translate(new Vector3(0,0,-Speed * Time.deltaTime));
        }
-       if(Input.GetKey(KeyCode.UpArrow))
+       if(Input.GetKey(KeyCode.W))
        {
-           transform.Translate(new Vector3(0,0,Speed * Time.deltaTime));
+           Vector3 selectedMarkVector3 =  MarksController.Instance.SelectedMark.transform.forward * (float) 0.01;
+           MarksController.Instance.MoveMark(selectedMarkVector3);
        }
+       if(Input.GetKey(KeyCode.S))
+       {
+           Vector3 selectedMarkVector3 = -  MarksController.Instance.SelectedMark.transform.forward * (float) 0.01;
+           MarksController.Instance.MoveMark(selectedMarkVector3);
+       }
+       if(Input.GetKey(KeyCode.A))
+       {
+           Vector3 selectedMarkVector3 = -  MarksController.Instance.SelectedMark.transform.right * (float) 0.01;
+           MarksController.Instance.MoveMark(selectedMarkVector3);
+       }
+       if(Input.GetKey(KeyCode.D))
+       {
+           Vector3 selectedMarkVector3 = MarksController.Instance.SelectedMark.transform.right * (float) 0.01;
+           MarksController.Instance.MoveMark(selectedMarkVector3);
+       }
+       if(Input.GetKey(KeyCode.R))
+       {
+           Vector3 selectedMarkVector3 = MarksController.Instance.SelectedMark.transform.up * (float) 0.01;
+           MarksController.Instance.MoveMark(selectedMarkVector3);
+       }
+       if(Input.GetKey(KeyCode.F))
+       {
+           Vector3 selectedMarkVector3 = -MarksController.Instance.SelectedMark.transform.up * (float) 0.01;
+           MarksController.Instance.MoveMark(selectedMarkVector3);
+       }
+
     }
     
     

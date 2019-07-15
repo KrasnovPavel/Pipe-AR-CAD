@@ -18,12 +18,21 @@ public class UIController : MonoBehaviour
         FileSaverLoader.LoadSceneFile();
     }
 
+    public void AddMarkOnScene()
+    {
+        MarksController.Instance.AddMark();
+    }
     public void LoadJsonFile()
     {
         
     }
 
     public void SaveJsonFile()
+    {
+        
+    }
+
+    public void SelectMark()
     {
         
     }

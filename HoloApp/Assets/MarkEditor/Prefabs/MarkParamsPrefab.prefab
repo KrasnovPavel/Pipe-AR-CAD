@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1787335421673885948}
   - component: {fileID: 1998505158622101111}
   - component: {fileID: 1904594820682483428}
+  - component: {fileID: 647305421654252587}
   - component: {fileID: 323562124879202295}
   - component: {fileID: 2693985759934690472}
   m_Layer: 5
@@ -77,6 +78,18 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &647305421654252587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105178288294739652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b9c36cf9991e2d4da20182981c6cb32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &323562124879202295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,8 +130,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: LoadObjModel
+      - m_Target: {fileID: 647305421654252587}
+        m_MethodName: SelectMark
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -908,6 +921,7 @@ GameObject:
   - component: {fileID: 1200413819217495872}
   - component: {fileID: 1200413819217495876}
   - component: {fileID: 1200413819217495875}
+  - component: {fileID: 814901542038066728}
   - component: {fileID: 1200413819217495874}
   - component: {fileID: 1200413819217495873}
   m_Layer: 5
@@ -974,6 +988,18 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &814901542038066728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200413819217495887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b9c36cf9991e2d4da20182981c6cb32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1200413819217495874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1014,8 +1040,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: LoadObjModel
+      - m_Target: {fileID: 814901542038066728}
+        m_MethodName: DeleteMark
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
