@@ -263,7 +263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Text: "\u041A\u043D\u043E\u043F\u043A\u0430"
   Icon: {fileID: 8400000, guid: e0740416d8bb51349a56f4fd70e39af6, type: 2}
-  IconMaterial: {fileID: 2100000, guid: 22af34f177f109a4e93a25f9594e0ea3, type: 2}
+  IconMaterial: {fileID: 2100000, guid: 7891295f26a600047a409b590036d3a8, type: 2}
   EmptyIcon: {fileID: 8400000, guid: e0740416d8bb51349a56f4fd70e39af6, type: 2}
 --- !u!65 &65570045868064852
 BoxCollider:
