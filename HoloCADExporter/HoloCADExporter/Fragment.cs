@@ -10,6 +10,6 @@ namespace WpfApplication1
         public string type;
         public double length;
         public double radius;
-        public int bendAngle;
+        public double bendAngle;
     }
 }

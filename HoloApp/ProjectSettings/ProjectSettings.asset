@@ -77,7 +77,7 @@ PlayerSettings:
   hideHomeButton: 0
   submitAnalytics: 1
   usePlayerLog: 1
-  bakeCollisionMeshes: 0
+  bakeCollisionMeshes: 1
   forceSingleInstance: 0
   resizableWindow: 0
   useMacAppStoreValidation: 0
@@ -592,7 +592,7 @@ PlayerSettings:
       EnterpriseAuthentication: False
       HumanInterfaceDevice: False
       InputInjectionBrokered: False
-      InternetClient: True
+      InternetClient: False
       InternetClientServer: False
       Location: True
       LowLevelDevices: False
@@ -619,7 +619,7 @@ PlayerSettings:
       VoipCall: False
       WebCam: True
   metroTargetDeviceFamilies:
-    Desktop: False
+    Desktop: True
     Holographic: True
     IoT: False
     IoTHeadless: False

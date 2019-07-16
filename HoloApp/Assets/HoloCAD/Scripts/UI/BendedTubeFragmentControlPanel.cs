@@ -1,6 +1,7 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System.ComponentModel;
 using HoloCAD.UnityTubes;
 using HoloCore.UI;
 using JetBrains.Annotations;
@@ -11,15 +12,8 @@ namespace HoloCAD.UI
 	/// <inheritdoc />
 	/// <summary> Класс, отображающий кнопки и информацию о фланце. </summary>
 	[RequireComponent(typeof(BendedTubeFragment))]
-	public class BendedTubeFragmentControlPanel : TubeFragmentControlPanel {
-		/// <summary> Панель с кнопками и информацией о трубе. </summary>
-		[Tooltip("Панель с кнопками и информацией о трубе.")]
-		public GameObject ButtonBar;
-
-		/// <summary> Объект, отображающий текстовые данные о участке трубе. </summary>
-		[Tooltip("Объект, отображающий текстовые данные о участке трубе.")]
-		public TextMesh TextLabel;
-
+	public class BendedTubeFragmentControlPanel : TubeFragmentControlPanel 
+	{
 		/// <summary> Кнопка увеличения угла погиба. </summary>
 		[Tooltip("Кнопка увеличения угла погиба.")]
 		[CanBeNull] public Button3D IncreaseAngleButton;
@@ -40,31 +34,20 @@ namespace HoloCAD.UI
 		[Tooltip("Кнопка смены радиуса погиба.")]
 		[CanBeNull] public Button3D ChangeRadiusButton;
 		
+		/// <summary> Шаг изменения угла при нажатии на кнопку. </summary>
+		[Tooltip("Шаг изменения угла при нажатии на кнопку.")]
+		public float AngleStep = 5f;
+		
 		/// <inheritdoc />
 		protected override void CalculateBarPosition()
 		{
-			if (_camera == null) return;
-
-			Vector3 endPointPosition = ButtonBar.transform.parent.position;
+			Vector3 endPointPosition = ButtonBar.parent.position;
 			
-			Vector3 direction = (_camera.transform.position - endPointPosition).normalized 
-			                    * _fragment.Diameter * 1.1f;
+			Vector3 direction = _fragment.Diameter * 1.1f * (_camera.transform.position - endPointPosition).normalized;
 			
 			Quaternion rotation = Quaternion.FromToRotation(Vector3.back, direction);
-			ButtonBar.transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
-			ButtonBar.transform.position = new Vector3(direction.x, 0, direction.z) + endPointPosition;
-		}
-
-		/// <inheritdoc />
-		protected override void CalculateLine()
-		{
-			// TODO: Calculate lines for bended tube 
-		}
-
-		/// <inheritdoc />
-		protected override void SetText()
-		{
-			TextLabel.text = $"A:{_fragment.Angle} B:{_fragment.RotationAngle}";
+			ButtonBar.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
+			ButtonBar.position = new Vector3(direction.x, 0, direction.z) + endPointPosition;
 		}
 
 		protected override void InitButtons()
@@ -97,37 +80,24 @@ namespace HoloCAD.UI
 
 			if (IncreaseAngleButton != null)
 			{
-				IncreaseAngleButton.OnClick = delegate { _fragment.IncreaseAngle(); };
+				IncreaseAngleButton.OnClick = delegate { _fragment.ChangeAngle(AngleStep); };
 			}
 			if (DecreaseAngleButton != null)
 			{
-				DecreaseAngleButton.OnClick = delegate { _fragment.DecreaseAngle(); };
+				DecreaseAngleButton.OnClick = delegate { _fragment.ChangeAngle(-AngleStep); };
 			}
 			if (TurnClockwiseButton != null)
 			{
-				TurnClockwiseButton.OnClick = delegate { _fragment.TurnClockwise(); };
+				TurnClockwiseButton.OnClick = delegate { _fragment.TurnAround(AngleStep); };
 			}
 			if (TurnAnticlockwiseButton != null)
 			{
-				TurnAnticlockwiseButton.OnClick = delegate { _fragment.TurnAnticlockwise(); };
+				TurnAnticlockwiseButton.OnClick = delegate { _fragment.TurnAround(-AngleStep); };
 			}
 			if (ChangeRadiusButton != null)
 			{
 				ChangeRadiusButton.OnClick = delegate { _fragment.ChangeRadius(); };
 			}
-		}
-
-		protected override void CheckIsButtonsEnabled()
-		{
-			if (ConnectTubesButton != null)
-			{
-				ConnectTubesButton.SetEnabled(!_fragment.Owner.HasTubesConnector 
-				                              && !TubeUnityManager.HasActiveTubesConnector);
-			}
-			
-			if (AddBendFragmentButton != null) AddBendFragmentButton.SetEnabled(!_fragment.HasChild);
-			if (AddDirectFragmentButton != null) AddDirectFragmentButton.SetEnabled(!_fragment.HasChild);
-			if (NextFragmentButton != null) NextFragmentButton.SetEnabled(_fragment.HasChild);
 		}
 
 		#region Unity event functions
@@ -138,16 +108,18 @@ namespace HoloCAD.UI
 			base.Start();
 			_camera = Camera.main;
 			_fragment = GetComponent<BendedTubeFragment>();
-		}
-
-		private void OnDisable()
-		{
-			if (ButtonBar != null) ButtonBar.SetActive(false);
-		}
-
-		private void OnEnable()
-		{
-			if (ButtonBar != null) ButtonBar.SetActive(true);
+			_fragment.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+			{
+				switch (args.PropertyName)
+				{
+					case nameof(BendedTubeFragment.Angle):
+					case nameof(BendedTubeFragment.RotationAngle):
+						SetText();
+						break;
+				}
+			};
+			CheckIsButtonsEnabled(_fragment);
+			SetText();
 		}
 
 		#endregion
@@ -156,6 +128,11 @@ namespace HoloCAD.UI
 
 		private Camera _camera;
 		private BendedTubeFragment _fragment;
+
+		private void SetText()
+		{
+			if (TextLabel != null) TextLabel.text = $"A:{_fragment.Angle:0.00} B:{_fragment.RotationAngle:0.00}";
+		}
 
 		#endregion
 	}

@@ -2,8 +2,8 @@
 	Properties{
 		_GridThickness("Grid Thickness", Float) = 0.01
 		_GridSpacingY("Grid Spacing Y", Float) = 1.0
-		_GridColor("Grid Color", Color) = (1, 1, 0, 1)
-		_BaseColor("Base Color", Color) = (0.0, 0.0, 0.0, 0.0)
+		[PerRendererData]_GridColor("Grid Color", Color) = (1, 1, 0, 1)
+		[PerRendererData]_BaseColor("Base Color", Color) = (0.0, 0.0, 0.0, 0.0)
 	}
 	SubShader{
 		Tags { "Queue" = "Transparent" }

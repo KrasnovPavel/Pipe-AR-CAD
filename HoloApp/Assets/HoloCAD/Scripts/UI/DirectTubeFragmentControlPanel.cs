@@ -1,6 +1,7 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System.ComponentModel;
 using HoloCAD.UnityTubes;
 using HoloCore.UI;
 using JetBrains.Annotations;
@@ -11,15 +12,8 @@ namespace HoloCAD.UI
 	/// <inheritdoc />
 	/// <summary> Класс, отображающий кнопки и информацию о фланце. </summary>
 	[RequireComponent(typeof(DirectTubeFragment))]
-	public class DirectTubeFragmentControlPanel : TubeFragmentControlPanel {
-		/// <summary> Панель с кнопками и информацией о трубе. </summary>
-		[Tooltip("Панель с кнопками и информацией о трубе.")]
-		public GameObject ButtonBar;
-
-		/// <summary> Объект, отображающий текстовые данные о участке трубе. </summary>
-		[Tooltip("Объект, отображающий текстовые данные о участке трубе.")]
-		public TextMesh TextLabel;
-
+	public class DirectTubeFragmentControlPanel : TubeFragmentControlPanel 
+	{
 		/// <summary> Кнопка увеличения длины. </summary>
 		[Tooltip("Кнопка увеличения длины.")]
 		[CanBeNull] public Button3D IncreaseLengthButton;
@@ -28,30 +22,24 @@ namespace HoloCAD.UI
 		[Tooltip("Кнопка уменьшения длины.")]
 		[CanBeNull] public Button3D DecreaseLengthButton;
 		
+		/// <summary> Кнопка добавления отростка. </summary>
+		[Tooltip("Кнопка добавления отростка.")]
+		[CanBeNull] public Button3D AddOutgrowthButton;
+
+		/// <summary> Шаг изменения длины при нажатии на кнопку. </summary>
+		[Tooltip("Шаг изменения длины при нажатии на кнопку.")]
+		public float LengthStep = 0.05f;
+		
 		/// <inheritdoc />
 		protected override void CalculateBarPosition()
 		{
-			if (_camera == null) return;
-
-			Vector3 endPointPosition = ButtonBar.transform.parent.position;
+			Vector3 endPointPosition = ButtonBar.parent.position;
 			
-			Vector3 direction = (_camera.transform.position - endPointPosition).normalized 
-			                    * _fragment.Diameter * 1.1f;
+			Vector3 direction = _fragment.Diameter * 1.1f * (_camera.transform.position - endPointPosition).normalized;
 			
 			Quaternion rotation = Quaternion.FromToRotation(Vector3.back, direction);
-			ButtonBar.transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
-			ButtonBar.transform.position = new Vector3(direction.x, 0, direction.z) + endPointPosition;
-		}
-
-		/// <inheritdoc />
-		protected override void CalculateLine()
-		{
-		}
-
-		/// <inheritdoc />
-		protected override void SetText()
-		{
-			TextLabel.text = $"L:{_fragment.Length:0.000}м";
+			ButtonBar.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
+			ButtonBar.position = new Vector3(direction.x, 0, direction.z) + endPointPosition;
 		}
 
 		protected override void InitButtons()
@@ -84,25 +72,16 @@ namespace HoloCAD.UI
 			
 			if (IncreaseLengthButton != null)
 			{
-				IncreaseLengthButton.OnClick += delegate { _fragment.IncreaseLength(); };
+				IncreaseLengthButton.OnClick += delegate { _fragment.ChangeLength(LengthStep); };
 			}
 			if (DecreaseLengthButton != null)
 			{
-				DecreaseLengthButton.OnClick += delegate { _fragment.DecreaseLength(); };
+				DecreaseLengthButton.OnClick += delegate { _fragment.ChangeLength(-LengthStep); };
 			}
-		}
-
-		protected override void CheckIsButtonsEnabled()
-		{
-			if (ConnectTubesButton != null)
+			if (AddOutgrowthButton != null)
 			{
-				ConnectTubesButton.SetEnabled(!_fragment.Owner.HasTubesConnector 
-				                              && !TubeUnityManager.HasActiveTubesConnector);
+				AddOutgrowthButton.OnClick += delegate { _fragment.AddOutgrowth(); };				
 			}
-			
-			if (AddBendFragmentButton != null) AddBendFragmentButton.SetEnabled(!_fragment.HasChild);
-			if (AddDirectFragmentButton != null) AddDirectFragmentButton.SetEnabled(!_fragment.HasChild);
-			if (NextFragmentButton != null) NextFragmentButton.SetEnabled(_fragment.HasChild);
 		}
 
 		#region Unity event functions
@@ -113,16 +92,16 @@ namespace HoloCAD.UI
 			base.Start();
 			_camera = Camera.main;
 			_fragment = GetComponent<DirectTubeFragment>();
-		}
-
-		private void OnDisable()
-		{
-			if (ButtonBar != null) ButtonBar.SetActive(false);
-		}
-
-		private void OnEnable()
-		{
-			if (ButtonBar != null) ButtonBar.SetActive(true);
+			_fragment.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+			{
+				if (args.PropertyName == nameof(DirectTubeFragment.Length))
+				{
+					SetText();
+				}
+			};
+			
+			CheckIsButtonsEnabled(_fragment);
+			SetText();
 		}
 
 		#endregion
@@ -131,6 +110,11 @@ namespace HoloCAD.UI
 
 		private Camera _camera;
 		private DirectTubeFragment _fragment;
+
+		private void SetText()
+		{
+			if (TextLabel != null) TextLabel.text = $"L: {_fragment.Length:0.000}";
+		}
 
 		#endregion
 	}

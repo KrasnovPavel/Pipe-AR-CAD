@@ -5,6 +5,7 @@ using System;
 using HoloToolkit.Unity.InputModule;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Experimental.Playables;
 
 namespace HoloCore.UI
 {
@@ -13,42 +14,51 @@ namespace HoloCore.UI
     [ExecuteInEditMode]
     public class Button3D : MonoBehaviour, IInputHandler, IPointerSpecificFocusable
     {
+        /// <summary> Отображаемый на кнопке текст. </summary>
+        [CanBeNull] public string Text;
+
+        /// <summary> Отображаемая на кнопке иконка. </summary>
+        [CanBeNull] public Texture Icon;
+
+        /// <summary> Материал для иконки. </summary>
+        [CanBeNull] public Material IconMaterial;
+
+        /// <summary> Заполнитель на случай если иконка не задана. </summary>
+        [CanBeNull] public Texture EmptyIcon; 
+        
         /// <summary> Объект, на который выводится текст. </summary>
         [CanBeNull] protected TextMesh Label;
 
         /// <summary> Объект, на который выводится иконка. </summary>
         [CanBeNull] protected MeshRenderer IconRenderer;
 
-        /// <summary> Состояние кнопки. </summary>
-        protected ButtonState _state;
-
         /// <summary> Объект, который отрисовывает кнопку. </summary>
         [CanBeNull] protected MeshRenderer ButtonRenderer;
 
-        public delegate void OnHoverEnterDel(Button3D button);
+        public delegate void OnHoverEnterHandler(object button, EventArgs args);
 
-        public delegate void OnHoverExitDel(Button3D button);
+        public delegate void OnHoverExitHandler(object button, EventArgs args);
 
-        public delegate void OnPressedDel(Button3D button);
+        public delegate void OnPressedHandler(object button, EventArgs args);
 
-        public delegate void OnReleasedDel(Button3D button);
+        public delegate void OnReleasedHandler(object button, EventArgs args);
 
-        public delegate void OnClickDel(Button3D button);
+        public delegate void OnClickHandler(object button, EventArgs args);
 
         /// <summary> Событие клика по кнопке. </summary>
-        [NotNull] public OnClickDel OnClick = delegate { };
+        public OnClickHandler OnClick;
 
         /// <summary> Событие наведение курсора на кнопку. </summary>
-        [NotNull] public OnHoverEnterDel OnHoverEnter = delegate { };
+        public OnHoverEnterHandler OnHoverEnter;
 
         /// <summary> Событие сведения курсора с кнопки. </summary>
-        [NotNull] public OnHoverExitDel OnHoverExit = delegate { };
+        public OnHoverExitHandler OnHoverExit;
 
         /// <summary> Событие нажатия на кнопку. </summary>
-        [NotNull] public OnPressedDel OnPressed = delegate { };
+        public OnPressedHandler OnPressed;
 
         /// <summary> Событие отпускания кнопки. </summary>
-        [NotNull] public OnReleasedDel OnReleased = delegate { };
+        public OnReleasedHandler OnReleased;
 
         /// <summary> Возможные состояния кнопки. </summary>
         public enum ButtonState
@@ -67,20 +77,7 @@ namespace HoloCore.UI
         }
 
         /// <summary> Текущее состояние кнопки </summary>
-        public virtual ButtonState State
-        {
-            get => _state;
-            protected set => _state = value;
-        }
-
-        /// <summary> Отображаемый на кнопке текст. </summary>
-        [CanBeNull] public string Text;
-
-        /// <summary> Отображаемая на кнопке иконка. </summary>
-        [CanBeNull] public Material Icon;
-
-        /// <summary> Материал-заполнитель для отсутствующей иконки. </summary>
-        [CanBeNull] public Material EmptyIcon;
+        public virtual ButtonState State { get; protected set; }
 
         /// <summary> Функция, включающая или выключающая кнопку. </summary>
         /// <param name="isEnabled"> Новое состояние кнопки. </param>
@@ -101,12 +98,9 @@ namespace HoloCore.UI
                 case ButtonState.Disabled:
                     break;
                 case ButtonState.Enabled:
-                    State = ButtonState.Pressed;
-                    OnPressed(this);
-                    break;
                 case ButtonState.Hovered:
                     State = ButtonState.Pressed;
-                    OnPressed(this);
+                    OnPressed?.Invoke(this, null);
                     break;
                 case ButtonState.Pressed:
                     break;
@@ -131,8 +125,8 @@ namespace HoloCore.UI
                     break;
                 case ButtonState.Pressed:
                     State = setHover ? ButtonState.Hovered : ButtonState.Enabled;
-                    OnReleased(this);
-                    OnClick(this);
+                    OnReleased?.Invoke(this, null);
+                    OnClick?.Invoke(this, null);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -146,21 +140,7 @@ namespace HoloCore.UI
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void OnInputDown(InputEventData eventData)
         {
-            switch (State)
-            {
-                case ButtonState.Hovered:
-                    State = ButtonState.Pressed;
-                    OnPressed(this);
-                    break;
-                case ButtonState.Pressed:
-                    break;
-                case ButtonState.Disabled:
-                    break;
-                case ButtonState.Enabled:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            Press();
         }
 
         /// <summary> Обработчик отпускания кнопки. </summary>
@@ -168,22 +148,7 @@ namespace HoloCore.UI
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void OnInputUp(InputEventData eventData)
         {
-            switch (State)
-            {
-                case ButtonState.Hovered:
-                    break;
-                case ButtonState.Pressed:
-                    State = ButtonState.Hovered;
-                    OnReleased(this);
-                    OnClick(this);
-                    break;
-                case ButtonState.Disabled:
-                    break;
-                case ButtonState.Enabled:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            Release(true);
         }
 
         /// <summary> Обработчик наведения курсора на кнопку. </summary>
@@ -201,7 +166,7 @@ namespace HoloCore.UI
                     break;
                 case ButtonState.Enabled:
                     State = ButtonState.Hovered;
-                    OnHoverEnter(this);
+                    OnHoverEnter?.Invoke(this, null);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -217,12 +182,12 @@ namespace HoloCore.UI
             {
                 case ButtonState.Hovered:
                     State = ButtonState.Enabled;
-                    OnHoverExit(this);
+                    OnHoverExit?.Invoke(this, null);
                     break;
                 case ButtonState.Pressed:
                     State = ButtonState.Enabled;
-                    OnHoverExit(this);
-                    OnReleased(this);
+                    OnHoverExit?.Invoke(this, null);
+                    OnReleased?.Invoke(this, null);
                     break;
                 case ButtonState.Disabled:
                     break;
@@ -260,6 +225,7 @@ namespace HoloCore.UI
             catch (NullReferenceException){}
 
             State = _forceDisable ? ButtonState.Disabled : ButtonState.Enabled;
+            SetVisual();
         }
 
         /// <summary> Функция, выполняющаяся в Unity каждый кадр. </summary>
@@ -268,8 +234,9 @@ namespace HoloCore.UI
         /// </remarks>
         protected virtual void Update()
         {
-            if (Label != null) Label.text = Text;
-            if (IconRenderer != null) IconRenderer.sharedMaterial = Icon == null ? EmptyIcon : Icon;
+#if UNITY_EDITOR
+            SetVisual();
+#endif
         }
         
         /// <summary> Функция, выполняющаяся при включении объекта в Unity. </summary>
@@ -286,7 +253,7 @@ namespace HoloCore.UI
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.OnDisable()</c>.
         /// </remarks>
-        protected virtual  void OnDisable()
+        protected virtual void OnDisable()
         {
             State = ButtonState.Disabled;
         }
@@ -297,6 +264,19 @@ namespace HoloCore.UI
 
         /// <summary> <c>true</c>, если кнопка была выключена через <see cref="SetEnabled"/>. </summary>
         private bool _forceDisable;
+
+        private void SetVisual()
+        {
+            if (Label != null) Label.text = Text;
+            if (IconRenderer != null)
+            {
+                Material temp = new Material(IconMaterial)
+                {
+                    mainTexture = Icon != null ? Icon : EmptyIcon
+                };
+                IconRenderer.sharedMaterial = temp;
+            }
+        }
 
         #endregion
     }

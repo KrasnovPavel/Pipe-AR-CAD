@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using HoloCAD.UnityTubes;
+using SFB;
+
 #if ENABLE_WINMD_SUPPORT
     using Windows.Storage;
     using Windows.Storage.Pickers;
@@ -17,12 +19,19 @@ namespace HoloCAD
     public static class SchemeExporter
     {
         /// <summary> Экспорт схемы. </summary>
+        /// <remarks> Для выбора файла будет вызван диалог сохранения файла. </remarks>
         /// <param name="tubes"> Массив всех труб на сцене. </param>
         public static void Export(IEnumerable<Tube> tubes)
         {
-#if ENABLE_WINMD_SUPPORT
             string data = SerializeScheme(tubes);
-            UnityEngine.WSA.Application.InvokeOnUIThread(() => WriteFileInHololens(data), true);
+#if ENABLE_WINMD_SUPPORT
+            UnityEngine.WSA.Application.InvokeOnUIThread(() => WriteFileOnHololens(data), true);
+#else
+            UnityEngine.WSA.Application.InvokeOnUIThread(() =>
+            {
+                Cursor.visible = true;
+                WriteFileOnPC(data);
+            }, true);
 #endif
         }
 
@@ -45,9 +54,11 @@ namespace HoloCAD
             /// <summary> Массив экспортируемых фрагментов трубы. </summary>
             public List<ExpFragment> fragments = new List<ExpFragment>();
 
+            // ReSharper disable once InconsistentNaming
             /// <summary> Диаметр трубы. </summary>
             public double diameter;
 
+            // ReSharper disable once InconsistentNaming
             /// <summary> Толщина стенки трубы. </summary>
             public double width;
         }
@@ -59,20 +70,26 @@ namespace HoloCAD
         {
             public double[] transform;
 
+            // ReSharper disable once InconsistentNaming
             /// <summary> Тип фрагмента: Direct или Bended. </summary>
             public string type;
 
+            // ReSharper disable once InconsistentNaming
             /// <summary> Длина фрагмента (только если direct). </summary>
             public double length;
 
+            // ReSharper disable once InconsistentNaming
             /// <summary> Радиус погиба (только если bended). </summary>
             public double radius;
 
+            // ReSharper disable once InconsistentNaming
             /// <summary> Угол погиба (только если bended). </summary>
-            public int bendAngle;
+            public float bendAngle;
         }
 
-        // ReSharper disable once UnusedMember.Local
+        /// <summary> Сериализует все трубы в json формат. </summary>
+        /// <param name="tubes"> Все трубы на сцене. </param>
+        /// <returns> Объект в формате json. </returns>
         private static string SerializeScheme(IEnumerable<Tube> tubes)
         {
             ExpTubesArray array = new ExpTubesArray();
@@ -83,34 +100,43 @@ namespace HoloCAD
                 expTube.diameter = tube.Data.diameter * 1000;
                 expTube.width = expTube.diameter * 0.1;
 
-                for (int i = 1; i < tube.Fragments.Count; i++)
-                {
-                    ExpFragment fragment = new ExpFragment();
-
-                    switch (tube.Fragments[i])
-                    {
-                        case DirectTubeFragment dtf:
-                            fragment.type = "Direct";
-                            fragment.length = dtf.Length * 1000;
-                            break;
-                        case BendedTubeFragment btf:
-                            fragment.type = "Bended";
-                            fragment.bendAngle = btf.Angle;
-                            fragment.radius = btf.Radius * 1000;
-                            break;
-                        default:
-                            continue;
-                    }
-
-                    fragment.transform = SerializeTransform(tube.Fragments[i], tube.Fragments[1].transform.position);
-
-                    expTube.fragments.Add(fragment);
-                }
+                tube.MapFragmentsWithOutgrowth(fragment => expTube.fragments.Add(ConvertToExportFormat(fragment)));
+                expTube.fragments.RemoveAll(element => element == null);
             }
 
             return JsonUtility.ToJson(array);
         }
 
+        private static ExpFragment ConvertToExportFormat(TubeFragment fragment)
+        {
+            ExpFragment expFragment = new ExpFragment();
+
+            switch (fragment)
+            {
+                case DirectTubeFragment dtf:
+                    expFragment.type = "Direct";
+                    expFragment.length = dtf.Length * 1000;
+                    break;
+                case BendedTubeFragment btf:
+                    expFragment.type = "Bended";
+                    expFragment.bendAngle = btf.Angle;
+                    expFragment.radius = btf.Radius * 1000;
+                    break;
+                default:
+                    // Фланец не добавляем, он не является частью трубы
+                    return null;
+            }
+
+            expFragment.transform = SerializeTransform(fragment, fragment.Owner.StartFragment.EndPoint.transform.position);
+            return expFragment;
+        }
+
+        /// <summary>
+        /// Превращает положение отрезка трубы в матрицу переноса 4х4 для правосторонней системы координат.
+        /// </summary>
+        /// <param name="fragment"> Отрезок трубы. </param>
+        /// <param name="tubeOrigin"> Координаты начала трубы. </param>
+        /// <returns> Матрица переноса 4х4. </returns>
         private static double[] SerializeTransform(TubeFragment fragment, Vector3 tubeOrigin)
         {
             double[] result = new double[16];
@@ -120,8 +146,8 @@ namespace HoloCAD
 
             Matrix4x4 toROS = new Matrix4x4(new Vector4(1,  0,  0, 0), 
                                             new Vector4(0,  0, -1, 0),
-                                            new Vector4(0, -1,  0, 0),
-                                            new Vector4(-tubeOrigin.x,  tubeOrigin.z,  tubeOrigin.y, 1));
+                                            new Vector4(0,  1,  0, 0),
+                                            new Vector4(-tubeOrigin.x,  -tubeOrigin.z,  tubeOrigin.y, 1));
 
             tr = toROS * tr;
             
@@ -146,7 +172,9 @@ namespace HoloCAD
         }
         
 #if ENABLE_WINMD_SUPPORT
-        private static async void WriteFileInHololens(string data)
+        /// <summary> Запись файла на очках Hololens. Перед записью вызывает диалог сохранения файла. </summary>
+        /// <param name="data"> Данные, которые будут записаны в файл. </param>
+        private static async void WriteFileOnHololens(string data)
         {
             FileSavePicker savePicker = new FileSavePicker();
             savePicker.DefaultFileExtension = ".json";
@@ -156,6 +184,17 @@ namespace HoloCAD
 
             await FileIO.WriteTextAsync(file, data);
         }    
+#else
+        /// <summary> Запись файла на компьютере. Перед записью вызывает диалог сохранения файла. </summary>
+        /// <param name="data"> Данные, которые будут записаны в файл. </param>        
+        private static void WriteFileOnPC(string data)
+        {
+            string path = StandaloneFileBrowser.SaveFilePanel("Save Scheme", 
+                                                              "", 
+                                                              "New Scheme", 
+                                                              "json");
+            System.IO.File.WriteAllText(path, data);
+        }
 #endif
         
         #endregion

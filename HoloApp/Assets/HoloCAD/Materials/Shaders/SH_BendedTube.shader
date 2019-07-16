@@ -2,10 +2,11 @@
 	Properties{
 		_GridThickness("Grid Thickness", Float) = 0.01
 		_RadialSpacing("Radial Spacing", Float) = 5
-		_GridColor("Grid Color", Color) = (1, 1, 0, 1)
-		_BaseColor("Base Color", Color) = (0.0, 0.0, 0.0, 0.0)
+		[PerRendererData]_GridColor("Grid Color", Color) = (1, 1, 0, 1)
+		[PerRendererData]_BaseColor("Base Color", Color) = (0.0, 0.0, 0.0, 0.0)
 		[PerRendererData]_Diameter("Diameter", Float) = 1
 		[PerRendererData]_BendRadius("Bend Radius", Float) = 1.2
+		[PerRendererData]_Angle("Angle", Float) = 3.14159265
 	}
 	SubShader{
 		Tags { "Queue" = "Transparent" }
@@ -23,6 +24,7 @@
 		uniform float _GridThickness;
 		uniform float _RadialSpacing;
 		uniform float _Diameter;
+		uniform float _Angle;
 		uniform float _BendRadius;
 		uniform float4 _GridColor;
 		uniform float4 _BaseColor;
@@ -57,10 +59,19 @@
 		// FRAGMENT SHADER
 		float4 frag(vertexOutput input) : COLOR {
 			float spacing = _RadialSpacing / 180 * PI;
-			float radialPos = frac(atan2(input.localPos.z, input.localPos.x) / spacing);
-			if (input.localPos.y < _GridThickness && input.localPos.y > -_GridThickness ||
-				radialPos > (1 - _GridThickness / 2) ||	radialPos < (_GridThickness / 2) ||
-				input.localPos.z < _GridThickness)
+			float pointAngle = atan2(input.localPos.z, input.localPos.x);
+			float radialPos = frac(pointAngle / spacing);
+			
+			if (pointAngle > _Angle || pointAngle <= 0)
+			{
+			    return float4(0.0, 0.0, 0.0, 0.0);
+			}
+			
+			bool isMiddleLine = input.localPos.y < _GridThickness && input.localPos.y > -_GridThickness;
+			bool isRing = radialPos > (1 - _GridThickness / 2) || radialPos < (_GridThickness / 2);
+			bool isStartRing = input.localPos.z < _GridThickness;
+			bool isEndRing = atan2(input.localPos.z, input.localPos.x) > _Angle - _GridThickness;
+			if (isMiddleLine || isRing || isStartRing || isEndRing) 
 			{
 				return _GridColor;
 			}

@@ -25,12 +25,26 @@ namespace HoloCAD.UnityTubes
                 Tube.transform.localScale = new Vector3(Diameter, Length, Diameter);
             }
         }
+        
+        /// <inheritdoc/>
+        public override bool IsPlacing
+        {
+            get => base.IsPlacing;
+            set
+            {
+                base.IsPlacing = value;
+                
+                Transform tubeCollider = Tube.transform.Find("Collider"); 
+                if (tubeCollider != null) tubeCollider.GetComponent<BoxCollider>().enabled = !IsPlacing;
+            }
+        }
 
         /// <summary> Устанавливает следующий из доступных диаметров труб. </summary>
         public void IncreaseDiameter()
         {
             Owner.SelectBiggerDiameter();
         }
+        
         /// <summary> Устанавливает предыдущий из доступных диаметров труб. </summary>
         public void DecreaseDiameter()
         {
@@ -51,8 +65,7 @@ namespace HoloCAD.UnityTubes
         {
             if (TubeManager.AllTubes.Count == 1)
             {
-                TubeFragment next = Owner.GetNextFragment(this);
-                if (next != null) next.RemoveThisFragment();
+                if (Child != null) Child.RemoveThisFragment();
                 StartPlacing();
             }
             else
@@ -76,13 +89,18 @@ namespace HoloCAD.UnityTubes
         #region Unity event functions
 
         /// <inheritdoc />
-        protected override void Start()
+        protected override void Awake()
         {
             _camera = Camera.main;
-            base.Start();
+            base.Awake();
             EndPoint.transform.localPosition = new Vector3(0, 0, Length);
             TubeManager.SelectTubeFragment(this);
-            
+        }
+
+        /// <inheritdoc />
+        protected override void Start()
+        {
+            base.Start();
 #if ENABLE_WINMD_SUPPORT
             Owner.StartPlacing();
             _recognizer = new GestureRecognizer();

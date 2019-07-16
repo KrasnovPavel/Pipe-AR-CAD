@@ -18,6 +18,9 @@ namespace HoloCAD.UI
         /// <summary> Множитель показаний осей. </summary>
         public float TimeFactor = 1;
 
+        //TODO: Механизм определения подключен ли геймпад.
+        public bool IsGamepadConnected = false;
+
         #region Unity event functioin
 
         private void Start()
@@ -27,6 +30,8 @@ namespace HoloCAD.UI
         
         private void Update()
         {
+            if (!IsGamepadConnected) return;
+            
             CalculatePressingTime();
             
             CheckFireOnce("JoystickA", Click);
@@ -37,7 +42,7 @@ namespace HoloCAD.UI
             if (fragment == null) return;
             
             CheckFireOnce("LeftBumper", fragment.AddBendFragment);
-            CheckFireOnce("JoystickBack", fragment.RemoveThisFragment); //TODO: при удалении выбирать предыдущий отрезок
+            CheckFireOnce("JoystickBack", fragment.RemoveThisFragment);
             CheckRepeatPressingAxis("DPADHorizontal", TubeManager.SelectNext, 
                                                                   TubeManager.SelectPrevious);
             CheckFireOnce("JoystickY", fragment.TogglePlacing);
@@ -52,14 +57,12 @@ namespace HoloCAD.UI
                                             startFragment.DecreaseDiameter);
                     break;
                 case DirectTubeFragment directFragment:
-                    CheckAxisChange("LeftStickHorizontal", directFragment.IncreaseLength, TimeFactor);
+                    CheckAxisChange("LeftStickHorizontal", directFragment.ChangeLength, TimeFactor);
                     break;
                 case BendedTubeFragment bendedFragment:
                     CheckFireOnce("RightBumper", bendedFragment.AddDirectFragment);
-                    CheckRepeatPressingAxis("RightStickHorizontal",
-                                            bendedFragment.IncreaseAngle, 
-                                            bendedFragment.DecreaseAngle);
-                    CheckAxisChange("LeftStickHorizontal", bendedFragment.TurnClockwise, TimeFactor * 6);
+                    CheckAxisChange("RightStickHorizontal", bendedFragment.ChangeAngle, TimeFactor * 6);
+                    CheckAxisChange("LeftStickHorizontal", bendedFragment.TurnAround, TimeFactor * 6);
                     CheckRepeatPressing("DPADVertical", bendedFragment.ChangeRadius);
                     break;
             }

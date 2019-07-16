@@ -2,6 +2,8 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace HoloCAD.UnityTubes
@@ -16,14 +18,13 @@ namespace HoloCAD.UnityTubes
             get => _length;
             set
             {
-                if (value <= 0)
-                {
-                    return;
-                }
+                if (value <= 0 || Math.Abs(_length - value) < float.Epsilon) return;
+                
                 _length = value;
 
                 Tube.transform.localScale = new Vector3(Diameter, _length, Diameter);
                 EndPoint.transform.localPosition = new Vector3(0, 0, _length);
+                OnPropertyChanged();
             }
         }
 
@@ -40,18 +41,53 @@ namespace HoloCAD.UnityTubes
             }
         }
 
+        /// <inheritdoc/>
+        public override bool IsPlacing
+        {
+            get => base.IsPlacing;
+            set
+            {
+                base.IsPlacing = value;
+                
+                Transform tubeCollider = Tube.transform.Find("Collider"); 
+                if (tubeCollider != null) tubeCollider.GetComponent<CapsuleCollider>().enabled = !IsPlacing;
+            }
+        }
+
+        /// <summary> Список отростков из этого участка трубы. </summary>
+        public ReadOnlyCollection<DirectTubeFragment> Outgrowths => _outgrowths.AsReadOnly();
+
         /// <summary> Увеличивает длину. </summary>
         /// <param name="delta"> Изменение длины. </param>
-        public void IncreaseLength(float delta = 0.05f)
+        public void ChangeLength(float delta)
         {
             Length += delta;
         }
-        
-        /// <summary> Уменьшает длину. </summary>
-        /// <param name="delta"> Изменение длины. </param>
-        public void DecreaseLength(float delta = 0.05f)
+
+        /// <summary> Добавляет новый отросток. </summary>
+        public void AddOutgrowth()
         {
-            Length -= delta;
+            _outgrowths.Add(TubeUnityManager.CreateOutgrowth(Owner, this).GetComponent<DirectTubeFragment>());
+        }
+        
+        /// <summary> Удаляет указанный отросток из списка. </summary>
+        /// <param name="outgrowth"> Удалённый отросток. </param>
+        public void RemoveOutgrowth(DirectTubeFragment outgrowth)
+        {
+            _outgrowths.Remove(outgrowth);
+        }
+
+        /// <inheritdoc />
+        public override void RemoveThisFragment()
+        {
+            if (Parent != null)
+            {
+                TubeManager.SelectTubeFragment(Parent);
+                
+                if (Parent.Child == this) Parent.Child = null;
+                else                      ((DirectTubeFragment)Parent).RemoveOutgrowth(this);
+            }
+            Destroy(gameObject);
         }
 
         #region Unity event functions
@@ -70,6 +106,7 @@ namespace HoloCAD.UnityTubes
 
         private float _length;
         private float _buttonBarOffset;
+        private readonly List<DirectTubeFragment> _outgrowths = new List<DirectTubeFragment>();
 
         #endregion
     }
