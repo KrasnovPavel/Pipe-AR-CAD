@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2173582593384371675}
   - component: {fileID: 1739458833221257050}
   - component: {fileID: 4382598698365037645}
+  - component: {fileID: 6639205333280869629}
   m_Layer: 0
   m_Name: SingletonObject
   m_TagString: Untagged
@@ -115,3 +116,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimeThreshold: 0.3
   TimeFactor: 1
+--- !u!114 &6639205333280869629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773190229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba9d23c4e7f6a64c980060c34764d24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChangeTargetColliderButtons: []

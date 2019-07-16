@@ -1,4 +1,4 @@
-﻿Shader "Tubes/Bended" {
+﻿Shader "HoloCAD/Bended" {
 	Properties{
 		_GridThickness("Grid Thickness", Float) = 0.01
 		_RadialSpacing("Radial Spacing", Float) = 5

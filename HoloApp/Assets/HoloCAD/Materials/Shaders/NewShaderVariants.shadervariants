@@ -4,7 +4,8 @@
 ShaderVariantCollection:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: NewShaderVariants
   m_Shaders:
   - first: {fileID: 4800000, guid: 78cdb2d2599c43e4faa1b633f09faf1c, type: 3}
@@ -45,3 +46,6 @@ ShaderVariantCollection:
         passType: 4
       - keywords: SHADOWS_DEPTH
         passType: 8
+  - first: {fileID: 4800000, guid: 5b5815df35024365a0d0817c56cc213d, type: 3}
+    second:
+      variants: []

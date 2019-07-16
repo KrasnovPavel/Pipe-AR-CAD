@@ -1,4 +1,4 @@
-Shader "Wireframe" {
+Shader "HoloCAD/Wireframe" {
 	Properties{
 		_GridColor("Grid Color", Color) = (1, 1, 1, 1)
 		_BaseColor("Base Color", Color) = (0.0, 0.0, 0.0, 1.0)

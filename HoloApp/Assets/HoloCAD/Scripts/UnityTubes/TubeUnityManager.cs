@@ -44,6 +44,9 @@ namespace HoloCAD.UnityTubes
             private set => Instance._activeTubesConnector = value;
         }
         
+        /// <summary> Использовать SpatialMapping для привязки объектов?  </summary>
+        public static bool UseSpatialMapping = true;
+        
         /// <summary> Создает на сцене объект начального фланца трубы. </summary>
         /// <param name="owner"> Труба, которой принадлежит этот фланец.</param>
         /// <returns> Созданный объект фланца. </returns>
@@ -103,8 +106,11 @@ namespace HoloCAD.UnityTubes
         /// <param name="show"></param>
         public static void ShowGrid(bool show)
         {
-            Instance._mapCollider.enabled = show;
-            Instance._mapRenderer.enabled = show;
+            if (UseSpatialMapping)
+            {
+                Instance._mapCollider.enabled = show;
+                Instance._mapRenderer.enabled = show;
+            }
         }
 
         

@@ -1,55 +1,31 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using HoloToolkit.Unity;
 using UnityEngine;
-using Vuforia;
 
-public class MarksHandler : Singleton<MarksHandler>
+namespace HoloCAD
 {
-    public List<GameObject> AllMarks = new List<GameObject>();
-    public List<Vector3> PositionsOfMarks = new List<Vector3>();
-    public List<Vector3> RotationsOfMarks = new List<Vector3>();
-    public Vector3 PrevRotation;
-    public Vector3 PrevPos;
-    private void Update()
+    public class MarksHandler : MonoBehaviour
     {
-        foreach (GameObject currentMark in AllMarks)
+        public List<Mark> AllMarks = new List<Mark>();
+        public List<Vector3> PositionsOfMarks = new List<Vector3>();
+        public List<Vector3> RotationsOfMarks = new List<Vector3>();
+    
+        private void Update()
         {
-            if (!currentMark.GetComponent<MarkTrackableEventHandler>().IsActive) continue;
-            var rendererComponents = GetComponentsInChildren<Renderer>(true);
-            Debug.Log($"!!!!!!!{currentMark.GetComponent<MarkTrackableEventHandler>().Id}, {AllMarks.Count}");
-            foreach (var component in rendererComponents)
-                component.enabled = true;
-            PrevRotation = new Vector3(
-                currentMark.transform.eulerAngles.x -
-                RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].x,
-                currentMark.transform.eulerAngles.y -
-                RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].y,
-                currentMark.transform.eulerAngles.z -
-                RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].z);
-            Debug.Log($"{currentMark.transform.eulerAngles.x}, {currentMark.transform.eulerAngles.y}, {currentMark.transform.eulerAngles.z}");
-            Debug.Log($"{currentMark.transform.eulerAngles.x}, {currentMark.transform.eulerAngles.y}, {currentMark.transform.eulerAngles.z}");
-            Vector3 RotationOfMark = new Vector3(
-                currentMark.transform.eulerAngles.x -
-                RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].x,
-                currentMark.transform.eulerAngles.y -
-                RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].y,
-                currentMark.transform.eulerAngles.z -
-                RotationsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id].z);
-            Vector3 VectorOfRotationCenter = Quaternion.Euler(RotationOfMark) *
-                                         PositionsOfMarks[currentMark.GetComponent<MarkTrackableEventHandler>().Id];
-            PrevPos = (currentMark.transform.position - VectorOfRotationCenter);
-            break;
+            int markId = AllMarks.FindIndex(obj => obj.IsActive);
+
+            if (markId == -1) return;
+        
+            Transform currentMark = AllMarks[markId].transform;
+
+            transform.SetParent(currentMark, false);
+            transform.localScale = new Vector3(1 / currentMark.lossyScale.x, 
+                1 / currentMark.lossyScale.z, 
+                1 / currentMark.lossyScale.z);
+            transform.localPosition = PositionsOfMarks[markId];
+            transform.localRotation = Quaternion.Euler(RotationsOfMarks[markId]);
+
+            transform.SetParent(null, true);
         }
-
-        if (PrevPos != null)
-        {
-            transform.position = PrevPos;
-            transform.rotation = Quaternion.Euler(PrevRotation.x, PrevRotation.y, PrevRotation.z);
-        }
-
-
     }
-
 }

@@ -1,4 +1,4 @@
-﻿Shader "Tubes/Direct" {
+﻿Shader "HoloCAD/Direct" {
 	Properties{
 		_GridThickness("Grid Thickness", Float) = 0.01
 		_GridSpacingY("Grid Spacing Y", Float) = 1.0
