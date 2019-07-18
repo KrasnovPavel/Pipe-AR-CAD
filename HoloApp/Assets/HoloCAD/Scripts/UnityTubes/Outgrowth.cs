@@ -19,9 +19,6 @@ namespace HoloCAD.UnityTubes
         /// <summary> Минимальный угол между трубой и отростком. </summary>
         public static readonly float MaxAngle = Mathf.Round(180 - MinAngle);
 
-        /// <summary> Шаг перемещения отростка вдоль трубы при нажатии на кнопку. </summary>
-        public const float Step = 0.05f;
-
         /// <summary> Угол между отростком и родительской трубой </summary>
         public float Angle
         {

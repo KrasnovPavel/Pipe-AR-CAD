@@ -25,10 +25,6 @@ namespace HoloCAD.UI
 		/// <summary> Кнопка добавления отростка. </summary>
 		[Tooltip("Кнопка добавления отростка.")]
 		[CanBeNull] public Button3D AddOutgrowthButton;
-
-		/// <summary> Шаг изменения длины при нажатии на кнопку. </summary>
-		[Tooltip("Шаг изменения длины при нажатии на кнопку.")]
-		public float LengthStep = 0.05f;
 		
 		/// <inheritdoc />
 		protected override void CalculateBarPosition()
@@ -72,11 +68,11 @@ namespace HoloCAD.UI
 			
 			if (IncreaseLengthButton != null)
 			{
-				IncreaseLengthButton.OnClick += delegate { _fragment.ChangeLength(LengthStep); };
+				IncreaseLengthButton.OnClick += delegate { _fragment.ChangeLength(Steps.Linear); };
 			}
 			if (DecreaseLengthButton != null)
 			{
-				DecreaseLengthButton.OnClick += delegate { _fragment.ChangeLength(-LengthStep); };
+				DecreaseLengthButton.OnClick += delegate { _fragment.ChangeLength(-Steps.Linear); };
 			}
 			if (AddOutgrowthButton != null)
 			{

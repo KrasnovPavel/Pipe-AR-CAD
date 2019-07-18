@@ -34,10 +34,6 @@ namespace HoloCAD.UI
 		[Tooltip("Кнопка смены радиуса погиба.")]
 		[CanBeNull] public Button3D ChangeRadiusButton;
 		
-		/// <summary> Шаг изменения угла при нажатии на кнопку. </summary>
-		[Tooltip("Шаг изменения угла при нажатии на кнопку.")]
-		public float AngleStep = 5f;
-		
 		/// <inheritdoc />
 		protected override void CalculateBarPosition()
 		{
@@ -80,19 +76,19 @@ namespace HoloCAD.UI
 
 			if (IncreaseAngleButton != null)
 			{
-				IncreaseAngleButton.OnClick = delegate { _fragment.ChangeAngle(AngleStep); };
+				IncreaseAngleButton.OnClick = delegate { _fragment.ChangeAngle(Steps.Angular); };
 			}
 			if (DecreaseAngleButton != null)
 			{
-				DecreaseAngleButton.OnClick = delegate { _fragment.ChangeAngle(-AngleStep); };
+				DecreaseAngleButton.OnClick = delegate { _fragment.ChangeAngle(-Steps.Angular); };
 			}
 			if (TurnClockwiseButton != null)
 			{
-				TurnClockwiseButton.OnClick = delegate { _fragment.TurnAround(AngleStep); };
+				TurnClockwiseButton.OnClick = delegate { _fragment.TurnAround(Steps.Angular); };
 			}
 			if (TurnAnticlockwiseButton != null)
 			{
-				TurnAnticlockwiseButton.OnClick = delegate { _fragment.TurnAround(-AngleStep); };
+				TurnAnticlockwiseButton.OnClick = delegate { _fragment.TurnAround(-Steps.Angular); };
 			}
 			if (ChangeRadiusButton != null)
 			{
@@ -131,7 +127,7 @@ namespace HoloCAD.UI
 
 		private void SetText()
 		{
-			if (TextLabel != null) TextLabel.text = $"A:{_fragment.Angle:0.00} B:{_fragment.RotationAngle:0.00}";
+			if (TextLabel != null) TextLabel.text = $"A:{_fragment.Angle:0.00}° B:{_fragment.RotationAngle:0.00}°";
 		}
 
 		#endregion

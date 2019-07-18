@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1739458833221257050}
   - component: {fileID: 4382598698365037645}
   - component: {fileID: 6639205333280869629}
+  - component: {fileID: 3734464469316659000}
   m_Layer: 0
   m_Name: SingletonObject
   m_TagString: Untagged
@@ -118,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimeThreshold: 0.3
   TimeFactor: 1
+  IsGamepadConnected: 0
 --- !u!114 &6639205333280869629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,3 +133,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChangeTargetColliderButtons: []
+--- !u!114 &3734464469316659000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773190229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6dae8ce468405889e175a735343acc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LinearSteps:
+  - 0.001
+  - 0.005
+  - 0.01
+  - 0.02
+  - 0.05
+  - 0.1
+  AngularSteps:
+  - 0.5
+  - 1
+  - 2
+  - 5
+  - 10
+  - 30

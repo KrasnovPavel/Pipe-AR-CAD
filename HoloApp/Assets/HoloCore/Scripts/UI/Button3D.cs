@@ -234,9 +234,7 @@ namespace HoloCore.UI
         /// </remarks>
         protected virtual void Update()
         {
-#if UNITY_EDITOR
             SetVisual();
-#endif
         }
         
         /// <summary> Функция, выполняющаяся при включении объекта в Unity. </summary>

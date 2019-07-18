@@ -53,27 +53,27 @@ namespace HoloCAD.UI
         {
             if (ForwardButton != null)
             {
-                ForwardButton.OnClick += delegate { _outgrowth.Move(Outgrowth.Step); };
+                ForwardButton.OnClick += delegate { _outgrowth.Move(Steps.Linear); };
             }
             if (BackwardButton != null)
             {
-                BackwardButton.OnClick += delegate { _outgrowth.Move(-Outgrowth.Step); };
+                BackwardButton.OnClick += delegate { _outgrowth.Move(-Steps.Linear); };
             }
             if (IncreaseAngle != null)
             {
-                IncreaseAngle.OnClick += delegate { _outgrowth.ChangeAngle(MeshFactory.DeltaAngle); };
+                IncreaseAngle.OnClick += delegate { _outgrowth.ChangeAngle(Steps.Angular); };
             }
             if (DecreaseAngle != null)
             {
-                DecreaseAngle.OnClick += delegate { _outgrowth.ChangeAngle(-MeshFactory.DeltaAngle); };
+                DecreaseAngle.OnClick += delegate { _outgrowth.ChangeAngle(-Steps.Angular); };
             }
             if (ClockwiseButton != null)
             {
-                ClockwiseButton.OnClick += delegate { _outgrowth.TurnAround(MeshFactory.DeltaAngle); };
+                ClockwiseButton.OnClick += delegate { _outgrowth.TurnAround(Steps.Angular); };
             }
             if (AnticlockwiseButton != null)
             {
-                AnticlockwiseButton.OnClick += delegate { _outgrowth.TurnAround(-MeshFactory.DeltaAngle); };
+                AnticlockwiseButton.OnClick += delegate { _outgrowth.TurnAround(-Steps.Angular); };
             }
         }
 
@@ -94,8 +94,8 @@ namespace HoloCAD.UI
                         SetText();
                         break;
                     case nameof(Outgrowth.Angle):
-                        bool canIncrease = Math.Round(_outgrowth.Angle + MeshFactory.DeltaAngle) <= Outgrowth.MaxAngle;
-                        bool canDecrease = Math.Round(_outgrowth.Angle - MeshFactory.DeltaAngle) >= Outgrowth.MinAngle;
+                        bool canIncrease = Math.Round(_outgrowth.Angle + Steps.Angular) <= Outgrowth.MaxAngle;
+                        bool canDecrease = Math.Round(_outgrowth.Angle - Steps.Angular) >= Outgrowth.MinAngle;
 
                         if (IncreaseAngle  != null) IncreaseAngle.SetEnabled(canIncrease);
                         if (DecreaseAngle  != null) DecreaseAngle.SetEnabled(canDecrease);
@@ -124,8 +124,8 @@ namespace HoloCAD.UI
         {
             float maxDistance = _outgrowth.ParentFragment.Length - _outgrowth.Fragment.Diameter / 2;
             float minDistance = _outgrowth.Fragment.Diameter / 2;
-            bool canForward = _outgrowth.Position + Outgrowth.Step < maxDistance;
-            bool canBackward = _outgrowth.Position - Outgrowth.Step > minDistance;
+            bool canForward = _outgrowth.Position + Steps.Linear < maxDistance;
+            bool canBackward = _outgrowth.Position - Steps.Linear > minDistance;
 
             if (ForwardButton != null) ForwardButton.SetEnabled(canForward);
             if (BackwardButton != null) BackwardButton.SetEnabled(canBackward);

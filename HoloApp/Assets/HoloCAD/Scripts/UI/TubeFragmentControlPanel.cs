@@ -16,8 +16,6 @@ namespace HoloCAD.UI
 		[Tooltip("Панель с кнопками и информацией о трубе.")]
 		[CanBeNull] public Transform ButtonBar;
 		
-		/// <summary> Объект, отображающий текстовые данные о участке трубе. </summary>
-		[Tooltip("Объект, отображающий текстовые данные о участке трубе.")]
 		[CanBeNull] public TextMesh TextLabel;
 		
 		/// <summary> Кнопка добавления погиба. </summary>

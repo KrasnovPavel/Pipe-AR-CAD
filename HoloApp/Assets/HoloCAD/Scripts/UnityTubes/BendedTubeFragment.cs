@@ -28,7 +28,7 @@ namespace HoloCAD.UnityTubes
             get => _angle;
             set
             {
-                if (value < MeshFactory.DeltaAngle || value > 180 || Math.Abs(_angle - value) < float.Epsilon) return;
+                if (value < MinAngle || value > MaxAngle || Math.Abs(_angle - value) < float.Epsilon) return;
 
                 _angle = value;
                 SetColliders(_angle);
@@ -202,12 +202,17 @@ namespace HoloCAD.UnityTubes
         /// <summary> Список плоских выпуклых коллайдеров. </summary>
         private readonly List<GameObject> _colliders = new List<GameObject>();
         private readonly List<TubeFragmentCollider> _collidersComponents = new List<TubeFragmentCollider>();
+        /// <summary> Минимальный угол погиба. </summary>
+        private const float MinAngle = 5f;
+        /// <summary> Максимальный угол погиба. </summary>
+        private const float MaxAngle = 180f;
+        private const float DeltaAngle = 15f;
 
         private static readonly int ShaderDiameter = Shader.PropertyToID("_Diameter");
         private static readonly int ShaderBendRadius = Shader.PropertyToID("_BendRadius");
         private static readonly int ShaderAngle = Shader.PropertyToID("_Angle");
         private bool _useSecondRadius;
-        private float _angle = MeshFactory.DeltaAngle;
+        private float _angle = MinAngle;
         private float _radius;
         private float _rotationAngle;
 
@@ -222,7 +227,7 @@ namespace HoloCAD.UnityTubes
             for (int i = 0; i < _colliders.Count; i++)
             {
                 _colliders[i].GetComponent<SphereCollider>().radius = Diameter / 2;
-                float shiftAngle = (2 * i + 2) / 2f * MeshFactory.DeltaAngle;
+                float shiftAngle = (2 * i + 2) / 2f * DeltaAngle;
                 Vector3 shiftVector = Vector3.zero.RotateAround(new Vector3(-Radius, 0f, 0f), 
                                                         Quaternion.Euler(0, -shiftAngle, 0));
                 _colliders[i].transform.localPosition = shiftVector;
@@ -233,7 +238,7 @@ namespace HoloCAD.UnityTubes
         /// <param name="newAngle"> Новый угол поворота. </param>
         private void SetColliders(float newAngle)
         {
-            int newPos = (int)Math.Floor(newAngle / MeshFactory.DeltaAngle);
+            int newPos = (int)Math.Floor(newAngle / DeltaAngle);
 
             if (newPos < 3)
             {
@@ -257,7 +262,7 @@ namespace HoloCAD.UnityTubes
         /// <summary> Создаёт коллайдеры. </summary>
         private void CreateColliders()
         {
-            for (int i = 0; i <= 180 / MeshFactory.DeltaAngle; i++)
+            for (int i = 0; i <= 180 / DeltaAngle; i++)
             {
                 GameObject newCollider = Instantiate(ColliderPrefab, Tube.transform);
                 newCollider.GetComponent<TubeFragmentCollider>().Owner = this;
@@ -277,7 +282,7 @@ namespace HoloCAD.UnityTubes
 
         private int GetNumberOfCollisions()
         {
-            int angle = (int)Math.Floor(Angle / MeshFactory.DeltaAngle);
+            int angle = (int)Math.Floor(Angle / DeltaAngle);
             int numberOfCollisions = 0;
             for (int i = 0; i < _colliders.Count && i < angle - 2; i++)
             {

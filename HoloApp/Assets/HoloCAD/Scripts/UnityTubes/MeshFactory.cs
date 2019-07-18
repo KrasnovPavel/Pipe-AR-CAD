@@ -10,9 +10,6 @@ namespace HoloCAD.UnityTubes
     /// <summary> Класс, создающий меши погиба для всех возможных углов погиба. </summary>
     public static class MeshFactory
     {
-        /// <summary> Шаг изменения угла погиба. </summary>
-        public const int DeltaAngle = 5;
-        
         /// <summary> Получение мешей погиба трубы.</summary>
         /// <param name="tubeData"> Данные о трубе трубы. </param>
         /// <returns> Список из трех мешей: погиб первого радиуса, погиб второго радиуса, плоское кольцо. </returns>
@@ -46,6 +43,9 @@ namespace HoloCAD.UnityTubes
         private static readonly Dictionary<TubeLoader.TubeData, List<Mesh>> GeneratedMeshes 
                                                                     = new Dictionary<TubeLoader.TubeData, List<Mesh>>();
 
+        /// <summary> Шаг изменения угла погиба. </summary>
+        private const int DeltaAngle = 5;
+        
         /// <summary> Генерирует трубу для погиба. </summary>
         /// <param name="tubeDiameter"> Диаметр трубы. </param>
         /// <param name="bendRadius"> Радиус погиба. </param>
