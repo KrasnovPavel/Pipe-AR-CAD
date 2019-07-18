@@ -7,7 +7,6 @@ public class CameraController : MonoBehaviour
 
     public float Speed;
     public float RotationSpeed;
-    public float SelectedMarkSpeed;
     void Update()
     {
         if (Input.GetKey(KeyCode.Mouse1))
@@ -38,27 +37,27 @@ public class CameraController : MonoBehaviour
         }
         if(Input.GetKey(KeyCode.W))
         {
-            MarksController.Instance.MoveMark(0, SelectedMarkSpeed);
+            MarksController.Instance.MoveMark(0);
         }
         if(Input.GetKey(KeyCode.S))
         {
-            MarksController.Instance.MoveMark(1, SelectedMarkSpeed);
+            MarksController.Instance.MoveMark(1);
         }
         if(Input.GetKey(KeyCode.A))
         {
-            MarksController.Instance.MoveMark(2,SelectedMarkSpeed);
+            MarksController.Instance.MoveMark(2);
         }
         if(Input.GetKey(KeyCode.D))
         {
-            MarksController.Instance.MoveMark(3,SelectedMarkSpeed);
+            MarksController.Instance.MoveMark(3);
         }
         if(Input.GetKey(KeyCode.R))
         {
-            MarksController.Instance.MoveMark(4,SelectedMarkSpeed);
+            MarksController.Instance.MoveMark(4);
         }
         if(Input.GetKey(KeyCode.F))
         {
-            MarksController.Instance.MoveMark(5,SelectedMarkSpeed);
+            MarksController.Instance.MoveMark(5);
         }
 
     }

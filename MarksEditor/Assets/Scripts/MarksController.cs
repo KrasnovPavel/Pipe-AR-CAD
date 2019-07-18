@@ -13,6 +13,7 @@ public class MarksController : Singleton<MarksController>
     public GameObject MarkPrefab;
     public GameObject MarkPanelPrefab;
     public GameObject ParentOfPanels;
+    public float SelectedMarkSpeed;
     public void DeleteMark(int id)
     {
         
@@ -29,7 +30,7 @@ public class MarksController : Singleton<MarksController>
         }
     }
 
-    public void MoveMark(int direction, float speed)
+    public void MoveMark(int direction)
     {
         
         if (SelectedMark != null)
@@ -38,22 +39,22 @@ public class MarksController : Singleton<MarksController>
             switch (direction)
             {
                 case 0:
-                    markTransform.position += markTransform.forward * speed;
+                    markTransform.position += markTransform.forward * SelectedMarkSpeed;
                     break;
                 case 1:
-                    markTransform.position += -markTransform.forward * speed;
+                    markTransform.position += -markTransform.forward * SelectedMarkSpeed;
                     break;
                 case 2:
-                    markTransform.position += -markTransform.right * speed;
+                    markTransform.position += -markTransform.right * SelectedMarkSpeed;
                     break;
                 case 3:
-                    markTransform.position += markTransform.right * speed;
+                    markTransform.position += markTransform.right * SelectedMarkSpeed;
                     break;
                 case 4:
-                    markTransform.position += markTransform.up * speed;
+                    markTransform.position += markTransform.up * SelectedMarkSpeed;
                     break;
                 case 5:
-                    markTransform.position += -markTransform.up * speed;
+                    markTransform.position += -markTransform.up * SelectedMarkSpeed;
                     break;
             }
             
