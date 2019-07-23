@@ -67,7 +67,7 @@ namespace HoloCAD.UI
         {
             if (TextLabel != null)
             {
-                TextLabel.text = $"ΔL: {Steps.Linear:0.000}м. \n Δα: {Steps.Angular:0.00}°.";
+                TextLabel.text = $"ΔL: {Steps.Linear:0.000}м. \n Δα: {Steps.Angular:0.0}°.";
             }
         }
 

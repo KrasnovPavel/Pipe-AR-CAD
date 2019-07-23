@@ -3,14 +3,15 @@
 
 using System.Linq;
 using HoloCAD.UnityTubes;
+using HoloCore.UI;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace HoloCAD
+namespace HoloCAD.UI
 {
 	/// <summary> Класс, рассчитывающий и отображающий расстояние между соединяемыми трубами. </summary>
 	[RequireComponent(typeof(LineRenderer))]
-	public class TubesConnector : MonoBehaviour
+	public sealed class TubesConnector : MonoBehaviour
 	{
 		// ReSharper disable once NotNullMemberIsNotInitialized
 		/// <summary> Первая труба </summary>
@@ -49,12 +50,20 @@ namespace HoloCAD
 		/// <remarks>
 		/// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
 		/// </remarks>
-		protected void Start ()
+		private void Start ()
 		{
+			_camera = Camera.main.transform;
 			_renderer = GetComponent<LineRenderer>();
+			_labelsBar = transform.Find("LabelsBar");
+			_distanceLabel = _labelsBar.Find("DistanceLabel").GetComponent<TextMesh>();
+			_angleLabel = _labelsBar.Find("AngleLabel").GetComponent<TextMesh>();
+			_diameterLabel = _labelsBar.Find("DiameterLabel").GetComponent<TextMesh>();
+			_removeButton = _labelsBar.Find("RemoveButton").GetComponent<Button3D>();
+			
+			_removeButton.OnClick += delegate { RemoveThis(); };
 		}
 
-		protected void Update()
+		private void Update()
 		{
 			CheckError();
 		}
@@ -64,33 +73,31 @@ namespace HoloCAD
 		#region Private definitions
 
 		private LineRenderer _renderer;
-		
+		private Transform _labelsBar;
+		private TextMesh _distanceLabel;
+		private TextMesh _angleLabel;
+		private TextMesh _diameterLabel;
+		private Transform _camera;
+		private Button3D _removeButton;
+
 		private void CheckError()
 		{
 			Transform first = FirstTube.Fragments.Last().EndPoint.transform;
 			Transform second = (SecondTube == null) ? Cursor : SecondTube.Fragments.Last().EndPoint.transform;
-
-			Vector3 distanceVector = first.position - second.position; 
-			if (distanceVector.magnitude > DistanceThreshold || SecondTube == null)
-			{
-				ShowError(first, second);
-				return;
-			}
+			bool isDiametersEquals = SecondTube == null || FirstTube.Data.Equals(SecondTube.Data);
+			Vector3 deltaPos = second.position - first.position; 
+			float deltaRot = Vector3.Angle(first.forward, -second.forward);
 			
-			Quaternion rotation1 = Quaternion.Inverse(first.rotation);
-			Quaternion rotation2 = second.rotation;
+			_labelsBar.position = first.position + deltaPos / 2 + (FirstTube.Data.diameter + 0.05f) * -_camera.forward;
+			_labelsBar.LookAt(_camera);
 
-			if (Quaternion.Angle(rotation1, rotation2) > AngleThreshold)
-			{
-				ShowError(first, second);
-			}
-		}
+			_distanceLabel.text = $"Δx: {deltaPos.x:0.000}м Δy: {deltaPos.y:0.000}м Δz: {deltaPos.z:0.000}м";
+			_angleLabel.text = $"Δα: {deltaRot:0.0}˚";
+			_diameterLabel.gameObject.SetActive(!isDiametersEquals);
 		
-		private void ShowError(Transform first, Transform second)
-		{
 			_renderer.SetPositions(new [] { first.position, second.position });
 		}
-
+		
 		#endregion
 	}
 }

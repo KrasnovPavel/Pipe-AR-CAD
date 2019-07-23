@@ -4,6 +4,7 @@ Shader "HoloCAD/Model" {
 	Properties{
         _MainTex ("Texture", 2D) = "white" {}
 		_MaxDistance("Max Distance", Float) = 10
+		_Alpha("Alpha", Float) = 1
 	}
 	SubShader{
 		Tags {"Queue"="Transparent" "RenderType"="Transparent" }
@@ -19,6 +20,7 @@ Shader "HoloCAD/Model" {
 
 		// Access Shaderlab properties
 		uniform float _MaxDistance;
+        uniform float _Alpha;
         sampler2D _MainTex;
         float4 _MainTex_ST;
 
@@ -40,7 +42,7 @@ Shader "HoloCAD/Model" {
 		float4 frag(v2f i) : COLOR {
             fixed4 col = tex2D(_MainTex, i.uv);
 		    float c = 1 - distance(i.worldPos, _WorldSpaceCameraPos) / _MaxDistance;
-		    return col * c;
+		    return fixed4(col.xyz * c, _Alpha);
 		}
 		ENDCG
 	   }

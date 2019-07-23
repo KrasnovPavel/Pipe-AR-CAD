@@ -263,14 +263,20 @@ namespace HoloCore.UI
         /// <summary> <c>true</c>, если кнопка была выключена через <see cref="SetEnabled"/>. </summary>
         private bool _forceDisable;
 
+        private Texture _iconTexture;
+
         private void SetVisual()
         {
             if (Label != null) Label.text = Text;
             if (IconRenderer != null)
             {
+                Texture tmpTexture = Icon != null ? Icon : EmptyIcon;
+                if (tmpTexture == _iconTexture) return;
+
+                _iconTexture = tmpTexture;
                 Material temp = new Material(IconMaterial)
                 {
-                    mainTexture = Icon != null ? Icon : EmptyIcon
+                    mainTexture = _iconTexture
                 };
                 IconRenderer.sharedMaterial = temp;
             }

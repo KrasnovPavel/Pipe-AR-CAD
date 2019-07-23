@@ -44,14 +44,14 @@ namespace HoloCAD
 //        {
 //            return;
 //        }
-//        foreach (SerializedMark mark in SetializedMarksList.AllMarks)
+//        foreach (SerializedMark mark in SetializedMarksList.Marks)
 //        {
-//            MarksHandler currentMarksHandler = GameObject.Find(mark.DrawObjectName).GetComponent<MarksHandler>();  
-//            currentMarksHandler.AllMarks.Add(GameObject.Find(mark.Name));
+//            MarksTarget currentMarksHandler = GameObject.Find(mark.DrawObjectName).GetComponent<MarksTarget>();  
+//            currentMarksHandler.Marks.Add(GameObject.Find(mark.Name));
 //            Mark markTrackableEventHandler =
 //                GameObject.Find(mark.Name).GetComponent<Mark>();
 //            markTrackableEventHandler.Id =
-//                currentMarksHandler.AllMarks.Count - 1;
+//                currentMarksHandler.Marks.Count - 1;
 //            Debug.Log($"{mark.X}, {mark.Y}, {mark.Z}");
 //            markTrackableEventHandler.IsActive = false;
 //            currentMarksHandler.PositionsOfMarks.Add(new Vector3(mark.X,mark.Y,mark.Z));
