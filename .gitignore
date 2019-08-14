@@ -43,7 +43,7 @@ HoloCADExporter/*.csproj
 HoloCADExporter/*.pidb
 HoloCADExporter/*.pidb.meta
 HoloCADExporter/*.suo
-HoloCADExporter/*.sln*
+HoloCADExporter/*.sln.*
 HoloCADExporter/*.user
 HoloCADExporter/*.unityproj
 HoloCADExporter/*.booproj
