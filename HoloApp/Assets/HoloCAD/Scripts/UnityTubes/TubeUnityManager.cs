@@ -3,6 +3,7 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using HoloCAD.UI;
 using HoloCore;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -50,6 +51,7 @@ namespace HoloCAD.UnityTubes
             {
                 Instance._activeTubesConnector = value;
                 Instance.OnPropertyChanged();
+                Instance.OnPropertyChanged(nameof(HasActiveTubesConnector));
             }
         }
         
@@ -126,6 +128,7 @@ namespace HoloCAD.UnityTubes
         public static void RemoveActiveTubesConnector()
         {
             ActiveTubesConnector = null;
+            Instance.OnPropertyChanged(nameof(HasActiveTubesConnector));
         }
 
         /// <summary> Переключает отображение полигональной сетки на сцене. </summary>

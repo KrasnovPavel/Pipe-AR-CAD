@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using HoloCAD.UI;
 using HoloCAD.UnityTubes;
 using JetBrains.Annotations;
 
@@ -128,6 +129,7 @@ namespace HoloCAD
         public void RemoveTubeConnection()
         {
             _tubesConnector = null;
+            OnPropertyChanged(nameof(HasTubesConnector));
         }
 
         /// <summary> Удаляет участок трубы и все следующие за ним. </summary>
@@ -220,6 +222,7 @@ namespace HoloCAD
                 _tubesConnector = TubeUnityManager.ActiveTubesConnector;
                 _tubesConnector.SecondTube = this;
                 TubeUnityManager.RemoveActiveTubesConnector();
+                OnPropertyChanged(nameof(HasTubesConnector));
             }
         }
         

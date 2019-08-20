@@ -93,7 +93,7 @@ namespace HoloCAD.UnityTubes
         {
             _camera = Camera.main;
             base.Awake();
-            EndPoint.transform.localPosition = new Vector3(0, 0, Length);
+            Tube.transform.localPosition = new Vector3(0, 0, -Length);
             TubeManager.SelectTubeFragment(this);
         }
 
