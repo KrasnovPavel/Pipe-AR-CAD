@@ -44,6 +44,8 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
 
     #region PUBLIC_METHODS
 
+    public bool TargetVisible => m_NewStatus == TrackableBehaviour.Status.TRACKED;
+
     /// <summary>
     ///     Implementation of the ITrackableEventHandler function called when the
     ///     tracking state changes.

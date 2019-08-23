@@ -14,6 +14,8 @@ public class XboxInputManager : MonoBehaviour
     /// <summary> Множитель показаний осей. </summary>
     public float TimeFactor = 1;
 
+    public float RepeatTime = 0.5f;
+
     //TODO: Механизм определения подключен ли геймпад.
     public bool IsGamepadConnected = false;
 
@@ -32,7 +34,7 @@ public class XboxInputManager : MonoBehaviour
         
         CalculatePressingTime();
         
-        CheckFireOnce("JoystickA", meter.SaveCurrentData);
+        CheckRepeatPressing("JoystickA", meter.SaveCurrentData);
         CheckFireOnce("JoystickStart", meter.ChooseFile);
     }
 
