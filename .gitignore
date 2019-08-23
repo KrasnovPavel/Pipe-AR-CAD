@@ -12,10 +12,23 @@ HoloApp/Assets/AssetStoreTools*
 HoloApp/*.apk
 HoloApp/*.unitypackage
 HoloApp/App/
-
 !HoloApp/**/*.obj
 !HoloApp/**/*.obj.meta
  
+Meter/[Tt]emp/
+Meter/[Oo]bj/
+Meter/[Bb]uild
+Meter/[Bb]uilds/
+Meter/[Ll]ibrary/
+Meter/sysinfo.txt
+Meter/*.stackdump
+Meter/Assets/AssetStoreTools*
+Meter/*.apk
+Meter/*.unitypackage
+Meter/App/
+!Meter/**/*.obj
+!Meter/**/*.obj.meta
+
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #
 # ============================================= #
@@ -27,7 +40,7 @@ HoloApp/*.csproj
 HoloApp/*.pidb
 HoloApp/*.pidb.meta
 HoloApp/*.suo
-HoloApp/*.sln*
+HoloApp/*.sln.*
 HoloApp/*.user
 HoloApp/*.unityproj
 HoloApp/*.booproj
@@ -38,6 +51,9 @@ HoloApp/*.svd
 HoloCADExporter/[Ee]xported[Oo]bj/
 HoloCADExporter/.vs/
 HoloCADExporter/.idea/
+HoloCADExporter/HoloCADExporter/[Bb]in/
+HoloCADExporter/HoloCADExporter/[Oo]bj/
+HoloCADExporter/[Pp]ackages/
 HoloCADExporter/*.userprefs
 HoloCADExporter/*.csproj
 HoloCADExporter/*.pidb
@@ -51,6 +67,22 @@ HoloCADExporter/*.consulo
 HoloCADExporter/*.tmp
 HoloCADExporter/*.svd
  
+Meter/[Ee]xported[Oo]bj/
+Meter/.vs/
+Meter/.idea/
+Meter/*.userprefs
+Meter/*.csproj
+Meter/*.pidb
+Meter/*.pidb.meta
+Meter/*.suo
+Meter/*.sln.*
+Meter/*.user
+Meter/*.unityproj
+Meter/*.booproj
+Meter/*.consulo
+Meter/*.tmp
+Meter/*.svd
+
 # ============ #
 # OS generated #
 # ============ #
@@ -59,8 +91,9 @@ HoloApp/._*
 HoloApp/.Spotlight-V100
 HoloApp/.Trashes
 HoloApp/ehthumbs.db
-HoloApp/[Tt]humbs.db
-HoloApp/[Dd]esktop.ini
+**/[Tt]humbs.db
+**/[Tt]humbs.db.meta
+**/[Dd]esktop.ini
 HoloApp/Corridor/Library/ShaderCache/
 HoloApp/Corridor/Library/metadata/ 
 
@@ -69,17 +102,28 @@ HoloCADExporter/._*
 HoloCADExporter/.Spotlight-V100
 HoloCADExporter/.Trashes
 HoloCADExporter/ehthumbs.db
-HoloCADExporter/[Tt]humbs.db
-HoloCADExporter/[Dd]esktop.ini
 HoloCADExporter/Corridor/Library/ShaderCache/
 HoloCADExporter/Corridor/Library/metadata/ 
+
+Meter/.DS_Store*
+Meter/._*
+Meter/.Spotlight-V100
+Meter/.Trashes
+Meter/ehthumbs.db
+Meter/Corridor/Library/ShaderCache/
+Meter/Corridor/Library/metadata/ 
 
 # ================ #
 # Third-party libs #
 # ================ #
 HoloApp/Assets/StandaloneFileBrowser/
 HoloApp/Assets/StandaloneFileBrowser.meta
-HoloApp/Plugins/Editor/JetBrains/
-HoloApp/Plugins/Editor/JetBrains.meta
+HoloApp/Assets/Plugins
 HoloApp/Assets/HoloToolkit/
 HoloApp/Assets/HoloToolkit.meta
+
+Meter/Assets/StandaloneFileBrowser/
+Meter/Assets/StandaloneFileBrowser.meta
+Meter/Assets/Plugins/
+Meter/Assets/HoloToolkit/
+Meter/Assets/HoloToolkit.meta
