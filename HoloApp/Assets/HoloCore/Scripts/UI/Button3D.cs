@@ -2,17 +2,16 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
-using HoloToolkit.Unity.InputModule;
 using JetBrains.Annotations;
+using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;
-using UnityEngine.Experimental.Playables;
 
 namespace HoloCore.UI
 {
     /// <inheritdoc cref="MonoBehaviour" />
     /// <summary> Класс, реализующий трёхмерную кнопку. </summary>
     [ExecuteInEditMode]
-    public class Button3D : MonoBehaviour, IInputHandler, IPointerSpecificFocusable
+    public class Button3D : MonoBehaviour, IMixedRealityInputHandler, IMixedRealityFocusHandler
     {
         /// <summary> Отображаемый на кнопке текст. </summary>
         [CanBeNull] public string Text;
@@ -154,7 +153,7 @@ namespace HoloCore.UI
         /// <summary> Обработчик наведения курсора на кнопку. </summary>
         /// <param name="eventData"></param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public void OnFocusEnter(PointerSpecificEventData eventData)
+        public void OnFocusEnter(FocusEventData eventData)
         {
             switch (State)
             {
@@ -176,7 +175,7 @@ namespace HoloCore.UI
         /// <summary> Обработчик сведения курсора с кнопки. </summary>
         /// <param name="eventData"></param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public void OnFocusExit(PointerSpecificEventData eventData)
+        public void OnFocusExit(FocusEventData eventData)
         {
             switch (State)
             {

@@ -121,6 +121,9 @@ HoloApp/Assets/StandaloneFileBrowser.meta
 HoloApp/Assets/Plugins
 HoloApp/Assets/HoloToolkit/
 HoloApp/Assets/HoloToolkit.meta
+HoloApp/MSBuild/
+HoloApp/Assets/MixedReality*
+HoloApp/Assets/MixedRealityToolkit*/
 
 Meter/Assets/StandaloneFileBrowser/
 Meter/Assets/StandaloneFileBrowser.meta

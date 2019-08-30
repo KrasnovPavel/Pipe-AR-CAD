@@ -3,7 +3,6 @@
 #if ENABLE_WINMD_SUPPORT
     using Windows.Storage;
     using Windows.Storage.Pickers;
-    using HoloToolkit.Unity;
 #endif
 
 namespace HoloCAD

@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using HoloCAD.UnityTubes;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.XR.WSA;
 
 namespace HoloCAD
 {
@@ -45,6 +48,7 @@ namespace HoloCAD
         public void MakeTransparent(bool transparent)
         {
             Model.GetComponent<MeshCollider>().enabled = !transparent;
+            
             Model.GetComponent<MeshRenderer>().sharedMaterial.SetFloat(Alpha, transparent ? 0.5f : 1f);
         }
         
@@ -92,7 +96,7 @@ namespace HoloCAD
             int markId = Marks.FindIndex(obj => obj.IsActive);
 
             if (markId == -1) return;
-        
+            
             Transform currentMark = Marks[markId].transform;
 
             transform.SetParent(currentMark, false);
@@ -110,6 +114,7 @@ namespace HoloCAD
         #region Private definitions
         
         private static readonly int Alpha = Shader.PropertyToID("_Alpha");
+        private SpatialMappingCollider _spatialCollider;
 
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

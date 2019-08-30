@@ -5,7 +5,8 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: M_BendedTube
   m_Shader: {fileID: 4800000, guid: d17c6b7ee97182c4385c64b7b26b69c1, type: 3}
   m_ShaderKeywords: 
@@ -55,6 +56,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Angle: 3.1415927
     - _BendRadius: 0.294
     - _BumpScale: 1
     - _Cutoff: 0.5

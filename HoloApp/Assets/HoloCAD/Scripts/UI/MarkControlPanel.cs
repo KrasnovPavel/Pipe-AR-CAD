@@ -1,4 +1,3 @@
-using System;
 using HoloCAD.UnityTubes;
 using HoloCore.UI;
 using JetBrains.Annotations;

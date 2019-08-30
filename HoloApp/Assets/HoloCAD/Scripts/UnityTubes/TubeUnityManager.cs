@@ -36,10 +36,6 @@ namespace HoloCAD.UnityTubes
         [Tooltip("Prefab панели управления отростком трубы.")]
         public GameObject OutgrowthPanelPrefab;
 
-        /// <summary> Ссылка на объект трехмерного курсора. </summary>
-        [Tooltip("Ссылка на объект трехмерного курсора.")]
-        public GameObject Cursor;
-
         /// <summary> Есть ли активный объект соединения. </summary>
         public static bool HasActiveTubesConnector => Instance._activeTubesConnector != null;
 
@@ -103,7 +99,7 @@ namespace HoloCAD.UnityTubes
         {
             GameObject connector = Instantiate(Instance.ConnectorPrefab);
             connector.GetComponent<TubesConnector>().FirstTube = firstOwner;
-            connector.GetComponent<TubesConnector>().Cursor = Instance.Cursor.transform;
+            connector.GetComponent<TubesConnector>().Cursor = Instance._cursor.transform;
             ActiveTubesConnector = connector.GetComponent<TubesConnector>();
             return connector.GetComponent<TubesConnector>();
         }
@@ -118,8 +114,8 @@ namespace HoloCAD.UnityTubes
             outgrowth.transform.localPosition = Vector3.forward * parent.Length / 2;
             outgrowth.transform.localRotation = Quaternion.Euler(0, 90, 0);
             outgrowth.gameObject.AddComponent<Outgrowth>();
-            GameObject outgrowthPanel = 
-                    Instantiate(Instance.OutgrowthPanelPrefab, outgrowth.EndPoint.transform.Find("Button Bar"));
+            GameObject outgrowthPanel = Instantiate(Instance.OutgrowthPanelPrefab, 
+                                             outgrowth.EndPoint.transform.Find("Button Bar"));
             outgrowthPanel.transform.localPosition += Vector3.down * 0.25f;
             return outgrowth.GetComponent<Outgrowth>();
         }
@@ -153,6 +149,7 @@ namespace HoloCAD.UnityTubes
             _mapCollider = gameObject.GetComponent<SpatialMappingCollider>();
             _mapRenderer = gameObject.GetComponent<SpatialMappingRenderer>();
             TubeManager.CreateTube();
+            _cursor = GameObject.Find("DefaultCursor(Clone)");
         }
 
         #endregion
@@ -162,6 +159,7 @@ namespace HoloCAD.UnityTubes
         private SpatialMappingCollider _mapCollider;
         private SpatialMappingRenderer _mapRenderer;
         private TubesConnector _activeTubesConnector;
+        private GameObject _cursor;
 
         /// <summary> Обработчик изменения свойств. </summary>
         /// <param name="propertyName"> Имя изменившегося свойства. </param>

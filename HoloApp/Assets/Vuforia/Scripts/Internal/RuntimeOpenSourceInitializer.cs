@@ -8,10 +8,6 @@ countries.
 
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
-#if PLATFORM_ANDROID
-using UnityEngine.Android;
-#endif
 
 namespace Vuforia.UnityCompiled
 {
@@ -36,22 +32,10 @@ namespace Vuforia.UnityCompiled
         class OpenSourceUnityCompiledFacade : IUnityCompiledFacade
         {
             readonly IUnityRenderPipeline mUnityRenderPipeline = new UnityRenderPipeline();
-            readonly IUnityAndroidPermissions mUnityAndroidPermissions = new UnityAndroidPermissions();
 
             public IUnityRenderPipeline UnityRenderPipeline
             {
                 get { return mUnityRenderPipeline; }
-            }
-            
-            public IUnityAndroidPermissions UnityAndroidPermissions
-            {
-                get { return mUnityAndroidPermissions; }
-            }
-
-
-            public bool IsUnityUICurrentlySelected()
-            {
-                return !(EventSystem.current == null || EventSystem.current.currentSelectedGameObject == null);
             }
         }
 
@@ -62,7 +46,7 @@ namespace Vuforia.UnityCompiled
 
             public UnityRenderPipeline()
             {
-#if UNITY_2018
+#if UNITY_2018_3
                 UnityEngine.Experimental.Rendering.RenderPipeline.beginFrameRendering += OnBeginFrameRendering;
                 UnityEngine.Experimental.Rendering.RenderPipeline.beginCameraRendering += OnBeginCameraRendering;
 #else
@@ -71,7 +55,7 @@ namespace Vuforia.UnityCompiled
 #endif
             }
 
-#if UNITY_2018
+#if UNITY_2018_3
             void OnBeginCameraRendering(Camera camera)
 #else
             void OnBeginCameraRendering(UnityEngine.Rendering.ScriptableRenderContext context, Camera camera)
@@ -81,7 +65,7 @@ namespace Vuforia.UnityCompiled
                     BeginCameraRendering(camera);
             }
 
-#if UNITY_2018
+#if UNITY_2018_3
             void OnBeginFrameRendering(Camera[] cameras)
 #else
             void OnBeginFrameRendering(UnityEngine.Rendering.ScriptableRenderContext context, Camera[] cameras)
@@ -89,25 +73,6 @@ namespace Vuforia.UnityCompiled
             {
                 if (BeginFrameRendering != null)
                     BeginFrameRendering(cameras);
-            }
-        }
-
-        class UnityAndroidPermissions : IUnityAndroidPermissions
-        {
-            public bool HasRequiredPermissions()
-            {
-#if PLATFORM_ANDROID
-                return Permission.HasUserAuthorizedPermission(Permission.Camera);
-#else
-                return true;
-#endif
-            }
-
-            public void AskForPermissions()
-            {
-#if PLATFORM_ANDROID
-                Permission.RequestUserPermission(Permission.Camera);
-#endif
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 using Vuforia;
 
 namespace HoloCAD
