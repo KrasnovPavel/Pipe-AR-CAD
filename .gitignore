@@ -124,6 +124,8 @@ HoloApp/Assets/HoloToolkit.meta
 HoloApp/MSBuild/
 HoloApp/Assets/MixedReality*
 HoloApp/Assets/MixedRealityToolkit*/
+!HoloApp/Assets/MixedRealityToolkit.Generated/CustomProfiles/
+!HoloApp/Assets/MixedRealityToolkit.Generated/CustomProfiles.meta
 
 Meter/Assets/StandaloneFileBrowser/
 Meter/Assets/StandaloneFileBrowser.meta
