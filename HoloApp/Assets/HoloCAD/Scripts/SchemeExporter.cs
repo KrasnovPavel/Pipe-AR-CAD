@@ -61,6 +61,10 @@ namespace HoloCAD
             // ReSharper disable once InconsistentNaming
             /// <summary> Толщина стенки трубы. </summary>
             public double width;
+            
+            // ReSharper disable once InconsistentNaming
+            /// <summary> Наименование стандарта. </summary>
+            public string standart_name;
         }
 
         /// <summary> Экспортируемый объект фрагмента трубы. </summary>
@@ -99,7 +103,7 @@ namespace HoloCAD
                 array.tubes.Add(expTube);
                 expTube.diameter = tube.Data.diameter * 1000;
                 expTube.width = expTube.diameter * 0.1;
-
+                expTube.standart_name = tube.StandardName;
                 tube.MapFragmentsWithOutgrowth(fragment => expTube.fragments.Add(ConvertToExportFormat(fragment)));
                 expTube.fragments.RemoveAll(element => element == null);
             }
@@ -120,6 +124,7 @@ namespace HoloCAD
                 case BendedTubeFragment btf:
                     expFragment.type = "Bended";
                     expFragment.bendAngle = btf.Angle;
+                    Debug.Log(btf.Radius);
                     expFragment.radius = btf.Radius * 1000;
                     break;
                 default:

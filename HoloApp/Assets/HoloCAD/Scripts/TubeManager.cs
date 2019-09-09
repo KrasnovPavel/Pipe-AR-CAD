@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using JetBrains.Annotations;
 using HoloCAD.UnityTubes;
+using UnityEngine;
 
 namespace HoloCAD
 {
@@ -64,11 +65,17 @@ namespace HoloCAD
         {
             _allTubes.Remove(tube);
         }
-
+        
         /// <summary> Сохраняет сцену в выбираемый пользователем файл. </summary>
         public static void SaveScene()
         {
             SchemeExporter.Export(AllTubes);
+        }
+        
+        /// <summary> Загрузить сцену из выбираемого пользователем файла. </summary>
+        public static void LoadScene()
+        {
+            SchemeImporter.Import();
         }
         
         /// <summary> Выбирает следующий фрагмент трубы. </summary>
