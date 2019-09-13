@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="Mark20" size="0.160000 0.160000" />
+    <ImageTarget name="Mark19" size="0.160000 0.160000" />
+    <ImageTarget name="Mark18" size="0.160000 0.160000" />
+    <ImageTarget name="Mark17" size="0.160000 0.160000" />
+    <ImageTarget name="Mark16" size="0.160000 0.160000" />
+    <ImageTarget name="Mark15" size="0.160000 0.160000" />
+    <ImageTarget name="Mark14" size="0.160000 0.160000" />
+    <ImageTarget name="Mark13" size="0.160000 0.160000" />
+    <ImageTarget name="Mark12" size="0.160000 0.160000" />
+    <ImageTarget name="Mark11" size="0.160000 0.160000" />
+    <ImageTarget name="Mark10" size="0.160000 0.160000" />
+    <ImageTarget name="Mark9" size="0.160000 0.160000" />
+    <ImageTarget name="Mark8" size="0.160000 0.160000" />
     <ImageTarget name="Mark7" size="0.160000 0.160000" />
     <ImageTarget name="Mark6" size="0.160000 0.160000" />
     <ImageTarget name="Mark5" size="0.160000 0.160000" />

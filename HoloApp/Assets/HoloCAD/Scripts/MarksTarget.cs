@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
-using HoloCAD.UnityTubes;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.XR.WSA;
@@ -45,11 +44,12 @@ namespace HoloCAD
             OnPropertyChanged(nameof(PositionsOfMarks));
         }
 
+        /// <summary> Переключает прозрачность модели, в том числе и прозрачность для курсора. </summary>
+        /// <param name="transparent"></param>
         public void MakeTransparent(bool transparent)
         {
             Model.GetComponent<MeshCollider>().enabled = !transparent;
-            
-            Model.GetComponent<MeshRenderer>().sharedMaterial.SetFloat(Alpha, transparent ? 0.5f : 1f);
+            Model.GetComponent<MeshRenderer>().sharedMaterial.SetFloat(Alpha, transparent ? TransparentAlpha : 1f);
         }
         
         /// <summary> Изменение поворота модели относительно метки. </summary>
@@ -93,7 +93,7 @@ namespace HoloCAD
 
         private void Update()
         {
-            int markId = Marks.FindIndex(obj => obj.IsActive);
+            int markId = Marks.FindIndex(obj => obj != null && obj.enabled && obj.IsActive);
 
             if (markId == -1) return;
             
@@ -101,8 +101,8 @@ namespace HoloCAD
 
             transform.SetParent(currentMark, false);
             transform.localScale = new Vector3(1 / currentMark.lossyScale.x, 
-                1 / currentMark.lossyScale.z, 
-                1 / currentMark.lossyScale.z);
+                                               1 / currentMark.lossyScale.z, 
+                                               1 / currentMark.lossyScale.z);
             transform.localPosition = PositionsOfMarks[markId];
             transform.localRotation = Quaternion.Euler(RotationsOfMarks[markId]);
 
