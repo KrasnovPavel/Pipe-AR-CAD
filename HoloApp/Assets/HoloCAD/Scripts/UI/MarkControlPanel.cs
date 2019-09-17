@@ -102,15 +102,7 @@ namespace HoloCAD.UI
             }
             if (ChangeTargetCollider != null)
             {
-                ChangeTargetCollider.OnClick += delegate
-                {
-                    _gridMode++;
-                    _gridMode %= 4;
-                    Target.gameObject.SetActive(_gridMode <= 1);
-                    MeshRenderer walls = Target.transform.Find("Low_Pole_re/Korpus_2").GetComponent<MeshRenderer>();
-                    walls.sharedMaterial.color = _gridMode == 1 ? new Color(0.3f, 0.3f, 0.3f, 1f) : Color.grey;
-                    TubeUnityManager.ShowGrid(_gridMode == 2);
-                };
+                ChangeTargetCollider.OnClick += delegate { ModelViewController.Instance.CurrentState = ModelViewController.Instance.CurrentState+1; };
             }
 
             if (Edit != null)
@@ -140,8 +132,6 @@ namespace HoloCAD.UI
         #endregion
 
         #region Private definitions
-
-        private int _gridMode = 0;
 
         private void SetText()
         {
