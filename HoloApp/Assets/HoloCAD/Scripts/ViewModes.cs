@@ -10,16 +10,16 @@ using JetBrains.Annotations;
 namespace HoloCAD
 {
     /// <summary>Класс для переключения режимов отображения модели, привязанной к метке </summary>
-    public class TargetModelViewController : Singleton<TargetModelViewController>, INotifyPropertyChanged
+    public class ViewModes : MonoBehaviour, INotifyPropertyChanged
     {
         /// <summary> Событие измененения свойств объекта </summary>
         public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>Привязанная модель </summary>
-        public GameObject Target;
+        
+        /// <summary> Объект стен </summary>
+        public GameObject Walls;
 
         /// <summary>Возможные состояния отображения модели </summary>
-        public enum States : byte
+        public enum Modes : byte
         {
             Visible,
             VisibleWithoutWalls,
@@ -28,51 +28,50 @@ namespace HoloCAD
         };
 
         /// <summary>Состояние отображения модели на данный момент </summary>
-        public States CurrentState
+        public Modes Current
         {
-            get => _currentState;
+            get => _current;
             set
             {
-                value = NextState(value);
-                if (Enum.IsDefined(typeof(States), value))
+                if (Enum.IsDefined(typeof(Modes), value) && value!= _current)
                 {
-                    _currentState = value;
-                    OnPropertyChanged(nameof(CurrentState));
+                    _current = value;
+                    OnPropertyChanged(nameof(Current));
                 }
             }
         }
 
+        /// <summary> Сохраняет состояние отображения на данный момент внутри диапазона возможных состояний отображения  </summary>
+        public void Next()
+        {
+            _current++;
+            byte valueByte = (byte) _current;
+            valueByte %= (byte) Enum.GetValues(typeof(Modes)).Length;
+            _current = (Modes) valueByte;
+            OnPropertyChanged(nameof(Current));
+        }
+        
         #region Private defenitions
 
-        private States _currentState;
+        private Modes _current;
 
-        /// <summary> Сохраняет состояние отображения на данный момент внутри диапазона возможных состояний отображения  </summary>
-        /// <param name="value">Новое состояние отображения</param>
-        /// <returns>Новое состояние отображения, лежащее внутри диапазона состояний отображения</returns>
-        private States NextState(States value)
-        {
-            byte valueByte = (byte) value;
-            valueByte %= (byte) Enum.GetValues(typeof(States)).Length;
-            value = (States) valueByte;
-            return value;
-        }
 
 
         /// <summary> Меняет характеристики отображения модели в соотвествии с нынешним состоянием отображения </summary>
         private void ChangeModelToCurrentState()
         {
-            switch (_currentState)
+            switch (_current)
             {
-                case States.Visible:
+                case Modes.Visible:
                     ChangeTargetToVisible();
                     break;
-                case States.VisibleWithoutWalls:
+                case Modes.VisibleWithoutWalls:
                     ChangeTargetToVisibleWithoutWalls();
                     break;
-                case States.SpatialMapping:
+                case Modes.SpatialMapping:
                     ChangeTargetToSpatialMappingMode();
                     break;
-                case States.Invisible:
+                case Modes.Invisible:
                     ChangeTargetToInvisible();
                     break;
             }
@@ -82,8 +81,8 @@ namespace HoloCAD
         private void ChangeTargetToVisible()
         {
             UnityTubes.TubeUnityManager.ShowGrid(false);
-            Target.gameObject.SetActive(true);
-            MeshRenderer walls = Target.transform.Find("Low_Pole_re/Korpus_2").GetComponent<MeshRenderer>();
+            gameObject.SetActive(true);
+            MeshRenderer walls = Walls.GetComponent<MeshRenderer>();
             walls.sharedMaterial.color = Color.grey;
         }
 
@@ -91,8 +90,8 @@ namespace HoloCAD
         private void ChangeTargetToVisibleWithoutWalls()
         {
             UnityTubes.TubeUnityManager.ShowGrid(false);
-            Target.gameObject.SetActive(true);
-            MeshRenderer walls = Target.transform.Find("Low_Pole_re/Korpus_2").GetComponent<MeshRenderer>();
+            gameObject.SetActive(true);
+            MeshRenderer walls = Walls.GetComponent<MeshRenderer>();
             walls.sharedMaterial.color = new Color(0.3f, 0.3f, 0.3f, 1f);
         }
 
@@ -100,13 +99,13 @@ namespace HoloCAD
         private void ChangeTargetToInvisible()
         {
             UnityTubes.TubeUnityManager.ShowGrid(false);
-            Target.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
 
         /// <summary> Включает сетку поверхности </summary>
         private void ChangeTargetToSpatialMappingMode()
         {
-            Target.gameObject.SetActive(false);
+            gameObject.SetActive(false);
             UnityTubes.TubeUnityManager.ShowGrid(true);
         }
 
@@ -120,7 +119,7 @@ namespace HoloCAD
             
             PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
             {
-                if (args.PropertyName == nameof(CurrentState))
+                if (args.PropertyName == nameof(Current))
                 {
                     ChangeModelToCurrentState();
                 }

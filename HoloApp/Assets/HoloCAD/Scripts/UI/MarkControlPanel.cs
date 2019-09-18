@@ -102,7 +102,7 @@ namespace HoloCAD.UI
             }
             if (ChangeTargetCollider != null)
             {
-                ChangeTargetCollider.OnClick += delegate { TargetModelViewController.Instance.CurrentState = TargetModelViewController.Instance.CurrentState+1; };
+                ChangeTargetCollider.OnClick += delegate { Target.GetComponent<ViewModes>().Next(); };
             }
 
             if (Edit != null)
