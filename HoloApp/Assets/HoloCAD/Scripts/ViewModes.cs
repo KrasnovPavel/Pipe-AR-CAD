@@ -33,10 +33,10 @@ namespace HoloCAD
             get => _current;
             set
             {
-                if (Enum.IsDefined(typeof(Modes), value) && value!= _current)
+                if (Enum.IsDefined(typeof(Modes), value) && value != _current)
                 {
                     _current = value;
-                    OnPropertyChanged(nameof(Current));
+                    OnPropertyChanged();
                 }
             }
         }
