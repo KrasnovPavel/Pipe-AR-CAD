@@ -28,7 +28,6 @@ namespace HoloCAD.UI
         [CanBeNull] public MarksTarget Target;
 
         #region Unity event function
-
         private Mark _mark;
 
         private void Start()
@@ -129,10 +128,35 @@ namespace HoloCAD.UI
             SetText();
         }
 
+        private void Update()
+        {
+            if (ChangeTargetCollider == null) return;
+            int mask1 = 1 << 31;
+            int mask2 = 1 << 31; 
+            
+            int layerMask = mask1 | mask2;
+            float distance = 1;
+            
+            Vector3 forwardVector3OfButton =  ChangeTargetCollider.gameObject.transform.right;
+            Vector3 backwardVector3OfButton = -forwardVector3OfButton;
+            if (_isLastCollisionWasForward)
+            {
+                if (Physics.Raycast(gameObject.transform.position, forwardVector3OfButton, distance))
+                {
+                    gameObject.transform.position += forwardVector3OfButton*0.1f ;
+                    _isLastCollisionWasForward = true;
+                    return;
+                }
+            }
+        }
+
         #endregion
 
         #region Private definitions
 
+        
+        private bool _isLastCollisionWasForward=true;
+        
         private void SetText()
         {
             if (Target == null || PositionLabel == null || RotationLabel == null) return;
