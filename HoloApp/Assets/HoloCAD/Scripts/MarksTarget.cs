@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using HoloCAD.UI;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.XR.WSA;
@@ -90,6 +91,18 @@ namespace HoloCAD
         }
 
         #region Unity event function
+
+        private void Awake()
+        {
+            foreach (Mark mark in Marks)
+            {
+                if (mark == null) return;
+                GameObject markPanel = mark.transform.GetChild(0).gameObject;
+                if (markPanel == null) return;
+                markPanel.GetComponent<MarkControlPanel>().Target = this;
+            }
+        }
+
 
         private void Update()
         {
