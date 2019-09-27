@@ -8,9 +8,7 @@ namespace HoloCAD.UI
 {
     public sealed class MarkControlPanel : MonoBehaviour
     {
-        
-        
-        
+    
         [CanBeNull] public Button3D MoveLeft;
         [CanBeNull] public Button3D MoveRight;
         [CanBeNull] public Button3D MoveUp;
@@ -143,13 +141,13 @@ namespace HoloCAD.UI
         #region Private definitions
         
         /// <summary> Растояние между камерой и меткой, при которой активируется выталкивание </summary>
-        private static float _triggerDistance = 2f;
+        private const float _triggerDistance = 2f;
 
         /// <summary> Глубина выталкивания из объекта коллизии </summary>
-        private static float _pushDepth = 0.05f;
+        private const float _pushDepth = 0.05f;
         
         /// <summary> Маска всех слоев, с которыми проверяется коллизия </summary>
-        private static int _layerMask = (1<<31)|(1<<30);
+        private const int _layerMask = (1<<31)|(1<<30);
         
         /// <summary> Позиция бъекта камеры, к которой привязаны все метки </summary>
         private static Vector3 _mainCameraPosition;
