@@ -96,9 +96,9 @@ namespace HoloCAD
         {
             foreach (Mark mark in Marks)
             {
-                if (mark == null) return;
+                if (mark == null) continue;
                 GameObject markPanel = mark.transform.GetChild(0).gameObject;
-                if (markPanel == null) return;
+                if (markPanel == null) continue;
                 markPanel.GetComponent<MarkControlPanel>().Target = this;
             }
         }

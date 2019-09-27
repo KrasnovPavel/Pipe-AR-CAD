@@ -36,6 +36,7 @@ namespace HoloCAD.UI
 
         private void Start()
         {
+            _mainCameraPosition = Camera.main.transform.position;
             _mark = transform.parent.GetComponent<Mark>();
             _mark.PropertyChanged += delegate
             {
@@ -134,30 +135,48 @@ namespace HoloCAD.UI
 
         private void Update()
         {
-            if (Target == null) return;
-            if (_mark == null) return;
-            if (!_mark.IsActive) return;
-            Vector3 markCameraVector = _mark.transform.position - MarkControlPusherData.Instance.MainCamera.transform.position;
-            if (Vector3.Distance(MarkControlPusherData.Instance.MainCamera.transform.position, _mark.transform.position) > MarkControlPusherData.Instance.TriggerDistance)
-            {
-                transform.localPosition = new Vector3(0, 0, 0);
-                return;
-            }
-            RaycastHit hitInfo;
-            if (Physics.Raycast(MarkControlPusherData.Instance.MainCamera.transform.position, markCameraVector, out hitInfo, MarkControlPusherData.Instance.TriggerDistance*2,
-                MarkControlPusherData.Instance.LayerMask))
-                transform.position = hitInfo.point + -markCameraVector * MarkControlPusherData.Instance.PushDepth;
-            else
-                transform.localPosition = new Vector3(0, 0, 0);
+            PushFromTargetAndSpatialMapping();
         }
         
         #endregion
 
         #region Private definitions
-
         
-        /// <summary> Объект камеры, к которой привязаны все метки </summary>
-        private static Camera _mainCamera;
+        /// <summary> Растояние между камерой и меткой, при которой активируется выталкивание </summary>
+        private static float _triggerDistance = 2f;
+
+        /// <summary> Глубина выталкивания из объекта коллизии </summary>
+        private static float _pushDepth = 0.05f;
+        
+        /// <summary> Маска всех слоев, с которыми проверяется коллизия </summary>
+        private static int _layerMask = (1<<31)|(1<<30);
+        
+        /// <summary> Позиция бъекта камеры, к которой привязаны все метки </summary>
+        private static Vector3 _mainCameraPosition;
+
+
+        /// <summary> "Выталкивает" панель с кнопками из сетки пространства и отображаемой модели  </summary>
+        private void PushFromTargetAndSpatialMapping()
+        {
+            if(!_mark.IsActive) return;
+            Vector3 markCameraVector = _mark.transform.position - _mainCameraPosition;
+            if (markCameraVector.magnitude > _triggerDistance)
+            {
+                transform.localPosition = Vector3.zero;
+                return;
+            }
+            RaycastHit hitInfo;
+            if (Physics.Raycast(_mainCameraPosition, markCameraVector,
+                out hitInfo, _triggerDistance * 2,
+                _layerMask))
+            {
+                transform.position = hitInfo.point - markCameraVector * _pushDepth;
+            }
+            else
+            {
+                transform.localPosition = Vector3.zero;
+            }
+        }
         
         private void SetText()
         {

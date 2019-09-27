@@ -36595,7 +36595,7 @@ MonoBehaviour:
   TriggerDistance: 2
   LayersOfColliders: 1e0000001f000000
   PushDepth: 0.05
-  MainCamera: {fileID: 0}
+  MainCamera: {fileID: 1894923067}
 --- !u!21 &1890431985
 Material:
   serializedVersion: 6

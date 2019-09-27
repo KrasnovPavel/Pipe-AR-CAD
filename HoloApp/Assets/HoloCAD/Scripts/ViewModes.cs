@@ -41,7 +41,7 @@ namespace HoloCAD
             }
         }
 
-        /// <summary> Сохраняет состояние отображения на данный момент внутри диапазона возможных состояний отображения  </summary>
+        /// <summary> Переключает состояние отображения на следующее.  </summary>
         public void Next()
         {
             _current++;
@@ -57,28 +57,28 @@ namespace HoloCAD
 
 
 
-        /// <summary> Меняет характеристики отображения модели в соотвествии с нынешним состоянием отображения </summary>
-        private void ChangeModelToCurrentState()
+        /// <summary>Отображает модель в нужном виде</summary>
+        private void ChangeModelView()
         {
             switch (_current)
             {
                 case Modes.Visible:
-                    ChangeTargetToVisible();
+                    MakeTargetVisible();
                     break;
                 case Modes.VisibleWithoutWalls:
-                    ChangeTargetToVisibleWithoutWalls();
+                    MakeTargetVisibleWithoutWalls();
                     break;
                 case Modes.SpatialMapping:
-                    ChangeTargetToSpatialMappingMode();
+                    DrawSpatialMapping();
                     break;
                 case Modes.Invisible:
-                    ChangeTargetToInvisible();
+                    MakeTargetInvisible();
                     break;
             }
         }
 
         /// <summary> Делает модель видимой </summary>
-        private void ChangeTargetToVisible()
+        private void MakeTargetVisible()
         {
             UnityTubes.TubeUnityManager.ShowGrid(false);
             gameObject.SetActive(true);
@@ -87,7 +87,7 @@ namespace HoloCAD
         }
 
         /// <summary> Делает модель видимой, но стены прозрачными </summary>
-        private void ChangeTargetToVisibleWithoutWalls()
+        private void MakeTargetVisibleWithoutWalls()
         {
             UnityTubes.TubeUnityManager.ShowGrid(false);
             gameObject.SetActive(true);
@@ -96,14 +96,14 @@ namespace HoloCAD
         }
 
         /// <summary> Делает модель невидимой </summary>
-        private void ChangeTargetToInvisible()
+        private void MakeTargetInvisible()
         {
             UnityTubes.TubeUnityManager.ShowGrid(false);
             gameObject.SetActive(false);
         }
 
         /// <summary> Включает сетку поверхности </summary>
-        private void ChangeTargetToSpatialMappingMode()
+        private void DrawSpatialMapping()
         {
             gameObject.SetActive(false);
             UnityTubes.TubeUnityManager.ShowGrid(true);
@@ -121,7 +121,7 @@ namespace HoloCAD
             {
                 if (args.PropertyName == nameof(Current))
                 {
-                    ChangeModelToCurrentState();
+                    ChangeModelView();
                 }
             };
         }
