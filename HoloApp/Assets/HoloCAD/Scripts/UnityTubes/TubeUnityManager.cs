@@ -164,7 +164,7 @@ namespace HoloCAD.UnityTubes
 
         private void Update()
         {
-            Debug.developerConsoleVisible = false;
+      //      Debug.developerConsoleVisible = false;
         }
 
         #endregion

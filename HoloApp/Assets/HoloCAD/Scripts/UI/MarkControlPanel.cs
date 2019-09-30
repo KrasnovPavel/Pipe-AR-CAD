@@ -4,12 +4,14 @@
 using HoloCAD.UnityTubes;
 using HoloCore.UI;
 using JetBrains.Annotations;
+using Microsoft.MixedReality.Toolkit;
 using UnityEngine;
 
 namespace HoloCAD.UI
 {
     public sealed class MarkControlPanel : MonoBehaviour
     {
+    
         [CanBeNull] public Button3D MoveLeft;
         [CanBeNull] public Button3D MoveRight;
         [CanBeNull] public Button3D MoveUp;
@@ -31,11 +33,11 @@ namespace HoloCAD.UI
         [CanBeNull] public MarksTarget Target;
 
         #region Unity event function
-
         private Mark _mark;
 
         private void Start()
         {
+            _mainCameraPosition = Camera.main.transform.position;
             _mark = transform.parent.GetComponent<Mark>();
             _mark.PropertyChanged += delegate
             {
@@ -105,15 +107,7 @@ namespace HoloCAD.UI
             }
             if (ChangeTargetCollider != null)
             {
-                ChangeTargetCollider.OnClick += delegate
-                {
-                    _gridMode++;
-                    _gridMode %= 4;
-                    Target.gameObject.SetActive(_gridMode <= 1);
-                    MeshRenderer walls = Target.transform.Find("Low_Pole_re/Korpus_2").GetComponent<MeshRenderer>();
-                    walls.sharedMaterial.color = _gridMode == 1 ? new Color(0.3f, 0.3f, 0.3f, 1f) : Color.grey;
-                    TubeUnityManager.ShowGrid(_gridMode == 2);
-                };
+                ChangeTargetCollider.OnClick += delegate { Target.GetComponent<ViewModes>().Next(); };
             }
 
             if (Edit != null)
@@ -140,12 +134,51 @@ namespace HoloCAD.UI
             SetText();
         }
 
+        private void Update()
+        {
+            PushFromTargetAndSpatialMapping();
+        }
+        
         #endregion
 
         #region Private definitions
+        
+        /// <summary> Растояние между камерой и меткой, при которой активируется выталкивание </summary>
+        private const float _triggerDistance = 2f;
 
-        private int _gridMode = 0;
+        /// <summary> Глубина выталкивания из объекта коллизии </summary>
+        private const float _pushDepth = 0.05f;
+        
+        /// <summary> Маска всех слоев, с которыми проверяется коллизия </summary>
+        private const int _layerMask = (1<<31)|(1<<30);
+        
+        /// <summary> Позиция бъекта камеры, к которой привязаны все метки </summary>
+        private static Vector3 _mainCameraPosition;
 
+
+        /// <summary> "Выталкивает" панель с кнопками из сетки пространства и отображаемой модели  </summary>
+        private void PushFromTargetAndSpatialMapping()
+        {
+            if(!_mark.IsActive) return;
+            Vector3 markCameraVector = _mark.transform.position - _mainCameraPosition;
+            if (markCameraVector.magnitude > _triggerDistance)
+            {
+                transform.localPosition = Vector3.zero;
+                return;
+            }
+            RaycastHit hitInfo;
+            if (Physics.Raycast(_mainCameraPosition, markCameraVector,
+                out hitInfo, _triggerDistance * 2,
+                _layerMask))
+            {
+                transform.position = hitInfo.point - markCameraVector * _pushDepth;
+            }
+            else
+            {
+                transform.localPosition = Vector3.zero;
+            }
+        }
+        
         private void SetText()
         {
             if (Target == null || PositionLabel == null || RotationLabel == null) return;
