@@ -15,6 +15,7 @@
 			// Define the vertex and fragment shader functions
 			#pragma vertex vert
 			#pragma fragment frag
+            #include "UnityCG.cginc"
 
 			// Access Shaderlab properties
 			uniform float _GridThickness;
@@ -26,6 +27,7 @@
 			// Input into the vertex shader
 			struct vertexInput {
 				float4 vertex : POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			// Output from vertex shader into fragment shader
@@ -34,11 +36,16 @@
 				float4 worldPos: TEXCOORD0;
 				float3 localPos: POSITION1;
 				float3 worldScale: SCALE;
+                UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			// VERTEX SHADER
 			vertexOutput vert(vertexInput input) {
 				vertexOutput output;
+                UNITY_SETUP_INSTANCE_ID(input);
+                UNITY_INITIALIZE_OUTPUT(vertexOutput, output);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+            
 				output.pos = UnityObjectToClipPos(input.vertex);
 				output.worldPos = mul(unity_ObjectToWorld, input.vertex);
 				output.localPos = input.vertex.xyz;

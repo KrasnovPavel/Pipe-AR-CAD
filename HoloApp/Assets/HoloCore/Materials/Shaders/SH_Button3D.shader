@@ -23,17 +23,23 @@
 		// Input into the vertex shader
 		struct vertexInput {
 			float4 vertex: POSITION;
+            UNITY_VERTEX_INPUT_INSTANCE_ID
 		};
 		
 		// Output from vertex shader into fragment shader
 		struct vertexOutput {
 			float4 pos: SV_POSITION;
             float3 localPos : TEXCOORD;
+            UNITY_VERTEX_OUTPUT_STEREO
 		};
 
 		// VERTEX SHADER
 		vertexOutput vert(appdata_full input) {
 			vertexOutput output;
+            UNITY_SETUP_INSTANCE_ID(input);
+            UNITY_INITIALIZE_OUTPUT(vertexOutput, output);
+            UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+                
             output.pos = UnityObjectToClipPos (input.vertex);
 			output.localPos = input.vertex;
 			return output;

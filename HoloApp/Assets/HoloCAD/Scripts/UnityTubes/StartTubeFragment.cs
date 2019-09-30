@@ -11,7 +11,7 @@ namespace HoloCAD.UnityTubes
 {
     /// <inheritdoc />
     /// <summary> Класс, реализующий фрагмент фланца трубы. </summary>
-    public class StartTubeFragment : TubeFragment
+    public class StartTubeFragment : TubeFragment, IDisposable //-V3074
     {
         /// <inheritdoc />
         public override float Diameter
@@ -85,6 +85,14 @@ namespace HoloCAD.UnityTubes
 #endif
             }
         }
+        
+        /// <summary> Вызывается при уничтожении по паттерну IDisposable. </summary>
+        public void Dispose()
+        {
+#if ENABLE_WINMD_SUPPORT
+            _recognizer.Dispose();
+#endif
+        }
 
         #region Unity event functions
 
@@ -112,7 +120,6 @@ namespace HoloCAD.UnityTubes
 #endif
         }
 
-
         /// <inheritdoc />
         protected override void Update()
         {
@@ -123,7 +130,7 @@ namespace HoloCAD.UnityTubes
                 Place();
             }
         }
-
+        
         #endregion
 
         #region Private definitions
