@@ -1,7 +1,7 @@
-﻿using System;
-using System.Configuration;
-using HoloCAD;
-using HoloCore;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using System;
 using UnityEngine;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -54,8 +54,6 @@ namespace HoloCAD
         #region Private defenitions
 
         private Modes _current;
-
-
 
         /// <summary>Отображает модель в нужном виде</summary>
         private void ChangeModelView()
@@ -111,12 +109,10 @@ namespace HoloCAD
 
         #endregion
 
-
         #region Unity events
 
         private void Start()
         {
-            
             PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
             {
                 if (args.PropertyName == nameof(Current))
@@ -126,7 +122,6 @@ namespace HoloCAD
             };
         }
         
-
         #endregion
 
         #region Protected defenitions

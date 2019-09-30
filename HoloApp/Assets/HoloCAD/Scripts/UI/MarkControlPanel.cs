@@ -4,14 +4,13 @@
 using HoloCAD.UnityTubes;
 using HoloCore.UI;
 using JetBrains.Annotations;
-using Microsoft.MixedReality.Toolkit;
 using UnityEngine;
 
 namespace HoloCAD.UI
 {
+    /// <summary> Панель управления меткой. </summary>
     public sealed class MarkControlPanel : MonoBehaviour
     {
-    
         [CanBeNull] public Button3D MoveLeft;
         [CanBeNull] public Button3D MoveRight;
         [CanBeNull] public Button3D MoveUp;
@@ -33,11 +32,14 @@ namespace HoloCAD.UI
         [CanBeNull] public MarksTarget Target;
 
         #region Unity event function
-        private Mark _mark;
 
+        /// <summary> Функция, выполняющаяся после инициализизации участка трубы в Unity. </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Start()</c>.
+        /// </remarks>
         private void Start()
         {
-            _mainCameraPosition = Camera.main.transform.position;
+            _mainCamera = Camera.main.transform;
             _mark = transform.parent.GetComponent<Mark>();
             _mark.PropertyChanged += delegate
             {
@@ -134,6 +136,10 @@ namespace HoloCAD.UI
             SetText();
         }
 
+        /// <summary> Функция, выполняющаяся в Unity каждый кадр. </summary>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.Update()</c>.
+        /// </remarks>
         private void Update()
         {
             PushFromTargetAndSpatialMapping();
@@ -143,35 +149,36 @@ namespace HoloCAD.UI
 
         #region Private definitions
         
-        /// <summary> Растояние между камерой и меткой, при которой активируется выталкивание </summary>
-        private const float _triggerDistance = 2f;
+        private Mark _mark;
+        
+        /// <summary> Расстояние между камерой и меткой, при которой активируется выталкивание. </summary>
+        private const float TriggerDistance = 2f;
 
         /// <summary> Глубина выталкивания из объекта коллизии </summary>
-        private const float _pushDepth = 0.05f;
+        private const float PushDepth = 0.05f;
         
         /// <summary> Маска всех слоев, с которыми проверяется коллизия </summary>
-        private const int _layerMask = (1<<31)|(1<<30);
+        private const int LayerMask = (1<<31)|(1<<30);
         
-        /// <summary> Позиция бъекта камеры, к которой привязаны все метки </summary>
-        private static Vector3 _mainCameraPosition;
-
+        /// <summary> Позиция объекта камеры, к которой привязаны все метки </summary>
+        private static Transform _mainCamera;
 
         /// <summary> "Выталкивает" панель с кнопками из сетки пространства и отображаемой модели  </summary>
         private void PushFromTargetAndSpatialMapping()
         {
             if(!_mark.IsActive) return;
-            Vector3 markCameraVector = _mark.transform.position - _mainCameraPosition;
-            if (markCameraVector.magnitude > _triggerDistance)
+            Vector3 markCameraVector = _mark.transform.position - _mainCamera.position;
+            if (markCameraVector.magnitude > TriggerDistance)
             {
                 transform.localPosition = Vector3.zero;
                 return;
             }
+            
             RaycastHit hitInfo;
-            if (Physics.Raycast(_mainCameraPosition, markCameraVector,
-                out hitInfo, _triggerDistance * 2,
-                _layerMask))
+            if (Physics.Raycast(_mainCamera.position, markCameraVector,
+                out hitInfo, TriggerDistance * 2, LayerMask))
             {
-                transform.position = hitInfo.point - markCameraVector * _pushDepth;
+                transform.position = hitInfo.point - markCameraVector * PushDepth;
             }
             else
             {
@@ -179,6 +186,7 @@ namespace HoloCAD.UI
             }
         }
         
+        /// <summary> Вывод текста на экран. </summary>
         private void SetText()
         {
             if (Target == null || PositionLabel == null || RotationLabel == null) return;
