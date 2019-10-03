@@ -55,7 +55,7 @@ namespace HoloCore
         private static object _lock = new object();
         private static T _instance;
         
-        private void OnApplicationQuit()
+        private void OnApplicationQuit() //-V3013
         {
             _shuttingDown = true;
         }

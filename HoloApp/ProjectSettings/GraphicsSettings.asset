@@ -41,7 +41,6 @@ GraphicsSettings:
   - {fileID: 4800000, guid: d17c6b7ee97182c4385c64b7b26b69c1, type: 3}
   - {fileID: 4800000, guid: 9e44064c2bb2464997acb857f0d39b39, type: 3}
   - {fileID: 4800000, guid: 5b5815df35024365a0d0817c56cc213d, type: 3}
-  - {fileID: 16001, guid: 0000000000000000f000000000000000, type: 0}
   m_PreloadedShaders:
   - {fileID: 20000000, guid: 40dd631d826d4914484fd0cef0c0e577, type: 2}
   m_SpritesDefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000,
@@ -63,12 +62,12 @@ GraphicsSettings:
       useReflectionProbeBoxProjection: 0
       useReflectionProbeBlending: 0
       useHDR: 0
-      useDetailNormalMap: 0
+      useDetailNormalMap: 1
       useCascadedShadowMaps: 0
       prefer32BitShadowMaps: 0
       enableLPPV: 0
       useDitherMaskForAlphaBlendedShadows: 0
-    m_Automatic: 1
+    m_Automatic: 0
   m_LightmapStripping: 0
   m_FogStripping: 0
   m_InstancingStripping: 0

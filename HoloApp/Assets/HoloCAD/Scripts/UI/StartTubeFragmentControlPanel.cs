@@ -178,6 +178,7 @@ namespace HoloCAD.UI
 			{
 				angle = 360f - angle;
 			}
+			// ReSharper disable once Unity.InefficientMultiplicationOrder
 			linePositions[0] = Quaternion.Euler(0f, 0f, angle) * Vector3.right * _fragment.Diameter / 2;
 			linePositions[1] = barPosition;
 			linePositions[2] = barPosition 

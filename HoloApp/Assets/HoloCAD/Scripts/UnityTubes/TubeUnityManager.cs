@@ -39,6 +39,10 @@ namespace HoloCAD.UnityTubes
         /// <summary> Есть ли активный объект соединения. </summary>
         public static bool HasActiveTubesConnector => Instance._activeTubesConnector != null;
 
+        /// <summary> Массив меток к которым привязан фланец трубы. </summary>
+        [Tooltip("Массив меток к которым привязан фланец трубы.")]
+        public Transform[] StartTubeMarks;
+
         /// <summary> Объект соединения, который в данный момент редактируется. </summary>
         public static TubesConnector ActiveTubesConnector
         {
@@ -53,13 +57,14 @@ namespace HoloCAD.UnityTubes
         
         /// <summary> Использовать SpatialMapping для привязки объектов?  </summary>
         public static bool UseSpatialMapping = true;
-        
+
         /// <summary> Создает на сцене объект начального фланца трубы. </summary>
         /// <param name="owner"> Труба, которой принадлежит этот фланец.</param>
+        /// <param name="parent"> Родительский элемент для фланца. Обычно это метка к которой он будет привязан. </param>
         /// <returns> Созданный объект фланца. </returns>
-        [NotNull] public static StartTubeFragment CreateStartTubeFragment(Tube owner)
+        [NotNull] public static StartTubeFragment CreateStartTubeFragment(Tube owner, Transform parent = null)
         {
-            GameObject tube = Instantiate(Instance.StartTubeFragmentPrefab);
+            GameObject tube = Instantiate(Instance.StartTubeFragmentPrefab, parent);
             tube.GetComponent<TubeFragment>().Owner = owner;
             return tube.GetComponent<StartTubeFragment>();
         }
@@ -111,7 +116,7 @@ namespace HoloCAD.UnityTubes
         [NotNull] public static Outgrowth CreateOutgrowth(Tube owner, DirectTubeFragment parent)
         {
             DirectTubeFragment outgrowth = CreateDirectTubeFragment(owner, parent.transform, parent);
-            outgrowth.transform.localPosition = Vector3.forward * parent.Length / 2;
+            outgrowth.transform.localPosition = parent.Length / 2 * Vector3.forward;
             outgrowth.transform.localRotation = Quaternion.Euler(0, 90, 0);
             outgrowth.gameObject.AddComponent<Outgrowth>();
             GameObject outgrowthPanel = Instantiate(Instance.OutgrowthPanelPrefab, 
@@ -131,11 +136,8 @@ namespace HoloCAD.UnityTubes
         /// <param name="show"></param>
         public static void ShowGrid(bool show)
         {
-            if (UseSpatialMapping)
-            {
-                Instance._mapCollider.enabled = show;
-                Instance._mapRenderer.enabled = show;
-            }
+            Instance._mapCollider.enabled = show;
+            Instance._mapRenderer.enabled = show;
         }
         
         /// <summary> Событие, вызываемое при изменении какого-либо свойства. </summary>
@@ -148,8 +150,21 @@ namespace HoloCAD.UnityTubes
         {
             _mapCollider = gameObject.GetComponent<SpatialMappingCollider>();
             _mapRenderer = gameObject.GetComponent<SpatialMappingRenderer>();
-            TubeManager.CreateTube();
             _cursor = GameObject.Find("DefaultCursor(Clone)");
+            Camera.main.depthTextureMode = DepthTextureMode.DepthNormals;
+
+            foreach (Transform mark in StartTubeMarks)
+            {
+                Transform t = TubeManager.CreateTube().StartFragment.transform;
+                t.parent = mark;
+                t.localPosition = Vector3.zero;
+                t.localRotation = Quaternion.Euler(-90, 0, 180);
+            }
+        }
+
+        private void Update()
+        {
+      //      Debug.developerConsoleVisible = false;
         }
 
         #endregion

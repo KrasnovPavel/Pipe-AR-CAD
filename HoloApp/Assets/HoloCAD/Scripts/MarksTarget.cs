@@ -1,8 +1,10 @@
-﻿using System;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using HoloCAD.UnityTubes;
+using HoloCAD.UI;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.XR.WSA;
@@ -45,11 +47,12 @@ namespace HoloCAD
             OnPropertyChanged(nameof(PositionsOfMarks));
         }
 
+        /// <summary> Переключает прозрачность модели, в том числе и прозрачность для курсора. </summary>
+        /// <param name="transparent"></param>
         public void MakeTransparent(bool transparent)
         {
             Model.GetComponent<MeshCollider>().enabled = !transparent;
-            
-            Model.GetComponent<MeshRenderer>().sharedMaterial.SetFloat(Alpha, transparent ? 0.5f : 1f);
+            Model.GetComponent<MeshRenderer>().sharedMaterial.SetFloat(Alpha, transparent ? TransparentAlpha : 1f);
         }
         
         /// <summary> Изменение поворота модели относительно метки. </summary>
@@ -91,9 +94,21 @@ namespace HoloCAD
 
         #region Unity event function
 
+        private void Awake()
+        {
+            foreach (Mark mark in Marks)
+            {
+                if (mark == null) continue;
+                GameObject markPanel = mark.transform.GetChild(0).gameObject;
+                if (markPanel == null) continue;
+                markPanel.GetComponent<MarkControlPanel>().Target = this;
+            }
+        }
+
+
         private void Update()
         {
-            int markId = Marks.FindIndex(obj => obj.IsActive);
+            int markId = Marks.FindIndex(obj => obj != null && obj.enabled && obj.IsActive);
 
             if (markId == -1) return;
             
@@ -101,8 +116,8 @@ namespace HoloCAD
 
             transform.SetParent(currentMark, false);
             transform.localScale = new Vector3(1 / currentMark.lossyScale.x, 
-                1 / currentMark.lossyScale.z, 
-                1 / currentMark.lossyScale.z);
+                                               1 / currentMark.lossyScale.z, 
+                                               1 / currentMark.lossyScale.z);
             transform.localPosition = PositionsOfMarks[markId];
             transform.localRotation = Quaternion.Euler(RotationsOfMarks[markId]);
 

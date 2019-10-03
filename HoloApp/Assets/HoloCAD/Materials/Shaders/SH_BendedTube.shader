@@ -1,4 +1,6 @@
-﻿Shader "HoloCAD/Bended" {
+﻿// Upgrade NOTE: replaced 'UNITY_INSTANCE_ID' with 'UNITY_VERTEX_INPUT_INSTANCE_ID'
+
+Shader "HoloCAD/Bended" {
 	Properties{
 		_GridThickness("Grid Thickness", Float) = 0.01
 		_RadialSpacing("Radial Spacing", Float) = 5
@@ -19,6 +21,7 @@
 		#pragma vertex vert
 		#pragma fragment frag
 		#define PI 3.14159265
+        #include "UnityCG.cginc"
 
 		// Access Shaderlab properties
 		uniform float _GridThickness;
@@ -32,6 +35,7 @@
 		// Input into the vertex shader
 		struct vertexInput {
 			float4 vertex : POSITION;
+            UNITY_VERTEX_INPUT_INSTANCE_ID
 		};
 
 		// Output from vertex shader into fragment shader
@@ -40,11 +44,16 @@
 			float4 worldPos : TEXCOORD0;
 			float3 localPos: POSITION1;
 			float3 worldScale: SCALE;
+            UNITY_VERTEX_OUTPUT_STEREO
 		};
 
 		// VERTEX SHADER
 		vertexOutput vert(vertexInput input) {
 			vertexOutput output;
+            UNITY_SETUP_INSTANCE_ID(input);
+            UNITY_INITIALIZE_OUTPUT(vertexOutput, output);
+            UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+            
 			output.pos = UnityObjectToClipPos(input.vertex);
 			output.worldPos = mul(unity_ObjectToWorld, input.vertex);
 			output.localPos = float3(input.vertex.x + _BendRadius, input.vertex.yz) / _Diameter;

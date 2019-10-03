@@ -1,11 +1,27 @@
-﻿using System;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 using Vuforia;
 
 namespace HoloCAD
 {
-    public class Mark : DefaultTrackableEventHandler
+    public class Mark : DefaultTrackableEventHandler, INotifyPropertyChanged
     {
-        public bool IsActive { get; private set; }
+        /// <summary> Распознана ли метка? </summary>
+        public bool IsActive
+        {
+            get => _isActive;
+            private set
+            {
+                if (value == _isActive) return;
+                _isActive = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <inheritdoc />
         public override void OnTrackableStateChanged(TrackableBehaviour.Status previousStatus, TrackableBehaviour.Status newStatus)
@@ -29,5 +45,15 @@ namespace HoloCAD
                     throw new ArgumentOutOfRangeException(nameof(newStatus), newStatus, null);
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
+        private bool _isActive;
     }
 }

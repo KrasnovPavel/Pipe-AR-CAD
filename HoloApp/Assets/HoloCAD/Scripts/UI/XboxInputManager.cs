@@ -77,6 +77,8 @@ namespace HoloCAD.UI
         private readonly Dictionary<string, float> _pressingTime = new Dictionary<string, float>();
         private readonly HashSet<string> _fireOnce = new HashSet<string>();
         
+        //TODO: Добавить описание функций.
+        
         private void CalculatePressingTime()
         {
             string[] keys = new string[_pressingTime.Count];
