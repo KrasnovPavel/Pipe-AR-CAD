@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MarkEditor.unity
+    path: Assets/Assets/Scenes/MarkEditor.unity
     guid: 2399bc7a5b262824bae1c63e842195f1
   m_configObjects: {}
