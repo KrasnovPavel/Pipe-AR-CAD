@@ -118,7 +118,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3775060908815925778}
-        m_MethodName: DeleteMark
+        m_MethodName: SelectMark
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

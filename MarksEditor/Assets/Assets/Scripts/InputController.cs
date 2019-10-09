@@ -16,7 +16,6 @@ public class InputController : Singleton<InputController>
     // Update is called once per frame
     void Update()
     {
-        
         Transform mainTransform = MainCamera.transform;
         if (Input.GetKey(KeyCode.Mouse1))
         {
@@ -26,6 +25,10 @@ public class InputController : Singleton<InputController>
             X =  mainTransform.eulerAngles.x;
             Y =  mainTransform.eulerAngles.y;
             mainTransform.rotation = Quaternion.Euler(X, Y, 0);
+        }
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            MarkPlaceController.Instance.PlaceTheMark();
         }
         
         if(Input.GetKey(KeyCode.UpArrow))

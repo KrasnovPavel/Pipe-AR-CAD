@@ -36,8 +36,8 @@ public class MarkParamPanel : MonoBehaviour
         InputY.text = Convert.ToString(markPosition.y, ci);
         InputZ.text = Convert.ToString(markPosition.z, ci);
         InputRotationX.text = Convert.ToString(markRotation.x, ci);
-        InputRotationY.text = Convert.ToString(markRotation.x, ci);
-        InputRotationZ.text = Convert.ToString(markRotation.x, ci);
+        InputRotationY.text = Convert.ToString(markRotation.y, ci);
+        InputRotationZ.text = Convert.ToString(markRotation.z, ci);
     }
     
     private void Awake()

@@ -65,8 +65,10 @@
     <Compile Include="Assets\Assets\Scripts\InputFromPanel.cs" />
     <Compile Include="Assets\Assets\Scripts\MarkOnScene.cs" />
     <Compile Include="Assets\Assets\Scripts\MarkParamPanel.cs" />
+    <Compile Include="Assets\Assets\Scripts\MarkPlaceController.cs" />
     <Compile Include="Assets\Assets\Scripts\MarksController.cs" />
     <Compile Include="Assets\Assets\Scripts\MarkSerializeClasses.cs" />
+    <Compile Include="Assets\Assets\Scripts\ModelImporter.cs" />
     <Compile Include="Assets\Assets\Scripts\OBJExporter.cs" />
     <Compile Include="Assets\Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Assets\Scripts\UIController.cs" />
@@ -315,6 +317,12 @@
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
+    </Reference>
+    <Reference Include="PiXYZPluginUnity">
+      <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Assets/Plugins/PiXYZ/Binaries/PiXYZPluginUnity.dll</HintPath>
+    </Reference>
+    <Reference Include="PiXYZPluginUnityEditor">
+      <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Assets/Plugins/PiXYZ/Binaries/PiXYZPluginUnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.2f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -670,6 +678,12 @@
     <Reference Include="Boo.Lang">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.2f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{F8D15D80-168A-B962-6827-672278E45330}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -23,8 +23,6 @@ public class MarksController : Singleton<MarksController>
         
     }
     
-    
-    public Material MaterialForSelected;
     public GameObject MarkPrefab;
     public GameObject MarkPanelPrefab;
     public GameObject ParentOfPanels;
@@ -91,7 +89,6 @@ public class MarksController : Singleton<MarksController>
         markParamPanel.transform.parent = ParentOfPanels.transform;
 
         currentMark.ParamPanelofThisMark = markParamPanel;
-        markParamPanel.IdText.text = Convert.ToString(currentMark.Id);
         markParamPanel.Mark = currentMark;
     }
 

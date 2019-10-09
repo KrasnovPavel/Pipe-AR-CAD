@@ -30,6 +30,10 @@ public class MarkOnScene : MonoBehaviour
 
     void Start()
     {
+        
+        ChangeIdOnTextMesh();
+        ParamPanelofThisMark.IdText.text = Convert.ToString(Id);
+        
         PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
         {
             if (args.PropertyName == nameof(Id))

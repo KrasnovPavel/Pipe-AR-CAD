@@ -288,6 +288,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef7c7de90116d7643a6bf96218e30744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 0
-  IsSelected: 0
-  HasUpdate: 1
+  ParamPanelofThisMark: {fileID: 0}
+  TextMeshOfNumber: {fileID: 4674290192351300532}
