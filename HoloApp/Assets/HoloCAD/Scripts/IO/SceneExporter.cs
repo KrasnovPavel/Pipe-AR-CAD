@@ -1,24 +1,23 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using UnityEngine;
 using HoloCAD.UnityTubes;
 using SFB;
+using UnityEngine;
 
 #if ENABLE_WINMD_SUPPORT
+    using System;
     using Windows.Storage;
     using Windows.Storage.Pickers;
 #endif
 
-namespace HoloCAD
+namespace HoloCAD.IO
 {
-    /// <summary> Класс, экспортирующий схему в файл. </summary>
-    public static class SchemeExporter
+    /// <summary> Класс, экспортирующий сцену в файл. </summary>
+    public static class SceneExporter
     {
-        /// <summary> Экспорт схемы. </summary>
+        /// <summary> Экспорт сцену. </summary>
         /// <remarks> Для выбора файла будет вызван диалог сохранения файла. </remarks>
         /// <param name="tubes"> Массив всех труб на сцене. </param>
         public static void Export(IEnumerable<Tube> tubes)
@@ -36,60 +35,6 @@ namespace HoloCAD
         }
 
         #region Private definitioins
-
-        /// <summary> Коренной объект Json. </summary>
-        [Serializable]
-        private class ExpTubesArray
-        {
-            // ReSharper disable once InconsistentNaming
-            /// <summary> Массив экспортируемых труб. </summary>
-            public List<ExpTube> tubes = new List<ExpTube>();
-        }
-
-        /// <summary> Экспортируемый объект трубы. </summary>
-        [Serializable]
-        private class ExpTube
-        {
-            // ReSharper disable once InconsistentNaming
-            /// <summary> Массив экспортируемых фрагментов трубы. </summary>
-            public List<ExpFragment> fragments = new List<ExpFragment>();
-
-            // ReSharper disable once InconsistentNaming
-            /// <summary> Диаметр трубы. </summary>
-            public double diameter;
-
-            // ReSharper disable once InconsistentNaming
-            /// <summary> Толщина стенки трубы. </summary>
-            public double width;
-            
-            // ReSharper disable once InconsistentNaming
-            /// <summary> Наименование стандарта. </summary>
-            public string standart_name;
-        }
-
-        /// <summary> Экспортируемый объект фрагмента трубы. </summary>
-        [Serializable]
-        [SuppressMessage("ReSharper", "NotAccessedField.Local")]
-        private class ExpFragment
-        {
-            public double[] transform;
-
-            // ReSharper disable once InconsistentNaming
-            /// <summary> Тип фрагмента: Direct или Bended. </summary>
-            public string type;
-
-            // ReSharper disable once InconsistentNaming
-            /// <summary> Длина фрагмента (только если direct). </summary>
-            public double length;
-
-            // ReSharper disable once InconsistentNaming
-            /// <summary> Радиус погиба (только если bended). </summary>
-            public double radius;
-
-            // ReSharper disable once InconsistentNaming
-            /// <summary> Угол погиба (только если bended). </summary>
-            public float bendAngle;
-        }
 
         /// <summary> Сериализует все трубы в json формат. </summary>
         /// <param name="tubes"> Все трубы на сцене. </param>
@@ -124,7 +69,7 @@ namespace HoloCAD
                 case BendedTubeFragment btf:
                     expFragment.type = "Bended";
                     expFragment.bendAngle = btf.Angle;
-                    Debug.Log(btf.Radius);
+                    expFragment.rotationAngle = btf.RotationAngle;
                     expFragment.radius = btf.Radius * 1000;
                     break;
                 default:
@@ -137,7 +82,7 @@ namespace HoloCAD
         }
 
         /// <summary>
-        /// Превращает положение отрезка трубы в матрицу переноса 4х4 для правосторонней системы координат.
+        /// Превращает положение отрезка трубы в матрицу переноса 4х4 для левосторонней системы координат.
         /// </summary>
         /// <param name="fragment"> Отрезок трубы. </param>
         /// <param name="tubeOrigin"> Координаты начала трубы. </param>
@@ -145,10 +90,7 @@ namespace HoloCAD
         private static double[] SerializeTransform(TubeFragment fragment, Vector3 tubeOrigin)
         {
             double[] result = new double[16];
-            
-
             Matrix4x4 tr = fragment.transform.localToWorldMatrix;
-
             Matrix4x4 toROS = new Matrix4x4(new Vector4(1,  0,  0, 0), 
                                             new Vector4(0,  0, -1, 0),
                                             new Vector4(0,  1,  0, 0),

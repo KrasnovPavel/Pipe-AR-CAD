@@ -8,7 +8,7 @@ using System.IO;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace HoloCAD
+namespace HoloCAD.IO
 {
     /// <summary> Класс, реализующий загрузку данных стандартов труб. </summary>
     [Serializable]

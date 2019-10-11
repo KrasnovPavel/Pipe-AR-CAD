@@ -100,7 +100,6 @@ namespace HoloCAD.UnityTubes
         protected override void Start()
         {
             base.Start();
-            Debug.Log($"Start length  = {StartLength}");
             Length = StartLength;
             TubeManager.SelectTubeFragment(this);
         }

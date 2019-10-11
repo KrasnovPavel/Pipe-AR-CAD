@@ -3,9 +3,9 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using HoloCAD.IO;
 using JetBrains.Annotations;
 using HoloCAD.UnityTubes;
-using UnityEngine;
 
 namespace HoloCAD
 {
@@ -72,13 +72,13 @@ namespace HoloCAD
         /// <summary> Сохраняет сцену в выбираемый пользователем файл. </summary>
         public static void SaveScene()
         {
-            SchemeExporter.Export(AllTubes);
+            SceneExporter.Export(AllTubes);
         }
         
         /// <summary> Загрузить сцену из выбираемого пользователем файла. </summary>
         public static void LoadScene()
         {
-            SchemeImporter.Import();
+            SceneImporter.Import(TubeUnityManager.Instance.StartTubeMarks);
         }
         
         /// <summary> Выбирает следующий фрагмент трубы. </summary>
