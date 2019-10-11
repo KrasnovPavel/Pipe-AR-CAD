@@ -1,6 +1,7 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using HoloCAD.UI;
@@ -41,7 +42,7 @@ namespace HoloCAD.UnityTubes
 
         /// <summary> Массив меток к которым привязан фланец трубы. </summary>
         [Tooltip("Массив меток к которым привязан фланец трубы.")]
-        public Transform[] StartTubeMarks;
+        public List<Transform> StartTubeMarks;
 
         /// <summary> Объект соединения, который в данный момент редактируется. </summary>
         public static TubesConnector ActiveTubesConnector
@@ -151,7 +152,6 @@ namespace HoloCAD.UnityTubes
             _mapCollider = gameObject.GetComponent<SpatialMappingCollider>();
             _mapRenderer = gameObject.GetComponent<SpatialMappingRenderer>();
             _cursor = GameObject.Find("DefaultCursor(Clone)");
-            Camera.main.depthTextureMode = DepthTextureMode.DepthNormals;
 
             foreach (Transform mark in StartTubeMarks)
             {
@@ -160,6 +160,8 @@ namespace HoloCAD.UnityTubes
                 t.localPosition = Vector3.zero;
                 t.localRotation = Quaternion.Euler(-90, 0, 180);
             }
+            
+            Camera.main.depthTextureMode = DepthTextureMode.DepthNormals;
         }
 
         private void Update()

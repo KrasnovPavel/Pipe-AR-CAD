@@ -21,6 +21,12 @@ namespace HoloCAD.UnityTubes
         /// <summary> Материал последнего кольца трубы. </summary>
         [Tooltip("Материал последнего кольца трубы.")] 
         public Material EndRingMaterial;
+
+        /// <summary> Стартовый флаг, указывающий какой из двух радиусов погиба используется. <c>true</c> если второй.  </summary>
+        public bool StartUseSecondRadius = false;
+        
+        /// <summary> Стартовый угол погиба. </summary>
+        public float StartAngle = 90f;
         
         /// <summary> Угол погиба. </summary>
         public float Angle
@@ -115,15 +121,27 @@ namespace HoloCAD.UnityTubes
         public float RotationAngle
         {
             get => _rotationAngle;
-            private set
+            set
             {
                 if (Math.Abs(_rotationAngle - value) < float.Epsilon) return;
-                
                 _rotationAngle = value;
+                transform.localRotation = Quaternion.Euler(0, 0, _rotationAngle);
                 OnPropertyChanged();
             }
         }
 
+        /// <summary> Изменяет радиус погиба на новый, если он соответствует одному из допустимых радиусов. </summary>
+        /// <param name="radius">Новый радиус</param>
+        public void SetRadius(float radius)
+        {
+            // функция проверяет, является ли новый радиус допустимым, и в этом случае его устанавливает
+            if (Math.Abs(_radius - radius) < float.Epsilon) return;
+            if (Math.Abs(Owner.Data.first_radius - radius) > float.Epsilon &&
+                Math.Abs(Owner.Data.second_radius - radius) > float.Epsilon) return;
+            StartUseSecondRadius = !(Math.Abs(Owner.Data.first_radius - radius) < float.Epsilon);
+        }
+        
+        
         /// <summary> Увеличивает угол погиба. </summary>
         public void ChangeAngle(float delta)
         {
@@ -135,7 +153,6 @@ namespace HoloCAD.UnityTubes
         public void TurnAround(float deltaAngle)
         {
             RotationAngle += deltaAngle;
-            transform.localRotation *= Quaternion.Euler(0, 0, deltaAngle);
         }
 
         /// <summary> Меняет радиус погиба. </summary>
@@ -186,8 +203,8 @@ namespace HoloCAD.UnityTubes
             CreateColliders();
             base.Start();
             _meshes = MeshFactory.GetMeshes(Owner.Data);
-            UseSecondRadius = false;
-            Angle = 90;
+            UseSecondRadius = StartUseSecondRadius;
+            Angle = StartAngle;
             TubeManager.SelectTubeFragment(this);
         }
 

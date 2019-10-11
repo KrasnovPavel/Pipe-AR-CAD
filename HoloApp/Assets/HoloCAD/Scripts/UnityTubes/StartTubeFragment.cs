@@ -9,7 +9,7 @@ using UnityEngine.XR.WSA.Input;
 
 namespace HoloCAD.UnityTubes
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="TubeFragment"/>
     /// <summary> Класс, реализующий фрагмент фланца трубы. </summary>
     public class StartTubeFragment : TubeFragment, IDisposable //-V3074
     {

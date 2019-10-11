@@ -32,6 +32,10 @@ namespace HoloCAD.UI
 		[Tooltip("Кнопка добавления объекта отображения расстояния между трубами.")]
 		[CanBeNull] public Button3D SaveSceneButton;
 		
+		/// <summary> Кнопка загрузки сцены. </summary>
+		[Tooltip("Кнопка добавления объекта отображения расстояния между трубами.")]
+		[CanBeNull] public Button3D LoadSceneButton;
+		
 		/// <summary> Кнопка создания новой трубы. </summary>
 		[Tooltip("Кнопка создания новой трубы.")]
 		[CanBeNull] public Button3D CreateTubeButton;
@@ -85,6 +89,10 @@ namespace HoloCAD.UI
 			if (SaveSceneButton != null)
 			{
 				SaveSceneButton.OnClick += delegate { TubeManager.SaveScene(); };
+			}
+			if (LoadSceneButton != null)
+			{
+				LoadSceneButton.OnClick += delegate { TubeManager.LoadScene(); };
 			}
 			if (IncreaseDiameterButton != null)
 			{

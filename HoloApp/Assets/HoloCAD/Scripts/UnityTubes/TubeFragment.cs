@@ -127,6 +127,19 @@ namespace HoloCAD.UnityTubes
         {
             if (!HasChild) Child = TubeUnityManager.CreateBendedTubeFragment(Owner, EndPoint.transform, this);
         }
+        
+        /// <summary> Добавление нового погиба. </summary>
+        /// <remarks>
+        /// /// <param name="startAngle">Стартовый угол наклона</param>
+        /// /// <param name="startUseSecondRadius">Стартовый угол погиба</param>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.AddBendFragment()</c>.
+        /// </remarks>
+        public virtual void AddBendFragment(float startAngle, bool startUseSecondRadius)
+        {
+            if (!HasChild) Child = TubeUnityManager.CreateBendedTubeFragment(Owner, EndPoint.transform, this);
+            ((BendedTubeFragment) Child).StartAngle = startAngle;
+            ((BendedTubeFragment) Child).StartUseSecondRadius = startUseSecondRadius;
+        }
 
         /// <summary> Добавление нового прямого участка трубы. </summary>
         /// <remarks>
@@ -134,7 +147,22 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         public virtual void AddDirectFragment()
         {
+          //  GameObject gm = new GameObject();
+           // gm.transform.localPosition = EndPoint.transform.localPosition;
+           // gm.transform.rotation = Quaternion.Euler(0,0,0);
+           // gm.transform.localScale = EndPoint.transform.localScale;
             if (!HasChild) Child = TubeUnityManager.CreateDirectTubeFragment(Owner, EndPoint.transform, this);
+        }
+        
+        /// <summary> Добавление нового прямого участка трубы с заданной длиной. </summary>
+        /// <param name="startLength">Стартовая длина</param>
+        /// <remarks>
+        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.AddDirectFragment()</c>.
+        /// </remarks>
+        public virtual void AddDirectFragment(float startLength)
+        {
+            if (!HasChild) Child = TubeUnityManager.CreateDirectTubeFragment(Owner, EndPoint.transform, this);
+            ((DirectTubeFragment) Child).StartLength = startLength;
         }
 
         /// <summary> Создание новой трубы. </summary>

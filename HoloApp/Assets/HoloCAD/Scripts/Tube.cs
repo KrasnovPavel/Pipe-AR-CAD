@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using HoloCAD.IO;
 using HoloCAD.UI;
 using HoloCAD.UnityTubes;
 using JetBrains.Annotations;
@@ -72,7 +73,7 @@ namespace HoloCAD
         public TubeLoader.TubeData Data
         {
             get => _data;
-            private set
+            set
             {
                 if (_data != null && _data.Equals(value)) return;
                 
