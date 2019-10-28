@@ -1,10 +1,12 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System;
 using HoloCAD.UnityTubes;
 using HoloCore.UI;
 using JetBrains.Annotations;
 using UnityEngine;
+using Vuforia;
 
 namespace HoloCAD.UI
 {
@@ -25,6 +27,7 @@ namespace HoloCAD.UI
         [CanBeNull] public Button3D TurnYawMinus;
         [CanBeNull] public Button3D ChangeTargetCollider;
         [CanBeNull] public Button3D Edit;
+        [CanBeNull] public Button3D Fixate;
         [CanBeNull] public TextMesh PositionLabel;
         [CanBeNull] public TextMesh RotationLabel;
         [CanBeNull] public TextMesh DetectionLabel;
@@ -128,6 +131,21 @@ namespace HoloCAD.UI
                         ButtonBar.SetActive(true);
                         Target.MakeTransparent(true);
                     }
+                };
+            }
+
+            if (Fixate != null)
+            {
+                Fixate.OnClick += delegate { 
+                    foreach (Transform tubeMark in TubeUnityManager.Instance.StartTubeMarks)
+                    {
+                        Transform tube = tubeMark.Find("TubeStart(Clone)");
+                        if (tube != null)
+                        {
+                            tube.parent = null;
+                        }
+                    }
+                    VuforiaBehaviour.Instance.enabled = false; 
                 };
             }
             
