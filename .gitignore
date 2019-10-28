@@ -12,6 +12,7 @@ HoloApp/Assets/AssetStoreTools*
 HoloApp/*.apk
 HoloApp/*.unitypackage
 HoloApp/App/
+!HoloApp/App/HoloCAD/Assets
 !HoloApp/**/*.obj
 !HoloApp/**/*.obj.meta
  
