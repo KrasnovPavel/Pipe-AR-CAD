@@ -147,10 +147,6 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         public virtual void AddDirectFragment()
         {
-          //  GameObject gm = new GameObject();
-           // gm.transform.localPosition = EndPoint.transform.localPosition;
-           // gm.transform.rotation = Quaternion.Euler(0,0,0);
-           // gm.transform.localScale = EndPoint.transform.localScale;
             if (!HasChild) Child = TubeUnityManager.CreateDirectTubeFragment(Owner, EndPoint.transform, this);
         }
         
