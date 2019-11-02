@@ -12,8 +12,6 @@ namespace HoloCAD.UI
         private void Start()
         {
             _camera = Camera.main;
-            
-            GamepadController.SubscribeToClick(GamepadController.InputAxis.JoystickA, null, Click);
         }
 
         #endregion
@@ -29,7 +27,6 @@ namespace HoloCAD.UI
 
             RaycastHit hitInfo;
             if (!Physics.Raycast(headPosition, gazeDirection, out hitInfo, 30.0f)) return;
-            Debug.Log(hitInfo.transform.name);
             
             SimpleButton button = hitInfo.transform.GetComponent<SimpleButton>();
             if (button != null)

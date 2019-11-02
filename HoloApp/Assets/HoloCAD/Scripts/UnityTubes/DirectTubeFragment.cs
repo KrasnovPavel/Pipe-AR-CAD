@@ -12,7 +12,6 @@ namespace HoloCAD.UnityTubes
     /// <summary> Класс, реализующий прямой участок трубы. </summary>
     public class DirectTubeFragment : TubeFragment
     {
-
         /// <summary> Стартовая длина участка трубы </summary>
         public float StartLength = 0.5f;
         

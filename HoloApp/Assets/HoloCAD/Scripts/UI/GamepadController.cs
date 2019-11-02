@@ -77,14 +77,15 @@ namespace HoloCAD.UI
         /// <param name="action"> Действие выполняемое при наступлении события. </param>
         public static void SubscribeToClick(InputAxis button1, InputAxis? button2, Action action)
         {
-            if (!Instance._clickDelegates.ContainsKey((button1, button2)))
+            Axes a = new Axes{Item1=button1, Item2=button2};
+            if (!Instance._clickDelegates.ContainsKey(a))
             {
-                Instance._clickCounter[(button1, button2)] = 0;
-                Instance._clickDelegates[(button1, button2)] = action;
+                Instance._clickCounter[a] = 0;
+                Instance._clickDelegates[a] = action;
             }
             else
             {
-                Instance._clickDelegates[(button1, button2)] += action;
+                Instance._clickDelegates[a] += action;
             }
         }
 
@@ -94,13 +95,14 @@ namespace HoloCAD.UI
         /// <param name="action"> Действие выполняемое при наступлении события. </param>
         public static void UnsubscribeFromClick(InputAxis button1, InputAxis? button2, Action action)
         {
-            if (!Instance._clickDelegates.ContainsKey((button1, button2))) return;
+            Axes a = new Axes{Item1=button1, Item2=button2};
+            if (!Instance._clickDelegates.ContainsKey(a)) return;
             
-            Instance._clickDelegates[(button1, button2)] -= action;
-            if (Instance._clickDelegates[(button1, button2)] == null)
+            Instance._clickDelegates[a] -= action;
+            if (Instance._clickDelegates[a] == null)
             {
-                Instance._clickDelegates.Remove((button1, button2));
-                Instance._clickCounter.Remove((button1, button2));
+                Instance._clickDelegates.Remove(a);
+                Instance._clickCounter.Remove(a);
             }
         }
 
@@ -113,18 +115,18 @@ namespace HoloCAD.UI
         public static void SubscribeToLongPress(InputAxis button1, InputAxis? button2, Action start, Action finish,
             Action cancel)
         {
-            
-            if (!Instance._longPressDelegates.ContainsKey((button1, button2)))
+            Axes a = new Axes{Item1=button1, Item2=button2};
+            if (!Instance._longPressDelegates.ContainsKey(a))
             {
-                Instance._longPressCounter[(button1, button2)] = 0;
+                Instance._longPressCounter[a] = 0;
                 var lpa = new LongPressActions {start = start, finish = finish, cancel = cancel};
-                Instance._longPressDelegates[(button1, button2)] = lpa;
+                Instance._longPressDelegates[a] = lpa;
             }
             else
             {
-                Instance._longPressDelegates[(button1, button2)].start  += start;
-                Instance._longPressDelegates[(button1, button2)].finish += finish;
-                Instance._longPressDelegates[(button1, button2)].cancel += cancel;
+                Instance._longPressDelegates[a].start  += start;
+                Instance._longPressDelegates[a].finish += finish;
+                Instance._longPressDelegates[a].cancel += cancel;
             }
         }
 
@@ -137,15 +139,16 @@ namespace HoloCAD.UI
         public static void UnsubscribeFromLongPress(InputAxis button1, InputAxis? button2, Action start, Action finish,
             Action cancel)
         {
-            if (!Instance._longPressDelegates.ContainsKey((button1, button2))) return;
+            Axes a = new Axes{Item1=button1, Item2=button2};
+            if (!Instance._longPressDelegates.ContainsKey(a)) return;
             
-            Instance._longPressDelegates[(button1, button2)].start  -= start;
-            Instance._longPressDelegates[(button1, button2)].finish -= finish;
-            Instance._longPressDelegates[(button1, button2)].cancel -= cancel;
-            if (Instance._longPressDelegates[(button1, button2)].start == null)
+            Instance._longPressDelegates[a].start  -= start;
+            Instance._longPressDelegates[a].finish -= finish;
+            Instance._longPressDelegates[a].cancel -= cancel;
+            if (Instance._longPressDelegates[a].start == null)
             {
-                Instance._longPressDelegates.Remove((button1, button2));
-                Instance._longPressCounter.Remove((button1, button2));
+                Instance._longPressDelegates.Remove(a);
+                Instance._longPressCounter.Remove(a);
             }
         }
 
@@ -155,14 +158,15 @@ namespace HoloCAD.UI
         /// <param name="action"> Действие выполняемое при наступлении события. </param>
         public static void SubscribeToRepeatPressing(InputAxis button1, InputAxis? button2, Action action)
         {
-            if (!Instance._repeatPressDelegates.ContainsKey((button1, button2)))
+            Axes a = new Axes{Item1=button1, Item2=button2};
+            if (!Instance._repeatPressDelegates.ContainsKey(a))
             {
-                Instance._repeatPressCounter[(button1, button2)] = 0;
-                Instance._repeatPressDelegates[(button1, button2)] = action;
+                Instance._repeatPressCounter[a] = 0;
+                Instance._repeatPressDelegates[a] = action;
             }
             else
             {
-                Instance._repeatPressDelegates[(button1, button2)] += action;
+                Instance._repeatPressDelegates[a] += action;
             }
         }
 
@@ -172,13 +176,14 @@ namespace HoloCAD.UI
         /// <param name="action"> Действие выполняемое при наступлении события. </param>
         public static void UnsubscribeFromRepeatPressing(InputAxis button1, InputAxis? button2, Action action)
         {
-            if (!Instance._repeatPressDelegates.ContainsKey((button1, button2))) return;
+            Axes a = new Axes{Item1=button1, Item2=button2};
+            if (!Instance._repeatPressDelegates.ContainsKey(a)) return;
             
-            Instance._repeatPressDelegates[(button1, button2)] -= action;
-            if (Instance._repeatPressDelegates[(button1, button2)] == null)
+            Instance._repeatPressDelegates[a] -= action;
+            if (Instance._repeatPressDelegates[a] == null)
             {
-                Instance._repeatPressDelegates.Remove((button1, button2));
-                Instance._repeatPressCounter.Remove((button1, button2));
+                Instance._repeatPressDelegates.Remove(a);
+                Instance._repeatPressCounter.Remove(a);
             }
         }
 
@@ -188,14 +193,14 @@ namespace HoloCAD.UI
         /// <param name="action"> Действие выполняемое при наступлении события. </param>
         public static void SubscribeToAxis(InputAxis axis, InputAxis? button, Action<float> action)
         {
-            
-            if (!Instance._axisDelegates.ContainsKey((axis, button)))
+            Axes a = new Axes{Item1=axis, Item2=button};
+            if (!Instance._axisDelegates.ContainsKey(a))
             {
-                Instance._axisDelegates[(axis, button)] = action;
+                Instance._axisDelegates[a] = action;
             }
             else
             {
-                Instance._axisDelegates[(axis, button)] += action;
+                Instance._axisDelegates[a] += action;
             }
         }
         
@@ -205,13 +210,13 @@ namespace HoloCAD.UI
         /// <param name="action"> Действие выполняемое при наступлении события. </param>
         public static void UnsubscribeFromAxis(InputAxis axis, InputAxis? button, Action<float> action)
         {
+            Axes a = new Axes{Item1=axis, Item2=button};
+            if (!Instance._axisDelegates.ContainsKey(a)) return;
             
-            if (!Instance._axisDelegates.ContainsKey((axis, button))) return;
-            
-            Instance._axisDelegates[(axis, button)] -= action;
-            if (Instance._axisDelegates[(axis, button)] == null)
+            Instance._axisDelegates[a] -= action;
+            if (Instance._axisDelegates[a] == null)
             {
-                Instance._axisDelegates.Remove((axis, button));
+                Instance._axisDelegates.Remove(a);
             }
         }
 
@@ -267,13 +272,19 @@ namespace HoloCAD.UI
             public Action cancel;
         }
 
-        private readonly Dictionary<(InputAxis, InputAxis?), float> _clickCounter = new Dictionary<(InputAxis, InputAxis?), float>();
-        private readonly Dictionary<(InputAxis, InputAxis?), Action> _clickDelegates = new Dictionary<(InputAxis, InputAxis?), Action>();
-        private readonly Dictionary<(InputAxis, InputAxis?), float> _longPressCounter = new Dictionary<(InputAxis, InputAxis?), float>();
-        private readonly Dictionary<(InputAxis, InputAxis?), LongPressActions> _longPressDelegates = new Dictionary<(InputAxis, InputAxis?), LongPressActions>();
-        private readonly Dictionary<(InputAxis, InputAxis?), float> _repeatPressCounter = new Dictionary<(InputAxis, InputAxis?), float>();
-        private readonly Dictionary<(InputAxis, InputAxis?), Action> _repeatPressDelegates = new Dictionary<(InputAxis, InputAxis?), Action>();
-        private readonly Dictionary<(InputAxis, InputAxis?), Action<float>> _axisDelegates = new Dictionary<(InputAxis, InputAxis?), Action<float>>();
+        private struct Axes
+        {
+            public InputAxis Item1;
+            public InputAxis? Item2;
+        }
+
+        private readonly Dictionary<Axes, float> _clickCounter = new Dictionary<Axes, float>();
+        private readonly Dictionary<Axes, Action> _clickDelegates = new Dictionary<Axes, Action>();
+        private readonly Dictionary<Axes, float> _longPressCounter = new Dictionary<Axes, float>();
+        private readonly Dictionary<Axes, LongPressActions> _longPressDelegates = new Dictionary<Axes, LongPressActions>();
+        private readonly Dictionary<Axes, float> _repeatPressCounter = new Dictionary<Axes, float>();
+        private readonly Dictionary<Axes, Action> _repeatPressDelegates = new Dictionary<Axes, Action>();
+        private readonly Dictionary<Axes, Action<float>> _axisDelegates = new Dictionary<Axes, Action<float>>();
 
         /// <summary> Выполняет проверку клика по клавише. </summary>
         private void CheckClick() 
