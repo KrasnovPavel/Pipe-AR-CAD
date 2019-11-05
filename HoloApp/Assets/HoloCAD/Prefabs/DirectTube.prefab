@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 114804592397603184}
   - component: {fileID: 7511755430344904979}
   - component: {fileID: 6772187921661431236}
+  - component: {fileID: 1787904221378338838}
   m_Layer: 0
   m_Name: DirectTube
   m_TagString: Untagged
@@ -256,6 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba0de4e2d55bbfe46b12aa8ee5e5d082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartLength: 0.5
 --- !u!114 &7511755430344904979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,6 +298,18 @@ MonoBehaviour:
   IncreaseLinearStepButton: {fileID: 4906647074237861145}
   DecreaseLinearStepButton: {fileID: 5581711180649434204}
   TextLabel: {fileID: 2309944780461450677}
+--- !u!114 &1787904221378338838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566192698486592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 293ff4046df4414fb8bd8033e7e8c6a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1727820453962222
 GameObject:
   m_ObjectHideFlags: 0

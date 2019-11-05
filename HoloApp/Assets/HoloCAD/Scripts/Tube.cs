@@ -160,7 +160,7 @@ namespace HoloCAD
         public void StartPlacing()
         {
             TubeUnityManager.ShowGrid(true);
-            TubeManager.SelectTubeFragment(StartFragment);
+            StartFragment.SelectThis();
             MapFragmentsWithOutgrowth((fragment => fragment.IsPlacing = true));
         }
 

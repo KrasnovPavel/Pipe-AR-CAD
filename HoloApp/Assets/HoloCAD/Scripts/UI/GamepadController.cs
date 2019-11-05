@@ -23,6 +23,10 @@ namespace HoloCAD.UI
         /// <summary> Значение при котором будет считаться, что кнопка нажата. </summary>
         [Tooltip("Значение при котором будет считаться, что кнопка нажата.")]
         public float PressThreshold = 0.3f;
+
+        /// <summary> Значение до которого не считается отклонение по оси. </summary>
+        [Tooltip("Значение до которого не считается отклонение по оси.")]
+        public float AxisDead = 0.1f;
         
         /// <summary> Подключен ли геймпад. </summary>
         public bool IsGamepadConnected
@@ -66,6 +70,7 @@ namespace HoloCAD.UI
             JoystickY,
             LeftBumper,
             RightBumper,
+            JoystickBack,
             JoystickStart,
             LeftStickButton,
             RightStickButton
@@ -77,7 +82,7 @@ namespace HoloCAD.UI
         /// <param name="action"> Действие выполняемое при наступлении события. </param>
         public static void SubscribeToClick(InputAxis button1, InputAxis? button2, Action action)
         {
-            Axes a = new Axes{Item1=button1, Item2=button2};
+            Axis a = new Axis{Main=button1, Mod=button2};
             if (!Instance._clickDelegates.ContainsKey(a))
             {
                 Instance._clickCounter[a] = 0;
@@ -95,7 +100,7 @@ namespace HoloCAD.UI
         /// <param name="action"> Действие выполняемое при наступлении события. </param>
         public static void UnsubscribeFromClick(InputAxis button1, InputAxis? button2, Action action)
         {
-            Axes a = new Axes{Item1=button1, Item2=button2};
+            Axis a = new Axis{Main=button1, Mod=button2};
             if (!Instance._clickDelegates.ContainsKey(a)) return;
             
             Instance._clickDelegates[a] -= action;
@@ -115,7 +120,7 @@ namespace HoloCAD.UI
         public static void SubscribeToLongPress(InputAxis button1, InputAxis? button2, Action start, Action finish,
             Action cancel)
         {
-            Axes a = new Axes{Item1=button1, Item2=button2};
+            Axis a = new Axis{Main=button1, Mod=button2};
             if (!Instance._longPressDelegates.ContainsKey(a))
             {
                 Instance._longPressCounter[a] = 0;
@@ -139,7 +144,7 @@ namespace HoloCAD.UI
         public static void UnsubscribeFromLongPress(InputAxis button1, InputAxis? button2, Action start, Action finish,
             Action cancel)
         {
-            Axes a = new Axes{Item1=button1, Item2=button2};
+            Axis a = new Axis{Main=button1, Mod=button2};
             if (!Instance._longPressDelegates.ContainsKey(a)) return;
             
             Instance._longPressDelegates[a].start  -= start;
@@ -158,7 +163,7 @@ namespace HoloCAD.UI
         /// <param name="action"> Действие выполняемое при наступлении события. </param>
         public static void SubscribeToRepeatPressing(InputAxis button1, InputAxis? button2, Action action)
         {
-            Axes a = new Axes{Item1=button1, Item2=button2};
+            Axis a = new Axis{Main=button1, Mod=button2};
             if (!Instance._repeatPressDelegates.ContainsKey(a))
             {
                 Instance._repeatPressCounter[a] = 0;
@@ -176,7 +181,7 @@ namespace HoloCAD.UI
         /// <param name="action"> Действие выполняемое при наступлении события. </param>
         public static void UnsubscribeFromRepeatPressing(InputAxis button1, InputAxis? button2, Action action)
         {
-            Axes a = new Axes{Item1=button1, Item2=button2};
+            Axis a = new Axis{Main=button1, Mod=button2};
             if (!Instance._repeatPressDelegates.ContainsKey(a)) return;
             
             Instance._repeatPressDelegates[a] -= action;
@@ -189,11 +194,12 @@ namespace HoloCAD.UI
 
         /// <summary> Подписка на событие перемещения вдоль оси. </summary>
         /// <param name="axis"> Ось. </param>
-        /// <param name="button"> Клавиша-модификатор. Null если нужна только одна. </param>
+        /// <param name="button"> Клавиша-модификатор. Null если нужна только ось. </param>
         /// <param name="action"> Действие выполняемое при наступлении события. </param>
-        public static void SubscribeToAxis(InputAxis axis, InputAxis? button, Action<float> action)
+        /// <param name="factor"> Множитель. </param>
+        public static void SubscribeToAxis(InputAxis axis, InputAxis? button, Action<float> action, float factor = 1)
         {
-            Axes a = new Axes{Item1=axis, Item2=button};
+            Axis a = new Axis{Main=axis, Mod=button, Factor = factor};
             if (!Instance._axisDelegates.ContainsKey(a))
             {
                 Instance._axisDelegates[a] = action;
@@ -208,9 +214,10 @@ namespace HoloCAD.UI
         /// <param name="axis"> Ось. </param>
         /// <param name="button"> Клавиша-модификатор. Null если нужна только одна. </param>
         /// <param name="action"> Действие выполняемое при наступлении события. </param>
-        public static void UnsubscribeFromAxis(InputAxis axis, InputAxis? button, Action<float> action)
+        /// <param name="factor"> Множитель. </param>
+        public static void UnsubscribeFromAxis(InputAxis axis, InputAxis? button, Action<float> action, float factor = 1)
         {
-            Axes a = new Axes{Item1=axis, Item2=button};
+            Axis a = new Axis{Main=axis, Mod=button, Factor = factor};
             if (!Instance._axisDelegates.ContainsKey(a)) return;
             
             Instance._axisDelegates[a] -= action;
@@ -245,7 +252,6 @@ namespace HoloCAD.UI
         }
 
         #endregion
-
         
         #region INotifyPropertyChanged
 
@@ -272,26 +278,27 @@ namespace HoloCAD.UI
             public Action cancel;
         }
 
-        private struct Axes
+        private struct Axis
         {
-            public InputAxis Item1;
-            public InputAxis? Item2;
+            public InputAxis Main;
+            public InputAxis? Mod;
+            public float Factor;
         }
 
-        private readonly Dictionary<Axes, float> _clickCounter = new Dictionary<Axes, float>();
-        private readonly Dictionary<Axes, Action> _clickDelegates = new Dictionary<Axes, Action>();
-        private readonly Dictionary<Axes, float> _longPressCounter = new Dictionary<Axes, float>();
-        private readonly Dictionary<Axes, LongPressActions> _longPressDelegates = new Dictionary<Axes, LongPressActions>();
-        private readonly Dictionary<Axes, float> _repeatPressCounter = new Dictionary<Axes, float>();
-        private readonly Dictionary<Axes, Action> _repeatPressDelegates = new Dictionary<Axes, Action>();
-        private readonly Dictionary<Axes, Action<float>> _axisDelegates = new Dictionary<Axes, Action<float>>();
+        private readonly Dictionary<Axis, float> _clickCounter = new Dictionary<Axis, float>();
+        private readonly Dictionary<Axis, Action> _clickDelegates = new Dictionary<Axis, Action>();
+        private readonly Dictionary<Axis, float> _longPressCounter = new Dictionary<Axis, float>();
+        private readonly Dictionary<Axis, LongPressActions> _longPressDelegates = new Dictionary<Axis, LongPressActions>();
+        private readonly Dictionary<Axis, float> _repeatPressCounter = new Dictionary<Axis, float>();
+        private readonly Dictionary<Axis, Action> _repeatPressDelegates = new Dictionary<Axis, Action>();
+        private readonly Dictionary<Axis, Action<float>> _axisDelegates = new Dictionary<Axis, Action<float>>();
 
         /// <summary> Выполняет проверку клика по клавише. </summary>
-        private void CheckClick() 
+        private void CheckClick()
         {
             foreach (var key in _clickCounter.Keys.ToArray())
             {
-                if (IsKeysPressed(key.Item1, key.Item2))
+                if (!IsCombinationOverlaps(key.Main, key.Mod) && IsKeysPressed(key.Main, key.Mod))
                 {
                     _clickCounter[key] += Time.fixedDeltaTime;
                 }
@@ -307,11 +314,11 @@ namespace HoloCAD.UI
         }
 
         /// <summary> Выполняет проверку длинного нажатия на клавишу. </summary>
-        private void CheckLongPress() 
+        private void CheckLongPress()
         {
             foreach (var key in _longPressCounter.Keys.ToArray())
             {
-                if (IsKeysPressed(key.Item1, key.Item2)) // Нужные клавиши нажаты
+                if (!IsCombinationOverlaps(key.Main, key.Mod) && IsKeysPressed(key.Main, key.Mod)) // Нужные клавиши нажаты
                 {
                     _longPressCounter[key] += Time.fixedDeltaTime;
 
@@ -338,11 +345,11 @@ namespace HoloCAD.UI
         }
 
         /// <summary> Выполняет проверку нажатия с периодическим вызовом события. </summary>
-        private void CheckRepeatPressing() 
+        private void CheckRepeatPressing()
         {
             foreach (var key in _repeatPressCounter.Keys.ToArray())
             {
-                if (IsKeysPressed(key.Item1, key.Item2))
+                if (!IsCombinationOverlaps(key.Main, key.Mod) && IsKeysPressed(key.Main, key.Mod))
                 {
                     _repeatPressCounter[key] += Time.fixedDeltaTime;
                     if (_repeatPressCounter[key] > LongPressStartTime)
@@ -363,15 +370,51 @@ namespace HoloCAD.UI
         {
             foreach (var key in _axisDelegates.Keys.ToArray())
             {
-                float axisValue = Input.GetAxis(key.Item1.ToString());
-                bool axisMoved = axisValue > float.Epsilon || axisValue < -float.Epsilon;
-                bool buttonNeeded = key.Item2 != null;
-                bool buttonPressed = buttonNeeded && Input.GetAxis(key.Item2.ToString()) > PressThreshold;
-                if (axisMoved && (!buttonNeeded || buttonPressed))
+                if (!IsCombinationOverlaps(key.Main, key.Mod) && IsAxisMoved(key.Main, key.Mod))
                 {
-                    _axisDelegates[key]?.Invoke(axisValue * Time.fixedDeltaTime);
+                    _axisDelegates[key]?.Invoke(Input.GetAxis(key.Main.ToString()) * Time.fixedDeltaTime * key.Factor);
                 }
             }
+        }
+
+        /// <summary> Проверяет перекрывает ли другая комбинация клавиш, нажатую. </summary>
+        /// <remarks>
+        /// Допустим есть комбинация LeftStick+RightTrigger,
+        /// если она нажата, то события для LeftStick не должны приходить.
+        /// </remarks>
+        /// <param name="main"> Клавиша которую надо проверить. </param>
+        /// <param name="mod"> Клавиша-модификатор. </param>
+        private bool IsCombinationOverlaps(InputAxis main, InputAxis? mod)
+        {
+            if (mod != null) return false;
+            
+            bool result = false;
+            Axis twoKeys = _clickCounter.Keys.ToArray().FirstOrDefault((a => (a.Main == main && a.Mod != null) 
+                                                                        || (a.Mod != null && a.Mod == main)));
+            result |= !twoKeys.Equals(default(Axis)) && IsKeysPressed(twoKeys.Main, twoKeys.Mod);
+            twoKeys = _longPressCounter.Keys.ToArray().FirstOrDefault((a => (a.Main == main && a.Mod != null) 
+                                                                             || (a.Mod != null && a.Mod == main)));
+            result |= !twoKeys.Equals(default(Axis)) && IsKeysPressed(twoKeys.Main, twoKeys.Mod);
+            twoKeys = _repeatPressCounter.Keys.ToArray().FirstOrDefault((a => (a.Main == main && a.Mod != null) 
+                                                                               || (a.Mod != null && a.Mod == main)));
+            result |= !twoKeys.Equals(default(Axis)) && IsKeysPressed(twoKeys.Main, twoKeys.Mod);
+            twoKeys = _axisDelegates.Keys.ToArray().FirstOrDefault((a => (a.Main == main && a.Mod != null) 
+                                                                          || (a.Mod != null && a.Mod == main)));
+            result |= !twoKeys.Equals(default(Axis)) && IsAxisMoved(twoKeys.Main, twoKeys.Mod);
+           
+            return result;
+        }
+
+        /// <summary> Проверяет отклонён ли стик геймпада по заданной оси. </summary>
+        /// <param name="axis"> Ось. </param>
+        /// <param name="button"> Клавиша-модификатор. Null если нужна только ось. </param>
+        private bool IsAxisMoved(InputAxis axis, InputAxis? button)
+        {
+            float axisValue = Input.GetAxis(axis.ToString());
+            bool axisMoved = axisValue > AxisDead || axisValue < -AxisDead;
+            bool buttonNeeded = button != null;
+            bool buttonPressed = buttonNeeded && Input.GetAxis(button.ToString()) > PressThreshold;
+            return axisMoved && (!buttonNeeded || buttonPressed);
         }
         
         #endregion

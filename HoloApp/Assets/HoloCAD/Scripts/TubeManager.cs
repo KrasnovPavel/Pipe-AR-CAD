@@ -12,9 +12,6 @@ namespace HoloCAD
     /// <summary> Класс, контролирующий создание и управление трубами. </summary>
     public static class TubeManager
     {
-        /// <summary> Труба, выбранная в данный момент. </summary>
-        [CanBeNull] public static TubeFragment SelectedTubeFragment { get; private set; }
-
         /// <summary> Массив всех труб находящихся на сцене. </summary>
         [NotNull] public static ReadOnlyCollection<Tube> AllTubes => _allTubes.AsReadOnly();
 
@@ -25,41 +22,6 @@ namespace HoloCAD
             Tube t = basedOn == null ? new Tube() : new Tube(basedOn.StandardName, basedOn.Data);
             _allTubes.Add(t);
             return t;
-        }
-
-        /// <summary> Переключает состояние выбора участка трубы <paramref name="selectedTubeFragment"/>. </summary>
-        /// <param name="selectedTubeFragment"> Участок трубы, состояние которого надо переключить. </param>
-        public static void ToggleTubeSelection(TubeFragment selectedTubeFragment)
-        {
-            if (selectedTubeFragment.IsSelected)
-            {
-                DeselectTubeFragments();
-            }
-            else
-            {
-                SelectTubeFragment(selectedTubeFragment);
-            }
-        }
-
-        /// <summary> Выбирает участок трубы <paramref name="selectedTubeFragment"/>. </summary>
-        /// <param name="selectedTubeFragment"> Участок трубы, который надо выбрать. </param>
-        public static void SelectTubeFragment([NotNull] TubeFragment selectedTubeFragment)
-        {
-            if (SelectedTubeFragment != null)
-            {
-                SelectedTubeFragment.IsSelected = false;
-            }
-            SelectedTubeFragment = selectedTubeFragment;
-            SelectedTubeFragment.IsSelected = true;
-        }
-
-        /// <summary> Снимает выбор со всех участков труб. </summary>
-        public static void DeselectTubeFragments()
-        {
-            if (SelectedTubeFragment == null) return;
-            
-            SelectedTubeFragment.IsSelected = false;
-            SelectedTubeFragment = null;
         }
 
         /// <summary> Удаляет трубу из списка. </summary>
@@ -81,30 +43,6 @@ namespace HoloCAD
             SceneImporter.Import(TubeUnityManager.Instance.StartTubeMarks);
         }
         
-        /// <summary> Выбирает следующий фрагмент трубы. </summary>
-        public static void SelectNext()
-        {
-            if (SelectedTubeFragment == null) return;
-
-            TubeFragment nextFragment = SelectedTubeFragment.Child;
-
-            if (nextFragment == null) return;
-            
-            SelectTubeFragment(nextFragment);
-        }
-        
-        /// <summary> Выбирает следующий фрагмент трубы. </summary>
-        public static void SelectPrevious()
-        {
-            if (SelectedTubeFragment == null) return;
-
-            TubeFragment previousFragment = SelectedTubeFragment.Parent;
-
-            if (previousFragment == null) return;
-            
-            SelectTubeFragment(previousFragment);
-        }
-
         #region Private definitions
 
         // ReSharper disable once InconsistentNaming

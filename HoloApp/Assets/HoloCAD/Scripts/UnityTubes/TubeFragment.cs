@@ -12,7 +12,7 @@ namespace HoloCAD.UnityTubes
 {
     /// <inheritdoc cref="MonoBehaviour" />
     /// <summary> Базовый класс участка трубы. От него наследуются все остальные классы участков труб. </summary>
-    public class TubeFragment : MonoBehaviour, INotifyPropertyChanged
+    public class TubeFragment : MonoBehaviour, INotifyPropertyChanged, ISelectable
     {
         /// <summary> Объект, содержащий меш участка трубы. </summary>
         protected GameObject Tube;
@@ -27,21 +27,52 @@ namespace HoloCAD.UnityTubes
         public Tube Owner;
 
         /// <summary> Состояние участка трубы. Выбрана он или нет. </summary>
-        public bool IsSelected
+        public bool IsSelected => SelectableObject.SelectedObject == gameObject;
+
+        /// <inheritdoc/>
+        public void ToggleSelection()
         {
-            get => _isSelected;
-            set
-            {
-                if (_isSelected == value) return;
+            GetComponent<SelectableObject>().ToggleSelection();
+        }
 
-                _isSelected = value;
+        /// <inheritdoc/>
+        public void SelectThis()
+        {
+            GetComponent<SelectableObject>().SelectThis();
+        }
 
-                SetColor();
-                
-                var controlPanel = GetComponent<TubeFragmentControlPanel>();
-                if (controlPanel != null) controlPanel.enabled = _isSelected;
-                OnPropertyChanged();
-            }
+        /// <inheritdoc/>
+        public void DeselectThis()
+        {
+            GetComponent<SelectableObject>().DeselectThis();
+        }
+
+        /// <inheritdoc/>
+        public void OnSelect()
+        {
+            SetColor();
+            var controlPanel = GetComponent<TubeFragmentControlPanel>();
+            if (controlPanel != null) controlPanel.enabled = true;
+        }
+
+        /// <inheritdoc/>
+        public void OnDeselect()
+        {
+            SetColor();
+            var controlPanel = GetComponent<TubeFragmentControlPanel>();
+            if (controlPanel != null) controlPanel.enabled = false;
+        }
+
+        /// <summary> Выбирает следующий отрезок трубы. </summary>
+        public void SelectChild()
+        {
+            if (HasChild) Child.SelectThis();
+        }
+
+        /// <summary> Выбирает предыдущий отрезок трубы. </summary>
+        public void SelectParent()
+        {
+            if (Parent != null) Parent.SelectThis();
         }
 
         /// <summary> Диаметр участка трубы. </summary>
@@ -147,6 +178,7 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         public virtual void AddDirectFragment()
         {
+            if (this is DirectTubeFragment) return;
             if (!HasChild) Child = TubeUnityManager.CreateDirectTubeFragment(Owner, EndPoint.transform, this);
         }
         
@@ -178,7 +210,7 @@ namespace HoloCAD.UnityTubes
         {
             if (Parent != null)
             {
-                TubeManager.SelectTubeFragment(Parent);
+                Parent.SelectThis();
                 Parent.Child = null;
             }
             Destroy(gameObject);
@@ -223,7 +255,9 @@ namespace HoloCAD.UnityTubes
         {
             if (Owner.StartFragment.IsPlacing) Owner.StartFragment.StopPlacing();
         }
-        
+
+        #region Notify property changed
+
         /// <summary> Событие, вызываемое при изменении какого-либо свойства. </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -235,6 +269,8 @@ namespace HoloCAD.UnityTubes
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        #endregion
+        
         #region Unity event functions
 
         /// <summary> Функция, инициализирующая участок трубы в Unity. </summary>
@@ -261,6 +297,7 @@ namespace HoloCAD.UnityTubes
         protected virtual void Start()
         {
             Diameter = Owner.Data.diameter;
+            SelectThis();
         }
 
         /// <summary> Функция, выполняющаяся в Unity каждый кадр. </summary>
@@ -284,7 +321,6 @@ namespace HoloCAD.UnityTubes
 
         #region Private definitions
 
-        private bool _isSelected;
         private bool _hasTransformError;
         private float _diameter;
         private TubeFragment _child;

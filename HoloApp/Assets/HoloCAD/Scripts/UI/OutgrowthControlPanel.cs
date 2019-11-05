@@ -41,6 +41,37 @@ namespace HoloCAD.UI
         [Tooltip("Кнопка вращения отростка вокруг родительской трубы против часовой стрелки, если смотреть с конца трубы.")]
         [CanBeNull] public Button3D AnticlockwiseButton;
 
+        /// <inheritdoc/>
+        public override void OnSelect()
+        {
+            GamepadController.SubscribeToAxis(GamepadController.InputAxis.LeftStickVertical, 
+                                              GamepadController.InputAxis.RightTrigger, 
+                                              _outgrowth.Move);
+            GamepadController.SubscribeToAxis(GamepadController.InputAxis.LeftStickHorizontal,
+                                              GamepadController.InputAxis.RightTrigger,
+                                              _outgrowth.TurnAround,
+                                              4);
+            GamepadController.SubscribeToAxis(GamepadController.InputAxis.RightStickHorizontal,
+                                              GamepadController.InputAxis.RightTrigger,
+                                              _outgrowth.ChangeAngle,
+                                              4);
+        }
+
+        /// <inheritdoc/>
+        public override void OnDeselect()
+        {
+            GamepadController.UnsubscribeFromAxis(GamepadController.InputAxis.LeftStickVertical, 
+                                                  GamepadController.InputAxis.RightTrigger,
+                                                  _outgrowth.Move);
+            GamepadController.UnsubscribeFromAxis(GamepadController.InputAxis.LeftStickHorizontal, 
+                                                  GamepadController.InputAxis.RightTrigger,
+                                                  _outgrowth.TurnAround,
+                                                  4);
+            GamepadController.UnsubscribeFromAxis(GamepadController.InputAxis.RightStickHorizontal, 
+                                                  GamepadController.InputAxis.RightTrigger,
+                                                  _outgrowth.ChangeAngle,
+                                                  4);
+        }
 
         /// <inheritdoc />
         protected override void CalculateBarPosition()
@@ -79,12 +110,15 @@ namespace HoloCAD.UI
 
         #region Unity event functions
 
+        protected void Awake()
+        {
+            _outgrowth = transform.parent.parent.parent.GetComponent<Outgrowth>();
+        }
+
         /// <inheritdoc />
         protected override void Start()
         {
             base.Start();
-            _outgrowth = transform.parent.parent.parent.GetComponent<Outgrowth>();
-            
             _outgrowth.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
             {
                 switch (args.PropertyName)
@@ -112,6 +146,20 @@ namespace HoloCAD.UI
                 }
             };
             SetText();
+        }
+
+        /// <inheritdoc />
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            OnSelect();
+        }
+
+        /// <inheritdoc />
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            OnDeselect();
         }
 
         #endregion

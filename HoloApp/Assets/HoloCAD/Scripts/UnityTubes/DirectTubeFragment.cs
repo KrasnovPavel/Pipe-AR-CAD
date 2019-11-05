@@ -85,7 +85,7 @@ namespace HoloCAD.UnityTubes
         {
             if (Parent != null)
             {
-                TubeManager.SelectTubeFragment(Parent);
+                Parent.SelectThis();
                 
                 if (Parent.Child == this) Parent.Child = null;
                 else                      ((DirectTubeFragment)Parent).RemoveOutgrowth(this);
@@ -100,7 +100,6 @@ namespace HoloCAD.UnityTubes
         {
             base.Start();
             Length = StartLength;
-            TubeManager.SelectTubeFragment(this);
         }
 
         #endregion
