@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using HoloCore;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HoloCAD.UI
 {
     /// <summary> Класс для работы с геймпадом. </summary>
-    public sealed class GamepadController : Singleton<GamepadController>, INotifyPropertyChanged
+    public sealed class GamepadController : Singleton<GamepadController>
     {
         /// <summary> Время через которое будет считаться, что нажатие -- долгое. </summary>
         [Tooltip("Время через которое будет считаться, что нажатие -- долгое.")]
@@ -27,9 +24,12 @@ namespace HoloCAD.UI
         /// <summary> Значение до которого не считается отклонение по оси. </summary>
         [Tooltip("Значение до которого не считается отклонение по оси.")]
         public float AxisDead = 0.1f;
+
+        /// <summary> Событие вызываемое при подключении/отключении геймпада. </summary>
+        public static event Action<bool> GamepadConnectionChanged; 
         
         /// <summary> Подключен ли геймпад. </summary>
-        public bool IsGamepadConnected
+        public static bool IsGamepadConnected
         {
             get => _isGamepadConnected;
             set
@@ -37,7 +37,7 @@ namespace HoloCAD.UI
                 if (_isGamepadConnected == value) return;
 
                 _isGamepadConnected = value;
-                OnPropertyChanged();
+                GamepadConnectionChanged?.Invoke(_isGamepadConnected);
             }
         }
 
@@ -243,6 +243,7 @@ namespace HoloCAD.UI
         /// <summary> Функция, вызываемая в Unity через строго определённый промежуток времени. </summary>
         private void FixedUpdate()
         {
+            IsGamepadConnected = Input.GetJoystickNames().Contains("Xbox Controller 1");
             if (!IsGamepadConnected) return;
             
             CheckClick();
@@ -253,23 +254,9 @@ namespace HoloCAD.UI
 
         #endregion
         
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
         #region Private Definitions
 
-        [SerializeField]
-        [Tooltip("Подключен ли геймпад.")]
-        private bool _isGamepadConnected;
+        private static bool _isGamepadConnected;
 
         private class LongPressActions
         {
