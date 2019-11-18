@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Daniil\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Daniil\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_MarksEditor.385376436.00" t="ExcludeRecursive" />
+    <e p="D:\holoTubes\Pipe-AR-CAD\MarksEditor" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Assets" t="Include">
+          <e p="Scripts" t="Include">
+            <e p="ColliderAdder.cs" t="Include" />
+            <e p="FileSaverLoader.cs" t="Include" />
+            <e p="InputController.cs" t="Include" />
+            <e p="InputFromPanel.cs" t="Include" />
+            <e p="MarkOnScene.cs" t="Include" />
+            <e p="MarkParamPanel.cs" t="Include" />
+            <e p="MarkPlaceController.cs" t="Include" />
+            <e p="MarksController.cs" t="Include" />
+            <e p="MarkSerializeClasses.cs" t="Include" />
+            <e p="ModelImporter.cs" t="Include" />
+            <e p="OBJExporter.cs" t="Include" />
+            <e p="Singleton.cs" t="Include" />
+            <e p="UIController.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Plugins" t="Include">
+          <e p="PiXYZ" t="Include">
+            <e p="Binaries" t="Include">
+              <e p="3DH3P" t="Include">
+                <e p="resource" t="Include">
+                  <e p="Unicode" t="Include">
+                    <e p="mappings" t="Include">
+                      <e p="adobe" t="Include">
+                        <e p="HKSCS.txt" t="Include" />
+                        <e p="Japanese83pv.txt" t="Include" />
+                        <e p="JISX0208.txt" t="Include" />
+                        <e p="JISX0213.txt" t="Include" />
+                        <e p="readme.txt" t="Include" />
+                        <e p="stdenc.txt" t="Include" />
+                        <e p="symbol.txt" t="Include" />
+                        <e p="zdingbat.txt" t="Include" />
+                      </e>
+                    </e>
+                  </e>
+                </e>
+              </e>
+            </e>
+            <e p="Editor" t="Include">
+              <e p="NewCustomAction_709756982.cs" t="Include" />
+              <e p="ToolboxMenuItems.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include">
+              <e p="LineShader.shader" t="Include" />
+            </e>
+            <e p="Samples" t="Include">
+              <e p="ImportOnPlay" t="Include">
+                <e p="ImportOnPlay.cs" t="Include" />
+              </e>
+              <e p="RuntimeBoilerplate" t="Include">
+                <e p="Scripts" t="Include">
+                  <e p="Autocenter.cs" t="Include" />
+                  <e p="CurrentLicenseScript.cs" t="Include" />
+                  <e p="ErrorWinScript.cs" t="Include" />
+                  <e p="FileSelectionWindow.cs" t="Include" />
+                  <e p="ImporterComponent.cs" t="Include" />
+                  <e p="LicenseManagerScript.cs" t="Include" />
+                  <e p="LicenseServerScript.cs" t="Include" />
+                  <e p="MainCanvas.cs" t="Include" />
+                  <e p="MouseOrbitImproved.cs" t="Include" />
+                  <e p="OnlineUI.cs" t="Include" />
+                  <e p="Spinner.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+        </e>
+        <e p="StandaloneFileBrowser" t="Include">
+          <e p="IStandaloneFileBrowser.cs" t="Include" />
+          <e p="Sample" t="Include">
+            <e p="BasicSample.cs" t="Include" />
+            <e p="CanvasSampleOpenFileImage.cs" t="Include" />
+            <e p="CanvasSampleOpenFileText.cs" t="Include" />
+            <e p="CanvasSampleOpenFileTextMultiple.cs" t="Include" />
+            <e p="CanvasSampleSaveFileImage.cs" t="Include" />
+            <e p="CanvasSampleSaveFileText.cs" t="Include" />
+          </e>
+          <e p="StandaloneFileBrowser.cs" t="Include" />
+          <e p="StandaloneFileBrowserEditor.cs" t="Include" />
+          <e p="StandaloneFileBrowserLinux.cs" t="Include" />
+          <e p="StandaloneFileBrowserMac.cs" t="Include" />
+          <e p="StandaloneFileBrowserWindows.cs" t="Include" />
+        </e>
+      </e>
+      <e p="MarksEditor.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

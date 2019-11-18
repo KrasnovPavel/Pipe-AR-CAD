@@ -1,45 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿
 using UnityEngine;
 
-public class UIController : MonoBehaviour
+namespace MarksEditor
 {
-    public void LoadObjModel()
+    public class UIController : MonoBehaviour
     {
-        FileSaverLoader.LoadObjModel();
-    }
+        public void LoadObjModel()
+        {
+            FileSaverLoader.LoadObjModel();
+        }
 
-    public void SaveSceneFile()
-    {
-        FileSaverLoader.SaveSceneFile();
-    }
-    public void LoadSceneFile()
-    {
-        FileSaverLoader.LoadSceneFile();
-    }
+        public void SaveSceneFile()
+        {
+            FileSaverLoader.SaveSceneFile();
+        }
+        public void LoadSceneFile()
+        {
+            FileSaverLoader.LoadSceneFile();
+        }
 
-    public void AddMarkOnScene()
-    {
-        MarksController.Instance.AddMark();
-    }
-    public void LoadJsonFile()
-    {
-        MarksController.Instance.ReadJsonString(FileSaverLoader.LoadJsonFile());
-    }
+        public void AddMarkOnScene()
+        {
+            MarksController.Instance.AddMark();
+        }
+        public void LoadJsonFile()
+        {
+            MarksController.Instance.ReadJsonString(FileSaverLoader.LoadJsonFile());
+        }
 
-    public void SaveJsonFile()
-    {
-        FileSaverLoader.SaveSceneJsonFile(MarksController.Instance.CreateJsonString());
-    }
+        public void SaveJsonFile()
+        {
+            FileSaverLoader.SaveSceneJsonFile(MarksController.Instance.CreateJsonString());
+        }
 
-    public void SelectMark()
-    {
+        public void SelectMark()
+        {
         
-    }
+        }
 
-    public void ImportModel()
-    {
-        ModelImporter.Instance.ImportModel();
+        public void ImportModel()
+        {
+            ModelImporter.Instance.ImportModel();
+        }
     }
 }

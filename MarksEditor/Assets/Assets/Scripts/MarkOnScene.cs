@@ -1,77 +1,77 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class MarkOnScene : MonoBehaviour
+namespace MarksEditor
 {
-
-    public MarkParamPanel ParamPanelofThisMark;
-    public TextMesh TextMeshOfNumber;
-
-    public int Id
+    public class MarkOnScene : MonoBehaviour
     {
-        get => _id;
-        set
+
+        public MarkParamPanel ParamPanelofThisMark;
+        public TextMesh TextMeshOfNumber;
+
+        public int Id
         {
-            _id = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool IsSelected {get; set;}
-
-    /// <summary> Событие измененения свойств объекта </summary>
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    void Start()
-    {
-        
-        ChangeIdOnTextMesh();
-        ParamPanelofThisMark.IdText.text = Convert.ToString(Id);
-        
-        PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
-        {
-            if (args.PropertyName == nameof(Id))
+            get => _id;
+            set
             {
-                ChangeIdOnTextMesh();
-                ParamPanelofThisMark.IdText.text = Convert.ToString(Id);
+                _id = value;
+                OnPropertyChanged();
             }
-        };
-    }
-
-    private void Update()
-    {
-        if (transform.hasChanged)
-        {
-            ParamPanelofThisMark.MarkTransformIntoInput();
-            transform.hasChanged = false;
         }
-    }
 
-    public void ChangeIdOnTextMesh()
-    {
-        if (TextMeshOfNumber == null) return;
-        TextMeshOfNumber.text = Convert.ToString(Id);
-    }
+        public bool IsSelected {get; set;}
 
-    #region Private defenitions
+        /// <summary> Событие измененения свойств объекта </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
-    private int _id;
-    
-    #endregion
-    
-    #region Protected defenitions
+        void Start()
+        {
         
-    [NotifyPropertyChangedInvocator]
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+            ChangeIdOnTextMesh();
+            ParamPanelofThisMark.IdText.text = Convert.ToString(Id);
         
-    #endregion
+            PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+            {
+                if (args.PropertyName == nameof(Id))
+                {
+                    ChangeIdOnTextMesh();
+                    ParamPanelofThisMark.IdText.text = Convert.ToString(Id);
+                }
+            };
+        }
+
+        private void Update()
+        {
+            if (transform.hasChanged)
+            {
+                ParamPanelofThisMark.MarkTransformIntoInput();
+                transform.hasChanged = false;
+            }
+        }
+
+        public void ChangeIdOnTextMesh()
+        {
+            if (TextMeshOfNumber == null) return;
+            TextMeshOfNumber.text = Convert.ToString(Id);
+        }
+
+        #region Private defenitions
+
+        private int _id;
+    
+        #endregion
+    
+        #region Protected defenitions
+        
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
+        #endregion
+    }
 }
