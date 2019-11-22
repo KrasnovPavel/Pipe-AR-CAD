@@ -34,7 +34,12 @@ namespace HoloCAD
         /// <summary> Сохраняет сцену в выбираемый пользователем файл. </summary>
         public static void SaveScene()
         {
-            SceneExporter.Export(AllTubes);
+            SceneExporter.Export(AllTubes, false);
+        }
+
+        public static void SaveSceneAs()
+        {
+            SceneExporter.Export(AllTubes, true);
         }
         
         /// <summary> Загрузить сцену из выбираемого пользователем файла. </summary>

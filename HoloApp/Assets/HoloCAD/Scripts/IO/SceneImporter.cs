@@ -49,21 +49,23 @@ namespace HoloCAD.IO
             openPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             StorageFile file = await openPicker.PickSingleFileAsync();
             if (file == null) return;
+            SceneExporter.File = file;
 
             _jsonFile = await FileIO.ReadTextAsync(file);
             UnityEngine.WSA.Application.InvokeOnAppThread(DeserializeScheme, true);
         }    
-#endif
+#else
 
         /// <summary> Загрузка файла на компьютере. Перед загрузкой вызывает диалог выбора файла. </summary>
-        /// <returns> Возвращает текст json-файла с описанием сцены </returns>
+        /// <returns> Возвращает текст json-файла с описанием сцены. </returns>
         private static string ReadFileOnPC()
         {
             var paths = StandaloneFileBrowser.OpenFilePanel("Open scheme", "", "json", false);
             if (paths.Length == 0) return null;
-            string data = System.IO.File.ReadAllText(paths[0]);
-            return data;
+            SceneExporter.FilePath = paths[0];
+            return System.IO.File.ReadAllText(paths[0]);
         }
+#endif
 
         private static void DeserializeScheme()
         {
