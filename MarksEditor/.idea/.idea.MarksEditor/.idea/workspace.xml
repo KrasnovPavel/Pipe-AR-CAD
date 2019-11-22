@@ -10,22 +10,9 @@
       <change afterPath="$PROJECT_DIR$/../HoloApp/replay_pid308.log" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../HoloApp/replay_pid8292.log" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../HoloApp/replay_pid9696.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/contentModel.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Assets/PiXYZConfigFiles/Poor Import Settings.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Assets/PiXYZConfigFiles/Poor Import Settings.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Assets/Prefabs/REGK_109_OR.CATProduct.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Assets/Prefabs/REGK_109_OR.CATProduct.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/ColliderAdder.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/ColliderAdder.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/glTFExporter.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Import Settings.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Import Settings.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFExporter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFImporter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/glTFExportClasses.cs" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Assets/Plugins/PiXYZ.meta" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Assets/Plugins/PiXYZ/Binaries.meta" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Assets/Plugins/PiXYZ/Binaries/3DH3P.meta" afterDir="false" />
@@ -4052,42 +4039,6 @@
       <change afterPath="$PROJECT_DIR$/Library/shadercompiler-UnityShaderCompiler.exe2.log" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Library/shadercompiler-UnityShaderCompiler.exe3.log" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Temp/ProcessJobs/e9a6970f79cd12d8b075e7d72f1b07cb.bakert" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-08129c4c0c702f5459ad3a5e2f238eca" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-110ea0cc815fce645a4017edd6b0eb28" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-28d4c02be5860504cb344f6ef918abed" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-2a84fbb6e7d2931408c9c4cdc6aac588" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-40cb6e6f93f5f6049b6057034039cad9" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-548220d61f0775c4c9472e03f538a30a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-56a83fdffd4e2134d8b5e605dca2b4d2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-5968fd63432fce7438b04e03a9998329" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-5c9d70e23c8391a4c82251ee1ddd02bc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-61029fa88e9583046a7402e82cec4efb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-63e62c06869eea8489601a0464fe53c1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-6dce858c94fd40e4f83d50f9e389f89a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-6ff0fdf3499f5254cb8e2bb06e6dc2ac" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-73271bddc47dd2b48acfa0ab63fbed2b" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-780e9728664cb0942ae18d166c44cc29" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-81b7e083b0dfb5e4fac9d60c6e48ca8c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-9378dfe619059164981111b3f527092a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-977a01110efb35a4680f4369d412666c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-9b662d302608494419e7a8c5bbe40150" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-9c01647435c87c048b01bc2dd2c09ae8" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-9cf942a971622ed4294e4ca0656b7671" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-a53cdb36c80c399438261cbe708f603d" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-ab5f829bfb588dd4785e175f0f1bbc8f" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-abc5c9f351c64e146adf69f52cba7b94" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-ac4ea4ce68b9bd54d902fa016b6fd882" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-ba1b77dd1d540ba4fa61588f17b90463" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-ba6ba9a510beb5546a3304b0496513df" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-c29414c6e46b4614e9c27afe0edc0916" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-c6b0cc62613cce346b77f4df9ac65670" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-cc7eb9a643cd67541a2dc32ca44cfe6e" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-cd64826ca1917bd43b95e228d173ad9c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-dfc4950f9a879ce45a5e7bc308dc2302" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-e7c22b7d13e25fc43917e4f2faf8dbcc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-f0f23e7ad42657f44bcd0edee002e9bc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-f3e04074a2b7b764d968d38e047fd50e" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Temp/UnityTempFile-ffe7484311410ef4a8041f0a558b6664" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Prefabs/MarkButtonBar.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Prefabs/MarkButtonBar.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/MarkSceneLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/MarkSceneLoader.cs" afterDir="false" />
@@ -4096,23 +4047,19 @@
       <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/Scenes/Default.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/Scenes/Default.unity" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/Scenes/Default.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/HoloApp.sln" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/HoloApp.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HoloApp/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Packages/manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/ProjectSettings/ProjectVersion.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/ProjectSettings/QualitySettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/indexLayout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Assets/Scenes/MarkEditor.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scenes/MarkEditor.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/FileSaverLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/FileSaverLoader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/InputController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/InputController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/InputFromPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/InputFromPanel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkOnScene.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkOnScene.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkParamPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkParamPanel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkPlaceController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkPlaceController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkSerializeClasses.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkSerializeClasses.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarksController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/MarksController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/ModelImporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/ModelImporter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/OBJExporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/OBJExporter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/UIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/UIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/ColliderAdder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/ColliderAdder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/glTFExporter.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterDir="false" />
     </list>
@@ -4151,31 +4098,35 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
     <option name="SET_USER_NAME_GLOBALLY" value="false" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/ModelImporter.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Prefabs/MarkButtonBar.prefab" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/ColliderAdder.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/OBJExporter.cs.meta" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/FileSaverLoader.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/glTF/glTFExportClasses.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/MarkOnScene.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../HoloApp/Assets/MixedRealityToolkit.Generated/CustomProfiles/HL1ConfigurationProfile.asset" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/Singleton.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Prefabs/MarkButtonBar.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Prefabs/MarkParamsPrefab.prefab" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/Singleton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/MarksController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../HoloApp/Assets/MixedRealityToolkit.Generated/CustomProfiles/HL1ConfigurationProfile.asset" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/PiXYZConfigFiles/Poor Import Settings.asset" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFExporter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F30414C8-F044-4549-92F6-2BA49B8ABE86/fe/9aae0a32/JsonUtility.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFImporter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/PiXYZ.meta" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/StandaloneFileBrowser.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/MarkPlaceController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/MarkParamPanel.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/StandaloneFileBrowser.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/InputController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/MarkSerializeClasses.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/UIController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/OBJExporter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/InputFromPanel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/ModelImporter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/ColliderAdder.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/OBJExporter.cs.meta" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/FileSaverLoader.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -4196,7 +4147,10 @@
         <option value="$PROJECT_DIR$/Assets/Assets/Scripts/OBJExporter.cs" />
         <option value="$PROJECT_DIR$/Assets/Assets/Scripts/MarkSerializeClasses.cs" />
         <option value="$PROJECT_DIR$/Assets/Assets/Scripts/MarksController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/glTFImporter.cs" />
+        <option value="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/glTFExportClasses.cs" />
         <option value="$PROJECT_DIR$/Assets/Assets/Scripts/ColliderAdder.cs" />
+        <option value="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFImporter.cs" />
       </list>
     </option>
   </component>
@@ -4209,6 +4163,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RunDashboard">
@@ -4264,7 +4219,12 @@
       <workItem from="1572011292664" duration="2864000" />
       <workItem from="1574114435450" duration="222000" />
       <workItem from="1574114825992" duration="1497000" />
-      <workItem from="1574116384469" duration="243000" />
+      <workItem from="1574116384469" duration="913000" />
+      <workItem from="1574163875204" duration="787000" />
+      <workItem from="1574164683056" duration="10209000" />
+      <workItem from="1574337168486" duration="4736000" />
+      <workItem from="1574410370379" duration="3425000" />
+      <workItem from="1574416527920" duration="1503000" />
     </task>
     <task id="LOCAL-00001" summary="Починил интерфейс и сделал исправления структуры кода">
       <created>1570433576741</created>
@@ -4273,7 +4233,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570433576741</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Создан отдельный namespace для классов редактора">
+      <created>1574116669277</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1574116669277</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
