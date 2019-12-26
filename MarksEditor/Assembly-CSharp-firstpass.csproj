@@ -61,17 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Plugins\PiXYZ\Samples\ImportOnPlay\ImportOnPlay.cs" />
-    <Compile Include="Assets\Plugins\PiXYZ\Samples\RuntimeBoilerplate\Scripts\Autocenter.cs" />
-    <Compile Include="Assets\Plugins\PiXYZ\Samples\RuntimeBoilerplate\Scripts\CurrentLicenseScript.cs" />
-    <Compile Include="Assets\Plugins\PiXYZ\Samples\RuntimeBoilerplate\Scripts\ErrorWinScript.cs" />
-    <Compile Include="Assets\Plugins\PiXYZ\Samples\RuntimeBoilerplate\Scripts\FileSelectionWindow.cs" />
-    <Compile Include="Assets\Plugins\PiXYZ\Samples\RuntimeBoilerplate\Scripts\ImporterComponent.cs" />
-    <Compile Include="Assets\Plugins\PiXYZ\Samples\RuntimeBoilerplate\Scripts\LicenseManagerScript.cs" />
-    <Compile Include="Assets\Plugins\PiXYZ\Samples\RuntimeBoilerplate\Scripts\LicenseServerScript.cs" />
     <Compile Include="Assets\Plugins\PiXYZ\Samples\RuntimeBoilerplate\Scripts\MainCanvas.cs" />
-    <Compile Include="Assets\Plugins\PiXYZ\Samples\RuntimeBoilerplate\Scripts\MouseOrbitImproved.cs" />
-    <Compile Include="Assets\Plugins\PiXYZ\Samples\RuntimeBoilerplate\Scripts\OnlineUI.cs" />
-    <Compile Include="Assets\Plugins\PiXYZ\Samples\RuntimeBoilerplate\Scripts\Spinner.cs" />
     <None Include="Assets\Plugins\PiXYZ\Binaries\3DH3P\resource\Unicode\mappings\adobe\JISX0208.txt" />
     <None Include="Assets\Plugins\PiXYZ\Binaries\3DH3P\resource\Unicode\mappings\adobe\Japanese83pv.txt" />
     <None Include="Assets\Plugins\PiXYZ\Binaries\3DH3P\resource\Unicode\mappings\adobe\stdenc.txt" />
@@ -83,9 +73,6 @@
     <None Include="Assets\Plugins\PiXYZ\Binaries\3DH3P\resource\Unicode\mappings\adobe\symbol.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
@@ -299,12 +286,6 @@
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.12f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
-    </Reference>
-    <Reference Include="PiXYZPluginUnity">
-      <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Assets/Plugins/PiXYZ/Binaries/PiXYZPluginUnity.dll</HintPath>
-    </Reference>
-    <Reference Include="PiXYZPluginUnityEditor">
-      <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Assets/Plugins/PiXYZ/Binaries/PiXYZPluginUnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="Ookii.Dialogs">
       <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Assets/StandaloneFileBrowser/Plugins/Ookii.Dialogs.dll</HintPath>

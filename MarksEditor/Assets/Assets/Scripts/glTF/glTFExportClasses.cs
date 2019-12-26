@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace MarksEditor.glTF
@@ -11,13 +12,15 @@ namespace MarksEditor.glTF
         [Serializable]
         public class root
         {
-            public scene[] scenes;
-            public node[] nodes;
-            public mesh[] meshes;
-            public buffer[] buffers;
-            public bufferView[] bufferViews;
-            public accessor[] accessors;
+            public List<scene> scenes;
+            public List<node> nodes;
+            public List<mesh> meshes;
+            public List<buffer> buffers;
+            public List<bufferView> bufferViews;
+            public List<accessor> accessors;
+            public List<_mark> _marks;
             public asset asset;
+            
         }
     
         
@@ -25,7 +28,7 @@ namespace MarksEditor.glTF
         [Serializable]
         public class scene
         {
-            public int[] nodes;
+            public List<int> nodes;
         }
     
         /// <summary> Класс узла glTF-файла/// </summary>
@@ -111,5 +114,19 @@ namespace MarksEditor.glTF
         public static class glTFConvertionConsts
         {
             public const string bufferPrefix  = "data:application/octet-stream;base64,";
+        }
+
+        
+        /// <summary>Класс с параметрами меток </summary>
+        [Serializable]
+        public class _mark
+        {
+            public float name;
+            public float x;
+            public float y;
+            public float z;
+            public float rotationX;
+            public float rotationY;
+            public float rotationZ;
         }
 }

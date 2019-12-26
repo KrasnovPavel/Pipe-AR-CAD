@@ -65,9 +65,6 @@
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
@@ -319,12 +316,6 @@
     </Reference>
     <Reference Include="JetBrains.Rider.Unity.Editor.Plugin.Repacked">
       <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll</HintPath>
-    </Reference>
-    <Reference Include="PiXYZPluginUnity">
-      <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Assets/Plugins/PiXYZ/Binaries/PiXYZPluginUnity.dll</HintPath>
-    </Reference>
-    <Reference Include="PiXYZPluginUnityEditor">
-      <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Assets/Plugins/PiXYZ/Binaries/PiXYZPluginUnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="Ookii.Dialogs">
       <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Assets/StandaloneFileBrowser/Plugins/Ookii.Dialogs.dll</HintPath>

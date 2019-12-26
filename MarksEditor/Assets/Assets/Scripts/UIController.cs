@@ -1,46 +1,35 @@
 ﻿
+using MarksEditor.glTF;
 using UnityEngine;
 
 namespace MarksEditor
 {
+    /// <summary>Контроллер пользовательского интерфейса </summary>
     public class UIController : MonoBehaviour
     {
-        public void LoadObjModel()
-        {
-            FileSaverLoader.LoadObjModel();
-        }
 
-        public void SaveSceneFile()
-        {
-            FileSaverLoader.SaveSceneFile();
-        }
-        public void LoadSceneFile()
-        {
-            FileSaverLoader.LoadSceneFile();
-        }
-
+        /// <summary> Добавляет метку на сцену </summary>
         public void AddMarkOnScene()
         {
             MarksController.Instance.AddMark();
         }
-        public void LoadJsonFile()
-        {
-            MarksController.Instance.ReadJsonString(FileSaverLoader.LoadJsonFile());
-        }
-
-        public void SaveJsonFile()
-        {
-            FileSaverLoader.SaveSceneJsonFile(MarksController.Instance.CreateJsonString());
-        }
-
-        public void SelectMark()
-        {
         
+        /// <summary>Загружает glTF-файл</summary>
+        public void LoadGLTFFile()
+        {
+            GlTFImporter.Instance.ImportglTFFile();
         }
-
+        
+        /// <summary>Сохраняет glTF-файл</summary>
+        public void SaveGLTFFile()
+        {
+            GLTFExporter.Instance.ExportglTFFile();
+        }
+        
+        /// <summary>Импортирует модель с помощью PiXYZ </summary>
         public void ImportModel()
         {
-            ModelImporter.Instance.ImportModel();
+            //ModelImporter.Instance.ImportModel();
         }
     }
 }

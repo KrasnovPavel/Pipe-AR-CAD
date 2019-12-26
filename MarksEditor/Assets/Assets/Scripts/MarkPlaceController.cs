@@ -4,10 +4,13 @@ using UnityEngine.EventSystems;
 
 namespace MarksEditor
 {
+    /// <summary>Класс, отвечающий за привязку метки к поверхности</summary>
     public class MarkPlaceController : Singleton<MarkPlaceController>
     {
+        /// <summary>Группа объектов, которые привязываются к метке </summary>
         public GameObject Target;
     
+        /// <summary>Обробаетывает клик на поверхность </summary>
         public void PlaceTheMark()
         {
             if (EventSystem.current.IsPointerOverGameObject() ||

@@ -4,19 +4,17 @@ using Boo.Lang;
 using HoloCore;
 using UnityEngine;
 using static SFB.StandaloneFileBrowser;
+
 namespace MarksEditor.glTF
 {
-    
+    /// <summary> Класс импорта из glTF</summary>
     public class GlTFImporter : Singleton<GlTFImporter>
     {
-
-
-        public Material Mat;
-        private void Start()
-        {
-            ImportglTFFile();
-        }
         
+        /// <summary> Корневой объект на сцене </summary>
+        public GameObject Target;
+        
+        /// <summary> Импортирует объект из файла в редактор </summary>
         public void ImportglTFFile()
         {
             string filepath = OpenDialog();
@@ -25,6 +23,9 @@ namespace MarksEditor.glTF
             GetGameObjectsFromImportedglTFFile(rootOfglTFFile);
         }
 
+        /// <summary> Открывает диалог открытия файла </summary>
+        /// <returns>Путь к файлу</returns>
+        /// <exception cref="Exception"> Файл не выбран</exception>
         private string OpenDialog()
         {
             string[] paths = OpenFilePanel("Веберите glTF-файл","","gltf",false);
@@ -32,11 +33,12 @@ namespace MarksEditor.glTF
             {
                 throw new Exception("Файл не выбран!");
             }
-            
-            
             return paths[0];
         }
         
+        /// <summary> Читает файл и извлекает из него данные в формате JSON </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <returns>Строка с данными в формате JSON</returns>
         private string ReadJSONStringFromFile(string path)
         {
             string jsonString;
@@ -55,7 +57,10 @@ namespace MarksEditor.glTF
             streamReader.Close();
             return jsonString;
         }
-
+        
+        /// <summary> Парсит входящую строку и извлекает из нее корневой объект для glTF-файла </summary>
+        /// <param name="JSONString">Строка с данными в формате JSON</param>
+        /// <returns>Корневой объект для glTF-файла</returns>
         private root GetRootFileFromJSONString(string JSONString)
         {
             root glTFFileRoot; 
@@ -73,9 +78,10 @@ namespace MarksEditor.glTF
             return glTFFileRoot;
         }
         
+        /// <summary> Достает объекты из корневого объекта </summary>
+        /// <param name="rootOfglTFFile">Корневой объект</param>
         private void GetGameObjectsFromImportedglTFFile(root rootOfglTFFile)
         {
-            List<GameObject> gameObjectsList = new List<GameObject>();
             int currentGameObjectIndex = 0;
             Transform parentTransform = MarkPlaceController.Instance.Target.transform;
             foreach (scene currentScene in rootOfglTFFile.scenes)
@@ -89,11 +95,16 @@ namespace MarksEditor.glTF
                     GameObject currentNodeGameObject = new GameObject(currentNode.name);
                     currentNodeGameObject.transform.parent = currentSceneGameObject.transform;
                     FormMeshesFromglTF(currentNodeGameObject, currentNode, rootOfglTFFile);
+                    AddCollision(currentNodeGameObject);
                 }
                 
             }
         }
-
+        
+        /// <summary> Читает меши из входного узла</summary>
+        /// <param name="currentNodeGameObject">GameObject в который добавляется меш отдельным объктом</param>
+        /// <param name="currentNode">Входной узел</param>
+        /// <param name="rootOfglTFFile">Корневой объект</param>
         private void FormMeshesFromglTF(GameObject currentNodeGameObject, node currentNode, root rootOfglTFFile)
         {
                 currentNodeGameObject.transform.localRotation = Quaternion.Euler((new Quaternion(currentNode.rotation[0],
@@ -165,7 +176,26 @@ namespace MarksEditor.glTF
                 currentMeshFilter.mesh = currentUnityMesh;
             }
         }
-        
-        
+
+        /// <summary> Добавляет коллизию мешам внутри входного узла </summary>
+        /// <param name="currentNodeGameObject"> Входной узел</param>
+        private void AddCollision(GameObject currentNodeGameObject)
+        {
+            foreach (MeshFilter meshFilterChild in currentNodeGameObject.transform.GetComponentsInChildren<MeshFilter>())
+            {
+                GameObject newGameObject = new GameObject(meshFilterChild.mesh.name);
+                newGameObject.layer = 30;
+                Rigidbody rigidbodyOfNewGameObject = newGameObject.AddComponent<Rigidbody>();
+                rigidbodyOfNewGameObject.isKinematic = true;
+                MeshCollider meshCollider = newGameObject.AddComponent<MeshCollider>();
+                meshCollider.sharedMesh = meshFilterChild.mesh;
+                newGameObject.transform.SetParent(meshFilterChild.transform);
+                newGameObject.transform.localPosition = Vector3.zero;
+            }
+        }
     }
+    
+    
 }
+
+

@@ -1,15 +1,17 @@
 ﻿using HoloCore;
-using PiXYZ.Plugin.Unity;
+//using PiXYZ.Plugin.Unity;
 using UnityEngine;
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
     using static SFB.StandaloneFileBrowser;
 #endif
 namespace MarksEditor
 {
+    /// <summary> Класс, отвеччающий за работу с PiXYZ </summary>
     public class ModelImporter : Singleton<ModelImporter>
     {
 
-        public ImportSettings ImportSettings;
+
+/*        public ImportSettings ImportSettings;
     
         public void ImportModel()
         {
@@ -46,5 +48,6 @@ namespace MarksEditor
             }
             
         }
+    }*/
     }
 }
