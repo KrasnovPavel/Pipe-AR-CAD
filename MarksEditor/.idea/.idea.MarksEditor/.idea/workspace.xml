@@ -2,25 +2,59 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ad7bee9d-4346-43f8-8009-e4600a7b783a" name="Default Changelist" comment="Починил интерфейс и сделал исправления структуры кода">
-      <change afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFExporter.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scenes/MarkEditor.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scenes/MarkEditor.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/InputFromPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/InputFromPanel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkParamPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkParamPanel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkPlaceController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkPlaceController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/ModelImporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/ModelImporter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/UIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/UIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFExporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFExporter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFImporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFImporter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/glTFExportClasses.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/glTFExportClasses.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MarksEditor.sln" beforeDir="false" afterPath="$PROJECT_DIR$/MarksEditor.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/IStandaloneFileBrowser.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/IStandaloneFileBrowser.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/Linux.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/Linux/x86_64.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/Linux/x86_64/libStandaloneFileBrowser.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/Linux/x86_64/libStandaloneFileBrowser.so.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/Ookii.Dialogs.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/Ookii.Dialogs.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/StandaloneFileBrowser.bundle.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/StandaloneFileBrowser.bundle/Contents.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/StandaloneFileBrowser.bundle/Contents/Info.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/StandaloneFileBrowser.bundle/Contents/Info.plist.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/StandaloneFileBrowser.bundle/Contents/MacOS.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/StandaloneFileBrowser.bundle/Contents/MacOS/StandaloneFileBrowser" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/StandaloneFileBrowser.bundle/Contents/MacOS/StandaloneFileBrowser.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/StandaloneFileBrowser.jslib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/StandaloneFileBrowser.jslib.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/System.Windows.Forms.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins/System.Windows.Forms.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/BasicSample.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/BasicSample.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/BasicSampleScene.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/BasicSampleScene.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleOpenFileImage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleOpenFileImage.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleOpenFileText.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleOpenFileText.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleOpenFileTextMultiple.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleOpenFileTextMultiple.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleSaveFileImage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleSaveFileImage.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleSaveFileText.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleSaveFileText.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleScene.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleScene.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/StandaloneFileBrowser.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/StandaloneFileBrowser.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/StandaloneFileBrowserEditor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/StandaloneFileBrowserEditor.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/StandaloneFileBrowserLinux.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/StandaloneFileBrowserLinux.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/StandaloneFileBrowserMac.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/StandaloneFileBrowserMac.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/StandaloneFileBrowserWindows.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/StandaloneFileBrowserWindows.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" afterDir="false" />
     </list>
+    <list id="3abf2cac-0dbe-47c2-8a4f-1a1468c659f0" name="Удален лишний код, добавлены коментарии. Идет работа над добавлением данных о метках в корень glTF-файла" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,10 +107,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/InputController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/MarkSerializeClasses.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/UIController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleOpenFileImage.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/OBJExporter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/InputFromPanel.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/StandaloneFileBrowser/Sample/CanvasSampleOpenFileText.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/ModelImporter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/ColliderAdder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/OBJExporter.cs.meta" root0="FORCE_HIGHLIGHTING" />
@@ -85,7 +117,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/Singleton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/MarksController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/PiXYZConfigFiles/Poor Import Settings.asset" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/StandaloneFileBrowser.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GLTFExporter.cs.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Assets/Scenes/MarkEditor.unity" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -171,6 +202,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="ad7bee9d-4346-43f8-8009-e4600a7b783a" name="Default Changelist" comment="" />
+      <changelist id="3abf2cac-0dbe-47c2-8a4f-1a1468c659f0" name="Удален лишний код, добавлены коментарии. Идет работа над добавлением данных о метках в корень glTF-файла" comment="" />
       <created>1570105197120</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -200,7 +232,7 @@
       <workItem from="1577256188285" duration="279000" />
       <workItem from="1577256516143" duration="2034000" />
       <workItem from="1577272397789" duration="1348000" />
-      <workItem from="1577355764614" duration="2958000" />
+      <workItem from="1577355764614" duration="3705000" />
     </task>
     <task id="LOCAL-00001" summary="Починил интерфейс и сделал исправления структуры кода">
       <created>1570433576741</created>
@@ -216,7 +248,21 @@
       <option name="project" value="LOCAL" />
       <updated>1574116669277</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Удален лишний код, добавлены коментарии. Идет работа над добавлением данных о метках в корень glTF-файла">
+      <created>1577358944677</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1577358944677</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Добавлен экспорт мешей в glTF. Удален лишний код, добавлены коментарии. Идет работа над добавлением данных о метках в корень glTF-файла">
+      <created>1577359118041</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1577359118041</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -256,7 +302,9 @@
     <MESSAGE value="Починил интерфейс и сделал исправления структуры кода" />
     <MESSAGE value="Обновлено сохранение меток в JSON-файл. Теперь метки можно привязывать к модели нажатием мыши." />
     <MESSAGE value="Создан отдельный namespace для классов редактора" />
-    <option name="LAST_COMMIT_MESSAGE" value="Создан отдельный namespace для классов редактора" />
+    <MESSAGE value="Удален лишний код, добавлены коментарии. Идет работа над добавлением данных о метках в корень glTF-файла" />
+    <MESSAGE value="Добавлен экспорт мешей в glTF. Удален лишний код, добавлены коментарии. Идет работа над добавлением данных о метках в корень glTF-файла" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлен экспорт мешей в glTF. Удален лишний код, добавлены коментарии. Идет работа над добавлением данных о метках в корень glTF-файла" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

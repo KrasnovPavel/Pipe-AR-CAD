@@ -76,18 +76,6 @@
     <Compile Include="Assets\Assets\Scripts\OBJExporter.cs" />
     <Compile Include="Assets\Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Assets\Scripts\UIController.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\IStandaloneFileBrowser.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\Sample\BasicSample.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\Sample\CanvasSampleOpenFileImage.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\Sample\CanvasSampleOpenFileText.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\Sample\CanvasSampleOpenFileTextMultiple.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\Sample\CanvasSampleSaveFileImage.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\Sample\CanvasSampleSaveFileText.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowser.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserEditor.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserLinux.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserMac.cs" />
-    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserWindows.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
@@ -303,12 +291,6 @@
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.12f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
-    </Reference>
-    <Reference Include="Ookii.Dialogs">
-      <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Assets/StandaloneFileBrowser/Plugins/Ookii.Dialogs.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms">
-      <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Assets/StandaloneFileBrowser/Plugins/System.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>E:/holoTubes/Pipe-AR-CAD/MarksEditor/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
