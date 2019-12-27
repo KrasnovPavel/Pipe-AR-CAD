@@ -34,30 +34,20 @@ namespace HoloCore.UI
         /// <summary> Объект, который отрисовывает кнопку. </summary>
         [CanBeNull] protected MeshRenderer ButtonRenderer;
 
-        public delegate void OnHoverEnterHandler(object button, EventArgs args);
-
-        public delegate void OnHoverExitHandler(object button, EventArgs args);
-
-        public delegate void OnPressedHandler(object button, EventArgs args);
-
-        public delegate void OnReleasedHandler(object button, EventArgs args);
-
-        public delegate void OnClickHandler(object button, EventArgs args);
-
         /// <summary> Событие клика по кнопке. </summary>
-        public OnClickHandler OnClick;
+        public Action<object> OnClick;
 
         /// <summary> Событие наведение курсора на кнопку. </summary>
-        public OnHoverEnterHandler OnHoverEnter;
+        public Action<object> OnHoverEnter;
 
         /// <summary> Событие сведения курсора с кнопки. </summary>
-        public OnHoverExitHandler OnHoverExit;
+        public Action<object> OnHoverExit;
 
         /// <summary> Событие нажатия на кнопку. </summary>
-        public OnPressedHandler OnPressed;
+        public Action<object> OnPressed;
 
         /// <summary> Событие отпускания кнопки. </summary>
-        public OnReleasedHandler OnReleased;
+        public Action<object> OnReleased;
 
         /// <summary> Возможные состояния кнопки. </summary>
         public enum ButtonState
@@ -99,7 +89,7 @@ namespace HoloCore.UI
                 case ButtonState.Enabled:
                 case ButtonState.Hovered:
                     State = ButtonState.Pressed;
-                    OnPressed?.Invoke(this, null);
+                    OnPressed?.Invoke(this);
                     break;
                 case ButtonState.Pressed:
                     break;
@@ -113,7 +103,6 @@ namespace HoloCore.UI
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void Release(bool setHover = true)
         {
-            
             switch (State)
             {
                 case ButtonState.Disabled:
@@ -124,8 +113,8 @@ namespace HoloCore.UI
                     break;
                 case ButtonState.Pressed:
                     State = setHover ? ButtonState.Hovered : ButtonState.Enabled;
-                    OnReleased?.Invoke(this, null);
-                    OnClick?.Invoke(this, null);
+                    OnReleased?.Invoke(this);
+                    OnClick?.Invoke(this);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -165,7 +154,7 @@ namespace HoloCore.UI
                     break;
                 case ButtonState.Enabled:
                     State = ButtonState.Hovered;
-                    OnHoverEnter?.Invoke(this, null);
+                    OnHoverEnter?.Invoke(this);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -181,12 +170,12 @@ namespace HoloCore.UI
             {
                 case ButtonState.Hovered:
                     State = ButtonState.Enabled;
-                    OnHoverExit?.Invoke(this, null);
+                    OnHoverExit?.Invoke(this);
                     break;
                 case ButtonState.Pressed:
                     State = ButtonState.Enabled;
-                    OnHoverExit?.Invoke(this, null);
-                    OnReleased?.Invoke(this, null);
+                    OnHoverExit?.Invoke(this);
+                    OnReleased?.Invoke(this);
                     break;
                 case ButtonState.Disabled:
                     break;

@@ -16,7 +16,7 @@ namespace HoloCAD.UnityTubes
         {
             TubeFragment parent = transform.parent.GetComponent<TubeFragment>();
             if (parent == null) parent = transform.parent.parent.GetComponent<TubeFragment>();
-            TubeManager.ToggleTubeSelection(parent);
+            parent.ToggleSelection();
             parent.Owner.FinishTubesConnectorCreation();
         }
 

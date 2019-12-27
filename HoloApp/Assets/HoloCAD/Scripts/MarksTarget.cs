@@ -104,8 +104,7 @@ namespace HoloCAD
                 markPanel.GetComponent<MarkControlPanel>().Target = this;
             }
         }
-
-
+        
         private void Update()
         {
             int markId = Marks.FindIndex(obj => obj != null && obj.enabled && obj.IsActive);

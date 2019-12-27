@@ -205,7 +205,6 @@ namespace HoloCAD.UnityTubes
             _meshes = MeshFactory.GetMeshes(Owner.Data);
             UseSecondRadius = StartUseSecondRadius;
             Angle = StartAngle;
-            TubeManager.SelectTubeFragment(this);
         }
 
         #endregion

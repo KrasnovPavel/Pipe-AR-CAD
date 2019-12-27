@@ -101,8 +101,9 @@ namespace HoloCAD.UnityTubes
         /// <summary> Создает на сцене объект соединения труб. </summary>
         /// <param name="firstOwner"> Первая из соединяемых труб. </param>
         /// <returns></returns>
-        [NotNull] public static TubesConnector CreateTubesConnector(Tube firstOwner)
+        [CanBeNull] public static TubesConnector CreateTubesConnector(Tube firstOwner)
         {
+            if (ActiveTubesConnector != null) return null;
             GameObject connector = Instantiate(Instance.ConnectorPrefab);
             connector.GetComponent<TubesConnector>().FirstTube = firstOwner;
             connector.GetComponent<TubesConnector>().Cursor = Instance._cursor.transform;

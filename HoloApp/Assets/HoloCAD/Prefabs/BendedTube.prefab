@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 114107255897474948}
   - component: {fileID: 11333303945455108}
   - component: {fileID: 6112910846308508678}
+  - component: {fileID: 1943438792118868002}
   m_Layer: 0
   m_Name: BendedTube
   m_TagString: Untagged
@@ -265,6 +266,8 @@ MonoBehaviour:
   ColliderPrefab: {fileID: 1599205281889634, guid: 43c0d25bf6ccbad498ffb185b4972e52,
     type: 3}
   EndRingMaterial: {fileID: 2100000, guid: 8c5a2547ee3b5a9488ddcc504ae3f450, type: 2}
+  StartUseSecondRadius: 0
+  StartAngle: 90
 --- !u!114 &11333303945455108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +310,18 @@ MonoBehaviour:
   IncreaseLinearStepButton: {fileID: 0}
   DecreaseLinearStepButton: {fileID: 0}
   TextLabel: {fileID: 6415277806703140499}
+--- !u!114 &1943438792118868002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911631833607840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 293ff4046df4414fb8bd8033e7e8c6a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1948481254362254
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,6 +904,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bea44da96c0e69b40baea864d666c2fc, type: 3}
+--- !u!4 &2459865184841115036 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4071031671000098, guid: bea44da96c0e69b40baea864d666c2fc,
+    type: 3}
+  m_PrefabInstance: {fileID: 2462700225569008062}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2572975409392285216 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114928987091034014, guid: bea44da96c0e69b40baea864d666c2fc,
@@ -901,12 +922,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ea24535e0decf8488eb29da2a6d1a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &2459865184841115036 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4071031671000098, guid: bea44da96c0e69b40baea864d666c2fc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2462700225569008062}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3677415574129600022
 PrefabInstance:
   m_ObjectHideFlags: 0
