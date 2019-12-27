@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 
 namespace HoloCAD
 {
-    /// <summary>Класс для переключения режимов отображения модели, привязанной к метке </summary>
+    /// <summary> Класс для переключения режимов отображения модели, привязанной к метке </summary>
     public class ViewModes : MonoBehaviour, INotifyPropertyChanged
     {
         /// <summary> Событие измененения свойств объекта </summary>
@@ -18,7 +18,7 @@ namespace HoloCAD
         /// <summary> Объект стен </summary>
         public GameObject Walls;
 
-        /// <summary>Возможные состояния отображения модели </summary>
+        /// <summary> Возможные состояния отображения модели </summary>
         public enum Modes : byte
         {
             Visible,
@@ -27,7 +27,7 @@ namespace HoloCAD
             Invisible
         };
 
-        /// <summary>Состояние отображения модели на данный момент </summary>
+        /// <summary> Состояние отображения модели на данный момент </summary>
         public Modes Current
         {
             get => _current;
@@ -55,7 +55,7 @@ namespace HoloCAD
 
         private Modes _current;
 
-        /// <summary>Отображает модель в нужном виде</summary>
+        /// <summary> Отображает модель в нужном виде </summary>
         private void ChangeModelView()
         {
             switch (_current)

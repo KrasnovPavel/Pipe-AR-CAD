@@ -112,10 +112,6 @@ namespace HoloCAD
             }
         }
         
-        /// <summary> Делегат для функций над участками труб. </summary>
-        /// <param name="fragment"> Фрагмент, над которым будет выполнена функция. </param>
-        public delegate void FragmentFunctionDel(TubeFragment fragment);
-
         /// <summary> Создает соединение труб. </summary>
         public void CreateTubesConnector()
         {
@@ -176,7 +172,7 @@ namespace HoloCAD
         /// <param name="firstFragment">
         /// Участок, с которого будет начат обход. Если он равен null, то обход начинается с фланца.
         /// </param>
-        public void MapFragments(FragmentFunctionDel function, TubeFragment firstFragment = null)
+        public void MapFragments(Action<TubeFragment> function, TubeFragment firstFragment = null)
         {
             TubeFragment current = (firstFragment != null) ? firstFragment : StartFragment;
             while (current != null)
@@ -191,7 +187,7 @@ namespace HoloCAD
         /// <param name="firstFragment">
         /// Участок, с которого будет начат обход. Если он равен null, то обход начинается с фланца.
         /// </param>
-        public void MapFragmentsWithOutgrowth(FragmentFunctionDel function, TubeFragment firstFragment = null)
+        public void MapFragmentsWithOutgrowth(Action<TubeFragment> function, TubeFragment firstFragment = null)
         {
             TubeFragment current = (firstFragment != null) ? firstFragment : StartFragment;
             while (current != null)

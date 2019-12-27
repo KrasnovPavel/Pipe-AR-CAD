@@ -125,6 +125,7 @@ namespace HoloCAD.UI
         protected override void Start()
         {
             base.Start();
+            // ReSharper disable once PossibleNullReferenceException
             _camera = Camera.main.transform;
             _fragment.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
             {

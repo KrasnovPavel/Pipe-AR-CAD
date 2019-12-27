@@ -161,10 +161,10 @@ namespace HoloCAD.UnityTubes
         
         /// <summary> Добавление нового погиба. </summary>
         /// <remarks>
-        /// /// <param name="startAngle">Стартовый угол наклона</param>
-        /// /// <param name="startUseSecondRadius">Стартовый угол погиба</param>
         /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.AddBendFragment()</c>.
         /// </remarks>
+        /// <param name="startAngle">Стартовый угол наклона</param>
+        /// <param name="startUseSecondRadius">Стартовый угол погиба</param>
         public virtual void AddBendFragment(float startAngle, bool startUseSecondRadius)
         {
             if (!HasChild) Child = TubeUnityManager.CreateBendedTubeFragment(Owner, EndPoint.transform, this);

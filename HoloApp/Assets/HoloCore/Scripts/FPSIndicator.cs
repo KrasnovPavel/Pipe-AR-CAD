@@ -19,17 +19,18 @@ namespace HoloCore
 		protected void Start()
 		{
 			_textMesh = transform.Find("Label").GetComponent<TextMesh>();
-			_cameraTransform = Camera.main.transform;
+            // ReSharper disable once PossibleNullReferenceException
+            _cameraTransform = Camera.main.transform;
 		}
 	
 		protected void Update ()
 		{
-			_fpsValues[pointer] = 1 / Time.deltaTime;
-			pointer++;
+			_fpsValues[_pointer] = 1 / Time.deltaTime;
+			_pointer++;
 
-			if (pointer == 5)
+			if (_pointer == 5)
 			{
-				pointer = 0;
+				_pointer = 0;
 				_textMesh.text = $"FPS: {_fpsValues.Average():0}";
 			}
 
@@ -49,7 +50,7 @@ namespace HoloCore
 		/// <summary> Список значений FPS за последние 5 кадров. </summary>
 		private readonly float[] _fpsValues = {0f,0f,0f,0f,0f};
 
-		private int pointer;
+		private int _pointer;
 
 		private Transform _cameraTransform;
 

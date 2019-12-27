@@ -71,6 +71,5 @@ namespace HoloCAD.UnityTubes
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
-
     }
 }

@@ -101,7 +101,7 @@ namespace HoloCore.UI
         /// <summary> Виртуальное отпускание кнопки. </summary>
         /// <param name="setHover"> Если true, то кнопка перейдет в состояние Hovered, иначе в Enabled. </param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public void Release(bool setHover = true)
+        public void Release(bool setHover)
         {
             switch (State)
             {

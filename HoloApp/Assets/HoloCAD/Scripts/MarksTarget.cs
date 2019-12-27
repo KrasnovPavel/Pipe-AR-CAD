@@ -114,9 +114,10 @@ namespace HoloCAD
             Transform currentMark = Marks[markId].transform;
 
             transform.SetParent(currentMark, false);
-            transform.localScale = new Vector3(1 / currentMark.lossyScale.x, 
-                                               1 / currentMark.lossyScale.z, 
-                                               1 / currentMark.lossyScale.z);
+            var lossyScale = currentMark.lossyScale;
+            transform.localScale = new Vector3(1 / lossyScale.x, 
+                                               1 / lossyScale.y, 
+                                               1 / lossyScale.z);
             transform.localPosition = PositionsOfMarks[markId];
             transform.localRotation = Quaternion.Euler(RotationsOfMarks[markId]);
 

@@ -17,19 +17,33 @@ namespace HoloCAD.IO
     /// <summary> Класс, экспортирующий сцену в файл. </summary>
     public static class SceneExporter
     {
+#if ENABLE_WINMD_SUPPORT
+        public static StorageFile File;
+#else
+        public static string FilePath; 
+#endif
+
         /// <summary> Экспорт сцену. </summary>
         /// <remarks> Для выбора файла будет вызван диалог сохранения файла. </remarks>
         /// <param name="tubes"> Массив всех труб на сцене. </param>
-        public static void Export(IEnumerable<Tube> tubes)
+        /// <param name="isExportAs"> Надо ли экспортировать как отдельный файл. </param>
+        public static void Export(IEnumerable<Tube> tubes, bool isExportAs)
         {
             string data = SerializeScheme(tubes);
 #if ENABLE_WINMD_SUPPORT
-            UnityEngine.WSA.Application.InvokeOnUIThread(() => WriteFileOnHololens(data), true);
+            UnityEngine.WSA.Application.InvokeOnUIThread(() => WriteFileOnHololens(data, isExportAs), true);
 #else
             UnityEngine.WSA.Application.InvokeOnUIThread(() =>
             {
                 Cursor.visible = true;
-                WriteFileOnPC(data);
+                if (isExportAs || string.IsNullOrEmpty(FilePath))
+                {
+                    FilePath = StandaloneFileBrowser.SaveFilePanel("Save Scheme", 
+                                                                   "", 
+                                                                   "New Scheme", 
+                                                                   "json");
+                }
+                System.IO.File.WriteAllText(FilePath, data);
             }, true);
 #endif
         }
@@ -48,7 +62,7 @@ namespace HoloCAD.IO
                 array.tubes.Add(expTube);
                 expTube.diameter = tube.Data.diameter * 1000;
                 expTube.width = expTube.diameter * 0.1;
-                expTube.standart_name = tube.StandardName;
+                expTube.standard_name = tube.StandardName;
                 tube.MapFragmentsWithOutgrowth(fragment => expTube.fragments.Add(ConvertToExportFormat(fragment)));
                 expTube.fragments.RemoveAll(element => element == null);
             }
@@ -121,27 +135,20 @@ namespace HoloCAD.IO
 #if ENABLE_WINMD_SUPPORT
         /// <summary> Запись файла на очках Hololens. Перед записью вызывает диалог сохранения файла. </summary>
         /// <param name="data"> Данные, которые будут записаны в файл. </param>
-        private static async void WriteFileOnHololens(string data)
+        /// <param name="isExportAs"> Надо ли экспортировать как отдельный файл. </param>
+        private static async void WriteFileOnHololens(string data, bool isExportAs)
         {
-            FileSavePicker savePicker = new FileSavePicker();
-            savePicker.DefaultFileExtension = ".json";
-            savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
-            savePicker.FileTypeChoices.Add("HoloCAD json", new List<string>() { ".json" });
-            StorageFile file = await savePicker.PickSaveFileAsync();
+            if (isExportAs || File == null) 
+            {
+                FileSavePicker savePicker = new FileSavePicker();
+                savePicker.DefaultFileExtension = ".json";
+                savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+                savePicker.FileTypeChoices.Add("HoloCAD json", new List<string>() { ".json" });
+                File = await savePicker.PickSaveFileAsync();
+            }
 
-            await FileIO.WriteTextAsync(file, data);
+            await FileIO.WriteTextAsync(File, data);
         }    
-#else
-        /// <summary> Запись файла на компьютере. Перед записью вызывает диалог сохранения файла. </summary>
-        /// <param name="data"> Данные, которые будут записаны в файл. </param>        
-        private static void WriteFileOnPC(string data)
-        {
-            string path = StandaloneFileBrowser.SaveFilePanel("Save Scheme", 
-                                                              "", 
-                                                              "New Scheme", 
-                                                              "json");
-            System.IO.File.WriteAllText(path, data);
-        }
 #endif
         
         #endregion

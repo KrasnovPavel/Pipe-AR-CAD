@@ -52,6 +52,7 @@ namespace HoloCAD.UI
         /// </remarks>
         private void Start ()
         {
+            // ReSharper disable once PossibleNullReferenceException
             _camera = Camera.main.transform;
             _renderer = GetComponent<LineRenderer>();
             _labelsBar = transform.Find("LabelsBar");

@@ -49,21 +49,23 @@ namespace HoloCAD.IO
             openPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             StorageFile file = await openPicker.PickSingleFileAsync();
             if (file == null) return;
+            SceneExporter.File = file;
 
             _jsonFile = await FileIO.ReadTextAsync(file);
             UnityEngine.WSA.Application.InvokeOnAppThread(DeserializeScheme, true);
         }    
-#endif
+#else
 
         /// <summary> Загрузка файла на компьютере. Перед загрузкой вызывает диалог выбора файла. </summary>
-        /// <returns> Возвращает текст json-файла с описанием сцены </returns>
+        /// <returns> Возвращает текст json-файла с описанием сцены. </returns>
         private static string ReadFileOnPC()
         {
             var paths = StandaloneFileBrowser.OpenFilePanel("Open scheme", "", "json", false);
             if (paths.Length == 0) return null;
-            string data = System.IO.File.ReadAllText(paths[0]);
-            return data;
+            SceneExporter.FilePath = paths[0];
+            return System.IO.File.ReadAllText(paths[0]);
         }
+#endif
 
         private static void DeserializeScheme()
         {
@@ -80,14 +82,14 @@ namespace HoloCAD.IO
                 if (parent == null || (start != null && start.HasChild))
                 {
                     TubeLoader.TubeData currentTubeData =
-                        TubeLoader.FindTubeData((float) expTube.diameter / 1000, expTube.standart_name);
-                    Tube tube = new Tube(expTube.standart_name, currentTubeData);
+                        TubeLoader.FindTubeData((float) expTube.diameter / 1000, expTube.standard_name);
+                    Tube tube = new Tube(expTube.standard_name, currentTubeData);
                     lastFragment = tube.StartFragment;  
                 }
                 else
                 {
                     start.Owner.Data = TubeLoader.FindTubeData((float) expTube.diameter / 1000, 
-                                                                expTube.standart_name);
+                                                                expTube.standard_name);
                     lastFragment = start;
                 }
                 
@@ -109,7 +111,7 @@ namespace HoloCAD.IO
             }
         }
         
-        /// <summary> Задает фрагменту параметры из файла для импорта данных </summary>
+        /// <summary> Задает фрагменту параметры из файла для импорта данных. </summary>
         /// <param name="fragment"> Отрезок трубы. </param>
         /// <param name="expFragment"> Фрагмент из файла импорта. </param>
         private static void ConvertFromExportFormat(TubeFragment fragment, ExpFragment expFragment)
