@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using UnityEngine;
 
 namespace HoloCAD.UI
 {
@@ -50,9 +53,9 @@ namespace HoloCAD.UI
         {
             foreach (var component in GetComponents<MonoBehaviour>())
             {
-                if (component is ISelectable)
+                if (component is ISelectable selectable)
                 {
-                    (component as ISelectable).OnDeselect();
+                    selectable.OnDeselect();
                 }
             }
         }

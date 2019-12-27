@@ -62,7 +62,7 @@ namespace HoloCAD.IO
                 array.tubes.Add(expTube);
                 expTube.diameter = tube.Data.diameter * 1000;
                 expTube.width = expTube.diameter * 0.1;
-                expTube.standart_name = tube.StandardName;
+                expTube.standard_name = tube.StandardName;
                 tube.MapFragmentsWithOutgrowth(fragment => expTube.fragments.Add(ConvertToExportFormat(fragment)));
                 expTube.fragments.RemoveAll(element => element == null);
             }

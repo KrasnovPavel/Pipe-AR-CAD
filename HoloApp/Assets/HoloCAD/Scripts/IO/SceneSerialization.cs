@@ -18,23 +18,20 @@ namespace HoloCAD.IO
 
         /// <summary> Экспортируемый объект трубы. </summary>
         [Serializable]
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public class ExpTube
         {
-            // ReSharper disable once InconsistentNaming
             /// <summary> Массив экспортируемых фрагментов трубы. </summary>
             public List<ExpFragment> fragments = new List<ExpFragment>();
 
-            // ReSharper disable once InconsistentNaming
             /// <summary> Диаметр трубы. </summary>
             public double diameter;
 
-            // ReSharper disable once InconsistentNaming
             /// <summary> Толщина стенки трубы. </summary>
             public double width;
             
-            // ReSharper disable once InconsistentNaming
             /// <summary> Наименование стандарта. </summary>
-            public string standart_name;
+            public string standard_name;
         }
 
         /// <summary> Экспортируемый объект фрагмента трубы. </summary>

@@ -162,9 +162,11 @@ namespace HoloCAD.UnityTubes
                 t.localRotation = Quaternion.Euler(-90, 0, 180);
             }
             
+            // ReSharper disable once PossibleNullReferenceException
             Camera.main.depthTextureMode = DepthTextureMode.DepthNormals;
         }
 
+        // ReSharper disable once Unity.RedundantEventFunction
         private void Update()
         {
       //      Debug.developerConsoleVisible = false;

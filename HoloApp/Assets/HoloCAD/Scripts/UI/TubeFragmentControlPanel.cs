@@ -3,6 +3,7 @@
 
 using System.ComponentModel;
 using HoloCAD.UnityTubes;
+using HoloCore;
 using HoloCore.UI;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -42,7 +43,7 @@ namespace HoloCAD.UI
         [Tooltip("Кнопка перехода на предыдущий отрезок трубы.")]
         [CanBeNull] public Button3D PreviousFragmentButton;
 
-        /// <summary> Участок трубы которому принадлежит эта панель. </summary>
+        /// <summary> Участок трубы, которому принадлежит эта панель. </summary>
         protected TubeFragment BaseFragment;
 
         /// <inheritdoc/>

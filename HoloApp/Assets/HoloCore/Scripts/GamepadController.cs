@@ -1,10 +1,12 @@
-﻿using System;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using HoloCore;
 using UnityEngine;
 
-namespace HoloCAD.UI
+namespace HoloCore
 {
     /// <summary> Класс для работы с геймпадом. </summary>
     public sealed class GamepadController : Singleton<GamepadController>
@@ -124,14 +126,14 @@ namespace HoloCAD.UI
             if (!Instance._longPressDelegates.ContainsKey(a))
             {
                 Instance._longPressCounter[a] = 0;
-                var lpa = new LongPressActions {start = start, finish = finish, cancel = cancel};
+                var lpa = new LongPressActions {Start = start, Finish = finish, Cancel = cancel};
                 Instance._longPressDelegates[a] = lpa;
             }
             else
             {
-                Instance._longPressDelegates[a].start  += start;
-                Instance._longPressDelegates[a].finish += finish;
-                Instance._longPressDelegates[a].cancel += cancel;
+                Instance._longPressDelegates[a].Start  += start;
+                Instance._longPressDelegates[a].Finish += finish;
+                Instance._longPressDelegates[a].Cancel += cancel;
             }
         }
 
@@ -147,10 +149,10 @@ namespace HoloCAD.UI
             Axis a = new Axis{Main=button1, Mod=button2};
             if (!Instance._longPressDelegates.ContainsKey(a)) return;
             
-            Instance._longPressDelegates[a].start  -= start;
-            Instance._longPressDelegates[a].finish -= finish;
-            Instance._longPressDelegates[a].cancel -= cancel;
-            if (Instance._longPressDelegates[a].start == null)
+            Instance._longPressDelegates[a].Start  -= start;
+            Instance._longPressDelegates[a].Finish -= finish;
+            Instance._longPressDelegates[a].Cancel -= cancel;
+            if (Instance._longPressDelegates[a].Start == null)
             {
                 Instance._longPressDelegates.Remove(a);
                 Instance._longPressCounter.Remove(a);
@@ -260,9 +262,9 @@ namespace HoloCAD.UI
 
         private class LongPressActions
         {
-            public Action start;
-            public Action finish;
-            public Action cancel;
+            public Action Start;
+            public Action Finish;
+            public Action Cancel;
         }
 
         private struct Axis
@@ -312,19 +314,19 @@ namespace HoloCAD.UI
                     if (_longPressCounter[key] > LongPressStartTime 
                         && _longPressCounter[key] < LongPressStartTime + Time.fixedDeltaTime)
                     {
-                        _longPressDelegates[key].start?.Invoke();
+                        _longPressDelegates[key].Start?.Invoke();
                     }
                     else if (_longPressCounter[key] > LongPressFinishTime
                              && _longPressCounter[key] < LongPressFinishTime + Time.fixedDeltaTime)
                     {
-                        _longPressDelegates[key].finish?.Invoke();
+                        _longPressDelegates[key].Finish?.Invoke();
                     }
                 }
                 else
                 {
                     if (_longPressCounter[key] > LongPressStartTime && _longPressCounter[key] < LongPressFinishTime)
                     {
-                        _longPressDelegates[key]?.cancel?.Invoke();
+                        _longPressDelegates[key]?.Cancel?.Invoke();
                     }
                     _longPressCounter[key] = 0;
                 }

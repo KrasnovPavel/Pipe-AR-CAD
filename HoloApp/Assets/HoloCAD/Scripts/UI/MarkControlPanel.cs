@@ -41,6 +41,7 @@ namespace HoloCAD.UI
         /// </remarks>
         private void Start()
         {
+            // ReSharper disable once PossibleNullReferenceException
             _mainCamera = Camera.main.transform;
             _mark = transform.parent.GetComponent<Mark>();
             _mark.PropertyChanged += delegate
@@ -123,12 +124,12 @@ namespace HoloCAD.UI
                     if (ButtonBar.activeSelf)
                     {
                         ButtonBar.SetActive(false);
-                        Target.MakeTransparent(false);
+                        if (Target != null) Target.MakeTransparent(false);
                     }
                     else
                     {
                         ButtonBar.SetActive(true);
-                        Target.MakeTransparent(true);
+                        if (Target != null) Target.MakeTransparent(true);
                     }
                 };
             }
@@ -171,13 +172,13 @@ namespace HoloCAD.UI
         /// <summary> Расстояние между камерой и меткой, при которой активируется выталкивание. </summary>
         private const float TriggerDistance = 2f;
 
-        /// <summary> Глубина выталкивания из объекта коллизии </summary>
+        /// <summary> Глубина выталкивания из объекта коллизии. </summary>
         private const float PushDepth = 0.05f;
         
-        /// <summary> Маска всех слоев, с которыми проверяется коллизия </summary>
+        /// <summary> Маска всех слоев, с которыми проверяется коллизия. </summary>
         private const int LayerMask = (1<<31)|(1<<30);
         
-        /// <summary> Позиция объекта камеры, к которой привязаны все метки </summary>
+        /// <summary> Позиция объекта камеры, к которой привязаны все метки. </summary>
         private static Transform _mainCamera;
 
         /// <summary> "Выталкивает" панель с кнопками из сетки пространства и отображаемой модели  </summary>

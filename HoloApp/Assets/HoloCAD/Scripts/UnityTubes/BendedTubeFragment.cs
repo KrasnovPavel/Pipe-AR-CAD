@@ -23,7 +23,7 @@ namespace HoloCAD.UnityTubes
         public Material EndRingMaterial;
 
         /// <summary> Стартовый флаг, указывающий какой из двух радиусов погиба используется. <c>true</c> если второй.  </summary>
-        public bool StartUseSecondRadius = false;
+        public bool StartUseSecondRadius;
         
         /// <summary> Стартовый угол погиба. </summary>
         public float StartAngle = 90f;

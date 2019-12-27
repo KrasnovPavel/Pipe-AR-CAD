@@ -82,14 +82,14 @@ namespace HoloCAD.IO
                 if (parent == null || (start != null && start.HasChild))
                 {
                     TubeLoader.TubeData currentTubeData =
-                        TubeLoader.FindTubeData((float) expTube.diameter / 1000, expTube.standart_name);
-                    Tube tube = new Tube(expTube.standart_name, currentTubeData);
+                        TubeLoader.FindTubeData((float) expTube.diameter / 1000, expTube.standard_name);
+                    Tube tube = new Tube(expTube.standard_name, currentTubeData);
                     lastFragment = tube.StartFragment;  
                 }
                 else
                 {
                     start.Owner.Data = TubeLoader.FindTubeData((float) expTube.diameter / 1000, 
-                                                                expTube.standart_name);
+                                                                expTube.standard_name);
                     lastFragment = start;
                 }
                 
@@ -111,7 +111,7 @@ namespace HoloCAD.IO
             }
         }
         
-        /// <summary> Задает фрагменту параметры из файла для импорта данных </summary>
+        /// <summary> Задает фрагменту параметры из файла для импорта данных. </summary>
         /// <param name="fragment"> Отрезок трубы. </param>
         /// <param name="expFragment"> Фрагмент из файла импорта. </param>
         private static void ConvertFromExportFormat(TubeFragment fragment, ExpFragment expFragment)

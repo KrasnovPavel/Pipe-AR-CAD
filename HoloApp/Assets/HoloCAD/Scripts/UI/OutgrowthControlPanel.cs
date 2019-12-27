@@ -4,6 +4,7 @@
 using System;
 using System.ComponentModel;
 using HoloCAD.UnityTubes;
+using HoloCore;
 using HoloCore.UI;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -21,8 +22,8 @@ namespace HoloCAD.UI
         [Tooltip("Кнопка, двигающая отросток к началу родительской трубы.")]
         [CanBeNull] public Button3D BackwardButton;
 
-        /// <summary> Кнопка увеличения угла под которым отросток выходит из родительской трубы. </summary>
-        [Tooltip("Кнопка увеличения угла под которым отросток выходит из родительской трубы.")]
+        /// <summary> Кнопка увеличения угла, под которым отросток выходит из родительской трубы. </summary>
+        [Tooltip("Кнопка увеличения угла, под которым отросток выходит из родительской трубы.")]
         [CanBeNull] public Button3D IncreaseAngle;
 
         /// <summary> Кнопка уменьшения угла под которым отросток выходит из родительской трубы. </summary>
