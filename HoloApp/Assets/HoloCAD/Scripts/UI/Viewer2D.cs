@@ -13,7 +13,7 @@ using UnityEngine;
     using Windows.Storage.Streams;
 #endif
 
-namespace Docs2D
+namespace HoloCAD.UI
 {
     /// <summary> Класс для отображения 2D документов. </summary>
     public class Viewer2D : MonoBehaviour
