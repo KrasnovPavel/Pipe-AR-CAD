@@ -112,16 +112,18 @@ namespace HoloCAD
 
             if (markId == -1) return;
             
+            Debug.Log($"mark{markId}");
             Transform currentMark = Marks[markId].transform;
 
             transform.SetParent(currentMark, false);
             transform.localScale = new Vector3(1 / currentMark.lossyScale.x, 
                                                1 / currentMark.lossyScale.z, 
                                                1 / currentMark.lossyScale.z);
-            transform.localPosition = PositionsOfMarks[markId];
+            transform.localPosition = PositionsOfMarks[markId]*-6.25f;
             transform.localRotation = Quaternion.Euler(RotationsOfMarks[markId]);
 
             transform.SetParent(null, true);
+            Debug.Log($"!!!!!!!{transform.localPosition.x},{transform.localPosition.y},{transform.localPosition.z}");
         }
 
         #endregion

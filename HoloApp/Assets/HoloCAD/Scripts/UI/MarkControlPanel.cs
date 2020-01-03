@@ -1,6 +1,7 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System;
 using HoloCAD.UnityTubes;
 using HoloCore.UI;
 using JetBrains.Annotations;
@@ -25,12 +26,13 @@ namespace HoloCAD.UI
         [CanBeNull] public Button3D TurnYawMinus;
         [CanBeNull] public Button3D ChangeTargetCollider;
         [CanBeNull] public Button3D Edit;
+        [CanBeNull] public Button3D LoadGLTF;
         [CanBeNull] public TextMesh PositionLabel;
         [CanBeNull] public TextMesh RotationLabel;
         [CanBeNull] public TextMesh DetectionLabel;
         [CanBeNull] public GameObject ButtonBar;
         [CanBeNull] public MarksTarget Target;
-
+        
         #region Unity event function
 
         /// <summary> Функция, выполняющаяся после инициализизации участка трубы в Unity. </summary>
@@ -58,6 +60,11 @@ namespace HoloCAD.UI
             };
 
             if (Target == null) return;
+
+            if (LoadGLTF != null)
+            {
+                LoadGLTF.OnClick += delegate{ GlTFImporter.Instance.ImportglTFFile();};
+            }
             
             if (MoveLeft != null)
             {
