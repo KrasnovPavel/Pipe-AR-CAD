@@ -25,9 +25,12 @@ namespace MarksEditor.glTF
         {
             string filePath = SaveDialog();
             root rootOfglTF = FormglTFRoot();
+            AddMarksData(rootOfglTF);
             string glTFString = FormglTFString(rootOfglTF);
             WriteglTFStringIntoFile(filePath,glTFString);
         }
+
+        
 
         /// <summary> Записывает данные в файл по указанному пути </summary>
         /// <param name="filePath">Путь к файлу</param>
@@ -69,7 +72,7 @@ namespace MarksEditor.glTF
         {
             root currentRoot = new root();
             currentRoot.scenes = new List<scene>(new scene[]{new scene()});
-            Transform targetTransform = MarkPlaceController.Instance.Target.transform;
+            Transform targetTransform = Target.transform;
             currentRoot.nodes = new List<node>();
             
             currentRoot.scenes[0].nodes = new List<int>();
@@ -221,6 +224,25 @@ namespace MarksEditor.glTF
             Debug.Log($"{index}, {currentRoot.nodes.Count}");
 
             return currentRoot;
+        }
+        
+        /// <summary> Добавляет данные о метках в корневой объект glTF-файла </summary>
+        /// <param name="rootOfglTf">Корневой объект</param>
+        private void AddMarksData(root rootOfglTf)
+        {
+            rootOfglTf._marksInfo = new _marksInfo();
+            int marksCount = MarksController.Instance.AllMarks.Count;
+            rootOfglTf._marksInfo.marksCount = marksCount;
+            rootOfglTf._marksInfo._marks = new List<_mark>();
+            foreach (MarkOnScene currentMark in MarksController.Instance.AllMarks)
+            {
+                Transform markTransform = currentMark.transform;
+                _mark currentMarkToSave = new _mark(markTransform.position.x,
+                    markTransform.position.y, markTransform.position.z,
+                    markTransform.eulerAngles.x,markTransform.eulerAngles.y, markTransform.eulerAngles.z, $"ImageTarget{currentMark.Id}",
+                    "Target");
+                rootOfglTf._marksInfo._marks.Add(currentMarkToSave);
+            }
         }
 
 
