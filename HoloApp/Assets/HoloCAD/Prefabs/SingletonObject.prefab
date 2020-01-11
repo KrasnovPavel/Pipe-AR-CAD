@@ -181,4 +181,5 @@ MonoBehaviour:
     type: 3}
   ViewerImagePrefab: {fileID: 4784356913630207212, guid: c537528226209c449850f0fc8fc6331b,
     type: 3}
-  ViewerTextPrefab: {fileID: 0}
+  ViewerTextPrefab: {fileID: 4784356913630207212, guid: d34ec2182a127af4d9368f30dc3cf763,
+    type: 3}

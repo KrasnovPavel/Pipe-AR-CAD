@@ -32,7 +32,7 @@ namespace HoloCAD.UI.Docs2D
         public string FileName { get; protected set; }
 
         /// <summary> Свернуто ли окно? </summary>
-        public bool IsHided
+        public virtual bool IsHided
         {
             get => _isHided;
             protected set
