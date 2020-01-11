@@ -20,7 +20,7 @@ namespace HoloCAD.UI.Docs2D
             Texture2D sample = new Texture2D(2, 2);
             sample.LoadImage(byteArray);
             _material.mainTexture = sample;
-            ResizeCanvas(new Vector2(sample.texelSize.y, sample.texelSize.x));
+            ResizeCanvas(new Vector2(sample.texelSize.y, sample.texelSize.x)); //-V3066
         }
 
         #region Unity event functioins
