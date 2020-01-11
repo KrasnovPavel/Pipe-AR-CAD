@@ -74,6 +74,7 @@ namespace HoloCAD.UI.Docs2D
         public virtual void Init(byte[] byteArray, string path)
         {
             FileName = Path.GetFileName(path);
+            SetText();
         }
         
         /// <summary> Устанавливает пропорции холста в зависимости от размера страницы. </summary>
@@ -88,8 +89,12 @@ namespace HoloCAD.UI.Docs2D
                 Canvas.transform.localScale = new Vector3(size.x / size.y, 1, 1);
             }
         }
-
-        private bool _isHided;
+        
+        /// <summary> Устанавливает заголовок окна. </summary>
+        protected virtual void SetText()
+        {
+            if (Label != null) Label.text = $"{FileName}";
+        }
 
         #region Unity event functions
 
@@ -108,6 +113,12 @@ namespace HoloCAD.UI.Docs2D
         {
             Controller2D.ViewerDestroyed(this);
         }
+
+        #endregion
+
+        #region Private definitions
+
+        private bool _isHided;
 
         #endregion
     }

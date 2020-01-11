@@ -79,6 +79,19 @@ namespace HoloCAD.UI.Docs2D
             }
         }
 
+        /// <inheritdoc />
+        protected override void SetText()
+        {
+            if (Document == null && Label != null)
+            {
+                Label.text = "Документ не открыт";
+            } 
+            else if (Document != null && Label != null)
+            {
+                Label.text = $"({_currentPageNumber + 1}/{Document.GetPageCount()}) {FileName}";
+            }
+        }
+
         #region Unity event functions
 
         /// <inheritdoc />
@@ -108,18 +121,6 @@ namespace HoloCAD.UI.Docs2D
         {
             if (PreviousPageButton != null) PreviousPageButton.SetEnabled(Document != null && _currentPageNumber > 0);
             if (NextPageButton != null) NextPageButton.SetEnabled(Document != null && _currentPageNumber < Document.GetPageCount() - 1);
-        }
-
-        private void SetText()
-        {
-            if (Document == null && Label != null)
-            {
-                Label.text = "Документ не открыт";
-            } 
-            else if (Document != null && Label != null)
-            {
-                Label.text = $"({_currentPageNumber + 1}/{Document.GetPageCount()}) {FileName}";
-            }
         }
 
         #endregion

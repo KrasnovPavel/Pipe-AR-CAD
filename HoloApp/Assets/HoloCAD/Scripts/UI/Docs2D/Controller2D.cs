@@ -110,6 +110,9 @@ namespace HoloCAD.UI.Docs2D
         {
             FileOpenPicker openPicker = new FileOpenPicker();
             openPicker.FileTypeFilter.Add(".pdf");
+            openPicker.FileTypeFilter.Add(".jpg");
+            openPicker.FileTypeFilter.Add(".png");
+            openPicker.FileTypeFilter.Add(".txt");
             openPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             StorageFile file = await openPicker.PickSingleFileAsync();
             if (file == null) return;
