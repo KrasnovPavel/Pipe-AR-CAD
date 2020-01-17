@@ -81,6 +81,7 @@ namespace MarksEditor.glTF
             
             currentRoot.bufferViews = new List<bufferView>();
             currentRoot.accessors =new List<accessor>();
+            currentRoot.materials = new List<material>();
             
             int index = 0;
             foreach (Transform childTransform in targetTransform.GetComponentInChildren<Transform>())
@@ -182,6 +183,7 @@ namespace MarksEditor.glTF
                 currentRoot.meshes[index].primitives[0].attributes = new attribute();
                 currentRoot.meshes[index].primitives[0].attributes.POSITION = index*2+1;
                 currentRoot.meshes[index].primitives[0].indices = index*2;
+                currentRoot.meshes[index].primitives[0].material = index;
                 currentRoot.buffers.Add(new buffer());
                 currentRoot.buffers[index].uri += encodedBuffer;
                 currentRoot.buffers[index].byteLength = byteLen;
@@ -216,7 +218,21 @@ namespace MarksEditor.glTF
                     currentRoot.accessors[index * 2 + 1].max = new float[3] {0, 0, 0};
                 }
                 currentRoot.accessors[index*2+1].min = new float[3]{minX,minY,minZ};
-                currentRoot.accessors[index * 2 + 1].max = new float[3] {maxX, maxY, maxZ};                
+                currentRoot.accessors[index * 2 + 1].max = new float[3] {maxX, maxY, maxZ};
+                currentRoot.materials.Add(new material());
+                Material rendererMaterial ;
+                try{
+                    rendererMaterial = childTransform.GetComponent<MeshRenderer>().material;
+                }
+                catch{
+                    continue;
+                }
+                currentRoot.materials[index].pbrMetallicRoughness = new pbrMetallicRoughness_material();
+                currentRoot.materials[index].pbrMetallicRoughness.baseColorFactor = new[]
+                {
+                    rendererMaterial.color.r, rendererMaterial.color.g, rendererMaterial.color.b,
+                    rendererMaterial.color.a
+                };
                 index++;
                 
             }

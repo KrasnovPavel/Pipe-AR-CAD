@@ -464,60 +464,24 @@
       <change afterPath="$PROJECT_DIR$/Library/metadata/fe/fec197bad419341558f81f2ec8a05e18.info" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Library/metadata/fe/fed9dda667cab45d398d06402bba03f4" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Library/metadata/fe/fed9dda667cab45d398d06402bba03f4.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/MarksTarget.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/MarksTarget.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/GlTFImporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/GlTFImporter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/glTFExportClasses.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/glTFExportClasses.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/Scenes/Default.unity" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/Scenes/Default.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/PiXYZConfigFiles.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/PiXYZConfigFiles/Poor Import Settings.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/PiXYZConfigFiles/Poor Import Settings.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Prefabs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Prefabs/MarkParamsPrefab.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Prefabs/MarkParamsPrefab.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Prefabs/MarkPrefab.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Prefabs/MarkPrefab.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Prefabs/Pips_lowpoly.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Prefabs/Pips_lowpoly.obj.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Prefabs/REGK_109_OR.CATProduct.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Prefabs/REGK_109_OR.CATProduct.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scenes.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scenes/MarkEditor.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scenes/MarkEditor.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scenes/SampleScene.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scenes/SampleScene.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/ColliderAdder.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/ColliderAdder.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/FileSaverLoader.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/FileSaverLoader.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/InputController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/InputController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/InputFromPanel.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/InputFromPanel.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkOnScene.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkOnScene.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkParamPanel.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkParamPanel.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkPlaceController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkPlaceController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkSerializeClasses.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarkSerializeClasses.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarksController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/MarksController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/ModelImporter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/ModelImporter.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/OBJExporter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/OBJExporter.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/Singleton.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/Singleton.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/UIController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/UIController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFExporter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFExporter.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFImporter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/glTFExportClasses.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MarkEditor.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MarkEditor.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MissedScene.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MissedScene.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" afterDir="false" />
     </list>
     <list id="3abf2cac-0dbe-47c2-8a4f-1a1468c659f0" name="Удален лишний код, добавлены коментарии. Идет работа над добавлением данных о метках в корень glTF-файла" comment="" />
@@ -556,15 +520,25 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="XAMLinConverter" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="SET_USER_NAME_GLOBALLY" value="false" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/StandaloneFileBrowser.meta" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/glTF/GlTFImporter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Prefabs/MarkButtonBar.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../HoloApp/Assets/MixedRealityToolkit.Generated/CustomProfiles/HL1ConfigurationProfile.asset" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F30414C8-F044-4549-92F6-2BA49B8ABE86/fe/9aae0a32/JsonUtility.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/StandaloneFileBrowser.meta" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/FileSaverLoader.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -594,6 +568,11 @@
         <option value="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GlTFImporter.cs" />
         <option value="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/GLTFExporter.cs" />
         <option value="$PROJECT_DIR$/Assets/Assets/Scripts/glTF/glTFExportClasses.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ColliderAdder.cs" />
+        <option value="C:/Users/majorov.d/AppData/Local/Microsoft/Windows/INetCache/IE/FS79HK53/file[1].glTF" />
+        <option value="E:/file.glTF" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" />
       </list>
     </option>
   </component>
@@ -621,7 +600,25 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+  <component name="RunManager" selected=".NET Project.Default">
+    <configuration name="Default" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="None" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
@@ -678,7 +675,12 @@
       <workItem from="1577689277264" duration="1109000" />
       <workItem from="1577701633361" duration="860000" />
       <workItem from="1578058802062" duration="1196000" />
-      <workItem from="1578096081608" duration="947000" />
+      <workItem from="1578096081608" duration="1734000" />
+      <workItem from="1578099346476" duration="794000" />
+      <workItem from="1578164447288" duration="795000" />
+      <workItem from="1578167144735" duration="2592000" />
+      <workItem from="1578568456305" duration="4750000" />
+      <workItem from="1579217283079" duration="3766000" />
     </task>
     <task id="LOCAL-00001" summary="Починил интерфейс и сделал исправления структуры кода">
       <created>1570433576741</created>
@@ -715,7 +717,21 @@
       <option name="project" value="LOCAL" />
       <updated>1577359569915</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Мелкие правки и улучшения редактора">
+      <created>1578097195355</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1578097195355</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Удален класс добавляющий коллизию таргету">
+      <created>1578099444862</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1578099444862</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -758,7 +774,9 @@
     <MESSAGE value="Удален лишний код, добавлены коментарии. Идет работа над добавлением данных о метках в корень glTF-файла" />
     <MESSAGE value="Добавлен экспорт мешей в glTF. Удален лишний код, добавлены коментарии. Идет работа над добавлением данных о метках в корень glTF-файла" />
     <MESSAGE value="Удален SFB" />
-    <option name="LAST_COMMIT_MESSAGE" value="Удален SFB" />
+    <MESSAGE value="Мелкие правки и улучшения редактора" />
+    <MESSAGE value="Удален класс добавляющий коллизию таргету" />
+    <option name="LAST_COMMIT_MESSAGE" value="Удален класс добавляющий коллизию таргету" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
