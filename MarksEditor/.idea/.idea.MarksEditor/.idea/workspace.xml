@@ -464,24 +464,10 @@
       <change afterPath="$PROJECT_DIR$/Library/metadata/fe/fec197bad419341558f81f2ec8a05e18.info" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Library/metadata/fe/fed9dda667cab45d398d06402bba03f4" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Library/metadata/fe/fed9dda667cab45d398d06402bba03f4.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/MarksTarget.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/MarksTarget.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/GlTFImporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/GlTFImporter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/glTFExportClasses.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/glTFExportClasses.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/Scenes/Default.unity" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/Scenes/Default.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MarkEditor.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MarkEditor.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MissedScene.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MissedScene.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/glTF/GlTFImporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/glTF/GlTFImporter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" afterDir="false" />
     </list>
     <list id="3abf2cac-0dbe-47c2-8a4f-1a1468c659f0" name="Удален лишний код, добавлены коментарии. Идет работа над добавлением данных о метках в корень glTF-файла" comment="" />
@@ -573,6 +559,7 @@
         <option value="E:/file.glTF" />
         <option value="$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/glTF/GlTFImporter.cs" />
       </list>
     </option>
   </component>
@@ -680,7 +667,8 @@
       <workItem from="1578164447288" duration="795000" />
       <workItem from="1578167144735" duration="2592000" />
       <workItem from="1578568456305" duration="4750000" />
-      <workItem from="1579217283079" duration="3766000" />
+      <workItem from="1579217283079" duration="4441000" />
+      <workItem from="1579302613281" duration="746000" />
     </task>
     <task id="LOCAL-00001" summary="Починил интерфейс и сделал исправления структуры кода">
       <created>1570433576741</created>
@@ -731,7 +719,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578099444862</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Добавлен экспорт цветов из CAD-модели">
+      <created>1579221775962</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1579221775963</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -776,7 +771,8 @@
     <MESSAGE value="Удален SFB" />
     <MESSAGE value="Мелкие правки и улучшения редактора" />
     <MESSAGE value="Удален класс добавляющий коллизию таргету" />
-    <option name="LAST_COMMIT_MESSAGE" value="Удален класс добавляющий коллизию таргету" />
+    <MESSAGE value="Добавлен экспорт цветов из CAD-модели" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлен экспорт цветов из CAD-модели" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

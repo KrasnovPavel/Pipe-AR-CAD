@@ -122,13 +122,19 @@ namespace MarksEditor.glTF
                 MeshFilter currentMeshFilter = currentPrimitiveGameObject.AddComponent<MeshFilter>();
                 
                 MeshRenderer currentMeshRenderer = currentPrimitiveGameObject.AddComponent<MeshRenderer>();
-                currentMeshRenderer.material = new Material(Shader.Find("VR/SpatialMapping/Wireframe"));
-                currentMeshRenderer.material.color = Color.white;
+                currentMeshRenderer.material = new Material(Shader.Find("Standard"));
+                material currentExportedMaterial= rootOfglTFFile.materials[currentMeshPrimitive.material];
+                currentMeshRenderer.material.SetFloat("_Glossiness", currentExportedMaterial.pbrMetallicRoughness.roughnessFactor);
+                currentMeshRenderer.material.SetFloat("_Metallic", currentExportedMaterial.pbrMetallicRoughness.metallicFactor);
+                currentMeshRenderer.material.color = new Color(currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[0],
+                    currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[1],
+                    currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[2],
+                    currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[3]);
                 
                 Mesh currentUnityMesh = new Mesh();
                 
                 accessor positionAccessor =  rootOfglTFFile.accessors[currentMeshPrimitive.attributes.POSITION];
-                accessor indicesAccessor = rootOfglTFFile.accessors[currentMeshPrimitive.indices]; //TODO: нормали + материалы
+                accessor indicesAccessor = rootOfglTFFile.accessors[currentMeshPrimitive.indices]; //TODO: нормали 
 
                 bufferView positionBufferView = rootOfglTFFile.bufferViews[positionAccessor.bufferView];
                 bufferView indicesBufferView = rootOfglTFFile.bufferViews[indicesAccessor.bufferView];
