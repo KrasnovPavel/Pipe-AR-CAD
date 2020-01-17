@@ -23,6 +23,7 @@ using UnityEngine.Serialization;
         public List<bufferView> bufferViews;
         public List<accessor> accessors;
         public _marksInfo _marksInfo;
+        public List<material> materials;
         public asset asset;
     }
 
@@ -58,6 +59,7 @@ using UnityEngine.Serialization;
     {
         public attribute attributes;
         public int indices;
+        public int material;
     }
 
     /// <summary> Класс атрибутов примитивов меша glTF-файла/// </summary>
@@ -148,4 +150,19 @@ using UnityEngine.Serialization;
             this.target = drawObjectName;
         }
     }
+/// <summary> Описание материала для glTF-файла </summary>
+[Serializable]
+public class material
+{
+    public pbrMetallicRoughness_material pbrMetallicRoughness;
+}
+    
+/// <summary> Параметр материала для glTF-файла </summary>
+[Serializable]
+public class pbrMetallicRoughness_material
+{
+    public float[] baseColorFactor  = {1.000f, 0.766f, 0.336f, 1.0f};
+    public float metallicFactor = 0.5f;
+    public float roughnessFactor = 0.5f;
+}
 

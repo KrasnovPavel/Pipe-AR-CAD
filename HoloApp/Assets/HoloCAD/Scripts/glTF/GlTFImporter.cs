@@ -90,6 +90,7 @@ using UnityEngine;
                     currentNodeGameObject.transform.parent = currentSceneGameObject.transform;
                     FormMeshesFromglTF(currentNodeGameObject, currentNode, CurrentRoot);
                     AddCollision(currentNodeGameObject);
+                    //currentNodeGameObject.transform.localPosition = Vector3.zero;
                 }
             }
 
@@ -119,8 +120,14 @@ using UnityEngine;
                 currentPrimitiveGameObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 MeshFilter currentMeshFilter = currentPrimitiveGameObject.AddComponent<MeshFilter>();
                 MeshRenderer currentMeshRenderer = currentPrimitiveGameObject.AddComponent<MeshRenderer>();
-                    // currentMeshRenderer.material = new Material(Shader.Find("VR/SpatialMapping/Wireframe"));
-                currentMeshRenderer.material.color = Color.white;
+                currentMeshRenderer.material = new Material(Shader.Find("Standard"));
+                material currentExportedMaterial= rootOfglTFFile.materials[currentMeshPrimitive.material];
+                currentMeshRenderer.material.SetFloat("_Glossiness", currentExportedMaterial.pbrMetallicRoughness.roughnessFactor);
+                currentMeshRenderer.material.SetFloat("_Metallic", currentExportedMaterial.pbrMetallicRoughness.metallicFactor);
+                currentMeshRenderer.material.color = new Color(currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[0],
+                    currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[1],
+                    currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[2],
+                    currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[3]);
                 Mesh currentUnityMesh = new Mesh();
                 accessor positionAccessor = rootOfglTFFile.accessors[currentMeshPrimitive.attributes.POSITION];
                 accessor indicesAccessor =
@@ -178,6 +185,7 @@ using UnityEngine;
         /// <param name="currentNodeGameObject"> Входной узел</param>
         private async void AddCollision(GameObject currentNodeGameObject)
         {
+            
             foreach (MeshFilter meshFilterChild in currentNodeGameObject.transform.GetComponentsInChildren<MeshFilter>()
             )
             {
@@ -189,6 +197,7 @@ using UnityEngine;
                 meshCollider.sharedMesh = meshFilterChild.mesh;
                 newGameObject.transform.SetParent(meshFilterChild.transform);
                 newGameObject.transform.localPosition = Vector3.zero;
+                newGameObject.transform.localRotation = Quaternion.Euler(0,0,0);
             }
         }
 
