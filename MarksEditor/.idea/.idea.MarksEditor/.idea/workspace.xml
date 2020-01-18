@@ -4,7 +4,6 @@
     <list default="true" id="ad7bee9d-4346-43f8-8009-e4600a7b783a" name="Default Changelist" comment="Починил интерфейс и сделал исправления структуры кода">
       <change afterPath="$PROJECT_DIR$/../HoloApp/Logs/Packages-Update.log" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../HoloApp/replay_pid308.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/StandaloneFileBrowser.meta" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/IStandaloneFileBrowser.cs" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/IStandaloneFileBrowser.cs.meta" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Assets/StandaloneFileBrowser/Plugins.meta" afterDir="false" />
@@ -466,7 +465,6 @@
       <change afterPath="$PROJECT_DIR$/Library/metadata/fe/fed9dda667cab45d398d06402bba03f4.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/GlTFImporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/GlTFImporter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MarkEditor.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MarkEditor.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/glTF/GlTFImporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/glTF/GlTFImporter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" afterDir="false" />
     </list>
@@ -668,7 +666,7 @@
       <workItem from="1578167144735" duration="2592000" />
       <workItem from="1578568456305" duration="4750000" />
       <workItem from="1579217283079" duration="4441000" />
-      <workItem from="1579302613281" duration="746000" />
+      <workItem from="1579302613281" duration="3959000" />
     </task>
     <task id="LOCAL-00001" summary="Починил интерфейс и сделал исправления структуры кода">
       <created>1570433576741</created>
@@ -726,7 +724,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579221775963</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Добавлен импорт цветов из glTF в Конвертер">
+      <created>1579303561818</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1579303561819</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -772,7 +777,8 @@
     <MESSAGE value="Мелкие правки и улучшения редактора" />
     <MESSAGE value="Удален класс добавляющий коллизию таргету" />
     <MESSAGE value="Добавлен экспорт цветов из CAD-модели" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавлен экспорт цветов из CAD-модели" />
+    <MESSAGE value="Добавлен импорт цветов из glTF в Конвертер" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлен импорт цветов из glTF в Конвертер" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -107,79 +107,16 @@ namespace MarksEditor.glTF
         /// <param name="rootOfglTFFile">Корневой объект</param>
         private void FormMeshesFromglTF(GameObject currentNodeGameObject, node currentNode, root rootOfglTFFile)
         {
-                currentNodeGameObject.transform.localRotation = Quaternion.Euler((new Quaternion(currentNode.rotation[0],
-                currentNode.rotation[1], currentNode.rotation[2], currentNode.rotation[3])).eulerAngles);
-            currentNodeGameObject.transform.localPosition = new Vector3(currentNode.translation[0],currentNode.translation[1],currentNode.translation[2]);
-            currentNodeGameObject.transform.localScale = new Vector3(currentNode.scale[0],currentNode.scale[1],currentNode.scale[2]);
+            SetTransformToNode(currentNode, currentNodeGameObject);
             mesh currentMesh = rootOfglTFFile.meshes[currentNode.mesh];
             foreach (primitive currentMeshPrimitive in currentMesh.primitives)
             {
-                GameObject currentPrimitiveGameObject = new GameObject();
-                currentPrimitiveGameObject.transform.parent = currentNodeGameObject.transform;
-                currentPrimitiveGameObject.transform.localScale  = new Vector3(1,1,1);
-                currentPrimitiveGameObject.transform.localPosition  = new Vector3(0,0,0);
-                currentPrimitiveGameObject.transform.localRotation  = Quaternion.Euler(0,0,0);
-                MeshFilter currentMeshFilter = currentPrimitiveGameObject.AddComponent<MeshFilter>();
-                
-                MeshRenderer currentMeshRenderer = currentPrimitiveGameObject.AddComponent<MeshRenderer>();
-                currentMeshRenderer.material = new Material(Shader.Find("Standard"));
-                material currentExportedMaterial= rootOfglTFFile.materials[currentMeshPrimitive.material];
-                currentMeshRenderer.material.SetFloat("_Glossiness", currentExportedMaterial.pbrMetallicRoughness.roughnessFactor);
-                currentMeshRenderer.material.SetFloat("_Metallic", currentExportedMaterial.pbrMetallicRoughness.metallicFactor);
-                currentMeshRenderer.material.color = new Color(currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[0],
-                    currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[1],
-                    currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[2],
-                    currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[3]);
-                
-                Mesh currentUnityMesh = new Mesh();
-                
-                accessor positionAccessor =  rootOfglTFFile.accessors[currentMeshPrimitive.attributes.POSITION];
-                accessor indicesAccessor = rootOfglTFFile.accessors[currentMeshPrimitive.indices]; //TODO: нормали 
+                GameObject currentPrimitiveGameObject = CreateGameObjectOfPrimitive(currentNodeGameObject);
+               
+                SetMaterial(rootOfglTFFile.materials[currentMeshPrimitive.material], 
+                    currentPrimitiveGameObject.AddComponent<MeshRenderer>());
 
-                bufferView positionBufferView = rootOfglTFFile.bufferViews[positionAccessor.bufferView];
-                bufferView indicesBufferView = rootOfglTFFile.bufferViews[indicesAccessor.bufferView];
-
-                buffer positionBuffer = rootOfglTFFile.buffers[positionBufferView.buffer];
-                buffer indicesBuffer = rootOfglTFFile.buffers[indicesBufferView.buffer];
-
-                string positionBufferWithoutPrefix = positionBuffer.uri.Substring(glTFConvertionConsts.bufferPrefix.Length);
-                string indicesBufferWithoutPrefix = indicesBuffer.uri.Substring(glTFConvertionConsts.bufferPrefix.Length);
-
-                byte[] positionBytes = Convert.FromBase64String(positionBufferWithoutPrefix);
-                byte[] indicesBytes = Convert.FromBase64String(indicesBufferWithoutPrefix);
-
-                MemoryStream positionMemoryStream = new MemoryStream(positionBytes, positionBufferView.byteOffset, positionBufferView.byteLength);
-                MemoryStream indicesMemoryStream = new MemoryStream(indicesBytes,indicesBufferView.byteOffset,indicesBufferView.byteLength);
-                
-                Vector3[] vertices = new Vector3[positionAccessor.count];
-                
-                for (int vector3Index = 0; vector3Index < positionAccessor.count; vector3Index++)
-                {
-                    Vector3 currentVector3 = new Vector3();
-                    byte[] coordinateFloatBytes = new byte[12];
-                    positionMemoryStream.Read(coordinateFloatBytes, 0, 12);
-                    
-                    currentVector3.x = BitConverter.ToSingle(coordinateFloatBytes, 0);
-                    currentVector3.y = BitConverter.ToSingle(coordinateFloatBytes, 4);
-                    currentVector3.z = BitConverter.ToSingle(coordinateFloatBytes, 8);
-                    
-                    vertices[vector3Index] = currentVector3;
-                }
-                positionMemoryStream.Close();
-                currentUnityMesh.vertices = vertices;
-
-                int[] indices = new int[indicesAccessor.count];
-                
-                for (int indexIndex = 0; indexIndex < indicesAccessor.count; indexIndex++)
-                {
-                    byte[] triangleIndicesBytes = new byte[2];
-                    indicesMemoryStream.Read(triangleIndicesBytes, 0, 2);
-                    indices[indexIndex] = BitConverter.ToUInt16(triangleIndicesBytes,0);
-                }
-                
-                indicesMemoryStream.Close();
-                currentUnityMesh.triangles = indices;
-                currentMeshFilter.mesh = currentUnityMesh;
+                CreateMesh(rootOfglTFFile, currentMeshPrimitive, currentPrimitiveGameObject.AddComponent<MeshFilter>());
             }
         }
 
@@ -199,7 +136,109 @@ namespace MarksEditor.glTF
                 newGameObject.transform.localPosition = Vector3.zero;
             }
         }
+
+        /// <summary> Вносит данные о позиции, масштабу и повороту объекта из объекта узла </summary>
+        /// <param name="currentNode">Объект узла glTF</param>
+        /// <param name="currentNodeGameObject">Объект, в который заносятся данные</param>
+        private void SetTransformToNode(node currentNode,GameObject currentNodeGameObject )
+        {
+            float[] nodeRotation = currentNode.rotation;
+            float[] nodeTranslation = currentNode.translation;
+            float[] nodeScale = currentNode.scale;
+            currentNodeGameObject.transform.localRotation = Quaternion.Euler((new Quaternion(nodeRotation[0],
+                nodeRotation[1], nodeRotation[2], nodeRotation[3])).eulerAngles);
+            currentNodeGameObject.transform.localPosition = new Vector3(nodeTranslation[0],nodeTranslation[1],nodeTranslation[2]);
+            currentNodeGameObject.transform.localScale = new Vector3(nodeScale[0],nodeScale[1],nodeScale[2]);
+        }
+
+        /// <summary>Устанавливает материал мешу из glTF-файла </summary>
+        /// <param name="currentExportedMaterial">Объект материала из glTF-файла</param>
+        /// <param name="currentMeshRenderer">Рендерер меша</param>
+        private void SetMaterial(material currentExportedMaterial, MeshRenderer currentMeshRenderer )
+        {
+            currentMeshRenderer.material = new Material(Shader.Find("Standard"));
+            currentMeshRenderer.material.SetFloat("_Glossiness", 
+                currentExportedMaterial.pbrMetallicRoughness.roughnessFactor);
+            currentMeshRenderer.material.SetFloat("_Metallic", 
+                currentExportedMaterial.pbrMetallicRoughness.metallicFactor);
+            currentMeshRenderer.material.color = new Color(
+                currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[0],
+                currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[1],
+                currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[2],
+                currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[3]);
+        }
+    
+        /// <summary> Создает меш из данных glTF-файла </summary>
+        /// <param name="rootOfglTFFile">Коренной объект glTF-файла</param>
+        /// <param name="currentMeshPrimitive">Объект примитива glTF-файла</param>
+        /// <param name="currentMeshFilter">Меш фильтр объекта</param>
+        private void CreateMesh(root rootOfglTFFile, primitive currentMeshPrimitive, MeshFilter currentMeshFilter )
+        {
+            Mesh currentUnityMesh = new Mesh();
+            
+            accessor positionAccessor = rootOfglTFFile.accessors[currentMeshPrimitive.attributes.POSITION];
+            accessor indicesAccessor = rootOfglTFFile.accessors[currentMeshPrimitive.indices]; //TODO: нормали 
+            
+            bufferView positionBufferView = rootOfglTFFile.bufferViews[positionAccessor.bufferView];
+            bufferView indicesBufferView = rootOfglTFFile.bufferViews[indicesAccessor.bufferView];
+            
+            buffer positionBuffer = rootOfglTFFile.buffers[positionBufferView.buffer];
+            buffer indicesBuffer = rootOfglTFFile.buffers[indicesBufferView.buffer];
+            
+            string positionBufferWithoutPrefix = positionBuffer.uri.Substring(glTFConvertionConsts.bufferPrefix.Length);
+            string indicesBufferWithoutPrefix = indicesBuffer.uri.Substring(glTFConvertionConsts.bufferPrefix.Length);
+            
+            byte[] positionBytes = Convert.FromBase64String(positionBufferWithoutPrefix);
+            byte[] indicesBytes = Convert.FromBase64String(indicesBufferWithoutPrefix);
+            
+            MemoryStream positionMemoryStream = new MemoryStream(positionBytes, positionBufferView.byteOffset,
+                positionBufferView.byteLength);
+            MemoryStream indicesMemoryStream =
+                new MemoryStream(indicesBytes, indicesBufferView.byteOffset, indicesBufferView.byteLength);
+            
+            Vector3[] vertices = new Vector3[positionAccessor.count];
+            
+            for (int vector3Index = 0; vector3Index < positionAccessor.count; vector3Index++)
+            {
+                Vector3 currentVector3 = new Vector3();
+                byte[] coordinateFloatBytes = new byte[12];
+                positionMemoryStream.Read(coordinateFloatBytes, 0, 12);
+                currentVector3.x = BitConverter.ToSingle(coordinateFloatBytes, 0);
+                currentVector3.y = BitConverter.ToSingle(coordinateFloatBytes, 4);
+                currentVector3.z = BitConverter.ToSingle(coordinateFloatBytes, 8);
+                vertices[vector3Index] = currentVector3;
+            }
+
+            positionMemoryStream.Close();
+            currentUnityMesh.vertices = vertices;
+            int[] indices = new int[indicesAccessor.count];
+            for (int indexIndex = 0; indexIndex < indicesAccessor.count; indexIndex++)
+            {
+                byte[] triangleIndicesBytes = new byte[2];
+                indicesMemoryStream.Read(triangleIndicesBytes, 0, 2);
+                indices[indexIndex] = BitConverter.ToUInt16(triangleIndicesBytes, 0);
+            }
+
+            indicesMemoryStream.Close();
+            currentUnityMesh.triangles = indices;
+            currentMeshFilter.mesh = currentUnityMesh;
+        }
+
+        
+        /// <summary> Создает объект примитива </summary>
+        /// <param name="currentNodeGameObject"> Объект узла</param>
+        /// <returns>Объект примитива</returns>
+        private GameObject CreateGameObjectOfPrimitive(GameObject currentNodeGameObject)
+        {
+            GameObject currentPrimitiveGameObject = new GameObject();
+            currentPrimitiveGameObject.transform.parent = currentNodeGameObject.transform;
+            currentPrimitiveGameObject.transform.localScale  = new Vector3(1,1,1);
+            currentPrimitiveGameObject.transform.localPosition  = new Vector3(0,0,0);
+            currentPrimitiveGameObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            return currentNodeGameObject;
+        }
     }
+    
     
     
 }
