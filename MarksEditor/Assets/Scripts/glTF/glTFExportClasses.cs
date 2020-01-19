@@ -20,12 +20,25 @@ namespace MarksEditor.glTF
         public List<scene> scenes;
         public List<node> nodes;
         public List<mesh> meshes;
-        public List<buffer> buffers;
+        public List<buffer> buffers ;
         public List<bufferView> bufferViews;
         public List<accessor> accessors;
         public _marksInfo _marksInfo;
         public List<material> materials;
         public asset asset;
+
+        public root()
+        {
+             List<scene> scenes = new List<scene>();
+             List<node> nodes = new List<node>();
+             List<mesh> meshes= new List<mesh>();
+             List<buffer> buffers = new List<buffer>();
+             List<bufferView> bufferViews = new List<bufferView>();
+             List<accessor> accessors = new List<accessor>();
+             _marksInfo _marksInfo = new _marksInfo();
+             List<material> materials = new List<material>();
+             asset asset = new asset();
+        }
     }
 
 
@@ -33,7 +46,7 @@ namespace MarksEditor.glTF
     [Serializable]
     public class scene
     {
-        public List<int> nodes;
+        public List<int> nodes = new List<int>();
     }
 
     /// <summary> Класс узла glTF-файла/// </summary>
@@ -58,9 +71,15 @@ namespace MarksEditor.glTF
     [Serializable]
     public class primitive
     {
-        public attribute attributes;
+        public attribute attributes = new attribute();
         public int indices;
         public int material;
+
+        public primitive(int indices, int material)
+        {
+            this.indices = indices;
+            this.material = material;
+        }
     }
 
     /// <summary> Класс атрибутов примитивов меша glTF-файла/// </summary>
@@ -68,6 +87,7 @@ namespace MarksEditor.glTF
     public class attribute
     {
         public int POSITION;
+        
         //        public int NORMAL;
         //        public int TANGENT;
         //        public int TEXCOORD_0;
@@ -75,6 +95,7 @@ namespace MarksEditor.glTF
         //        public int COLOR_0;
         //        public int JOINTS_0;
         //        public int WEIGHTS_0;
+        
     }
 
     /// <summary> Класс буфера с данными о меше glTF-файла/// </summary>
@@ -83,6 +104,14 @@ namespace MarksEditor.glTF
     {
         public string uri = "data:application/octet-stream;base64,";
         public int byteLength;
+
+
+        public buffer(int byteLength, string encodedBuffer)
+        {
+            this.byteLength = byteLength;
+            uri += encodedBuffer;
+        }
+        
     }
 
     /// <summary> Класс-описание частей буфера glTF-файла/// </summary>
@@ -93,6 +122,14 @@ namespace MarksEditor.glTF
         public int byteOffset;
         public int byteLength;
         public int target; //вершины 34962 индексы вершин 34963
+
+        public bufferView(int buffer, int byteOffset, int byteLength, int target)
+        {
+            this.buffer = buffer;
+            this.byteOffset = byteOffset;
+            this.byteLength = byteLength;
+            this.target = target;
+        }
     }
 
     /// <summary> Класс-описание наследника glTF-файла/// </summary>
@@ -104,8 +141,17 @@ namespace MarksEditor.glTF
         public int componentType;
         public int count;
         public string type;
-        public float[] max;
-        public float[] min;
+        public float[] max = {0f,0f,0f};
+        public float[] min = {0f,0f,0f};
+
+        public accessor(int bufferView,int byteOffset,int componentType, int count, string type)
+        {
+            this.bufferView = bufferView;
+            this.byteOffset = byteOffset;
+            this.componentType = componentType;
+            this.count = count;
+            this.type = type;
+        }
     }
 
     /// <summary> Класс описание ассета glTF-файла /// </summary>
@@ -121,7 +167,7 @@ namespace MarksEditor.glTF
     public class _marksInfo
     {
         public int marksCount;
-        public List<_mark> _marks;
+        public List<_mark> _marks = new List<_mark>();
     }
 
 
@@ -156,14 +202,14 @@ namespace MarksEditor.glTF
     [Serializable]
     public class material
     {
-        public pbrMetallicRoughness_material pbrMetallicRoughness;
+        public pbrMetallicRoughness_material pbrMetallicRoughness = new pbrMetallicRoughness_material();
     }
     
     /// <summary> Параметр материала для glTF-файла </summary>
     [Serializable]
     public class pbrMetallicRoughness_material
     {
-        public float[] baseColorFactor  = {1.000f, 0.766f, 0.336f, 1.0f};
+        public float[] baseColorFactor  = {0f, 0f, 0f, 0f};
         public float metallicFactor = 0.5f;
         public float roughnessFactor = 0.5f;
     }

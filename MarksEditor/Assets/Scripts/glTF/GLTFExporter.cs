@@ -73,20 +73,10 @@ namespace MarksEditor.glTF
             root currentRoot = new root();
             currentRoot.scenes = new List<scene>(new scene[]{new scene()});
             Transform targetTransform = Target.transform;
-            currentRoot.nodes = new List<node>();
-            
-            currentRoot.scenes[0].nodes = new List<int>();
-            currentRoot.meshes = new List<mesh>();
-            currentRoot.buffers = new List<buffer>();
-            
-            currentRoot.bufferViews = new List<bufferView>();
-            currentRoot.accessors =new List<accessor>();
-            currentRoot.materials = new List<material>();
             
             int index = 0;
             foreach (Transform childTransform in targetTransform.GetComponentInChildren<Transform>())
             {
-                Debug.Log(index);
                 Mesh mesh;
                 try{
                     mesh = childTransform.GetComponent<MeshFilter>().mesh;
@@ -94,10 +84,93 @@ namespace MarksEditor.glTF
                 catch{
                     continue;
                 }
-                currentRoot.nodes.Add(new node());
-                currentRoot.scenes[0].nodes.Add(index);
-                Vector3[] vertices = mesh.vertices;
-                int[] triangles = mesh.triangles;
+                
+                FormNodeObject(currentRoot,childTransform,index);
+                FormMeshDataBuffer(currentRoot, mesh, index);
+                
+                
+                Material rendererMaterial ;
+                try{
+                    rendererMaterial = childTransform.GetComponent<MeshRenderer>().material;
+                }
+                catch{
+                    index++;
+                    continue;
+                }
+
+                FormMaterialObject(currentRoot,rendererMaterial,index);
+                
+                index++;
+                
+            }
+            
+            Debug.Log($"{index}, {currentRoot.nodes.Count}");
+
+            return currentRoot;
+        }
+        
+        /// <summary> Добавляет данные о метках в корневой объект glTF-файла </summary>
+        /// <param name="rootOfglTf">Корневой объект</param>
+        private void AddMarksData(root rootOfglTf)
+        {
+            rootOfglTf._marksInfo = new _marksInfo();
+            int marksCount = MarksController.Instance.AllMarks.Count;
+            rootOfglTf._marksInfo.marksCount = marksCount;
+            rootOfglTf._marksInfo._marks = new List<_mark>();
+            foreach (MarkOnScene currentMark in MarksController.Instance.AllMarks)
+            {
+                Transform markTransform = currentMark.transform;
+                _mark currentMarkToSave = new _mark(markTransform.position.x,
+                    markTransform.position.y, markTransform.position.z,
+                    markTransform.eulerAngles.x,markTransform.eulerAngles.y, markTransform.eulerAngles.z, $"ImageTarget{currentMark.Id}",
+                    "Target");
+                rootOfglTf._marksInfo._marks.Add(currentMarkToSave);
+            }
+        }
+
+        
+        /// <summary>Формирует объект узла и помещает его в структуру корня glTF-файла</summary>
+        /// <param name="currentRoot">Объект корня glTF-файла</param>
+        /// <param name="childTransform">Объект трансформа узла в исходной модели</param>
+        /// <param name="index">Индекс узла</param>
+        private void FormNodeObject(root currentRoot, Transform childTransform, int index )
+        {
+            currentRoot.nodes.Add(new node());
+            currentRoot.scenes[0].nodes.Add(index);
+                
+            currentRoot.scenes[0].nodes[index] = index;
+            currentRoot.nodes[index].name = childTransform.gameObject.name;
+            currentRoot.nodes[index].mesh = index;
+            Transform objTransform = childTransform.transform;
+            currentRoot.nodes[index].translation = new float[3]{
+                objTransform.localPosition.x,
+                objTransform.localPosition.y,
+                objTransform.localPosition.z
+            };
+            currentRoot.nodes[index].scale = new float[3]{
+                objTransform.localScale.x,
+                objTransform.localScale.y,
+                objTransform.localScale.z
+            };
+            currentRoot.nodes[index].rotation = new float[4]
+            {
+                objTransform.localRotation.x,
+                objTransform.localRotation.y,
+                objTransform.localRotation.z,
+                objTransform.localRotation.w
+            };
+        }
+        
+        /// <summary> Создает закодированный буфер из меша, объекты наследников и помещает их в структуру корня glTF-файла</summary>
+        /// <param name="currentRoot">Объект корня glTF-файла</param>
+        /// <param name="mesh">Объект меша узла</param>
+        /// <param name="index">Индекс узла</param>
+        private void  FormMeshDataBuffer(root currentRoot, Mesh mesh, int index )
+        {
+            
+            Vector3[] vertices = mesh.vertices;
+            int[] triangles = mesh.triangles;
+                
                 int indByteLen = triangles.Length*2;
                 indByteLen = (indByteLen % 4 != 0) ? indByteLen + (4 - indByteLen % 4) : indByteLen; 
                 int vertByteLen = 3 * 4 * vertices.Length;
@@ -156,111 +229,48 @@ namespace MarksEditor.glTF
                     }
                 }
                 string encodedBuffer = Convert.ToBase64String(bytes);
-                currentRoot.scenes[0].nodes[index] = index;
-                currentRoot.nodes[index].name = childTransform.gameObject.name;
-                currentRoot.nodes[index].mesh = index;
-                Transform objTransform = childTransform.transform;
-                currentRoot.nodes[index].translation = new float[3]{
-                    objTransform.localPosition.x,
-                    objTransform.localPosition.y,
-                    objTransform.localPosition.z
-                };
-                currentRoot.nodes[index].scale = new float[3]{
-                    objTransform.localScale.x,
-                    objTransform.localScale.y,
-                    objTransform.localScale.z
-                };
-                currentRoot.nodes[index].rotation = new float[4]
-                {
-                    objTransform.localRotation.x,
-                    objTransform.localRotation.y,
-                    objTransform.localRotation.z,
-                    objTransform.localRotation.w
-                };
+                currentRoot.bufferViews.Add(new bufferView(index,0,mesh.triangles.Length*2,34963));
+                currentRoot.bufferViews.Add(new bufferView(index,indByteLen,mesh.vertices.Length*3*4,34962));
+
+                currentRoot.accessors.Add(new accessor(index*2, 0,5123,triangles.Length,"SCALAR"));
+                currentRoot.accessors.Add(new accessor(index*2+1, 0,5126,vertices.Length,"VEC3"));
                 
-                currentRoot.meshes.Add(new mesh());
-                currentRoot.meshes[index].primitives = new primitive[1]{new primitive()};
-                currentRoot.meshes[index].primitives[0].attributes = new attribute();
-                currentRoot.meshes[index].primitives[0].attributes.POSITION = index*2+1;
-                currentRoot.meshes[index].primitives[0].indices = index*2;
-                currentRoot.meshes[index].primitives[0].material = index;
-                currentRoot.buffers.Add(new buffer());
-                currentRoot.buffers[index].uri += encodedBuffer;
-                currentRoot.buffers[index].byteLength = byteLen;
-                currentRoot.bufferViews.Add(new bufferView());
-                currentRoot.bufferViews.Add(new bufferView());
-                currentRoot.bufferViews[index*2].byteLength = triangles.Length*2;
-                currentRoot.bufferViews[index*2].buffer = index;
-                currentRoot.bufferViews[index*2].target = 34963;
-                currentRoot.bufferViews[index*2].byteOffset = 0;
-                currentRoot.bufferViews[index*2+1].byteLength = vertices.Length*3*4;
-                currentRoot.bufferViews[index*2+1].buffer = index;
-                currentRoot.bufferViews[index*2+1].target = 34962;
-                currentRoot.bufferViews[index*2+1].byteOffset = indByteLen;
-                currentRoot.accessors.Add(new accessor());
-                currentRoot.accessors.Add(new accessor());
-                currentRoot.accessors[index*2].bufferView = index*2;
-                currentRoot.accessors[index*2].byteOffset = 0;
-                currentRoot.accessors[index*2].count = triangles.Length;
-                currentRoot.accessors[index*2].componentType = 5123;
-                currentRoot.accessors[index*2].type = "SCALAR";
                 currentRoot.accessors[index*2].min = new float[1]{0};
-                currentRoot.accessors[index*2].max = new float[1]{vertices.Length - 1};
-                currentRoot.accessors[index*2+1].bufferView = index*2+1;
-                currentRoot.accessors[index*2+1].byteOffset = 0;
-                currentRoot.accessors[index*2+1].count = vertices.Length;
-                currentRoot.accessors[index*2+1].componentType = 5126;
-                currentRoot.accessors[index*2+1].type = "VEC3";
+                currentRoot.accessors[index*2].max = new float[1]{ vertices.Length - 1};
+                
                 if (Mathf.Infinity == minX || Mathf.Infinity == minY || Mathf.Infinity == minZ ||
                     -Mathf.Infinity == maxX || -Mathf.Infinity == maxY || -Mathf.Infinity == maxZ)
                 {
                     currentRoot.accessors[index*2+1].min = new float[3]{0,0,0};
                     currentRoot.accessors[index * 2 + 1].max = new float[3] {0, 0, 0};
                 }
-                currentRoot.accessors[index*2+1].min = new float[3]{minX,minY,minZ};
-                currentRoot.accessors[index * 2 + 1].max = new float[3] {maxX, maxY, maxZ};
-                currentRoot.materials.Add(new material());
-                Material rendererMaterial ;
-                try{
-                    rendererMaterial = childTransform.GetComponent<MeshRenderer>().material;
-                }
-                catch{
-                    continue;
-                }
-                currentRoot.materials[index].pbrMetallicRoughness = new pbrMetallicRoughness_material();
-                currentRoot.materials[index].pbrMetallicRoughness.baseColorFactor = new[]
+                else
                 {
-                    rendererMaterial.color.r, rendererMaterial.color.g, rendererMaterial.color.b,
-                    rendererMaterial.color.a
-                };
-                index++;
+                    currentRoot.accessors[index * 2 + 1].min = new float[3] {minX, minY, minZ};
+                    currentRoot.accessors[index * 2 + 1].max = new float[3] {maxX, maxY, maxZ};
+                }
+
+                currentRoot.meshes.Add(new mesh());
+                currentRoot.meshes[index].primitives = new primitive[1]{new primitive(index*2,index)};
+                currentRoot.meshes[index].primitives[0].attributes.POSITION = index*2+1;
                 
-            }
-            
-            Debug.Log($"{index}, {currentRoot.nodes.Count}");
-
-            return currentRoot;
+                currentRoot.buffers.Add(new buffer(byteLen,encodedBuffer));
         }
-        
-        /// <summary> Добавляет данные о метках в корневой объект glTF-файла </summary>
-        /// <param name="rootOfglTf">Корневой объект</param>
-        private void AddMarksData(root rootOfglTf)
+
+        /// <summary> Создает данные о материале меша и помещает их в корень glTF-файла</summary>
+        /// <param name="currentRoot">Объект корня glTF-файла</param>
+        /// <param name="rendererMaterial">Объект материала меша</param>
+        /// <param name="index">Индекс узла</param>
+        private void FormMaterialObject(root currentRoot, Material rendererMaterial, int index)
         {
-            rootOfglTf._marksInfo = new _marksInfo();
-            int marksCount = MarksController.Instance.AllMarks.Count;
-            rootOfglTf._marksInfo.marksCount = marksCount;
-            rootOfglTf._marksInfo._marks = new List<_mark>();
-            foreach (MarkOnScene currentMark in MarksController.Instance.AllMarks)
+            currentRoot.materials.Add(new material());
+            currentRoot.materials[index].pbrMetallicRoughness.baseColorFactor = new[]
             {
-                Transform markTransform = currentMark.transform;
-                _mark currentMarkToSave = new _mark(markTransform.position.x,
-                    markTransform.position.y, markTransform.position.z,
-                    markTransform.eulerAngles.x,markTransform.eulerAngles.y, markTransform.eulerAngles.z, $"ImageTarget{currentMark.Id}",
-                    "Target");
-                rootOfglTf._marksInfo._marks.Add(currentMarkToSave);
-            }
+                rendererMaterial.color.r, rendererMaterial.color.g, rendererMaterial.color.b,
+                rendererMaterial.color.a
+            };
         }
-
-
     }
+    
+   
 }

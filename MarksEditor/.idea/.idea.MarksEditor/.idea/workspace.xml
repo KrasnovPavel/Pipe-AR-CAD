@@ -555,9 +555,9 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/ColliderAdder.cs" />
         <option value="C:/Users/majorov.d/AppData/Local/Microsoft/Windows/INetCache/IE/FS79HK53/file[1].glTF" />
         <option value="E:/file.glTF" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/glTF/GlTFImporter.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" />
       </list>
     </option>
   </component>
