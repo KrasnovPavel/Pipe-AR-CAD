@@ -17,28 +17,16 @@ namespace MarksEditor.glTF
     [Serializable]
     public class root
     {
-        public List<scene> scenes;
-        public List<node> nodes;
-        public List<mesh> meshes;
-        public List<buffer> buffers ;
-        public List<bufferView> bufferViews;
-        public List<accessor> accessors;
-        public _marksInfo _marksInfo;
-        public List<material> materials;
+        public List<scene> scenes = new List<scene>();
+        public List<node> nodes = new List<node>();
+        public List<mesh> meshes = new List<mesh>();
+        public List<buffer> buffers = new List<buffer>();
+        public List<bufferView> bufferViews = new List<bufferView>();
+        public List<accessor> accessors = new List<accessor>();
+        public _marksInfo _marksInfo = new _marksInfo();
+        public List<material> materials = new List<material>();
         public asset asset;
 
-        public root()
-        {
-             List<scene> scenes = new List<scene>();
-             List<node> nodes = new List<node>();
-             List<mesh> meshes= new List<mesh>();
-             List<buffer> buffers = new List<buffer>();
-             List<bufferView> bufferViews = new List<bufferView>();
-             List<accessor> accessors = new List<accessor>();
-             _marksInfo _marksInfo = new _marksInfo();
-             List<material> materials = new List<material>();
-             asset asset = new asset();
-        }
     }
 
 

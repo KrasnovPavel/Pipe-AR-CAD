@@ -113,17 +113,21 @@ namespace HoloCAD
             if (markId == -1) return;
             
             Debug.Log($"mark{markId}");
-            Transform currentMark = Marks[markId].transform;
+            Transform currentMarkTransform = Marks[markId].transform;
+            transform.localRotation = Quaternion.Euler(new Vector3(0,0,0));
+            transform.SetParent(currentMarkTransform, false);
+            currentMarkTransform.rotation = currentMarkTransform.rotation * Quaternion.Inverse(Quaternion.Euler(RotationsOfMarks[markId]));//* Quaternion.Euler(RotationsOfMarks[markId]);
+            Debug.Log($"{currentMarkTransform.rotation.x},{currentMarkTransform.rotation.y},{currentMarkTransform.rotation.z}");
+            transform.localScale = new Vector3(1 / currentMarkTransform.lossyScale.x, 
+                                               1 / currentMarkTransform.lossyScale.z, 
+                                               1 / currentMarkTransform.lossyScale.z);
+            
 
-            transform.SetParent(currentMark, false);
-            transform.localScale = new Vector3(1 / currentMark.lossyScale.x, 
-                                               1 / currentMark.lossyScale.z, 
-                                               1 / currentMark.lossyScale.z);
-            transform.localPosition = PositionsOfMarks[markId]*-1;
-            transform.localRotation = Quaternion.Euler(RotationsOfMarks[markId]);
-            Debug.Log($"FFFFF{transform.localPosition.x},{transform.localPosition.y},{transform.localPosition.z}");
+            Transform childofTargetTransform = transform.GetChild(0);
+            childofTargetTransform.localPosition = PositionsOfMarks[markId]*-1f;
             transform.SetParent(null, true);
-            Debug.Log($"!!!!!!!{transform.localPosition.x},{transform.localPosition.y},{transform.localPosition.z}");
+            currentMarkTransform.rotation = currentMarkTransform.rotation *
+                                             Quaternion.Euler(RotationsOfMarks[markId]);
         }
 
         #endregion

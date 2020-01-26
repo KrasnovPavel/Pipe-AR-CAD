@@ -76,7 +76,7 @@ using UnityEngine;
             }
 
             int currentGameObjectIndex = 0;
-            Transform parentTransform = Target.transform;
+            Transform parentTransform = Target.transform.GetChild(0);
             foreach (scene currentScene in CurrentRoot.scenes)
             {
                 GameObject currentSceneGameObject = new GameObject(Convert.ToString(currentGameObjectIndex++));
