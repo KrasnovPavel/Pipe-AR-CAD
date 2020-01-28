@@ -71,6 +71,15 @@ namespace MarksEditor
             {
                 MarksController.Instance.MoveMark(5);
             }
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                MarksController.Instance.MoveMark(6);
+            }
+            
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                MarksController.Instance.MoveMark(7);
+            }
         }
     }
 }

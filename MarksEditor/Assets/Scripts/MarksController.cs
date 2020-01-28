@@ -65,6 +65,12 @@ namespace MarksEditor
                     case 5:
                         markTransform.position += -markTransform.up * SelectedMarkSpeed * Time.deltaTime;
                         break;
+                    case 6:
+                         markTransform.RotateAround(markTransform.up,Mathf.Deg2Rad * 90f);
+                        break;
+                    case 7:
+                        markTransform.RotateAround(markTransform.up,Mathf.Deg2Rad *-90f);
+                        break;
                 }
             }
         }

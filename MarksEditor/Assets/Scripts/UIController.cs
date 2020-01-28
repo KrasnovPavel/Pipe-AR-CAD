@@ -29,7 +29,7 @@ namespace MarksEditor
         /// <summary>Импортирует модель с помощью PiXYZ </summary>
         public void ImportModel()
         {
-            //ModelImporter.Instance.ImportModel();
+            ModelImporter.Instance.ImportModel();
         }
     }
 }

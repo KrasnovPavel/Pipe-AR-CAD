@@ -16,6 +16,9 @@ using UnityEngine;
     {
         /// <summary> Корневой объект на сцене </summary>
         public GameObject Target;
+
+        /// <summary> Шейдер для отображения модели </summary>
+        public Shader ShaderToImport;
         
         /// <summary> Импортирует объект из файла в редактор </summary>
         public void ImportglTFFile()
@@ -132,6 +135,8 @@ using UnityEngine;
                 MeshCollider meshCollider = newGameObject.AddComponent<MeshCollider>();
                 meshCollider.sharedMesh = meshFilterChild.mesh;
                 newGameObject.transform.SetParent(meshFilterChild.transform);
+                
+                newGameObject.transform.localScale = Vector3.one;
                 newGameObject.transform.localPosition = Vector3.zero;
                 newGameObject.transform.localRotation = Quaternion.Euler(0,0,0);
             }

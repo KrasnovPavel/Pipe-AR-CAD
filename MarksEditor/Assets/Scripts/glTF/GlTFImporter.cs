@@ -83,17 +83,14 @@ namespace MarksEditor.glTF
         private void GetGameObjectsFromImportedglTFFile(root rootOfglTFFile)
         {
             int currentGameObjectIndex = 0;
-            Transform parentTransform = MarkPlaceController.Instance.Target.transform;
+            Transform parentTransform = Target.transform;
             foreach (scene currentScene in rootOfglTFFile.scenes)
             {
-                GameObject currentSceneGameObject = new GameObject(Convert.ToString(currentGameObjectIndex++));
-                currentSceneGameObject.transform.parent = parentTransform;
-                
                 foreach (int currentSceneNodeIndex in currentScene.nodes)
                 {
                     node currentNode = rootOfglTFFile.nodes[currentSceneNodeIndex];
                     GameObject currentNodeGameObject = new GameObject(currentNode.name);
-                    currentNodeGameObject.transform.parent = currentSceneGameObject.transform;
+                    currentNodeGameObject.transform.parent = parentTransform;
                     FormMeshesFromglTF(currentNodeGameObject, currentNode, rootOfglTFFile);
                     AddCollision(currentNodeGameObject);
                 }
@@ -134,6 +131,8 @@ namespace MarksEditor.glTF
                 meshCollider.sharedMesh = meshFilterChild.mesh;
                 newGameObject.transform.SetParent(meshFilterChild.transform);
                 newGameObject.transform.localPosition = Vector3.zero;
+                newGameObject.transform.localScale = Vector3.one;
+                newGameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
             }
         }
 

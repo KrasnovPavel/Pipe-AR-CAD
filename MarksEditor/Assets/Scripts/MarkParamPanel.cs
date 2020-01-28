@@ -35,6 +35,9 @@ namespace MarksEditor
         
         /// <summary> Текстовое поле с Id панели</summary>
         public Text IdText;
+
+        /// <summary> Вектор с углами вращдения вокруг осей метки </summary>
+        private Vector3 MarkRotation;
     
         /// <summary>Задает метке параметры из панели </summary>
         public void SetParamsToMarkFromInputs()
@@ -42,8 +45,10 @@ namespace MarksEditor
             if (Mark == null) return;
             Mark.transform.position = new Vector3(float.Parse(InputX.text,ci), float.Parse(InputY.text,ci),
                 float.Parse(InputZ.text,ci));
-            Mark.transform.rotation = Quaternion.Euler(float.Parse(InputRotationX.text,ci), 
+            MarkRotation = new Vector3(float.Parse(InputRotationX.text,ci), 
                 float.Parse(InputRotationY.text,ci),float.Parse(InputRotationZ.text,ci));
+            
+            Mark.transform.rotation = Quaternion.Euler(MarkRotation);
         }
 
         /// <summary>Вносит в панель параметры метки</summary>
@@ -51,13 +56,21 @@ namespace MarksEditor
         {
             Transform markTransform = Mark.transform;
             Vector3 markPosition = markTransform.position;
-            Vector3 markRotation = markTransform.eulerAngles;
+//            if (!(Math.Abs(Quaternion.Euler(MarkRotation).x - markTransform.rotation.x) < Quaternion.kEpsilon &&
+//                  Math.Abs(Quaternion.Euler(MarkRotation).y - markTransform.rotation.y) < Quaternion.kEpsilon &&
+//                  Math.Abs(Quaternion.Euler(MarkRotation).z - markTransform.rotation.z) < Quaternion.kEpsilon &&
+//                  Math.Abs(Quaternion.Euler(MarkRotation).w - markTransform.rotation.w) < Quaternion.kEpsilon))
+//            {
+//                Debug.Log($"{Quaternion.Euler(MarkRotation).x},{Quaternion.Euler(MarkRotation).y},{Quaternion.Euler(MarkRotation).z},{Quaternion.Euler(MarkRotation).w} !!!!! {markTransform.rotation.x},{markTransform.rotation.y},{markTransform.rotation.z},{markTransform.rotation.w}");
+//                MarkRotation = markTransform.eulerAngles;
+//            }
+            MarkRotation = markTransform.eulerAngles;
             InputX.text = Convert.ToString(markPosition.x, ci);
             InputY.text = Convert.ToString(markPosition.y, ci);
             InputZ.text = Convert.ToString(markPosition.z, ci);
-            InputRotationX.text = Convert.ToString(markRotation.x, ci);
-            InputRotationY.text = Convert.ToString(markRotation.y, ci);
-            InputRotationZ.text = Convert.ToString(markRotation.z, ci);
+            InputRotationX.text = Convert.ToString(MarkRotation.x, ci);
+            InputRotationY.text = Convert.ToString(MarkRotation.y, ci);
+            InputRotationZ.text = Convert.ToString(MarkRotation.z, ci);
         }
     
         private void Awake()

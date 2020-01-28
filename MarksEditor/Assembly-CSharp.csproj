@@ -306,6 +306,12 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.11f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="PiXYZPluginUnity">
+      <HintPath>E:/holoProject/Pipe-AR-CAD/MarksEditor/Assets/Plugins/PiXYZ/Binaries/PiXYZPluginUnity.dll</HintPath>
+    </Reference>
+    <Reference Include="PiXYZPluginUnityEditor">
+      <HintPath>E:/holoProject/Pipe-AR-CAD/MarksEditor/Assets/Plugins/PiXYZ/Binaries/PiXYZPluginUnityEditor.dll</HintPath>
+    </Reference>
     <Reference Include="Ookii.Dialogs">
       <HintPath>E:/holoProject/Pipe-AR-CAD/MarksEditor/Assets/StandaloneFileBrowser/Plugins/Ookii.Dialogs.dll</HintPath>
     </Reference>
@@ -675,6 +681,12 @@
     <Reference Include="Boo.Lang">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.11f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{F8D15D80-168A-B962-6827-672278E45330}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

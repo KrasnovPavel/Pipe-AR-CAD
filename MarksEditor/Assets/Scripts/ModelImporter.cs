@@ -1,5 +1,6 @@
 ﻿using HoloCore;
-//using PiXYZ.Plugin.Unity;
+using MarksEditor.glTF;
+using PiXYZ.Plugin.Unity;
 using UnityEngine;
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
     using static SFB.StandaloneFileBrowser;
@@ -11,7 +12,7 @@ namespace MarksEditor
     {
 
 
-/*        public ImportSettings ImportSettings;
+        public ImportSettings ImportSettings;
     
         public void ImportModel()
         {
@@ -37,17 +38,24 @@ namespace MarksEditor
 
         void onImportEnded(GameObject importedGameObject)
         {
+            GameObject targetGameObject = GameObject.Find("Target");
+            GLTFExporter.Instance.Target = importedGameObject;
             foreach (MeshFilter meshFilterChild in importedGameObject.transform.GetComponentsInChildren<MeshFilter>())
             {
                 GameObject newGameObject = new GameObject(meshFilterChild.mesh.name);
+                newGameObject.transform.SetParent(targetGameObject.transform);
+                newGameObject.transform.localScale = new Vector3(1,1,1);
+                newGameObject.transform.localPosition = new Vector3(0,0,0);
+                newGameObject.transform.localRotation = Quaternion.Euler(new Vector3(0,0,0));
+                
+                newGameObject.layer = 30;
                 Rigidbody rigidbody= newGameObject.AddComponent<Rigidbody>();
                 rigidbody.isKinematic = true;
                 MeshCollider meshCollider = newGameObject.AddComponent<MeshCollider>();
                 meshCollider.sharedMesh = meshFilterChild.mesh;
-                newGameObject.transform.SetParent(meshFilterChild.transform);
             }
             
         }
-    }*/
-    }
+    } 
 }
+
