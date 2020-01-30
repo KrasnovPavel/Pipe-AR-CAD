@@ -20,6 +20,7 @@ namespace MarksEditor
             string[] paths;
             paths = OpenFilePanel("Open scene","","*",false);
             if (paths.Length == 0) return;
+            
             var importer = new Importer(paths[0], ImportSettings);
             importer.progressed += onProgressChanged;
             importer.isAsynchronous = true;
@@ -39,11 +40,12 @@ namespace MarksEditor
         void onImportEnded(GameObject importedGameObject)
         {
             GameObject targetGameObject = GameObject.Find("Target");
-            GLTFExporter.Instance.Target = importedGameObject;
+           // GLTFExporter.Instance.Target = importedGameObject;
             foreach (MeshFilter meshFilterChild in importedGameObject.transform.GetComponentsInChildren<MeshFilter>())
             {
                 GameObject newGameObject = new GameObject(meshFilterChild.mesh.name);
-                newGameObject.transform.SetParent(targetGameObject.transform);
+                meshFilterChild.transform.SetParent(targetGameObject.transform);
+                newGameObject.transform.SetParent(meshFilterChild.transform);
                 newGameObject.transform.localScale = new Vector3(1,1,1);
                 newGameObject.transform.localPosition = new Vector3(0,0,0);
                 newGameObject.transform.localRotation = Quaternion.Euler(new Vector3(0,0,0));

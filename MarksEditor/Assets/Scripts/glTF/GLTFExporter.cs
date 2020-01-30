@@ -25,6 +25,8 @@ namespace MarksEditor.glTF
         {
             string filePath = SaveDialog();
             root rootOfglTF = FormglTFRoot();
+                
+            Debug.Log($"dsadas");
             AddMarksData(rootOfglTF);
             string glTFString = FormglTFString(rootOfglTF);
             WriteglTFStringIntoFile(filePath,glTFString);
@@ -77,6 +79,7 @@ namespace MarksEditor.glTF
             int index = 0;
             foreach (Transform childTransform in targetTransform.GetComponentInChildren<Transform>())
             {
+                Debug.Log($"{index}");
                 Mesh mesh;
                 try{
                     mesh = childTransform.GetComponent<MeshFilter>().mesh;
@@ -120,10 +123,12 @@ namespace MarksEditor.glTF
             foreach (MarkOnScene currentMark in MarksController.Instance.AllMarks)
             {
                 Transform markTransform = currentMark.transform;
-                _mark currentMarkToSave = new _mark(markTransform.position.x,
-                    markTransform.position.y, markTransform.position.z,
-                    markTransform.eulerAngles.x,markTransform.eulerAngles.y, markTransform.eulerAngles.z, $"ImageTarget{currentMark.Id}",
+                Target.transform.SetParent(markTransform, true);
+                _mark currentMarkToSave = new _mark(Target.transform.localPosition.x,
+                    Target.transform.localPosition.y, Target.transform.localPosition.z,
+                    Target.transform.localRotation.eulerAngles.x,Target.transform.localRotation.eulerAngles.y, Target.transform.localRotation.eulerAngles.z, $"ImageTarget{currentMark.Id}",
                     "Target");
+                Target.transform.SetParent(null, true);
                 rootOfglTf._marksInfo._marks.Add(currentMarkToSave);
             }
         }

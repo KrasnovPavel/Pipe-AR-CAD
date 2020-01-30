@@ -31,14 +31,14 @@ namespace MarksEditor
         {
         
             ChangeIdOnTextMesh();
-            ParamPanelofThisMark.IdText.text = Convert.ToString(Id);
+            ParamPanelofThisMark.IdText.text = Convert.ToString(Id+1);
         
             PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
             {
                 if (args.PropertyName == nameof(Id))
                 {
                     ChangeIdOnTextMesh();
-                    ParamPanelofThisMark.IdText.text = Convert.ToString(Id);
+                    ParamPanelofThisMark.IdText.text = Convert.ToString(Id+1);
                 }
             };
         }
@@ -55,7 +55,7 @@ namespace MarksEditor
         public void ChangeIdOnTextMesh()
         {
             if (TextMeshOfNumber == null) return;
-            TextMeshOfNumber.text = Convert.ToString(Id);
+            TextMeshOfNumber.text = Convert.ToString(Id+1);
         }
 
         #region Private defenitions

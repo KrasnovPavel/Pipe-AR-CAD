@@ -15,7 +15,7 @@ namespace HoloCAD
     public sealed class MarksTarget : MonoBehaviour, INotifyPropertyChanged
     {
         /// <summary> Объект с мешем модели. </summary>
-        public GameObject Model;
+        [CanBeNull] public GameObject Model;
 
         /// <summary> Alpha текстуры модели в режиме прозрачности. </summary>
         public float TransparentAlpha = 0.5f;
@@ -51,8 +51,11 @@ namespace HoloCAD
         /// <param name="transparent"></param>
         public void MakeTransparent(bool transparent)
         {
-            Model.GetComponent<MeshCollider>().enabled = !transparent;
-            Model.GetComponent<MeshRenderer>().sharedMaterial.SetFloat(Alpha, transparent ? TransparentAlpha : 1f);
+            if (Model != null)
+            {
+                Model.GetComponent<MeshCollider>().enabled = !transparent;
+                Model.GetComponent<MeshRenderer>().sharedMaterial.SetFloat(Alpha, transparent ? TransparentAlpha : 1f);
+            }
         }
         
         /// <summary> Изменение поворота модели относительно метки. </summary>
@@ -112,22 +115,17 @@ namespace HoloCAD
 
             if (markId == -1) return;
             
-            Debug.Log($"mark{markId}");
-            Transform currentMarkTransform = Marks[markId].transform;
-            transform.localRotation = Quaternion.Euler(new Vector3(0,0,0));
-            transform.SetParent(currentMarkTransform, false);
-            currentMarkTransform.rotation = currentMarkTransform.rotation * Quaternion.Inverse(Quaternion.Euler(RotationsOfMarks[markId]));//* Quaternion.Euler(RotationsOfMarks[markId]);
-            Debug.Log($"{currentMarkTransform.rotation.x},{currentMarkTransform.rotation.y},{currentMarkTransform.rotation.z}");
-            transform.localScale = new Vector3(1 / currentMarkTransform.lossyScale.x, 
-                                               1 / currentMarkTransform.lossyScale.z, 
-                                               1 / currentMarkTransform.lossyScale.z);
-            
+            Transform currentMark = Marks[markId].transform;
 
-            Transform childofTargetTransform = transform.GetChild(0);
-            childofTargetTransform.localPosition = PositionsOfMarks[markId]*-1f;
+            transform.SetParent(currentMark, false);
+            var lossyScale = currentMark.lossyScale;
+            transform.localPosition = new Vector3(PositionsOfMarks[markId].x / currentMark.lossyScale.x,
+                PositionsOfMarks[markId].y / currentMark.lossyScale.y,
+                PositionsOfMarks[markId].z / currentMark.lossyScale.z);
+            transform.localRotation = Quaternion.Euler(RotationsOfMarks[markId]);
+
             transform.SetParent(null, true);
-            currentMarkTransform.rotation = currentMarkTransform.rotation *
-                                             Quaternion.Euler(RotationsOfMarks[markId]);
+            transform.localScale = Vector3.one;
         }
 
         #endregion

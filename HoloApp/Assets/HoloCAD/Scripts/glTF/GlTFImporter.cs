@@ -32,7 +32,6 @@ using UnityEngine;
 
         private async void PickJson()
         {
-            
 #if ENABLE_WINMD_SUPPORT
             FileOpenPicker openPicker = new FileOpenPicker();
             openPicker.ViewMode = PickerViewMode.Thumbnail;
