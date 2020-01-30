@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 
+
+namespace HoloCAD.glTF
+{
     /// <summary> Класс с константами для экспорта</summary>
     public static class glTFConvertionConsts
     {
@@ -150,19 +153,20 @@ using UnityEngine.Serialization;
             this.target = drawObjectName;
         }
     }
-/// <summary> Описание материала для glTF-файла </summary>
-[Serializable]
-public class material
-{
-    public pbrMetallicRoughness_material pbrMetallicRoughness;
-}
-    
-/// <summary> Параметр материала для glTF-файла </summary>
-[Serializable]
-public class pbrMetallicRoughness_material
-{
-    public float[] baseColorFactor  = {1.000f, 0.766f, 0.336f, 1.0f};
-    public float metallicFactor = 0.5f;
-    public float roughnessFactor = 0.5f;
-}
+    /// <summary> Описание материала для glTF-файла </summary>
+    [Serializable]
+    public class material
+    {
+        public pbrMetallicRoughness_material pbrMetallicRoughness;
+    }
+        
+    /// <summary> Параметр материала для glTF-файла </summary>
+    [Serializable]
+    public class pbrMetallicRoughness_material
+    {
+        public float[] baseColorFactor  = {1.000f, 0.766f, 0.336f, 1.0f};
+        public float metallicFactor = 0.5f;
+        public float roughnessFactor = 0.5f;
+    }
 
+}

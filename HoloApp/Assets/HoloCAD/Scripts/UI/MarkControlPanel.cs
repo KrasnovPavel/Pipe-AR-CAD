@@ -63,7 +63,7 @@ namespace HoloCAD.UI
 
             if (LoadGLTF != null)
             {
-                LoadGLTF.OnClick += delegate{ GlTFImporter.Instance.ImportglTFFile();};
+                LoadGLTF.OnClick += delegate{  HoloCAD.glTF.GlTFImporter.Instance.ImportglTFFile();};
             }
             
             if (MoveLeft != null)

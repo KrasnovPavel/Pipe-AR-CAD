@@ -10,7 +10,8 @@ using UnityEngine;
     using static SFB.StandaloneFileBrowser;
 #endif
 
-
+namespace HoloCAD.glTF
+{
     /// <summary> Класс импорта из glTF</summary>
     public class GlTFImporter : Singleton<GlTFImporter>
     {
@@ -266,6 +267,6 @@ using UnityEngine;
             return currentNodeGameObject;
         }
     }
-
+}
 
 
