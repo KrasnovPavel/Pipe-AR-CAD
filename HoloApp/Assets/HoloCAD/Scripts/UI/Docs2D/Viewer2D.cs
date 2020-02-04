@@ -19,6 +19,10 @@ namespace HoloCAD.UI.Docs2D
         /// <summary> Кнопка сворачивания. </summary>
         [Tooltip("Кнопка сворачивания.")]
         [CanBeNull] public Button3D HideButton;
+
+        /// <summary> Кнопка для возвращения в вертикальное положение. </summary>
+        [Tooltip("Кнопка для возвращения в вертикальное положение.")]
+        [CanBeNull] public Button3D VerticalButton;
         
         /// <summary> Заглавие. </summary>
         [Tooltip("Заглавие.")]
@@ -41,6 +45,7 @@ namespace HoloCAD.UI.Docs2D
                 Canvas.SetActive(!IsHided);
                 GetComponent<BoxCollider>().enabled = !IsHided;
                 if (HideButton != null) HideButton.Text = IsHided ? "Развернуть" : "Свернуть";
+                if (VerticalButton != null) VerticalButton.gameObject.SetActive(!IsHided);
             }
         }
 
@@ -104,8 +109,9 @@ namespace HoloCAD.UI.Docs2D
         /// </remarks>
         protected virtual void Awake()
         {
-            if (CloseButton != null) CloseButton.OnClick += delegate { Close(); };
-            if (HideButton != null)  HideButton.OnClick  += delegate { ToggleHiding(); };
+            if (CloseButton != null)    CloseButton.OnClick    += delegate { Close(); };
+            if (HideButton != null)     HideButton.OnClick     += delegate { ToggleHiding(); };
+            if (VerticalButton != null) VerticalButton.OnClick += delegate { ReturnToVertical(); };
         }
         
         /// <summary> Функция, вызывающаяся при уничтожении объекта в Unity. </summary>
@@ -119,6 +125,13 @@ namespace HoloCAD.UI.Docs2D
         #region Private definitions
 
         private bool _isHided;
+
+        /// <summary> Возвращает обозреватель в вертикальное положение. </summary>
+        private void ReturnToVertical()
+        {
+            Vector3 angles = transform.rotation.eulerAngles;
+            transform.rotation = Quaternion.Euler(new Vector3(0, angles.y, 0));
+        }
 
         #endregion
     }
