@@ -3,6 +3,7 @@
 		_MainColor ("MainColor", Color) = (0.5, 0.5, 0.5, 0.5)
 		_HighLightColor ("HighLightColor" , Color) = (1, 1, 1, 1)
 		[PerRendererData]_Fade("Fade", float) = 1
+		[PerRendererData]_Alpha("Alpha", float) = 1
 	}
 	SubShader {
 	    Tags { "Queue" = "Transparent" }
@@ -19,6 +20,7 @@
 		uniform float4 _MainColor;
 		uniform float4 _HighLightColor;
 		uniform float  _Fade;
+		uniform float  _Alpha;
 		
 		// Input into the vertex shader
 		struct vertexInput {
@@ -47,7 +49,7 @@
 		
 		float4 frag(vertexOutput input) : COLOR {
 		    float I = pow(abs(input.localPos.y), 4) + pow(abs(input.localPos.z), 4);
-            return _MainColor + _HighLightColor * I / _Fade;
+            return (_MainColor + _HighLightColor * I / _Fade) * _Alpha;
 		}
 	    ENDCG
 	    }

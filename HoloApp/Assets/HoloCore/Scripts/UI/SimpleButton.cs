@@ -5,23 +5,23 @@ using UnityEngine;
 
 namespace HoloCore.UI
 {
-	/// <inheritdoc />
-	/// <summary> Простая трехмерная кнопка. </summary>
-	public class SimpleButton : Button3D {
-		private static readonly int Fade = Shader.PropertyToID("_Fade");
-		
-		/// <inheritdoc />
-		public override ButtonState State
-		{
-			get => base.State;
-			protected set
-			{
-				base.State = value;
-				if (Application.isPlaying && ButtonRenderer != null)
-				{
-					ButtonRenderer.material.SetFloat(Fade, (float) State);
-				}
-			}
-		}
-	}
+    /// <inheritdoc />
+    /// <summary> Простая трехмерная кнопка. </summary>
+    public class SimpleButton : Button3D {
+        private static readonly int Fade = Shader.PropertyToID("_Fade");
+
+        /// <inheritdoc />
+        public override ButtonState State
+        {
+            get => base.State;
+            protected set
+            {
+                base.State = value;
+                                 if (Application.isPlaying && ButtonRenderer != null)
+                                 {
+                                     ButtonRenderer.material.SetFloat(Fade, (float) State);
+                                 }
+            }
+        }
+    }
 }
