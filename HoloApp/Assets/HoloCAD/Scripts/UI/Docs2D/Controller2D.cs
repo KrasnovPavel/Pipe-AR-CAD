@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using HoloCore;
+using HoloCore.UI.Transparent;
 using Microsoft.MixedReality.Toolkit;
+using Microsoft.MixedReality.Toolkit.UI;
 using SFB;
 using UnityEngine;
 using UnityEngine.Windows;
@@ -59,6 +61,23 @@ namespace HoloCAD.UI.Docs2D
         public static void ShowAll()
         {
             foreach (var viewer2D in _viewers2D) viewer2D.Show();
+        }
+
+        /// <summary> Устанавливает прозрачность всем 2D-документам. </summary>
+        /// <param name="alpha"> Прозрачность. </param>
+        public static void SetTransparency(float alpha)
+        {
+            foreach (var viewer in _viewers2D)
+            {
+                viewer.GetComponent<Transparency>().Alpha = alpha;
+            }
+        }
+        
+        /// <summary> Функция управления прозрачностью 2D-документов с помощью слайдера из MRTK. </summary>
+        /// <param name="data"> Данные слайдера. </param>
+        public void OnAlphaSliderUpdated(SliderEventData data)
+        {
+            SetTransparency(data.NewValue + 0.2f);
         }
 
         /// <summary> Функция, обрабатывающая удаление обозреветеля. </summary>
