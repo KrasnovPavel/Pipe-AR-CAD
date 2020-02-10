@@ -17,10 +17,10 @@ namespace HoloCore.UI
             protected set
             {
                 base.State = value;
-                                 if (Application.isPlaying && ButtonRenderer != null)
-                                 {
-                                     ButtonRenderer.material.SetFloat(Fade, (float) State);
-                                 }
+                if (Application.isPlaying && ButtonRenderer != null)
+                {
+                    ButtonRenderer.material.SetFloat(Fade, (float) State);
+                }
             }
         }
     }
