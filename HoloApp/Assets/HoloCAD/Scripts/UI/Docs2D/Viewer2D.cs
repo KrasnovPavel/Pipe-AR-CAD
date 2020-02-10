@@ -84,7 +84,7 @@ namespace HoloCAD.UI.Docs2D
         }
 
         /// <summary> Закрывает окно. </summary>
-        public void Close()
+        public virtual void Close()
         {
             Destroy(gameObject);
         }
