@@ -7,15 +7,11 @@
       <change afterPath="$PROJECT_DIR$/../HoloApp/Assets/TextMesh Pro/Resources.meta" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../HoloApp/Assets/TextMesh Pro/Resources/Shaders.meta" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../HoloApp/Assets/TextMesh Pro/Sprites.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/InputFromPanelValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/MarkSceneLoader.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/MarkSceneLoader.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/MarkSerializeClasses.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/MarkSerializeClasses.cs.meta" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/MoveDirections.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/MarksTarget.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/MarksTarget.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/UI/MarkControlPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/UI/MarkControlPanel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/GlTFImporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/glTFImporter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/Resources/VuforiaConfiguration.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/Resources/VuforiaConfiguration.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/Scenes/Default.unity" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/Scenes/Default.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/glTFExportClasses.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/glTFExportClasses.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/ProjectSettings/AudioManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/ProjectSettings/AudioManager.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/ProjectSettings/ClusterInputManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/ProjectSettings/ClusterInputManager.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/ProjectSettings/DynamicsManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/ProjectSettings/DynamicsManager.asset" afterDir="false" />
@@ -28,32 +24,17 @@
       <change beforePath="$PROJECT_DIR$/../HoloApp/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/ProjectSettings/TagManager.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../HoloApp/ProjectSettings/TimeManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../HoloApp/ProjectSettings/TimeManager.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarksEditor/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/MarkParamsPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/MarkParamsPrefab.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MarkEditor.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MarkEditor.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FileSaverLoader.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FileSaverLoader.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputFromPanel.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputFromPanel.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputFromPanelValidator.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MarkOnScene.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Mark.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MarkOnScene.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Mark.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Mark.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Mark.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/MarkParamPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MarkParamPanel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MarkSerializeClasses.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MarkSerializeClasses.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/MarksController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MarksController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ModelImporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ModelImporter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/OBJExporter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/OBJExporter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UIController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/glTF/GlTFImporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/glTF/GlTFImporter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/AudioManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/AudioManager.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/ClusterInputManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ClusterInputManager.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" afterDir="false" />
@@ -144,11 +125,13 @@
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/PiXYZ/Samples/RuntimeBoilerplate/Scripts/OnlineUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MarkPlaceController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/PiXYZConfigFiles/Poor Import Settings.asset" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../HoloApp/ProjectSettings/AudioManager.asset" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/glTF/GlTFImporter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../HoloApp/Assets/MixedRealityToolkit.Generated/CustomProfiles/HL1ConfigurationProfile.asset" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MoveDirections.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MarksController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Prefabs/MarkButtonBar.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../HoloApp/Assets/HoloCAD/Scripts/glTF/glTFExportClasses.cs" root0="SKIP_HIGHLIGHTING" />
@@ -165,6 +148,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F30414C8-F044-4549-92F6-2BA49B8ABE86/fe/9aae0a32/JsonUtility.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InputFromPanelValidator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/PiXYZ/Samples/RuntimeBoilerplate/Scripts/ImporterComponent.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ProjectSettings/AudioManager.asset" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/PiXYZ/Samples/RuntimeBoilerplate/Scripts/LicenseManagerScript.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -197,22 +181,23 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/ColliderAdder.cs" />
         <option value="C:/Users/majorov.d/AppData/Local/Microsoft/Windows/INetCache/IE/FS79HK53/file[1].glTF" />
         <option value="E:/file.glTF" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UIController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/MarkPlaceController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/MarkOnScene.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" />
         <option value="$PROJECT_DIR$/Assets/Scenes/MarkEditor.unity" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/glTF/GlTFImporter.cs" />
         <option value="$PROJECT_DIR$/Assets/Plugins/Editor/NormalsVisualizer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ModelImporter.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Mark.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/InputController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/FileSaverLoader.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/MarkParamPanel.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/InputFromPanel.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/InputFromPanelValidator.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Mark.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MarkParamPanel.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UIController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MoveDirections.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/InputController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/MarksController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/glTF/glTFExportClasses.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/glTF/GLTFExporter.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/glTF/GlTFImporter.cs" />
       </list>
     </option>
   </component>
@@ -336,7 +321,7 @@
       <workItem from="1580499373083" duration="5530000" />
       <workItem from="1580648650734" duration="6987000" />
       <workItem from="1580840507147" duration="11273000" />
-      <workItem from="1581360171850" duration="771000" />
+      <workItem from="1581360171850" duration="10000000" />
     </task>
     <task id="LOCAL-00001" summary="Починил интерфейс и сделал исправления структуры кода">
       <created>1570433576741</created>
@@ -415,7 +400,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580416233606</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Внесена часть правок из code review">
+      <created>1581361079393</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1581361079393</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -478,7 +470,8 @@
     <MESSAGE value="Добавлен импорт цветов из glTF в Конвертер" />
     <MESSAGE value="Включена поддержка PiXYZ. Исправление багов" />
     <MESSAGE value="Внесение классов glTF-импорта в отдельный namespace в HoloCAD" />
-    <option name="LAST_COMMIT_MESSAGE" value="Внесение классов glTF-импорта в отдельный namespace в HoloCAD" />
+    <MESSAGE value="Внесена часть правок из code review" />
+    <option name="LAST_COMMIT_MESSAGE" value="Внесена часть правок из code review" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

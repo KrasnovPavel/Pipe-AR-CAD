@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace MarksEditor.glTF
+namespace glTFConverter
 {
     /// <summary> Класс с константами для экспорта</summary>
     public static class glTFConvertionConsts
@@ -45,6 +42,27 @@ namespace MarksEditor.glTF
         public float[] rotation;
         public float[] scale;
         public float[] translation;
+
+        /// <summary> Формирует квартернион </summary>
+        /// <returns> Сформированный кватернион </returns>
+        public Quaternion FormRotation()
+        {
+            return new Quaternion(rotation[0], rotation[1], rotation[2], rotation[3]);
+        }
+
+        /// <summary> Формирует вектор позиции </summary>
+        /// <returns> Вектор позиции </returns>
+        public Vector3 FormPosition()
+        {
+            return new Vector3(translation[0], translation[1], translation[2]);
+        }
+
+        /// <summary> Формирует вектор масштаба </summary>
+        /// <returns> Вектор масштаба </returns>
+        public Vector3 FormScale()
+        {
+            return new Vector3(scale[0], scale[1], scale[2]);
+        }
     }
 
     /// <summary> Класс меша glTF-файла/// </summary>
@@ -188,6 +206,16 @@ namespace MarksEditor.glTF
     public class material
     {
         public pbrMetallicRoughness_material pbrMetallicRoughness = new pbrMetallicRoughness_material();
+
+        /// <summary> Формирует цвет в виде объекта Unity </summary>
+        /// <returns> Объект Unity </returns>
+        public Color FormUnityColor()
+        {
+            float[] baseColorFactor = pbrMetallicRoughness.baseColorFactor;
+            Color currentColor = new Color(baseColorFactor[0], baseColorFactor[1], baseColorFactor[2],
+                baseColorFactor[3]);
+            return currentColor;
+        }
     }
 
     /// <summary> Параметр материала для glTF-файла </summary>

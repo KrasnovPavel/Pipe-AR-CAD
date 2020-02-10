@@ -19,21 +19,20 @@ namespace HoloCAD
 
         /// <summary> Alpha текстуры модели в режиме прозрачности. </summary>
         public float TransparentAlpha = 0.5f;
-        
+
         /// <summary> Список меток. </summary>
-        [Tooltip("Список меток.")]
-        public List<Mark> Marks = new List<Mark>();
-        
+        [Tooltip("Список меток.")] public List<Mark> Marks = new List<Mark>();
+
         /// <summary> Список положений модели относительно меток. </summary>
         [Tooltip("Список положений модели относительно меток.")]
         public List<Vector3> PositionsOfMarks = new List<Vector3>();
-        
+
         /// <summary> Список поворотов модели относительно меток. </summary>
         [Tooltip("Список поворотов модели относительно меток.")]
         public List<Vector3> RotationsOfMarks = new List<Vector3>();
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         /// <summary> Изменение положения модели относительно метки. </summary>
         /// <param name="mark"> Метка. </param>
         /// <param name="delta"> Сдвиг. </param>
@@ -57,7 +56,7 @@ namespace HoloCAD
                 Model.GetComponent<MeshRenderer>().sharedMaterial.SetFloat(Alpha, transparent ? TransparentAlpha : 1f);
             }
         }
-        
+
         /// <summary> Изменение поворота модели относительно метки. </summary>
         /// <param name="mark"> Метки. </param>
         /// <param name="delta"> Поворот. </param>
@@ -114,14 +113,15 @@ namespace HoloCAD
             int markId = Marks.FindIndex(obj => obj != null && obj.enabled && obj.IsActive);
 
             if (markId == -1) return;
-            
+
             Transform currentMark = Marks[markId].transform;
 
             transform.SetParent(currentMark, false);
-            var lossyScale = currentMark.lossyScale;
-            transform.localPosition = new Vector3(PositionsOfMarks[markId].x / currentMark.lossyScale.x,
-                PositionsOfMarks[markId].y / currentMark.lossyScale.y,
-                PositionsOfMarks[markId].z / currentMark.lossyScale.z);
+            Vector3 lossyScale = currentMark.lossyScale;
+            Vector3 currentMarkPosition = PositionsOfMarks[markId];
+            transform.localPosition = new Vector3(currentMarkPosition.x / lossyScale.x,
+                currentMarkPosition.y / lossyScale.y,
+                currentMarkPosition.z / lossyScale.z);
             transform.localRotation = Quaternion.Euler(RotationsOfMarks[markId]);
 
             transform.SetParent(null, true);
@@ -131,7 +131,7 @@ namespace HoloCAD
         #endregion
 
         #region Private definitions
-        
+
         private static readonly int Alpha = Shader.PropertyToID("_Alpha");
         private SpatialMappingCollider _spatialCollider;
 

@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MarkEditor.unity
     guid: 2399bc7a5b262824bae1c63e842195f1
+  - enabled: 1
+    path: Assets/Plugins/PiXYZ/Samples/RuntimeBoilerplate/RuntimeBoilerplate.unity
+    guid: a101fc0a30aca174db32abf640e29e68
   m_configObjects: {}

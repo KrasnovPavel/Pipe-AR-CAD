@@ -8,7 +8,6 @@ namespace MarksEditor
 {
     public class Mark : MonoBehaviour, INotifyPropertyChanged
     {
-        public MarkParamPanel ParamPanelOfThisMark;
         public TextMesh TextMeshOfNumber;
 
         public int Id
@@ -29,14 +28,12 @@ namespace MarksEditor
         void Start()
         {
             ChangeIdOnTextMesh();
-            ParamPanelOfThisMark.IdText.text = Convert.ToString(Id + 1);
 
             PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
             {
                 if (args.PropertyName == nameof(Id))
                 {
                     ChangeIdOnTextMesh();
-                    ParamPanelOfThisMark.IdText.text = Convert.ToString(Id + 1);
                 }
             };
         }
@@ -45,7 +42,6 @@ namespace MarksEditor
         {
             if (transform.hasChanged)
             {
-                ParamPanelOfThisMark.MarkTransformIntoInput();
                 transform.hasChanged = false;
             }
         }

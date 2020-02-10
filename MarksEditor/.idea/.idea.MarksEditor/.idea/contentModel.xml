@@ -71,6 +71,7 @@
           <e p="MarkPlaceController.cs" t="Include" />
           <e p="MarksController.cs" t="Include" />
           <e p="ModelImporter.cs" t="Include" />
+          <e p="MoveDirections.cs" t="Include" />
           <e p="Singleton.cs" t="Include" />
           <e p="UIController.cs" t="Include" />
         </e>

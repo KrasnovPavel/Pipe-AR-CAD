@@ -4,7 +4,7 @@ using System.IO;
 using HoloCore;
 using UnityEngine;
 using static SFB.StandaloneFileBrowser;
-
+using glTFConverter;
 
 namespace MarksEditor.glTF
 {

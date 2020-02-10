@@ -3,6 +3,7 @@ using System.IO;
 using HoloCore;
 using UnityEngine;
 using static SFB.StandaloneFileBrowser;
+using glTFConverter;
 
 namespace MarksEditor.glTF
 {
@@ -154,14 +155,9 @@ namespace MarksEditor.glTF
         /// <param name="currentNodeGameObject">Объект, в который заносятся данные</param>
         private void SetTransformToNode(node currentNode, GameObject currentNodeGameObject)
         {
-            float[] nodeRotation = currentNode.rotation;
-            float[] nodeTranslation = currentNode.translation;
-            float[] nodeScale = currentNode.scale;
-            currentNodeGameObject.transform.localRotation = new Quaternion(nodeRotation[0],
-                nodeRotation[1], nodeRotation[2], nodeRotation[3]);
-            currentNodeGameObject.transform.localPosition =
-                new Vector3(nodeTranslation[0], nodeTranslation[1], nodeTranslation[2]);
-            currentNodeGameObject.transform.localScale = new Vector3(nodeScale[0], nodeScale[1], nodeScale[2]);
+            currentNodeGameObject.transform.localRotation = currentNode.FormRotation();
+            currentNodeGameObject.transform.localPosition = currentNode.FormPosition();
+            currentNodeGameObject.transform.localScale = currentNode.FormScale();
         }
 
         /// <summary>Устанавливает материал мешу из glTF-файла </summary>
@@ -174,11 +170,7 @@ namespace MarksEditor.glTF
                 currentExportedMaterial.pbrMetallicRoughness.roughnessFactor);
             currentMeshRenderer.material.SetFloat("_Metallic",
                 currentExportedMaterial.pbrMetallicRoughness.metallicFactor);
-            currentMeshRenderer.material.color = new Color(
-                currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[0],
-                currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[1],
-                currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[2],
-                currentExportedMaterial.pbrMetallicRoughness.baseColorFactor[3]);
+            currentMeshRenderer.material.color = currentExportedMaterial.FormUnityColor();
         }
 
         /// <summary> Создает меш из данных glTF-файла </summary>
@@ -190,7 +182,7 @@ namespace MarksEditor.glTF
             Mesh currentUnityMesh = new Mesh();
 
             accessor positionAccessor = rootOfglTFFile.accessors[currentMeshPrimitive.attributes.POSITION];
-            accessor indicesAccessor = rootOfglTFFile.accessors[currentMeshPrimitive.indices]; //TODO: нормали 
+            accessor indicesAccessor = rootOfglTFFile.accessors[currentMeshPrimitive.indices];
 
             bufferView positionBufferView = rootOfglTFFile.bufferViews[positionAccessor.bufferView];
             bufferView indicesBufferView = rootOfglTFFile.bufferViews[indicesAccessor.bufferView];

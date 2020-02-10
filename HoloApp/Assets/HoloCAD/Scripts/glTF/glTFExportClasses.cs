@@ -6,8 +6,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 
-
-namespace HoloCAD.glTF
+namespace glTFConverter
 {
     /// <summary> Класс с константами для экспорта</summary>
     public static class glTFConvertionConsts
@@ -19,14 +18,14 @@ namespace HoloCAD.glTF
     [Serializable]
     public class root
     {
-        public List<scene> scenes;
-        public List<node> nodes;
-        public List<mesh> meshes;
-        public List<buffer> buffers;
-        public List<bufferView> bufferViews;
-        public List<accessor> accessors;
-        public _marksInfo _marksInfo;
-        public List<material> materials;
+        public List<scene> scenes = new List<scene>();
+        public List<node> nodes = new List<node>();
+        public List<mesh> meshes = new List<mesh>();
+        public List<buffer> buffers = new List<buffer>();
+        public List<bufferView> bufferViews = new List<bufferView>();
+        public List<accessor> accessors = new List<accessor>();
+        public _marksInfo _marksInfo = new _marksInfo();
+        public List<material> materials = new List<material>();
         public asset asset;
     }
 
@@ -35,7 +34,7 @@ namespace HoloCAD.glTF
     [Serializable]
     public class scene
     {
-        public List<int> nodes;
+        public List<int> nodes = new List<int>();
     }
 
     /// <summary> Класс узла glTF-файла/// </summary>
@@ -47,6 +46,27 @@ namespace HoloCAD.glTF
         public float[] rotation;
         public float[] scale;
         public float[] translation;
+
+        /// <summary> Формирует квартернион </summary>
+        /// <returns> Сформированный кватернион </returns>
+        public Quaternion FormRotation()
+        {
+            return new Quaternion(rotation[0], rotation[1], rotation[2], rotation[3]);
+        }
+
+        /// <summary> Формирует вектор позиции </summary>
+        /// <returns> Вектор позиции </returns>
+        public Vector3 FormPosition()
+        {
+            return new Vector3(translation[0], translation[1], translation[2]);
+        }
+
+        /// <summary> Формирует вектор масштаба </summary>
+        /// <returns> Вектор масштаба </returns>
+        public Vector3 FormScale()
+        {
+            return new Vector3(scale[0], scale[1], scale[2]);
+        }
     }
 
     /// <summary> Класс меша glTF-файла/// </summary>
@@ -60,9 +80,15 @@ namespace HoloCAD.glTF
     [Serializable]
     public class primitive
     {
-        public attribute attributes;
+        public attribute attributes = new attribute();
         public int indices;
         public int material;
+
+        public primitive(int indices, int material)
+        {
+            this.indices = indices;
+            this.material = material;
+        }
     }
 
     /// <summary> Класс атрибутов примитивов меша glTF-файла/// </summary>
@@ -70,6 +96,7 @@ namespace HoloCAD.glTF
     public class attribute
     {
         public int POSITION;
+
         //        public int NORMAL;
         //        public int TANGENT;
         //        public int TEXCOORD_0;
@@ -85,6 +112,13 @@ namespace HoloCAD.glTF
     {
         public string uri = "data:application/octet-stream;base64,";
         public int byteLength;
+
+
+        public buffer(int byteLength, string encodedBuffer)
+        {
+            this.byteLength = byteLength;
+            uri += encodedBuffer;
+        }
     }
 
     /// <summary> Класс-описание частей буфера glTF-файла/// </summary>
@@ -95,9 +129,17 @@ namespace HoloCAD.glTF
         public int byteOffset;
         public int byteLength;
         public int target; //вершины 34962 индексы вершин 34963
+
+        public bufferView(int buffer, int byteOffset, int byteLength, int target)
+        {
+            this.buffer = buffer;
+            this.byteOffset = byteOffset;
+            this.byteLength = byteLength;
+            this.target = target;
+        }
     }
 
-    /// <summary> Класс-описание наследника glTF-файла/// </summary>
+    /// <summary> Класс-описание аксессор glTF-файла</summary>
     [Serializable]
     public class accessor
     {
@@ -106,8 +148,17 @@ namespace HoloCAD.glTF
         public int componentType;
         public int count;
         public string type;
-        public float[] max;
-        public float[] min;
+        public float[] max = {0f, 0f, 0f};
+        public float[] min = {0f, 0f, 0f};
+
+        public accessor(int bufferView, int byteOffset, int componentType, int count, string type)
+        {
+            this.bufferView = bufferView;
+            this.byteOffset = byteOffset;
+            this.componentType = componentType;
+            this.count = count;
+            this.type = type;
+        }
     }
 
     /// <summary> Класс описание ассета glTF-файла /// </summary>
@@ -123,7 +174,7 @@ namespace HoloCAD.glTF
     public class _marksInfo
     {
         public int marksCount;
-        public List<_mark> _marks;
+        public List<_mark> _marks = new List<_mark>();
     }
 
 
@@ -153,20 +204,30 @@ namespace HoloCAD.glTF
             this.target = drawObjectName;
         }
     }
+
     /// <summary> Описание материала для glTF-файла </summary>
     [Serializable]
     public class material
     {
-        public pbrMetallicRoughness_material pbrMetallicRoughness;
+        public pbrMetallicRoughness_material pbrMetallicRoughness = new pbrMetallicRoughness_material();
+
+        /// <summary> Формирует цвет в виде объекта Unity </summary>
+        /// <returns> Объект Unity </returns>
+        public Color FormUnityColor()
+        {
+            float[] baseColorFactor = pbrMetallicRoughness.baseColorFactor;
+            Color currentColor = new Color(baseColorFactor[0], baseColorFactor[1], baseColorFactor[2],
+                baseColorFactor[3]);
+            return currentColor;
+        }
     }
-        
+
     /// <summary> Параметр материала для glTF-файла </summary>
     [Serializable]
     public class pbrMetallicRoughness_material
     {
-        public float[] baseColorFactor  = {1.000f, 0.766f, 0.336f, 1.0f};
+        public float[] baseColorFactor = {0f, 0f, 0f, 0f};
         public float metallicFactor = 0.5f;
         public float roughnessFactor = 0.5f;
     }
-
 }

@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\MarkPlaceController.cs" />
     <Compile Include="Assets\Scripts\MarksController.cs" />
     <Compile Include="Assets\Scripts\ModelImporter.cs" />
+    <Compile Include="Assets\Scripts\MoveDirections.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\UIController.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\IStandaloneFileBrowser.cs" />

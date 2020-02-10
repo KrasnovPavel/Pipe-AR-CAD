@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using HoloCore;
 using JetBrains.Annotations;
+using PiXYZ.Plugin.Unity;
 using UnityEngine;
 
 namespace MarksEditor
@@ -39,45 +40,52 @@ namespace MarksEditor
 
         public void DeleteMark(int id)
         {
-            if (AllMarks.Count <= id) return;
+            if (AllMarks.Count < id) return;
             if (AllMarks[id].IsSelected) SelectedMark = null;
-            DestroyImmediate(AllMarks[id].ParamPanelOfThisMark.gameObject);
+            MarkParamPanel[] panel = ParentOfPanels.GetComponentsInChildren<MarkParamPanel>();
+            Destroy(panel[id].gameObject);
             Destroy(AllMarks[id].gameObject);
             AllMarks.RemoveAt(id);
+            panel.RemoveAt(id);
             int newId = 0;
-            foreach (Mark mark in AllMarks) mark.Id = newId++;
+            foreach (Mark mark in AllMarks)
+            {
+                mark.Id = newId;
+                panel[newId].IdText.text = $"{newId + 1}";
+                newId++;
+            }
         }
 
-        public void MoveMark(int direction)
+        public void MoveMark(MoveDirections.Directions direction)
         {
             if (SelectedMark != null)
             {
                 Transform markTransform = SelectedMark.transform;
                 switch (direction)
                 {
-                    case 0:
+                    case MoveDirections.Directions.Forward:
                         markTransform.position += Time.deltaTime * SelectedMarkSpeed * markTransform.forward;
                         break;
-                    case 1:
+                    case MoveDirections.Directions.Backward:
                         markTransform.position += Time.deltaTime * SelectedMarkSpeed * -markTransform.forward;
                         break;
-                    case 2:
+                    case MoveDirections.Directions.Left:
                         markTransform.position += Time.deltaTime * SelectedMarkSpeed * -markTransform.right;
                         break;
-                    case 3:
+                    case MoveDirections.Directions.Right:
                         markTransform.position += Time.deltaTime * SelectedMarkSpeed * markTransform.right;
                         break;
-                    case 4:
+                    case MoveDirections.Directions.Up:
                         markTransform.position += Time.deltaTime * SelectedMarkSpeed * markTransform.up;
                         break;
-                    case 5:
+                    case MoveDirections.Directions.Down:
                         markTransform.position += Time.deltaTime * SelectedMarkSpeed * -markTransform.up;
                         break;
-                    case 6:
-                        markTransform.Rotate(markTransform.up, Mathf.Deg2Rad * 90f);
+                    case MoveDirections.Directions.RotationRight:
+                        markTransform.Rotate(markTransform.up, 90f, Space.World);
                         break;
-                    case 7:
-                        markTransform.Rotate(markTransform.up, Mathf.Deg2Rad * -90f);
+                    case MoveDirections.Directions.RotationLeft:
+                        markTransform.Rotate(markTransform.up, -90f, Space.World);
                         break;
                 }
             }
@@ -98,8 +106,6 @@ namespace MarksEditor
 
             MarkParamPanel markParamPanel = Instantiate(MarkPanelPrefab).GetComponent<MarkParamPanel>();
             markParamPanel.transform.parent = ParentOfPanels.transform;
-
-            currentMark.ParamPanelOfThisMark = markParamPanel;
             markParamPanel.Mark = currentMark;
         }
 
