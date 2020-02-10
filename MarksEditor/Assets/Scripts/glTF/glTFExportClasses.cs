@@ -26,7 +26,6 @@ namespace MarksEditor.glTF
         public _marksInfo _marksInfo = new _marksInfo();
         public List<material> materials = new List<material>();
         public asset asset;
-
     }
 
 
@@ -75,7 +74,7 @@ namespace MarksEditor.glTF
     public class attribute
     {
         public int POSITION;
-        
+
         //        public int NORMAL;
         //        public int TANGENT;
         //        public int TEXCOORD_0;
@@ -83,7 +82,6 @@ namespace MarksEditor.glTF
         //        public int COLOR_0;
         //        public int JOINTS_0;
         //        public int WEIGHTS_0;
-        
     }
 
     /// <summary> Класс буфера с данными о меше glTF-файла/// </summary>
@@ -99,7 +97,6 @@ namespace MarksEditor.glTF
             this.byteLength = byteLength;
             uri += encodedBuffer;
         }
-        
     }
 
     /// <summary> Класс-описание частей буфера glTF-файла/// </summary>
@@ -120,7 +117,7 @@ namespace MarksEditor.glTF
         }
     }
 
-    /// <summary> Класс-описание наследника glTF-файла/// </summary>
+    /// <summary> Класс-описание аксессор glTF-файла</summary>
     [Serializable]
     public class accessor
     {
@@ -129,10 +126,10 @@ namespace MarksEditor.glTF
         public int componentType;
         public int count;
         public string type;
-        public float[] max = {0f,0f,0f};
-        public float[] min = {0f,0f,0f};
+        public float[] max = {0f, 0f, 0f};
+        public float[] min = {0f, 0f, 0f};
 
-        public accessor(int bufferView,int byteOffset,int componentType, int count, string type)
+        public accessor(int bufferView, int byteOffset, int componentType, int count, string type)
         {
             this.bufferView = bufferView;
             this.byteOffset = byteOffset;
@@ -185,19 +182,19 @@ namespace MarksEditor.glTF
             this.target = drawObjectName;
         }
     }
-    
+
     /// <summary> Описание материала для glTF-файла </summary>
     [Serializable]
     public class material
     {
         public pbrMetallicRoughness_material pbrMetallicRoughness = new pbrMetallicRoughness_material();
     }
-    
+
     /// <summary> Параметр материала для glTF-файла </summary>
     [Serializable]
     public class pbrMetallicRoughness_material
     {
-        public float[] baseColorFactor  = {0f, 0f, 0f, 0f};
+        public float[] baseColorFactor = {0f, 0f, 0f, 0f};
         public float metallicFactor = 0.5f;
         public float roughnessFactor = 0.5f;
     }

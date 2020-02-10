@@ -59,21 +59,18 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
-          <e p="FileSaverLoader.cs" t="Include" />
           <e p="glTF" t="Include">
             <e p="glTFExportClasses.cs" t="Include" />
             <e p="GlTFExporter.cs" t="Include" />
             <e p="GlTFImporter.cs" t="Include" />
           </e>
           <e p="InputController.cs" t="Include" />
-          <e p="InputFromPanel.cs" t="Include" />
-          <e p="MarkOnScene.cs" t="Include" />
+          <e p="InputFromPanelValidator.cs" t="Include" />
+          <e p="Mark.cs" t="Include" />
           <e p="MarkParamPanel.cs" t="Include" />
           <e p="MarkPlaceController.cs" t="Include" />
           <e p="MarksController.cs" t="Include" />
-          <e p="MarkSerializeClasses.cs" t="Include" />
           <e p="ModelImporter.cs" t="Include" />
-          <e p="OBJExporter.cs" t="Include" />
           <e p="Singleton.cs" t="Include" />
           <e p="UIController.cs" t="Include" />
         </e>

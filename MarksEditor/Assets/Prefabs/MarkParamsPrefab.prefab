@@ -822,12 +822,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Mark: {fileID: 0}
-  InputX: {fileID: 1200413820514004788}
-  InputY: {fileID: 1200413819974006637}
-  InputZ: {fileID: 1200413819512525023}
-  InputRotationX: {fileID: 1200413819608512641}
-  InputRotationY: {fileID: 1200413818840835261}
-  InputRotationZ: {fileID: 1200413820436075575}
+  InputX: {fileID: 8968400109757004978}
+  InputY: {fileID: 8880853037714804616}
+  InputZ: {fileID: 5026052627812571762}
+  InputRotationX: {fileID: 8814809928773614645}
+  InputRotationY: {fileID: 6544913570332049483}
+  InputRotationZ: {fileID: 5493046797030738161}
   IdText: {fileID: 1200413819345961965}
 --- !u!1 &1200413819133984755
 GameObject:
