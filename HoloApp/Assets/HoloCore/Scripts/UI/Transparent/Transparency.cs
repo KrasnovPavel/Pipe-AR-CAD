@@ -57,7 +57,7 @@ namespace HoloCore.UI.Transparent
         protected virtual void Update()
         {
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (AlphaEditor != _alphaEditorLast)
+            if (AlphaEditor != _alphaEditorLast) //-V3024
             {
                 Alpha = AlphaEditor;
                 _alphaEditorLast = AlphaEditor;

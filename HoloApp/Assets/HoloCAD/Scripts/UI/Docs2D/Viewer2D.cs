@@ -4,6 +4,8 @@
 using System.IO;
 using HoloCore.UI;
 using JetBrains.Annotations;
+using Microsoft.MixedReality.Toolkit.UI;
+using Microsoft.MixedReality.Toolkit.Utilities.Solvers;
 using TMPro;
 using UnityEngine;
 
@@ -23,6 +25,10 @@ namespace HoloCAD.UI.Docs2D
         /// <summary> Кнопка для возвращения в вертикальное положение. </summary>
         [Tooltip("Кнопка для возвращения в вертикальное положение.")]
         [CanBeNull] public Button3D VerticalButton;
+
+        /// <summary> Кнопка для фиксации документа перед лицом пользователя. </summary>
+        [Tooltip("Кнопка для фиксации документа перед лицом пользователя.")]
+        [CanBeNull] public Button3D LockButton;
         
         /// <summary> Заглавие. </summary>
         [Tooltip("Заглавие.")]
@@ -31,6 +37,16 @@ namespace HoloCAD.UI.Docs2D
         /// <summary> Холст. </summary>
         [Tooltip("Холст.")]
         [NotNull] public GameObject Canvas;
+
+        /// <summary> Масштаб холста в закреплённом состоянии. </summary>
+        [Tooltip("Масштаб холста в закреплённом состоянии.")]
+        public float LockScale = 0.3f;
+        
+        /// <summary> MRTK-cкрипт, управляющий фиксацией документа перед лицом пользователя. </summary>
+        [CanBeNull] protected Orbital OrbitalSolver;
+
+        /// <summary> MRTK-скрипт, определяющий клик по объекту. </summary>
+        [CanBeNull] protected Interactable ClickHandler;
         
         /// <summary> Имя открытого файла. </summary>
         public string FileName { get; protected set; }
@@ -109,9 +125,20 @@ namespace HoloCAD.UI.Docs2D
         /// </remarks>
         protected virtual void Awake()
         {
+            OrbitalSolver = GetComponent<Orbital>();
+            ClickHandler = GetComponent<Interactable>();
+            
             if (CloseButton != null)    CloseButton.OnClick    += delegate { Close(); };
             if (HideButton != null)     HideButton.OnClick     += delegate { ToggleHiding(); };
             if (VerticalButton != null) VerticalButton.OnClick += delegate { ReturnToVertical(); };
+            if (LockButton != null)     LockButton.OnClick += delegate
+            {
+                transform.localScale = Vector3.one * LockScale;
+                if (OrbitalSolver != null) OrbitalSolver.enabled = true;
+                if (ClickHandler != null)  ClickHandler.enabled = true;
+            };
+            if (OrbitalSolver != null) OrbitalSolver.enabled = false;
+            if (ClickHandler != null)  ClickHandler.enabled = false;
         }
         
         /// <summary> Функция, вызывающаяся при уничтожении объекта в Unity. </summary>
