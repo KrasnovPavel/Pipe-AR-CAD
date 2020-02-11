@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using HoloCore;
-using JetBrains.Annotations;
 using PiXYZ.Plugin.Unity;
 using UnityEngine;
 
