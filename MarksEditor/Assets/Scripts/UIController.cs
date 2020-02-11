@@ -15,13 +15,13 @@ namespace MarksEditor
         /// <summary>Загружает glTF-файл</summary>
         public void LoadGLTFFile()
         {
-            GlTFImporter.Instance.ImportglTFFile();
+            glTFImporter.Instance.ImportglTFFile();
         }
 
         /// <summary>Сохраняет glTF-файл</summary>
         public void SaveGLTFFile()
         {
-            GLTFExporter.Instance.ExportglTFFile();
+            glTFExporter.Instance.ExportglTFFile();
         }
 
         /// <summary>Импортирует модель с помощью PiXYZ </summary>

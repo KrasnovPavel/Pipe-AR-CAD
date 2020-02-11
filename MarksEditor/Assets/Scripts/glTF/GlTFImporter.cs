@@ -8,7 +8,7 @@ using glTFConverter;
 namespace MarksEditor.glTF
 {
     /// <summary> Класс импорта из glTF</summary>
-    public class GlTFImporter : Singleton<GlTFImporter>
+    public class glTFImporter : Singleton<glTFImporter>
     {
         /// <summary> Корневой объект на сцене </summary>
         public GameObject Target;

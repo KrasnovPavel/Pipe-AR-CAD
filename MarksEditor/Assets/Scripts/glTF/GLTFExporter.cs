@@ -9,7 +9,7 @@ using glTFConverter;
 namespace MarksEditor.glTF
 {
     /// <summary> Класс экспорта модели в glTF</summary>
-    public class GLTFExporter : Singleton<GLTFExporter>
+    public class glTFExporter : Singleton<glTFExporter>
     {
         /// <summary> Экспортируемый объект </summary>
         [Tooltip("text")] public GameObject Target;

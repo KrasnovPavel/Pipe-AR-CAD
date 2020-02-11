@@ -58,8 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\glTF\glTFExportClasses.cs" />
-    <Compile Include="Assets\Scripts\glTF\GLTFExporter.cs" />
-    <Compile Include="Assets\Scripts\glTF\GlTFImporter.cs" />
+    <Compile Include="Assets\Scripts\glTF\glTFExporter.cs" />
+    <Compile Include="Assets\Scripts\glTF\glTFImporter.cs" />
     <Compile Include="Assets\Scripts\InputController.cs" />
     <Compile Include="Assets\Scripts\InputFromPanelValidator.cs" />
     <Compile Include="Assets\Scripts\Mark.cs" />
