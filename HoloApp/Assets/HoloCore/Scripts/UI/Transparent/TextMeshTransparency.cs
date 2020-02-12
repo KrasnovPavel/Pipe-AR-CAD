@@ -7,6 +7,7 @@ using UnityEngine;
 namespace HoloCore.UI.Transparent
 {
     /// <summary> Компонент для управления прозрачностью TextMesh. </summary>
+    [RequireComponent(typeof(TextMesh))]
     public sealed class TextMeshTransparency : Transparency
     {
         /// <inheritdoc />

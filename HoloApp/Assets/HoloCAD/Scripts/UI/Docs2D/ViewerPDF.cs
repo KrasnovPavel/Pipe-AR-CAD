@@ -4,6 +4,7 @@
 using HoloCore.UI;
 using JetBrains.Annotations;
 using Paroxe.PdfRenderer;
+using Unity.Collections;
 using UnityEngine;
 
 namespace HoloCAD.UI.Docs2D
@@ -25,6 +26,10 @@ namespace HoloCAD.UI.Docs2D
         
         /// <summary> Открытый документ. </summary>
         [CanBeNull] public PDFDocument Document { get; protected set; }
+
+        /// <summary> Материал используемый для отображения страницы. </summary>
+        [Tooltip("Материал используемый для отображения страницы.")]
+        [ReadOnly] public Material PageMaterial;
 
         /// <inheritdoc />
         public override bool IsHided
@@ -75,8 +80,9 @@ namespace HoloCAD.UI.Docs2D
             {
                 _currentPageNumber = index;
                 PDFPage page = Document.GetPage(index);
-                _material.mainTexture = Document.Renderer.RenderPageToTexture(page, (int) page.GetPageSize().x * 2, 
-                                                                                   (int) page.GetPageSize().y * 2);
+                PageMaterial.mainTexture = Document.Renderer.RenderPageToTexture(page, 
+                                                                                 (int) page.GetPageSize().x * 2, 
+                                                                                 (int) page.GetPageSize().y * 2);
                 ResizeCanvas(page.GetPageSize());
                 CheckPageButtons();
                 SetText();
@@ -108,7 +114,7 @@ namespace HoloCAD.UI.Docs2D
                 CanvasShader = Shader.Find("Mixed Reality Toolkit/Standard");
             }
             Canvas.GetComponent<MeshRenderer>().sharedMaterial = new Material(CanvasShader);
-            _material = Canvas.GetComponent<MeshRenderer>().sharedMaterial;
+            PageMaterial = Canvas.GetComponent<MeshRenderer>().sharedMaterial;
             
             if (NextPageButton != null)     NextPageButton.OnClick     += delegate { NextPage(); };
             if (PreviousPageButton != null) PreviousPageButton.OnClick += delegate { PreviousPage(); };
@@ -119,7 +125,6 @@ namespace HoloCAD.UI.Docs2D
         #region Private definitions
 
         private int _currentPageNumber = -1;
-        private Material _material;
 
         private void CheckPageButtons()
         {

@@ -7,6 +7,7 @@ using UnityEngine;
 namespace HoloCore.UI.Transparent
 {
     /// <summary> Компонент для управления прозрачностью SimpleButton. </summary>
+    [RequireComponent(typeof(SimpleButton))]
     public sealed class SimpleButtonTransparency : Transparency
     {
         /// <inheritdoc />

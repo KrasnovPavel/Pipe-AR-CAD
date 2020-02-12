@@ -20,7 +20,7 @@ namespace HoloCore.UI.Transparent
         {
             if (_renderer != null)
             {
-                _renderer.material.SetColor(ShaderColor, BaseColor * Alpha);
+                _renderer.material.color = BaseColor * Alpha;
             }
             base.OnAlphaChanged();
         }
@@ -30,7 +30,7 @@ namespace HoloCore.UI.Transparent
             _renderer = GetComponent<MeshRenderer>();
             if (_renderer != null)
             {
-                BaseColor = _renderer.material.GetColor(ShaderColor);
+                BaseColor = _renderer.material.color;
             }
             else
             {
@@ -39,6 +39,5 @@ namespace HoloCore.UI.Transparent
         }
 
         [CanBeNull] private MeshRenderer _renderer;
-        private static readonly int ShaderColor = Shader.PropertyToID("_Color");
     }
 }
