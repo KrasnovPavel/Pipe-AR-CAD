@@ -1,7 +1,6 @@
-﻿using MarksEditor.glTF;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace MarksEditor
+namespace GLTFConverter
 {
     /// <summary>Контроллер пользовательского интерфейса </summary>
     public class UIController : MonoBehaviour
@@ -15,13 +14,13 @@ namespace MarksEditor
         /// <summary>Загружает glTF-файл</summary>
         public void LoadGLTFFile()
         {
-            glTFImporter.Instance.ImportglTFFile();
+            ((GlTFImporterEditor) GlTFImporterEditor.Instance).ImportGLTFFile();
         }
 
         /// <summary>Сохраняет glTF-файл</summary>
         public void SaveGLTFFile()
         {
-            glTFExporter.Instance.ExportglTFFile();
+            GLTFExporter.Instance.ExportGLTFFile();
         }
 
         /// <summary>Импортирует модель с помощью PiXYZ </summary>

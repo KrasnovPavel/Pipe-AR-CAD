@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace MarksEditor
+namespace GLTFConverter
 {
     /// <summary> Класс, содержащий параметры меток </summary>
     public class MarkParamPanel : MonoBehaviour
@@ -38,10 +38,8 @@ namespace MarksEditor
         public void SetParamsToMarkFromInputs()
         {
             if (Mark == null) return;
-            Mark.transform.position = new Vector3(InputX.Value, InputY.Value,
-                InputZ.Value);
-            MarkRotation = new Vector3(InputRotationX.Value,
-                InputRotationY.Value, InputRotationZ.Value);
+            Mark.transform.position = new Vector3(InputX.Value, InputY.Value, InputZ.Value);
+            MarkRotation = new Vector3(InputRotationX.Value, InputRotationY.Value, InputRotationZ.Value);
 
             Mark.transform.rotation = Quaternion.Euler(MarkRotation);
         }

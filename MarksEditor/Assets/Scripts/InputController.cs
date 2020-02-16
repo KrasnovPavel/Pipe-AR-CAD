@@ -1,7 +1,7 @@
 ﻿using HoloCore;
 using UnityEngine;
 
-namespace MarksEditor
+namespace GLTFConverter
 {
     /// <summary> Контроллер ввода с клавиатуры и мыши </summary>
     public class InputController : Singleton<InputController>
@@ -68,42 +68,42 @@ namespace MarksEditor
 
             if (Input.GetKey(KeyCode.W))
             {
-                MarksController.Instance.MoveMark(MoveDirections.Directions.Forward);
+                MarksController.Instance.MoveMark(MarksController.Directions.Forward);
             }
 
             if (Input.GetKey(KeyCode.S))
             {
-                MarksController.Instance.MoveMark(MoveDirections.Directions.Backward);
+                MarksController.Instance.MoveMark(MarksController.Directions.Backward);
             }
 
             if (Input.GetKey(KeyCode.A))
             {
-                MarksController.Instance.MoveMark(MoveDirections.Directions.Left);
+                MarksController.Instance.MoveMark(MarksController.Directions.Left);
             }
 
             if (Input.GetKey(KeyCode.D))
             {
-                MarksController.Instance.MoveMark(MoveDirections.Directions.Right);
+                MarksController.Instance.MoveMark(MarksController.Directions.Right);
             }
 
             if (Input.GetKey(KeyCode.R))
             {
-                MarksController.Instance.MoveMark(MoveDirections.Directions.Up);
+                MarksController.Instance.MoveMark(MarksController.Directions.Up);
             }
 
             if (Input.GetKey(KeyCode.F))
             {
-                MarksController.Instance.MoveMark(MoveDirections.Directions.Down);
+                MarksController.Instance.MoveMark(MarksController.Directions.Down);
             }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                MarksController.Instance.MoveMark(MoveDirections.Directions.RotationRight);
+                MarksController.Instance.MoveMark(MarksController.Directions.RotationRight);
             }
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                MarksController.Instance.MoveMark(MoveDirections.Directions.RotationLeft);
+                MarksController.Instance.MoveMark(MarksController.Directions.RotationLeft);
             }
         }
 

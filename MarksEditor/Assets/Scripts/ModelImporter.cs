@@ -9,7 +9,7 @@ using static SFB.StandaloneFileBrowser;
 #endif
 
 
-namespace MarksEditor
+namespace GLTFConverter
 {
     /// <summary> Класс, отвечающий за работу с PiXYZ </summary>
     public class ModelImporter : Singleton<ModelImporter>

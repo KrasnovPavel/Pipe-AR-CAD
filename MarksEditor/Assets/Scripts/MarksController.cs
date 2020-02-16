@@ -4,12 +4,27 @@ using HoloCore;
 using PiXYZ.Plugin.Unity;
 using UnityEngine;
 
-namespace MarksEditor
+namespace GLTFConverter
 {
-    public class MarksController : Singleton<MarksController>, INotifyPropertyChanged
+    public class MarksController : Singleton<MarksController>
     {
+        /// <summary> Направления движения метки</summary>
+        public enum Directions
+        {
+            Forward,
+            Backward,
+            Left,
+            Right,
+            Up,
+            Down,
+            RotationRight,
+            RotationLeft
+        }
+        
+        /// <summary> Список существующих меток </summary>
         public List<Mark> AllMarks;
 
+        /// <summary> Выбранная метка </summary>
         public Mark SelectedMark
         {
             get => _selectedMark;
@@ -18,8 +33,12 @@ namespace MarksEditor
                 _selectedMark = value;
                 if (_selectedMark == null) return;
                 _selectedMark.IsSelected = true;
+                ParamPanelOfSelectedMark = ParentOfPanels.GetComponentsInChildren<MarkParamPanel>()[_selectedMark.Id];
             }
         }
+
+        /// <summary> Панедб с данными о выбранной метке </summary>
+        public MarkParamPanel ParamPanelOfSelectedMark { get; private set; }
 
         /// <summary> Префаб метки </summary>
         [Tooltip("text")] public GameObject MarkPrefab;
@@ -33,8 +52,6 @@ namespace MarksEditor
         /// <summary> Скорость перемещения метки на WASD </summary>
         [Tooltip("text")] public float SelectedMarkSpeed;
 
-        /// <summary> Событие измененения свойств объекта </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public void DeleteMark(int id)
         {
@@ -54,37 +71,42 @@ namespace MarksEditor
             }
         }
 
-        public void MoveMark(MoveDirections.Directions direction)
+        public void MoveMark(Directions direction)
         {
             if (SelectedMark != null)
             {
                 Transform markTransform = SelectedMark.transform;
                 switch (direction)
                 {
-                    case MoveDirections.Directions.Forward:
+                    case Directions.Forward:
                         markTransform.position += Time.deltaTime * SelectedMarkSpeed * markTransform.forward;
                         break;
-                    case MoveDirections.Directions.Backward:
+                    case Directions.Backward:
                         markTransform.position += Time.deltaTime * SelectedMarkSpeed * -markTransform.forward;
                         break;
-                    case MoveDirections.Directions.Left:
+                    case Directions.Left:
                         markTransform.position += Time.deltaTime * SelectedMarkSpeed * -markTransform.right;
                         break;
-                    case MoveDirections.Directions.Right:
+                    case Directions.Right:
                         markTransform.position += Time.deltaTime * SelectedMarkSpeed * markTransform.right;
                         break;
-                    case MoveDirections.Directions.Up:
+                    case Directions.Up:
                         markTransform.position += Time.deltaTime * SelectedMarkSpeed * markTransform.up;
                         break;
-                    case MoveDirections.Directions.Down:
+                    case Directions.Down:
                         markTransform.position += Time.deltaTime * SelectedMarkSpeed * -markTransform.up;
                         break;
-                    case MoveDirections.Directions.RotationRight:
+                    case Directions.RotationRight:
                         markTransform.Rotate(markTransform.up, 90f, Space.World);
                         break;
-                    case MoveDirections.Directions.RotationLeft:
+                    case Directions.RotationLeft:
                         markTransform.Rotate(markTransform.up, -90f, Space.World);
                         break;
+                }
+
+                if (markTransform.hasChanged)
+                {
+                    ParamPanelOfSelectedMark.MarkTransformIntoInput();
                 }
             }
         }
@@ -97,13 +119,14 @@ namespace MarksEditor
 
         public void AddMark()
         {
+            MarkParamPanel markParamPanel = Instantiate(MarkPanelPrefab).GetComponent<MarkParamPanel>();
+            markParamPanel.transform.parent = ParentOfPanels.transform;
+            
             Mark currentMark = Instantiate(MarkPrefab).GetComponent<Mark>();
             currentMark.Id = AllMarks.Count;
             SelectedMark = currentMark;
             AllMarks.Add(currentMark);
-
-            MarkParamPanel markParamPanel = Instantiate(MarkPanelPrefab).GetComponent<MarkParamPanel>();
-            markParamPanel.transform.parent = ParentOfPanels.transform;
+            
             markParamPanel.Mark = currentMark;
         }
 

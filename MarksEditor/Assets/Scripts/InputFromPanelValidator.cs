@@ -3,7 +3,7 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MarksEditor
+namespace GLTFConverter
 {
     /// <summary> Класс, занимающийся парсингом и проверкой вводимых данных в строку ввода </summary>
     public class InputFromPanelValidator : MonoBehaviour

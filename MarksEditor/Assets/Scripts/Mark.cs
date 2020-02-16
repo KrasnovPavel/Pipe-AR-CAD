@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace MarksEditor
+namespace GLTFConverter
 {
     public class Mark : MonoBehaviour, INotifyPropertyChanged
     {

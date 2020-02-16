@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 
+using GLTFConverter;
 using HoloCAD.UnityTubes;
 using HoloCore.UI;
 using JetBrains.Annotations;
@@ -63,7 +64,10 @@ namespace HoloCAD.UI
 
             if (LoadGLTF != null)
             {
-                LoadGLTF.OnClick += delegate { glTF.glTFImporter.Instance.ImportglTFFile(); };
+                LoadGLTF.OnClick += delegate
+                {
+                    ((GLTFImporterHolo) GLTFConverter.GLTFImporter.Instance).ImportGLTFFile();
+                };
             }
 
             if (MoveLeft != null)

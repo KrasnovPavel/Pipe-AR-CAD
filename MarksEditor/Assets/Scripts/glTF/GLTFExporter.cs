@@ -4,18 +4,17 @@ using System.IO;
 using HoloCore;
 using UnityEngine;
 using static SFB.StandaloneFileBrowser;
-using glTFConverter;
 
-namespace MarksEditor.glTF
+namespace GLTFConverter
 {
     /// <summary> Класс экспорта модели в glTF</summary>
-    public class glTFExporter : Singleton<glTFExporter>
+    public class GLTFExporter : Singleton<GLTFExporter>
     {
         /// <summary> Экспортируемый объект </summary>
         [Tooltip("text")] public GameObject Target;
 
         /// <summary> Экспортирует объект в glTF формат </summary>
-        public void ExportglTFFile()
+        public void ExportGLTFFile()
         {
             string filePath = SaveDialog();
             if (filePath.Length == 0)
@@ -23,10 +22,10 @@ namespace MarksEditor.glTF
                 return;
             }
 
-            root rootOfglTF = FormglTFRoot();
+            root rootOfGLTF = FormGLTFRoot();
 
-            AddMarksData(rootOfglTF);
-            string glTFString = FormglTFString(rootOfglTF);
+            AddMarksData(rootOfGLTF);
+            string glTFString = FormglTFString(rootOfGLTF);
             WriteglTFStringIntoFile(filePath, glTFString);
         }
 
@@ -46,8 +45,8 @@ namespace MarksEditor.glTF
         /// <returns>Строка-содержимое glTF-файла</returns>
         private string FormglTFString(root currentRoot)
         {
-            string gltfString = JsonUtility.ToJson(currentRoot);
-            return gltfString;
+            string glTFString = JsonUtility.ToJson(currentRoot);
+            return glTFString;
         }
 
         /// <summary> Открывает диалог сохранения файла </summary>
@@ -60,7 +59,7 @@ namespace MarksEditor.glTF
 
         /// <summary>Создает glTF-объект из указанного объекта </summary>
         /// <returns>Созданный glTF-объект</returns>
-        private root FormglTFRoot()
+        private root FormGLTFRoot()
         {
             root currentRoot = new root();
             currentRoot.scenes = new List<scene>(new scene[] {new scene()});
@@ -106,13 +105,13 @@ namespace MarksEditor.glTF
         }
 
         /// <summary> Добавляет данные о метках в корневой объект glTF-файла </summary>
-        /// <param name="rootOfglTf">Корневой объект</param>
-        private void AddMarksData(root rootOfglTf)
+        /// <param name="rootOfGLTF">Корневой объект</param>
+        private void AddMarksData(root rootOfGLTF)
         {
-            rootOfglTf._marksInfo = new _marksInfo();
+            rootOfGLTF._marksInfo = new _marksInfo();
             int marksCount = MarksController.Instance.AllMarks.Count;
-            rootOfglTf._marksInfo.marksCount = marksCount;
-            rootOfglTf._marksInfo._marks = new List<_mark>();
+            rootOfGLTF._marksInfo.marksCount = marksCount;
+            rootOfGLTF._marksInfo._marks = new List<_mark>();
             foreach (Mark currentMark in MarksController.Instance.AllMarks)
             {
                 Transform markTransform = currentMark.transform;
@@ -125,7 +124,7 @@ namespace MarksEditor.glTF
                     targetTransformLocalRotation.z, $"ImageTarget{currentMark.Id}",
                     "Target");
                 Target.transform.SetParent(null, true);
-                rootOfglTf._marksInfo._marks.Add(currentMarkToSave);
+                rootOfGLTF._marksInfo._marks.Add(currentMarkToSave);
             }
         }
 
@@ -143,28 +142,9 @@ namespace MarksEditor.glTF
             currentRoot.nodes[index].name = childTransform.gameObject.name;
             currentRoot.nodes[index].mesh = index;
             Transform objTransform = childTransform.transform;
-            Vector3 objTransformLocalPosition = objTransform.localPosition;
-            Vector3 objTransformLocalScale = objTransform.localScale;
-            Quaternion objTransformLocalRotation = objTransform.localRotation;
-            currentRoot.nodes[index].translation = new float[3]
-            {
-                objTransformLocalPosition.x,
-                objTransformLocalPosition.y,
-                objTransformLocalPosition.z
-            };
-            currentRoot.nodes[index].scale = new float[3]
-            {
-                objTransformLocalScale.x,
-                objTransformLocalScale.y,
-                objTransformLocalScale.z
-            };
-            currentRoot.nodes[index].rotation = new float[4]
-            {
-                objTransformLocalRotation.x,
-                objTransformLocalRotation.y,
-                objTransformLocalRotation.z,
-                objTransformLocalRotation.w
-            };
+            currentRoot.nodes[index].Position = objTransform.localPosition;
+            currentRoot.nodes[index].Scale = objTransform.localScale;
+            currentRoot.nodes[index].Rotation = objTransform.localRotation;
         }
 
         /// <summary> Создает закодированный буфер и объекты аксессоров из меша  и помещает их в структуру корня glTF-файла</summary>
@@ -242,8 +222,8 @@ namespace MarksEditor.glTF
             currentRoot.accessors[index * 2].min = new float[1] {0};
             currentRoot.accessors[index * 2].max = new float[1] {vertices.Length - 1};
 
-            if (Mathf.Infinity == minX || Mathf.Infinity == minY || Mathf.Infinity == minZ ||
-                -Mathf.Infinity == maxX || -Mathf.Infinity == maxY || -Mathf.Infinity == maxZ)
+            if (float.IsPositiveInfinity(minX) || float.IsPositiveInfinity(minY) || float.IsPositiveInfinity(minZ) ||
+                float.IsNegativeInfinity(maxX) || float.IsNegativeInfinity(maxY) || float.IsNegativeInfinity(maxZ))
             {
                 currentRoot.accessors[index * 2 + 1].min = new float[3] {0, 0, 0};
                 currentRoot.accessors[index * 2 + 1].max = new float[3] {0, 0, 0};
@@ -268,11 +248,7 @@ namespace MarksEditor.glTF
         private void FormMaterialObject(root currentRoot, Material rendererMaterial, int index)
         {
             currentRoot.materials.Add(new material());
-            currentRoot.materials[index].pbrMetallicRoughness.baseColorFactor = new[]
-            {
-                rendererMaterial.color.r, rendererMaterial.color.g, rendererMaterial.color.b,
-                rendererMaterial.color.a
-            };
+            currentRoot.materials[index].Color = rendererMaterial.color;
         }
     }
 }

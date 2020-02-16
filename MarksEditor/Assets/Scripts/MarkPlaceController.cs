@@ -2,14 +2,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace MarksEditor
+namespace GLTFConverter
 {
     /// <summary>Класс, отвечающий за привязку метки к поверхности</summary>
     public class MarkPlaceController : Singleton<MarkPlaceController>
     {
         /// <summary>Группа объектов, которые привязываются к метке </summary>
         public GameObject Target;
-    
+
         /// <summary>Обробаетывает клик на поверхность </summary>
         public void PlaceTheMark()
         {
@@ -18,14 +18,16 @@ namespace MarksEditor
             //TODO: Придумать, как лучше блокировать RayCast через интерфейс
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 10.0f,1<<30))
+            if (Physics.Raycast(ray, out hit, 10.0f, 1 << 30))
             {
-                MarksController.Instance.SelectedMark.transform.localPosition = hit.point;
-                MarksController.Instance.SelectedMark.transform.up = hit.normal;
+                Transform transformOfSelectedMark = MarksController.Instance.SelectedMark.transform;
+                transformOfSelectedMark.localPosition = hit.point;
+                transformOfSelectedMark.up = hit.normal;
+                if (transformOfSelectedMark.hasChanged)
+                {
+                    MarksController.Instance.ParamPanelOfSelectedMark.MarkTransformIntoInput();
+                }
             }
-        
-        
         }
-    
     }
 }
