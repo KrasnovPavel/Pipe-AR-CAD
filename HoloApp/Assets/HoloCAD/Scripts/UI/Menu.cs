@@ -1,6 +1,7 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using HoloCAD.UI.Docs2D;
 using UnityEngine;
 
 namespace HoloCAD.UI
@@ -30,6 +31,12 @@ namespace HoloCAD.UI
         public void QuitApp()
         {
             Application.Quit();
+        }
+
+        /// <summary> Открытие файла с двумерным документом. </summary>
+        public void Open2D()
+        {
+            Controller2D.OpenFile();
         }
     }
 }

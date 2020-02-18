@@ -125,6 +125,8 @@ HoloApp/Assets/HoloToolkit.meta
 HoloApp/MSBuild/
 HoloApp/Assets/MixedReality*
 HoloApp/Assets/MixedRealityToolkit*/
+HoloApp/Assets/Paroxe/
+HoloApp/Assets/Paroxe*
 !HoloApp/Assets/MixedRealityToolkit.Generated/CustomProfiles/
 !HoloApp/Assets/MixedRealityToolkit.Generated/CustomProfiles.meta
 

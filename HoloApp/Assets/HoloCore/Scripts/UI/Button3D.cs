@@ -35,19 +35,19 @@ namespace HoloCore.UI
         [CanBeNull] protected MeshRenderer ButtonRenderer;
 
         /// <summary> Событие клика по кнопке. </summary>
-        public Action<object> OnClick;
+        public Action<Button3D> OnClick;
 
         /// <summary> Событие наведение курсора на кнопку. </summary>
-        public Action<object> OnHoverEnter;
+        public Action<Button3D> OnHoverEnter;
 
         /// <summary> Событие сведения курсора с кнопки. </summary>
-        public Action<object> OnHoverExit;
+        public Action<Button3D> OnHoverExit;
 
         /// <summary> Событие нажатия на кнопку. </summary>
-        public Action<object> OnPressed;
+        public Action<Button3D> OnPressed;
 
         /// <summary> Событие отпускания кнопки. </summary>
-        public Action<object> OnReleased;
+        public Action<Button3D> OnReleased;
 
         /// <summary> Возможные состояния кнопки. </summary>
         public enum ButtonState
@@ -198,19 +198,17 @@ namespace HoloCore.UI
         {
             ButtonRenderer = GetComponent<MeshRenderer>();
 
-            try
+            var labelTransform = transform.Find("Label");
+            if (labelTransform != null)
             {
-                Label = transform.Find("Label").GetComponent<TextMesh>();
+                Label = labelTransform.GetComponent<TextMesh>();
             }
-            catch (UnassignedReferenceException){}
-            catch (NullReferenceException){}
 
-            try
+            var iconTransform = transform.Find("Icon");
+            if (iconTransform != null)
             {
-                IconRenderer = transform.Find("Icon").GetComponent<MeshRenderer>();
+                IconRenderer = iconTransform.GetComponent<MeshRenderer>();
             }
-            catch (UnassignedReferenceException){}
-            catch (NullReferenceException){}
 
             State = _forceDisable ? ButtonState.Disabled : ButtonState.Enabled;
             SetVisual();

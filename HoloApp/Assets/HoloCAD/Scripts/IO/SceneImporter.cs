@@ -79,7 +79,9 @@ namespace HoloCAD.IO
                                                          : null;
 
                 TubeFragment lastFragment;
-                if (parent == null || (start != null && start.HasChild))
+                if (start == null) return;
+
+                if (parent == null || start.HasChild)
                 {
                     TubeLoader.TubeData currentTubeData =
                         TubeLoader.FindTubeData((float) expTube.diameter / 1000, expTube.standard_name);
