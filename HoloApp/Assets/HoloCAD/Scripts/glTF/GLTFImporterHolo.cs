@@ -112,10 +112,8 @@ namespace GLTFConverter
             foreach (_mark currentMarkFromGLTF in _currentRoot._marksInfo._marks)
             {
                 currentTarget.Marks.Add(GameObject.Find(currentMarkFromGLTF.name).GetComponent<Mark>());
-                currentTarget.PositionsOfMarks.Add(new Vector3(currentMarkFromGLTF.x, currentMarkFromGLTF.y,
-                    currentMarkFromGLTF.z));
-                Quaternion quaternion = Quaternion.Euler(currentMarkFromGLTF.rotationX, currentMarkFromGLTF.rotationY,
-                    currentMarkFromGLTF.rotationZ);
+                currentTarget.PositionsOfMarks.Add(currentMarkFromGLTF.Position);
+                Quaternion quaternion = currentMarkFromGLTF.Rotation;
                 currentTarget.RotationsOfMarks.Add(quaternion.eulerAngles);
             }
         }

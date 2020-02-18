@@ -20,9 +20,6 @@ namespace GLTFConverter
             RotationRight,
             RotationLeft
         }
-        
-        /// <summary> Список существующих меток </summary>
-        public List<Mark> AllMarks;
 
         /// <summary> Выбранная метка </summary>
         public Mark SelectedMark
@@ -37,22 +34,32 @@ namespace GLTFConverter
             }
         }
 
-        /// <summary> Панедб с данными о выбранной метке </summary>
+        /// <summary> Панель с данными о выбранной метке </summary>
         public MarkParamPanel ParamPanelOfSelectedMark { get; private set; }
 
+        /// <summary> Список существующих меток </summary>
+        [Tooltip("Список существующих меток")] public List<Mark> AllMarks;
+
+        /// <summary> Импортируемый объект</summary>
+        [Tooltip(" Импортируемый объект")] public Transform TargetTransform;
+
         /// <summary> Префаб метки </summary>
-        [Tooltip("text")] public GameObject MarkPrefab;
+        [Tooltip("Префаб метки")] public GameObject MarkPrefab;
 
         /// <summary> Префаб панели с параметрами метки </summary>
-        [Tooltip("text")] public GameObject MarkPanelPrefab;
+        [Tooltip("Префаб панели с параметрами метки")]
+        public GameObject MarkPanelPrefab;
 
         /// <summary> Родительнский объект для панели </summary>
-        [Tooltip("text")] public GameObject ParentOfPanels;
+        [Tooltip("Родительнский объект для панели")]
+        public GameObject ParentOfPanels;
 
         /// <summary> Скорость перемещения метки на WASD </summary>
-        [Tooltip("text")] public float SelectedMarkSpeed;
+        [Tooltip("Скорость перемещения метки на WASD")]
+        public float SelectedMarkSpeed;
 
-
+        /// <summary>Удаляет метку с определенным id </summary>
+        /// <param name="id">id метки</param>
         public void DeleteMark(int id)
         {
             if (AllMarks.Count < id) return;
@@ -71,6 +78,22 @@ namespace GLTFConverter
             }
         }
 
+        /// <summary> Удаляет все метки со сцены </summary>
+        public void DeleteAllMarks()
+        {
+            MarkParamPanel[] panel = ParentOfPanels.GetComponentsInChildren<MarkParamPanel>();
+            while (AllMarks.Count > 0)
+            {
+                int id = AllMarks[0].Id;
+                Destroy(panel[id].gameObject);
+                Destroy(AllMarks[id].gameObject);
+                AllMarks.RemoveAt(id);
+                panel.RemoveAt(id);
+            }
+        }
+
+        /// <summary> Двигает метку в определенном направлении </summary>
+        /// <param name="direction">Направление движения</param>
         public void MoveMark(Directions direction)
         {
             if (SelectedMark != null)
@@ -111,23 +134,55 @@ namespace GLTFConverter
             }
         }
 
+        /// <summary>Выбирает метку с определенным id </summary>
+        /// <param name="id">id метки</param>
         public void SelectMark(int id)
         {
             if (AllMarks.Count < id) return;
             SelectedMark = AllMarks[id];
         }
 
+        /// <summary> Добавляет метку на сцену </summary>
         public void AddMark()
         {
             MarkParamPanel markParamPanel = Instantiate(MarkPanelPrefab).GetComponent<MarkParamPanel>();
             markParamPanel.transform.parent = ParentOfPanels.transform;
-            
+
             Mark currentMark = Instantiate(MarkPrefab).GetComponent<Mark>();
             currentMark.Id = AllMarks.Count;
             SelectedMark = currentMark;
             AllMarks.Add(currentMark);
-            
+
             markParamPanel.Mark = currentMark;
+        }
+
+        /// <summary> Добавляет метку с указанными параметрами </summary>
+        /// <param name="position">Вектор позиции на сцене</param>
+        /// <param name="rotation">Вектор поворота</param>
+        public void AddMark(Vector3 position, Quaternion rotation)
+        {
+            MarkParamPanel markParamPanel = Instantiate(MarkPanelPrefab).GetComponent<MarkParamPanel>();
+            markParamPanel.transform.parent = ParentOfPanels.transform;
+
+            Mark currentMark = Instantiate(MarkPrefab).GetComponent<Mark>();
+            currentMark.Id = AllMarks.Count;
+            SelectedMark = currentMark;
+            AllMarks.Add(currentMark);
+            markParamPanel.Mark = currentMark;
+            Transform currentMarkTransform = currentMark.transform;
+            TargetTransform.SetParent(currentMarkTransform, false);
+            Vector3 lossyScale = currentMarkTransform.lossyScale;
+            Vector3 currentMarkPosition = position;
+            TargetTransform.localPosition = new Vector3(currentMarkPosition.x / lossyScale.x,
+                currentMarkPosition.y / lossyScale.y,
+                currentMarkPosition.z / lossyScale.z);
+            TargetTransform.localRotation = rotation;
+            TargetTransform.SetParent(null, true);
+            TargetTransform.localScale = Vector3.one;
+            currentMarkTransform.SetParent(TargetTransform, true);
+            TargetTransform.position = Vector3.zero;
+            TargetTransform.rotation = Quaternion.Euler(Vector3.zero);
+            currentMarkTransform.SetParent(null, true);
         }
 
         #region Private defenitions

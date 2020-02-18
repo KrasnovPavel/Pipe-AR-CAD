@@ -31,6 +31,7 @@ namespace GLTFConverter
             }
 
             GetGameObjectsFromImportedGLTFFile(rootOfGLTFFile);
+            AddMarksToSceneFromRoot(rootOfGLTFFile);
         }
 
         #region Private definitions
@@ -107,23 +108,16 @@ namespace GLTFConverter
             }
         }
 
-
-        /*void AddMarksToSceneFromRoot()
+        /// <summary> Добавляет метки на сцену </summary>
+        /// <param name="currentRoot">Корневой объект glTF-файла</param>
+        private void AddMarksToSceneFromRoot(root currentRoot)
         {
-            MarksTarget currentTarget = Target.GetComponent<MarksTarget>();
-            currentTarget.Marks = new List<Mark>();
-            currentTarget.PositionsOfMarks = new List<Vector3>();
-            currentTarget.RotationsOfMarks = new List<Vector3>();
-            foreach (_mark currentMarkFromglTF in _currentRoot._marksInfo._marks)
+            MarksController.Instance.DeleteAllMarks();
+            foreach (_mark currentMarkFromGLTF in currentRoot._marksInfo._marks)
             {
-                currentTarget.Marks.Add(GameObject.Find(currentMarkFromglTF.name).GetComponent<Mark>());
-                currentTarget.PositionsOfMarks.Add(new Vector3(currentMarkFromglTF.x, currentMarkFromglTF.y,
-                    currentMarkFromglTF.z));
-                Quaternion quaternion = Quaternion.Euler(currentMarkFromglTF.rotationX, currentMarkFromglTF.rotationY,
-                    currentMarkFromglTF.rotationZ);
-                currentTarget.RotationsOfMarks.Add(quaternion.eulerAngles);
+                MarksController.Instance.AddMark(currentMarkFromGLTF.Position, currentMarkFromGLTF.Rotation);
             }
-        }*/
+        }
 
         #endregion
     }

@@ -57,9 +57,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\glTF\glTFExportClasses.cs" />
-    <Compile Include="Assets\Scripts\glTF\glTFExporter.cs" />
-    <Compile Include="Assets\Scripts\glTF\glTFImporter.cs" />
+    <Compile Include="Assets\Scripts\GLTF\GLTFExportClasses.cs" />
+    <Compile Include="Assets\Scripts\GLTF\GLTFExporter.cs" />
+    <Compile Include="Assets\Scripts\GLTF\GLTFImporter.cs" />
+    <Compile Include="Assets\Scripts\GLTF\GlTFImporterEditor.cs" />
     <Compile Include="Assets\Scripts\InputController.cs" />
     <Compile Include="Assets\Scripts\InputFromPanelValidator.cs" />
     <Compile Include="Assets\Scripts\Mark.cs" />
@@ -67,7 +68,6 @@
     <Compile Include="Assets\Scripts\MarkPlaceController.cs" />
     <Compile Include="Assets\Scripts\MarksController.cs" />
     <Compile Include="Assets\Scripts\ModelImporter.cs" />
-    <Compile Include="Assets\Scripts\MoveDirections.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\UIController.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\IStandaloneFileBrowser.cs" />

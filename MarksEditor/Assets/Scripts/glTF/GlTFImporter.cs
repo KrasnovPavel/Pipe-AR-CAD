@@ -8,8 +8,8 @@ namespace GLTFConverter
     /// <summary> Класс импорта из glTF</summary>
     public class GLTFImporter : Singleton<GLTFImporter>
     {
-        /// <summary> Корневой объект на сцене </summary>
-        public GameObject Target;
+        /// <summary> Импортируемый объект объект </summary>
+        [Tooltip(" Импортируемый объект")] public GameObject Target;
 
         #region Protected definitions
 
@@ -48,12 +48,13 @@ namespace GLTFConverter
         /// <param name="currentMeshRenderer">Рендерер меша</param>
         protected void SetMaterial(material currentExportedMaterial, MeshRenderer currentMeshRenderer)
         {
-            currentMeshRenderer.material = new Material(Shader.Find("Standard"));
-            currentMeshRenderer.material.SetFloat("_Glossiness",
+            Material currentMaterial = new Material(Shader.Find("Standard"));
+            currentMaterial.SetFloat("_Glossiness",
                 currentExportedMaterial.pbrMetallicRoughness.roughnessFactor);
-            currentMeshRenderer.material.SetFloat("_Metallic",
+            currentMaterial.SetFloat("_Metallic",
                 currentExportedMaterial.pbrMetallicRoughness.metallicFactor);
-            currentMeshRenderer.material.color = currentExportedMaterial.Color;
+            currentMaterial.color = currentExportedMaterial.Color;
+            currentMeshRenderer.material = currentMaterial;
         }
 
         /// <summary> Создает меш из данных glTF-файла </summary>

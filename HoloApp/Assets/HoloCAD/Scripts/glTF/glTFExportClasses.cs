@@ -189,17 +189,26 @@ namespace GLTFConverter
         public float rotationY;
         public float rotationZ;
 
-        public _mark(float x, float y, float z, float rotationX, float rotationY, float rotationZ, string name,
-            string drawObjectName)
+        public _mark(Vector3 position, Vector3 rotation, string name, string drawObjectName)
         {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.rotationX = rotationX;
-            this.rotationY = rotationY;
-            this.rotationZ = rotationZ;
+            x = position.x;
+            y = position.y;
+            z = position.z;
+            rotationX = rotation.x;
+            rotationY = rotation.y;
+            rotationZ = rotation.z;
             this.name = name;
-            this.target = drawObjectName;
+            target = drawObjectName;
+        }
+
+        public Quaternion Rotation
+        {
+            get { return Quaternion.Euler(rotationX, rotationY, rotationZ); }
+        }
+
+        public Vector3 Position
+        {
+            get { return new Vector3(x, y, z); }
         }
     }
 

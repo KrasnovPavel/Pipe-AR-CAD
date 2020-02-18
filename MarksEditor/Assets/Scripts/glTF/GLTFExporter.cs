@@ -11,7 +11,7 @@ namespace GLTFConverter
     public class GLTFExporter : Singleton<GLTFExporter>
     {
         /// <summary> Экспортируемый объект </summary>
-        [Tooltip("text")] public GameObject Target;
+        [Tooltip(" Экспортируемый объект")] public GameObject Target;
 
         /// <summary> Экспортирует объект в glTF формат </summary>
         public void ExportGLTFFile()
@@ -118,11 +118,8 @@ namespace GLTFConverter
                 Target.transform.SetParent(markTransform, true);
                 Vector3 targetTransformLocalPosition = Target.transform.localPosition;
                 Vector3 targetTransformLocalRotation = Target.transform.localRotation.eulerAngles;
-                _mark currentMarkToSave = new _mark(targetTransformLocalPosition.x,
-                    targetTransformLocalPosition.y, targetTransformLocalPosition.z,
-                    targetTransformLocalRotation.x, targetTransformLocalRotation.y,
-                    targetTransformLocalRotation.z, $"ImageTarget{currentMark.Id}",
-                    "Target");
+                _mark currentMarkToSave = new _mark(targetTransformLocalPosition, targetTransformLocalRotation,
+                    $"ImageTarget{currentMark.Id}", "Target");
                 Target.transform.SetParent(null, true);
                 rootOfGLTF._marksInfo._marks.Add(currentMarkToSave);
             }
@@ -153,8 +150,15 @@ namespace GLTFConverter
         /// <param name="index">Индекс узла</param>
         private void FormMeshDataBuffer(root currentRoot, Mesh mesh, int index)
         {
+            Debug.Log("dsad");
             Vector3[] vertices = mesh.vertices;
             int[] triangles = mesh.triangles;
+            Vector3[] normals = mesh.normals;
+            foreach (Vector3 norm in normals)
+            {
+                if (norm == Vector3.zero) continue;
+                Debug.Log($"{norm.x},{norm.y},{norm.z}");
+            }
 
             int indByteLen = triangles.Length * 2;
             indByteLen = (indByteLen % 4 != 0) ? indByteLen + (4 - indByteLen % 4) : indByteLen;
