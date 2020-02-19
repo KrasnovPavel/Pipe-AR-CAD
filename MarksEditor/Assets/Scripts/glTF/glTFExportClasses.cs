@@ -26,14 +26,14 @@ namespace GLTFConverter
     }
 
 
-    /// <summary> Класс сцены glTF-файла/// </summary>
+    /// <summary> Класс сцены glTF-файла </summary>
     [Serializable]
     public class scene
     {
         public List<int> nodes = new List<int>();
     }
 
-    /// <summary> Класс узла glTF-файла/// </summary>
+    /// <summary> Класс узла glTF-файла </summary>
     [Serializable]
     public class node
     {
@@ -67,14 +67,14 @@ namespace GLTFConverter
         }
     }
 
-    /// <summary> Класс меша glTF-файла/// </summary>
+    /// <summary> Класс меша glTF-файла </summary>
     [Serializable]
     public class mesh
     {
         public primitive[] primitives;
     }
 
-    /// <summary> Класс примитивов меша glTF-файла/// </summary>
+    /// <summary> Класс примитивов меша glTF-файла </summary>
     [Serializable]
     public class primitive
     {
@@ -89,7 +89,7 @@ namespace GLTFConverter
         }
     }
 
-    /// <summary> Класс атрибутов примитивов меша glTF-файла/// </summary>
+    /// <summary> Класс атрибутов примитивов меша glTF-файла </summary>
     [Serializable]
     public class attribute
     {
@@ -104,7 +104,7 @@ namespace GLTFConverter
         //        public int WEIGHTS_0;
     }
 
-    /// <summary> Класс буфера с данными о меше glTF-файла/// </summary>
+    /// <summary> Класс буфера с данными о меше glTF-файла </summary>
     [Serializable]
     public class buffer
     {
@@ -119,7 +119,7 @@ namespace GLTFConverter
         }
     }
 
-    /// <summary> Класс-описание частей буфера glTF-файла/// </summary>
+    /// <summary> Класс-описание частей буфера glTF-файла </summary>
     [Serializable]
     public class bufferView
     {
@@ -159,7 +159,7 @@ namespace GLTFConverter
         }
     }
 
-    /// <summary> Класс описание ассета glTF-файла /// </summary>
+    /// <summary> Класс описание ассета glTF-файла  </summary>
     [Serializable]
     public class asset
     {

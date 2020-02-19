@@ -8,14 +8,15 @@ using static SFB.StandaloneFileBrowser;
 namespace GLTFConverter
 {
     /// <summary> Класс экспорта модели в glTF</summary>
-    public class GLTFExporter : Singleton<GLTFExporter>
+    public static class GLTFExporter
     {
         /// <summary> Экспортируемый объект </summary>
-        [Tooltip(" Экспортируемый объект")] public GameObject Target;
+        private static GameObject Target;
 
         /// <summary> Экспортирует объект в glTF формат </summary>
-        public void ExportGLTFFile()
+        public static void ExportGLTFFile(GameObject target)
         {
+            Target = target;
             string filePath = SaveDialog();
             if (filePath.Length == 0)
             {
@@ -33,7 +34,7 @@ namespace GLTFConverter
         /// <summary> Записывает данные в файл по указанному пути </summary>
         /// <param name="filePath">Путь к файлу</param>
         /// <param name="glTfString">Данные</param>
-        private void WriteglTFStringIntoFile(string filePath, string glTfString)
+        private static void WriteglTFStringIntoFile(string filePath, string glTfString)
         {
             StreamWriter streamWriter = new StreamWriter(filePath);
             streamWriter.Write(glTfString);
@@ -43,7 +44,7 @@ namespace GLTFConverter
         /// <summary> Записывает glTF-объект в строку </summary>
         /// <param name="currentRoot">glTF-объект</param>
         /// <returns>Строка-содержимое glTF-файла</returns>
-        private string FormglTFString(root currentRoot)
+        private static string FormglTFString(root currentRoot)
         {
             string glTFString = JsonUtility.ToJson(currentRoot);
             return glTFString;
@@ -51,7 +52,7 @@ namespace GLTFConverter
 
         /// <summary> Открывает диалог сохранения файла </summary>
         /// <returns> Путь к указанному файлу </returns>
-        private string SaveDialog()
+        private static string SaveDialog()
         {
             string filePath = SaveFilePanel("Сохраните файл!", "", "undefined", "glTF");
             return filePath;
@@ -59,7 +60,7 @@ namespace GLTFConverter
 
         /// <summary>Создает glTF-объект из указанного объекта </summary>
         /// <returns>Созданный glTF-объект</returns>
-        private root FormGLTFRoot()
+        private static root FormGLTFRoot()
         {
             root currentRoot = new root();
             currentRoot.scenes = new List<scene>(new scene[] {new scene()});
@@ -106,7 +107,7 @@ namespace GLTFConverter
 
         /// <summary> Добавляет данные о метках в корневой объект glTF-файла </summary>
         /// <param name="rootOfGLTF">Корневой объект</param>
-        private void AddMarksData(root rootOfGLTF)
+        private static void AddMarksData(root rootOfGLTF)
         {
             rootOfGLTF._marksInfo = new _marksInfo();
             int marksCount = MarksController.Instance.AllMarks.Count;
@@ -130,7 +131,7 @@ namespace GLTFConverter
         /// <param name="currentRoot">Объект корня glTF-файла</param>
         /// <param name="childTransform">Объект трансформа узла в исходной модели</param>
         /// <param name="index">Индекс узла</param>
-        private void FormNodeObject(root currentRoot, Transform childTransform, int index)
+        private static void FormNodeObject(root currentRoot, Transform childTransform, int index)
         {
             currentRoot.nodes.Add(new node());
             currentRoot.scenes[0].nodes.Add(index);
@@ -148,7 +149,7 @@ namespace GLTFConverter
         /// <param name="currentRoot">Объект корня glTF-файла</param>
         /// <param name="mesh">Объект меша узла</param>
         /// <param name="index">Индекс узла</param>
-        private void FormMeshDataBuffer(root currentRoot, Mesh mesh, int index)
+        private static void FormMeshDataBuffer(root currentRoot, Mesh mesh, int index)
         {
             Debug.Log("dsad");
             Vector3[] vertices = mesh.vertices;
@@ -249,7 +250,7 @@ namespace GLTFConverter
         /// <param name="currentRoot">Объект корня glTF-файла</param>
         /// <param name="rendererMaterial">Объект материала меша</param>
         /// <param name="index">Индекс узла</param>
-        private void FormMaterialObject(root currentRoot, Material rendererMaterial, int index)
+        private static void FormMaterialObject(root currentRoot, Material rendererMaterial, int index)
         {
             currentRoot.materials.Add(new material());
             currentRoot.materials[index].Color = rendererMaterial.color;

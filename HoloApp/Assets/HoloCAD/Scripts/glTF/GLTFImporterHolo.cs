@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using HoloCAD;
-using HoloCore;
 using UnityEngine;
 using System.Collections.Generic;
 #if ENABLE_WINMD_SUPPORT
@@ -15,24 +14,26 @@ using static SFB.StandaloneFileBrowser;
 namespace GLTFConverter
 {
     /// <summary> Класс импорта из glTF</summary>
-    public class GLTFImporterHolo : GLTFImporter
+    public static class GLTFImporterHolo
     {
         /// <summary> Корневой объект на сцене </summary>
-        public GameObject Target;
+        private static GameObject Target;
+
 
         /// <summary> Импортирует объект из файла в редактор </summary>
-        public void ImportGLTFFile()
+        public static void ImportGLTFFile(GameObject target)
         {
+            Target = target;
             UnityEngine.WSA.Application.InvokeOnUIThread(PickJson, false);
         }
 
         #region Private definitions
 
-        private string _filePath;
-        private string _jsonText;
-        private root _currentRoot;
+        private static string _filePath;
+        private static string _jsonText;
+        private static root _currentRoot;
 
-        private async void PickJson()
+        private static async void PickJson()
         {
 #if ENABLE_WINMD_SUPPORT
             FileOpenPicker openPicker = new FileOpenPicker();
@@ -69,7 +70,7 @@ namespace GLTFConverter
 #endif
         }
 
-        private void ReadJsonAndBuildTargetWithMarks()
+        private static void ReadJsonAndBuildTargetWithMarks()
         {
             try
             {
@@ -93,8 +94,8 @@ namespace GLTFConverter
                     node currentNode = _currentRoot.nodes[currentSceneNodeIndex];
                     GameObject currentNodeGameObject = new GameObject(currentNode.name);
                     currentNodeGameObject.transform.parent = currentSceneGameObject.transform;
-                    FormMeshesFromGLTF(currentNodeGameObject, currentNode, _currentRoot);
-                    AddCollision(currentNodeGameObject);
+                    GLTFImporter.FormMeshesFromGLTF(currentNodeGameObject, currentNode, _currentRoot);
+                    GLTFImporter.AddCollision(currentNodeGameObject);
                 }
             }
 
@@ -103,7 +104,7 @@ namespace GLTFConverter
         }
 
 
-        private void AddMarksToSceneFromRoot()
+        private static void AddMarksToSceneFromRoot()
         {
             MarksTarget currentTarget = Target.GetComponent<MarksTarget>();
             currentTarget.Marks = new List<Mark>();

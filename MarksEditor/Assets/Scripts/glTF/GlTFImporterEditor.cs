@@ -1,17 +1,20 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
-using HoloCore;
 using static SFB.StandaloneFileBrowser;
 
 namespace GLTFConverter
 {
     /// <summary> Класс импорта из glTF</summary>
-    public class GlTFImporterEditor : GLTFImporter
+    public static class GLTFImporterEditor
     {
+        /// <summary> Импортируемый объект </summary>
+        private static GameObject Target;
+
         /// <summary> Импортирует объект из файла в редактор </summary>
-        public void ImportGLTFFile()
+        public static void ImportGLTFFile(GameObject target)
         {
+            Target = target;
             string filepath = OpenDialog();
             if (filepath == "")
             {
@@ -38,9 +41,9 @@ namespace GLTFConverter
 
         /// <summary> Открывает диалог открытия файла </summary>
         /// <returns>Путь к файлу</returns>
-        private string OpenDialog()
+        private static string OpenDialog()
         {
-            string[] paths = OpenFilePanel("Веберите glTF-файл", "", "gltf", false);
+            string[] paths = OpenFilePanel("Выберите glTF-файл", "", "gltf", false);
             if (paths.Length == 0)
             {
                 return "";
@@ -52,7 +55,7 @@ namespace GLTFConverter
         /// <summary> Читает файл и извлекает из него данные в формате JSON </summary>
         /// <param name="path">Путь к файлу</param>
         /// <returns>Строка с данными в формате JSON</returns>
-        private string ReadJSONStringFromFile(string path)
+        private static string ReadJSONStringFromFile(string path)
         {
             string jsonString;
             StreamReader streamReader = new StreamReader(path);
@@ -73,16 +76,15 @@ namespace GLTFConverter
         /// <summary> Парсит входящую строку и извлекает из нее корневой объект для glTF-файла </summary>
         /// <param name="JSONString">Строка с данными в формате JSON</param>
         /// <returns>Корневой объект для glTF-файла</returns>
-        private root GetRootFileFromJSONString(string JSONString)
+        private static root GetRootFileFromJSONString(string JSONString)
         {
             root glTFFileRoot;
             try
             {
                 glTFFileRoot = JsonUtility.FromJson<root>(JSONString);
             }
-            catch (Exception e)
+            catch
             {
-                Debug.LogError(e);
                 return null;
             }
 
@@ -91,7 +93,7 @@ namespace GLTFConverter
 
         /// <summary> Достает объекты из корневого объекта </summary>
         /// <param name="rootOfGLTFFile">Корневой объект</param>
-        private void GetGameObjectsFromImportedGLTFFile(root rootOfGLTFFile)
+        private static void GetGameObjectsFromImportedGLTFFile(root rootOfGLTFFile)
         {
             int currentGameObjectIndex = 0;
             Transform parentTransform = Target.transform;
@@ -102,15 +104,15 @@ namespace GLTFConverter
                     node currentNode = rootOfGLTFFile.nodes[currentSceneNodeIndex];
                     GameObject currentNodeGameObject = new GameObject(currentNode.name);
                     currentNodeGameObject.transform.parent = parentTransform;
-                    FormMeshesFromGLTF(currentNodeGameObject, currentNode, rootOfGLTFFile);
-                    AddCollision(currentNodeGameObject);
+                    GLTFImporter.FormMeshesFromGLTF(currentNodeGameObject, currentNode, rootOfGLTFFile);
+                    GLTFImporter.AddCollision(currentNodeGameObject);
                 }
             }
         }
 
         /// <summary> Добавляет метки на сцену </summary>
         /// <param name="currentRoot">Корневой объект glTF-файла</param>
-        private void AddMarksToSceneFromRoot(root currentRoot)
+        private static void AddMarksToSceneFromRoot(root currentRoot)
         {
             MarksController.Instance.DeleteAllMarks();
             foreach (_mark currentMarkFromGLTF in currentRoot._marksInfo._marks)

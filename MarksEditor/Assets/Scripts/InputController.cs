@@ -8,10 +8,10 @@ namespace GLTFConverter
     {
         
         /// <summary> Скорость движения камеры </summary>
-        [Tooltip("text")] public float Speed;
+        [Tooltip("Скорость движения камеры")] public float Speed;
 
         /// <summary> Скорость вращения камеры </summary>
-        [Tooltip("text")] public float RotationSpeed;
+        [Tooltip("Скорость вращения камеры")] public float RotationSpeed;
 
         #region Private defenition
 

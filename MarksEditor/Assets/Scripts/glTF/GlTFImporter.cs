@@ -1,21 +1,15 @@
 ﻿using System;
 using System.IO;
-using HoloCore;
 using UnityEngine;
 
 namespace GLTFConverter
 {
     /// <summary> Класс импорта из glTF</summary>
-    public class GLTFImporter : Singleton<GLTFImporter>
+    public static class GLTFImporter
     {
-        /// <summary> Импортируемый объект объект </summary>
-        [Tooltip(" Импортируемый объект")] public GameObject Target;
-
-        #region Protected definitions
-
         /// <summary> Добавляет коллизию мешам внутри входного узла </summary>
         /// <param name="currentNodeGameObject"> Входной узел</param>
-        protected void AddCollision(GameObject currentNodeGameObject)
+        public static void AddCollision(GameObject currentNodeGameObject)
         {
             MeshFilter[] meshFilters = currentNodeGameObject.transform.GetComponentsInChildren<MeshFilter>();
             foreach (MeshFilter meshFilterChild in meshFilters)
@@ -33,10 +27,31 @@ namespace GLTFConverter
             }
         }
 
+        /// <summary> Читает меши из входного узла</summary>
+        /// <param name="currentNodeGameObject">GameObject в который добавляется меш отдельным объектом</param>
+        /// <param name="currentNode">Входной узел</param>
+        /// <param name="rootOfGLTFFile">Корневой объект</param>
+        public static void FormMeshesFromGLTF(GameObject currentNodeGameObject, node currentNode, root rootOfGLTFFile)
+        {
+            SetTransformToNode(currentNode, currentNodeGameObject);
+            mesh currentMesh = rootOfGLTFFile.meshes[currentNode.mesh];
+            foreach (primitive currentMeshPrimitive in currentMesh.primitives)
+            {
+                GameObject currentPrimitiveGameObject = CreateGameObjectOfPrimitive(currentNodeGameObject);
+
+                SetMaterial(rootOfGLTFFile.materials[currentMeshPrimitive.material],
+                    currentPrimitiveGameObject.AddComponent<MeshRenderer>());
+
+                CreateMesh(rootOfGLTFFile, currentMeshPrimitive, currentPrimitiveGameObject.AddComponent<MeshFilter>());
+            }
+        }
+
+        #region Private definitions 
+
         /// <summary> Вносит данные о позиции, масштабу и повороту объекта из объекта узла </summary>
         /// <param name="currentNode">Объект узла glTF</param>
         /// <param name="currentNodeGameObject">Объект, в который заносятся данные</param>
-        protected void SetTransformToNode(node currentNode, GameObject currentNodeGameObject)
+        private static void SetTransformToNode(node currentNode, GameObject currentNodeGameObject)
         {
             currentNodeGameObject.transform.localRotation = currentNode.Rotation;
             currentNodeGameObject.transform.localPosition = currentNode.Position;
@@ -46,7 +61,7 @@ namespace GLTFConverter
         /// <summary>Устанавливает материал мешу из glTF-файла </summary>
         /// <param name="currentExportedMaterial">Объект материала из glTF-файла</param>
         /// <param name="currentMeshRenderer">Рендерер меша</param>
-        protected void SetMaterial(material currentExportedMaterial, MeshRenderer currentMeshRenderer)
+        private static void SetMaterial(material currentExportedMaterial, MeshRenderer currentMeshRenderer)
         {
             Material currentMaterial = new Material(Shader.Find("Standard"));
             currentMaterial.SetFloat("_Glossiness",
@@ -61,7 +76,8 @@ namespace GLTFConverter
         /// <param name="rootOfglTFFile">Коренной объект glTF-файла</param>
         /// <param name="currentMeshPrimitive">Объект примитива glTF-файла</param>
         /// <param name="currentMeshFilter">Меш фильтр объекта</param>
-        protected void CreateMesh(root rootOfglTFFile, primitive currentMeshPrimitive, MeshFilter currentMeshFilter)
+        private static void CreateMesh(root rootOfglTFFile, primitive currentMeshPrimitive,
+            MeshFilter currentMeshFilter)
         {
             Mesh currentUnityMesh = new Mesh();
 
@@ -126,7 +142,7 @@ namespace GLTFConverter
         /// <summary> Создает объект примитива </summary>
         /// <param name="currentNodeGameObject"> Объект узла</param>
         /// <returns>Объект примитива</returns>
-        protected GameObject CreateGameObjectOfPrimitive(GameObject currentNodeGameObject)
+        private static GameObject CreateGameObjectOfPrimitive(GameObject currentNodeGameObject)
         {
             GameObject currentPrimitiveGameObject = new GameObject();
             currentPrimitiveGameObject.transform.parent = currentNodeGameObject.transform;
@@ -134,26 +150,6 @@ namespace GLTFConverter
             currentPrimitiveGameObject.transform.localPosition = Vector3.zero;
             currentPrimitiveGameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
             return currentNodeGameObject;
-        }
-
-
-        /// <summary> Читает меши из входного узла</summary>
-        /// <param name="currentNodeGameObject">GameObject в который добавляется меш отдельным объектом</param>
-        /// <param name="currentNode">Входной узел</param>
-        /// <param name="rootOfGLTFFile">Корневой объект</param>
-        protected void FormMeshesFromGLTF(GameObject currentNodeGameObject, node currentNode, root rootOfGLTFFile)
-        {
-            SetTransformToNode(currentNode, currentNodeGameObject);
-            mesh currentMesh = rootOfGLTFFile.meshes[currentNode.mesh];
-            foreach (primitive currentMeshPrimitive in currentMesh.primitives)
-            {
-                GameObject currentPrimitiveGameObject = CreateGameObjectOfPrimitive(currentNodeGameObject);
-
-                SetMaterial(rootOfGLTFFile.materials[currentMeshPrimitive.material],
-                    currentPrimitiveGameObject.AddComponent<MeshRenderer>());
-
-                CreateMesh(rootOfGLTFFile, currentMeshPrimitive, currentPrimitiveGameObject.AddComponent<MeshFilter>());
-            }
         }
 
         #endregion

@@ -23,8 +23,8 @@ namespace HoloCore.UI
         [CanBeNull] public Material IconMaterial;
 
         /// <summary> Заполнитель на случай если иконка не задана. </summary>
-        [CanBeNull] public Texture EmptyIcon; 
-        
+        [CanBeNull] public Texture EmptyIcon;
+
         /// <summary> Объект, на который выводится текст. </summary>
         [CanBeNull] protected TextMesh Label;
 
@@ -83,7 +83,7 @@ namespace HoloCore.UI
         public void SetEnabled(bool isEnabled)
         {
             if (isEnabled && State != ButtonState.Disabled) return;
-            
+
             State = isEnabled ? ButtonState.Enabled : ButtonState.Disabled;
             _forceDisable = !isEnabled;
         }
@@ -113,7 +113,6 @@ namespace HoloCore.UI
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void Release(bool setHover = true)
         {
-            
             switch (State)
             {
                 case ButtonState.Disabled:
@@ -213,15 +212,23 @@ namespace HoloCore.UI
             {
                 Label = transform.Find("Label").GetComponent<TextMesh>();
             }
-            catch (UnassignedReferenceException){}
-            catch (NullReferenceException){}
+            catch (UnassignedReferenceException)
+            {
+            }
+            catch (NullReferenceException)
+            {
+            }
 
             try
             {
                 IconRenderer = transform.Find("Icon").GetComponent<MeshRenderer>();
             }
-            catch (UnassignedReferenceException){}
-            catch (NullReferenceException){}
+            catch (UnassignedReferenceException)
+            {
+            }
+            catch (NullReferenceException)
+            {
+            }
 
             State = _forceDisable ? ButtonState.Disabled : ButtonState.Enabled;
             SetVisual();
@@ -235,7 +242,7 @@ namespace HoloCore.UI
         {
             SetVisual();
         }
-        
+
         /// <summary> Функция, выполняющаяся при включении объекта в Unity. </summary>
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.OnEnable()</c>.
@@ -256,7 +263,7 @@ namespace HoloCore.UI
         }
 
         #endregion
-        
+
         #region Private definitions
 
         /// <summary> <c>true</c>, если кнопка была выключена через <see cref="SetEnabled"/>. </summary>
