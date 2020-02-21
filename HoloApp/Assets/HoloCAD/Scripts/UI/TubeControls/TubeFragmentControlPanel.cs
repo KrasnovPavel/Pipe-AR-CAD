@@ -8,7 +8,7 @@ using HoloCore.UI;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace HoloCAD.UI
+namespace HoloCAD.UI.TubeControls
 {
     /// <summary> Класс, отображающий кнопки и информацию о трубах. </summary>
     public abstract class TubeFragmentControlPanel : MonoBehaviour, ISelectable 

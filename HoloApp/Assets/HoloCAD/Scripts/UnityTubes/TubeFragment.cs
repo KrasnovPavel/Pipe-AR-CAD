@@ -5,6 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using HoloCAD.UI;
+using HoloCAD.UI.TubeControls;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -199,7 +200,9 @@ namespace HoloCAD.UnityTubes
         /// </remarks>
         public virtual void CreateTube()
         {
-            TubeManager.CreateTube(Owner);
+            var newTube = TubeManager.CreateTube(Owner);
+            newTube.StartFragment.SelectThis();
+            newTube.StartFragment.IsPlacing = true;
         }
 
         /// <summary> Удаление этого участка трубы. </summary>

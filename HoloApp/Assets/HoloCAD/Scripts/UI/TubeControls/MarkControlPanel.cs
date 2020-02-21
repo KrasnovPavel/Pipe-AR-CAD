@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using Vuforia;
 
-namespace HoloCAD.UI
+namespace HoloCAD.UI.TubeControls
 {
     /// <summary> Панель управления меткой. </summary>
     public sealed class MarkControlPanel : MonoBehaviour

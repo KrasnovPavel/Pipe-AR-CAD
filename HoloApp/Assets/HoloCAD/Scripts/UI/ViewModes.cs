@@ -2,12 +2,12 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
-using UnityEngine;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
+using UnityEngine;
 
-namespace HoloCAD
+namespace HoloCAD.UI
 {
     /// <summary> Класс для переключения режимов отображения модели, привязанной к метке </summary>
     public class ViewModes : MonoBehaviour, INotifyPropertyChanged
@@ -80,8 +80,7 @@ namespace HoloCAD
         {
             UnityTubes.TubeUnityManager.ShowGrid(false);
             gameObject.SetActive(true);
-            MeshRenderer walls = Walls.GetComponent<MeshRenderer>();
-            walls.sharedMaterial.color = Color.grey;
+            Walls.SetActive(true);
         }
 
         /// <summary> Делает модель видимой, но стены прозрачными </summary>
@@ -89,8 +88,7 @@ namespace HoloCAD
         {
             UnityTubes.TubeUnityManager.ShowGrid(false);
             gameObject.SetActive(true);
-            MeshRenderer walls = Walls.GetComponent<MeshRenderer>();
-            walls.sharedMaterial.color = new Color(0.3f, 0.3f, 0.3f, 1f);
+            Walls.SetActive(false);
         }
 
         /// <summary> Делает модель невидимой </summary>

@@ -8,7 +8,7 @@ using HoloCore.UI;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace HoloCAD.UI
+namespace HoloCAD.UI.TubeControls
 {
     /// <inheritdoc />
     /// <summary> Класс, отображающий кнопки и информацию о фланце. </summary>

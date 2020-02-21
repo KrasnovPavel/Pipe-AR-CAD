@@ -9,7 +9,7 @@ using HoloCore.UI;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace HoloCAD.UI
+namespace HoloCAD.UI.TubeControls
 {
     /// <summary> Класс, отображающий информацию об отростке. </summary>
     public class OutgrowthControlPanel : TubeFragmentControlPanel
