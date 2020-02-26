@@ -4,7 +4,7 @@
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
-namespace HoloCore
+namespace GLTFConverter
 {
     /// <summary>
     /// Inherit from this base class to create a singleton.

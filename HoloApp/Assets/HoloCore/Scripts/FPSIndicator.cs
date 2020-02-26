@@ -6,54 +6,55 @@ using UnityEngine;
 
 namespace HoloCore
 {
-	/// <summary> Скрипт для отображения частоты кадров. </summary>
-	public class FPSIndicator : MonoBehaviour
-	{
-		/// <summary> Расстояние от камеры в метрах. </summary>
-		public float DistanceFromCamera = 2f;
+    /// <summary> Скрипт для отображения частоты кадров. </summary>
+    public class FPSIndicator : MonoBehaviour
+    {
+        /// <summary> Расстояние от камеры в метрах. </summary>
+        public float DistanceFromCamera = 2f;
 
-		public float MoveSpeed = 1;
-		
-		#region Unity events
+        public float MoveSpeed = 1;
 
-		protected void Start()
-		{
-			_textMesh = transform.Find("Label").GetComponent<TextMesh>();
+        #region Unity events
+
+        protected void Start()
+        {
+            _textMesh = transform.Find("Label").GetComponent<TextMesh>();
             // ReSharper disable once PossibleNullReferenceException
             _cameraTransform = Camera.main.transform;
 		}
 	
-		protected void Update ()
-		{
+        protected void Update ()
+        {
 			_fpsValues[_pointer] = 1 / Time.deltaTime;
-			_pointer++;
+            _pointer++;
 
-			if (_pointer == 5)
-			{
-				_pointer = 0;
-				_textMesh.text = $"FPS: {_fpsValues.Average():0}";
-			}
+            if (_pointer == 5)
+            {
+                _pointer = 0;
+                _textMesh.text = $"FPS: {_fpsValues.Average():0}";
+            }
 
-			transform.LookAt(_cameraTransform);
+            transform.LookAt(_cameraTransform);
 
-			Vector3 newPos = _cameraTransform.position + _cameraTransform.forward * DistanceFromCamera;
-			
-			transform.position = Vector3.Lerp(transform.position, newPos, MoveSpeed);
-		}
-		#endregion
+            Vector3 newPos = _cameraTransform.position + _cameraTransform.forward * DistanceFromCamera;
 
-		#region Private definitions
+            transform.position = Vector3.Lerp(transform.position, newPos, MoveSpeed);
+        }
 
-		/// <summary> Меш на который выводится информация. </summary>
-		private TextMesh _textMesh;
-		
-		/// <summary> Список значений FPS за последние 5 кадров. </summary>
-		private readonly float[] _fpsValues = {0f,0f,0f,0f,0f};
+        #endregion
 
-		private int _pointer;
+        #region Private definitions
 
-		private Transform _cameraTransform;
+        /// <summary> Меш на который выводится информация. </summary>
+        private TextMesh _textMesh;
 
-		#endregion
-	}
+        /// <summary> Список значений FPS за последние 5 кадров. </summary>
+        private readonly float[] _fpsValues = {0f, 0f, 0f, 0f, 0f};
+
+        private int _pointer;
+
+        private Transform _cameraTransform;
+
+        #endregion
+    }
 }

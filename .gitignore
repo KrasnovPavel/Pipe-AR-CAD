@@ -30,6 +30,21 @@ Meter/App/
 !Meter/**/*.obj
 !Meter/**/*.obj.meta
 
+MarksEditor/[Tt]emp/
+MarksEditor/[Oo]bj/
+MarksEditor/[Bb]uild
+MarksEditor/[Bb]uilds/
+MarksEditor/[Ll]ibrary/
+MarksEditor/sysinfo.txt
+MarksEditor/*.stackdump
+MarksEditor/Assets/AssetStoreTools*
+MarksEditor/*.apk
+MarksEditor/*.unitypackage
+MarksEditor/App/
+!MarksEditor/App/HoloCAD/Assets
+!MarksEditor/**/*.obj
+!MarksEditor/**/*.obj.meta
+
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #
 # ============================================= #
@@ -84,6 +99,22 @@ Meter/*.consulo
 Meter/*.tmp
 Meter/*.svd
 
+MarksEditor/[Ee]xported[Oo]bj/
+MarksEditor/.vs/
+MarksEditor/.idea/
+MarksEditorApp/*.userprefs
+MarksEditor/*.csproj
+MarksEditor/*.pidb
+MarksEditor/*.pidb.meta
+MarksEditor/*.suo
+MarksEditor/*.sln.*
+MarksEditor/*.user
+MarksEditor/*.unityproj
+MarksEditor/*.booproj
+MarksEditor/*.consulo
+MarksEditor/*.tmp
+MarksEditor/*.svd
+
 # ============ #
 # OS generated #
 # ============ #
@@ -114,6 +145,14 @@ Meter/ehthumbs.db
 Meter/Corridor/Library/ShaderCache/
 Meter/Corridor/Library/metadata/ 
 
+MarksEditor/.DS_Store*
+MarksEditor/._*
+MarksEditor/.Spotlight-V100
+MarksEditor/.Trashes
+MarksEditor/ehthumbs.db
+MarksEditor/Corridor/Library/ShaderCache/
+MarksEditor/Corridor/Library/metadata/ 
+
 # ================ #
 # Third-party libs #
 # ================ #
@@ -135,3 +174,6 @@ Meter/Assets/StandaloneFileBrowser.meta
 Meter/Assets/Plugins/
 Meter/Assets/HoloToolkit/
 Meter/Assets/HoloToolkit.meta
+
+/MarksEditor/Assets/Plugins/
+/MarksEditor/Assets/StandaloneFileBrowser/

@@ -1,6 +1,7 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using GLTFConverter;
 using HoloCAD.UnityTubes;
 using HoloCore.UI;
 using JetBrains.Annotations;
@@ -26,6 +27,7 @@ namespace HoloCAD.UI.TubeControls
         [CanBeNull] public Button3D TurnYawMinus;
         [CanBeNull] public Button3D ChangeTargetCollider;
         [CanBeNull] public Button3D Edit;
+        [CanBeNull] public Button3D LoadGLTF;
         [CanBeNull] public Button3D Fixate;
         [CanBeNull] public TextMesh PositionLabel;
         [CanBeNull] public TextMesh RotationLabel;
@@ -61,7 +63,12 @@ namespace HoloCAD.UI.TubeControls
             };
 
             if (Target == null) return;
-            
+
+            if (LoadGLTF != null)
+            {
+                LoadGLTF.OnClick += delegate { GLTFImporterHolo.ImportGLTFFile(Target.gameObject); };
+            }
+
             if (MoveLeft != null)
             {
                 MoveLeft.OnClick += delegate { Target.ChangePosition(_mark, Vector3.left * Steps.Linear); };
@@ -174,17 +181,17 @@ namespace HoloCAD.UI.TubeControls
 
         /// <summary> Глубина выталкивания из объекта коллизии. </summary>
         private const float PushDepth = 0.05f;
-        
+
         /// <summary> Маска всех слоев, с которыми проверяется коллизия. </summary>
-        private const int LayerMask = (1<<31)|(1<<30);
-        
+        private const int LayerMask = (1 << 31) | (1 << 30);
+
         /// <summary> Позиция объекта камеры, к которой привязаны все метки. </summary>
         private static Transform _mainCamera;
 
         /// <summary> "Выталкивает" панель с кнопками из сетки пространства и отображаемой модели  </summary>
         private void PushFromTargetAndSpatialMapping()
         {
-            if(!_mark.IsActive) return;
+            if (!_mark.IsActive) return;
             Vector3 markCameraVector = _mark.transform.position - _mainCamera.position;
             if (markCameraVector.magnitude > TriggerDistance)
             {

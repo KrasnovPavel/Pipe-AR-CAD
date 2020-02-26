@@ -1,124 +1,199 @@
-﻿using System.Collections;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using HoloCore;
 using UnityEngine;
-using UnityEngine.Rendering;
 
-public class MarksController : Singleton<MarksController>
+namespace GLTFConverter
 {
-    public List<MarkOnScene> AllMarks;
-    public MarkOnScene SelectedMark;
-    public Material MaterialForSelected;
-    public GameObject MarkPrefab;
-    public GameObject MarkPanelPrefab;
-    public GameObject ParentOfPanels;
-    public float SelectedMarkSpeed;
-    public void DeleteMark(int id)
+    public class MarksController : Singleton<MarksController>
     {
-        
-        if (AllMarks.Count <= id) return;
-        if (AllMarks[id].IsSelected) SelectedMark = null;
-        DestroyImmediate(ParentOfPanels.transform.GetChild(id).gameObject);
-        Destroy(AllMarks[id].gameObject);
-        AllMarks.RemoveAt(id);
-        int newId = 0;
-        foreach (var mark in AllMarks)
+        /// <summary> Направления движения метки. </summary>
+        public enum Directions
         {
-            mark.Id = newId++;
-            mark.ChangeIdOnTextMesh(mark.Id);
+            Forward,
+            Backward,
+            Left,
+            Right,
+            Up,
+            Down,
+            RotationRight,
+            RotationLeft
         }
-    }
 
-    public void MoveMark(int direction)
-    {
-        
-        if (SelectedMark != null)
+        /// <summary> Выбранная метка. </summary>
+        public Mark SelectedMark
         {
-            var markTransform =SelectedMark.transform;
+            get => _selectedMark;
+            private set
+            {
+                _selectedMark = value;
+                if (_selectedMark == null) return;
+                _selectedMark.IsSelected = true;
+                ParamPanelOfSelectedMark = ParentOfPanels.GetComponentsInChildren<MarkParamPanel>()[_selectedMark.Id];
+            }
+        }
+
+        /// <summary> Панель с данными о выбранной метке. </summary>
+        public MarkParamPanel ParamPanelOfSelectedMark { get; private set; }
+
+        /// <summary> Список существующих меток. </summary>
+        [Tooltip("Список существующих меток")] 
+        public List<Mark> AllMarks;
+
+        /// <summary> Импортируемый объект. </summary>
+        [Tooltip(" Импортируемый объект")] 
+        public Transform TargetTransform;
+
+        /// <summary> Префаб метки. </summary>
+        [Tooltip("Префаб метки")] 
+        public GameObject MarkPrefab;
+
+        /// <summary> Префаб панели с параметрами метки. </summary>
+        [Tooltip("Префаб панели с параметрами метки.")]
+        public GameObject MarkPanelPrefab;
+
+        /// <summary> Родительнский объект для панели. </summary>
+        [Tooltip("Родительнский объект для панели.")]
+        public GameObject ParentOfPanels;
+
+        /// <summary> Скорость перемещения метки на WASD. </summary>
+        [Tooltip("Скорость перемещения метки на WASD.")]
+        public float SelectedMarkSpeed;
+
+        /// <summary> Удаляет метку с определенным id. </summary>
+        /// <param name="id"> id метки.</param>
+        public void DeleteMark(int id)
+        {
+            if (AllMarks.Count < id) return;
+            if (AllMarks[id].IsSelected) SelectedMark = null;
+            var panels = new List<MarkParamPanel>(ParentOfPanels.GetComponentsInChildren<MarkParamPanel>()); 
+            Destroy(panels[id].gameObject);
+            Destroy(AllMarks[id].gameObject);
+            AllMarks.RemoveAt(id);
+            panels.RemoveAt(id);
+            int newId = 0;
+            foreach (Mark mark in AllMarks)
+            {
+                mark.Id = newId;
+                panels[newId].IdText.text = $"{newId + 1}";
+                newId++;
+            }
+        }
+
+        /// <summary> Удаляет все метки со сцены </summary>
+        public void DeleteAllMarks()
+        {
+            var panels = new List<MarkParamPanel>(ParentOfPanels.GetComponentsInChildren<MarkParamPanel>()); 
+            while (AllMarks.Count > 0)
+            {
+                int id = AllMarks[0].Id;
+                Destroy(panels[id].gameObject);
+                Destroy(AllMarks[id].gameObject);
+                AllMarks.RemoveAt(id);
+                panels.RemoveAt(id);
+            }
+        }
+
+        /// <summary> Двигает метку в определенном направлении. </summary>
+        /// <param name="direction"> Направление движения. </param>
+        public void MoveMark(Directions direction)
+        {
+            if (SelectedMark == null) return;
+            
+            Transform markTransform = SelectedMark.transform;
             switch (direction)
             {
-                case 0:
-                    markTransform.position += markTransform.forward * SelectedMarkSpeed;
+                case Directions.Forward:
+                    markTransform.position += Time.deltaTime * SelectedMarkSpeed * markTransform.forward;
                     break;
-                case 1:
-                    markTransform.position += -markTransform.forward * SelectedMarkSpeed;
+                case Directions.Backward:
+                    markTransform.position += Time.deltaTime * SelectedMarkSpeed * -markTransform.forward;
                     break;
-                case 2:
-                    markTransform.position += -markTransform.right * SelectedMarkSpeed;
+                case Directions.Left:
+                    markTransform.position += Time.deltaTime * SelectedMarkSpeed * -markTransform.right;
                     break;
-                case 3:
-                    markTransform.position += markTransform.right * SelectedMarkSpeed;
+                case Directions.Right:
+                    markTransform.position += Time.deltaTime * SelectedMarkSpeed * markTransform.right;
                     break;
-                case 4:
-                    markTransform.position += markTransform.up * SelectedMarkSpeed;
+                case Directions.Up:
+                    markTransform.position += Time.deltaTime * SelectedMarkSpeed * markTransform.up;
                     break;
-                case 5:
-                    markTransform.position += -markTransform.up * SelectedMarkSpeed;
+                case Directions.Down:
+                    markTransform.position += Time.deltaTime * SelectedMarkSpeed * -markTransform.up;
                     break;
+                case Directions.RotationRight:
+                    markTransform.Rotate(markTransform.up, 90f, Space.World);
+                    break;
+                case Directions.RotationLeft:
+                    markTransform.Rotate(markTransform.up, -90f, Space.World);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
             }
-            
-            SelectedMark.HasUpdate = true;
+
+            if (markTransform.hasChanged)
+            {
+                ParamPanelOfSelectedMark.MarkTransformIntoInput();
+            }
         }
-    }
 
-    public void SelectMark(int id)
-    {
-        if (AllMarks.Count <= id) return;
-        SelectedMark = AllMarks[id];
-    }
-    
-    public void AddMark()
-    {
-        MarkOnScene currentMark = Instantiate(MarkPrefab).GetComponent<MarkOnScene>();
-        currentMark.Id = AllMarks.Count;
-        currentMark.IsSelected = true;
-        currentMark.ChangeIdOnTextMesh(currentMark.Id);
-        SelectedMark = currentMark;
-        AllMarks.Add(currentMark);
-        MarkParamPanel markParamPanel = Instantiate(MarkPanelPrefab).GetComponent<MarkParamPanel>();
-        markParamPanel.transform.parent = ParentOfPanels.transform;
-        markParamPanel.Mark = currentMark.gameObject;
-    }
-
-    public string CreateJsonString()
-    {
-        string jsonText = "";
-        List<SerializedMark> serializedMarksList = new List<SerializedMark>();
-        int i = 0;
-        foreach (MarkOnScene mark in AllMarks)
+        /// <summary> Выбирает метку с определенным id. </summary>
+        /// <param name="id"> id метки. </param>
+        public void SelectMark(int id)
         {
-            serializedMarksList.Add(new SerializedMark(mark.gameObject.transform.position.x,
-                mark.gameObject.transform.position.y, mark.gameObject.transform.position.z,
-                mark.gameObject.transform.eulerAngles.x, mark.gameObject.transform.eulerAngles.y, mark.gameObject.transform.eulerAngles.z, $"ImageTarget{i}",
-                "Target"));
-            Debug.Log($"{gameObject.transform.eulerAngles.x}, {gameObject.transform.eulerAngles.y}, {gameObject.transform.eulerAngles.z}");
-         //   Debug.Log($"{gameObject.transform.rotation.x}, {gameObject.transform.rotation.y}, {gameObject.transform.rotation.z}");
-
-            i++;
+            if (AllMarks.Count < id) return;
+            SelectedMark = AllMarks[id];
         }
-        SerializedMarks serializedMarks = new SerializedMarks(serializedMarksList.ToArray());
-        jsonText = JsonUtility.ToJson(serializedMarks);
-        return jsonText;
-    }
-    
-    
-    
-    public void ReadJsonString(string jsonText)
-    {
-       SerializedMarks serializedMarks = JsonUtility.FromJson<SerializedMarks>(jsonText);
-       for (; AllMarks.Count > 0;)
-       {
-           DeleteMark(0);
-       }
-       for (int i = 0; i < serializedMarks.AllMarks.Length; i++)
-       {
-           AddMark();
-           AllMarks[i].gameObject.transform.position = new Vector3(serializedMarks.AllMarks[i].X,
-               serializedMarks.AllMarks[i].Y, serializedMarks.AllMarks[i].Z);
-           AllMarks[i].gameObject.transform.rotation = Quaternion.Euler(serializedMarks.AllMarks[i].RotationX,
-               serializedMarks.AllMarks[i].RotationY, serializedMarks.AllMarks[i].RotationZ);
-           AllMarks[i].HasUpdate = true;
-       }
+
+        /// <summary> Добавляет метку на сцену. </summary>
+        public void AddMark()
+        {
+            MarkParamPanel markParamPanel = Instantiate(MarkPanelPrefab).GetComponent<MarkParamPanel>();
+            markParamPanel.transform.parent = ParentOfPanels.transform;
+
+            Mark currentMark = Instantiate(MarkPrefab).GetComponent<Mark>();
+            currentMark.Id = AllMarks.Count;
+            SelectedMark = currentMark;
+            AllMarks.Add(currentMark);
+
+            markParamPanel.Mark = currentMark;
+        }
+
+        /// <summary> Добавляет метку с указанными параметрами. </summary>
+        /// <param name="position"> Вектор позиции на сцене. </param>
+        /// <param name="rotation"> Вектор поворота. </param>
+        public void AddMark(Vector3 position, Quaternion rotation)
+        {
+            MarkParamPanel markParamPanel = Instantiate(MarkPanelPrefab).GetComponent<MarkParamPanel>();
+            markParamPanel.transform.parent = ParentOfPanels.transform;
+
+            Mark currentMark = Instantiate(MarkPrefab).GetComponent<Mark>();
+            currentMark.Id = AllMarks.Count;
+            SelectedMark = currentMark;
+            AllMarks.Add(currentMark);
+            markParamPanel.Mark = currentMark;
+            Transform currentMarkTransform = currentMark.transform;
+            TargetTransform.SetParent(currentMarkTransform, false);
+            Vector3 lossyScale = currentMarkTransform.lossyScale;
+            Vector3 currentMarkPosition = position;
+            TargetTransform.localPosition = new Vector3(currentMarkPosition.x / lossyScale.x,
+                                                        currentMarkPosition.y / lossyScale.y,
+                                                        currentMarkPosition.z / lossyScale.z);
+            TargetTransform.localRotation = rotation;
+            TargetTransform.SetParent(null, true);
+            TargetTransform.localScale = Vector3.one;
+            currentMarkTransform.SetParent(TargetTransform, true);
+            TargetTransform.position = Vector3.zero;
+            TargetTransform.rotation = Quaternion.Euler(Vector3.zero);
+            currentMarkTransform.SetParent(null, true);
+        }
+
+        #region Private defenitions
+
+        private Mark _selectedMark;
+
+        #endregion
     }
 }

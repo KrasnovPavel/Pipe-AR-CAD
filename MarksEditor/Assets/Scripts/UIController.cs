@@ -1,40 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 using UnityEngine;
 
-public class UIController : MonoBehaviour
+namespace GLTFConverter
 {
-    public void LoadObjModel()
+    /// <summary> Контроллер пользовательского интерфейса. </summary>
+    public class UIController : MonoBehaviour
     {
-        FileSaverLoader.LoadObjModel();
-    }
+        /// <summary> Целевой объект </summary>
+        [Tooltip("Целевой объект")]
+        public GameObject Target;
 
-    public void SaveSceneFile()
-    {
-        FileSaverLoader.SaveSceneFile();
-    }
-    public void LoadSceneFile()
-    {
-        FileSaverLoader.LoadSceneFile();
-    }
+        /// <summary> Добавляет метку на сцену. </summary>
+        public void AddMarkOnScene()
+        {
+            MarksController.Instance.AddMark();
+        }
 
-    public void AddMarkOnScene()
-    {
-        MarksController.Instance.AddMark();
-    }
-    public void LoadJsonFile()
-    {
-        MarksController.Instance.ReadJsonString(FileSaverLoader.LoadJsonFile());
-    }
+        /// <summary> Загружает glTF-файл. </summary>
+        public void LoadGLTFFile()
+        {
+            GLTFImporterEditor.ImportGLTFFile(Target);
+        }
 
-    public void SaveJsonFile()
-    {
-        FileSaverLoader.SaveSceneJsonFile(MarksController.Instance.CreateJsonString());
-    }
+        /// <summary> Сохраняет glTF-файл. </summary>
+        public void SaveGLTFFile()
+        {
+            GLTFExporter.ExportGLTFFile(Target);
+        }
 
-    public void SelectMark()
-    {
-        
+        /// <summary> Импортирует модель с помощью PiXYZ. </summary>
+        public void ImportModel()
+        {
+            ModelImporter.Instance.ImportModel();
+        }
     }
 }

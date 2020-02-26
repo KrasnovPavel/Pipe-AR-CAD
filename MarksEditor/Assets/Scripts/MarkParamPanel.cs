@@ -1,52 +1,87 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 using UnityEngine;
-using System.Globalization;
 using UnityEngine.UI;
-public class MarkParamPanel : MonoBehaviour
+
+namespace GLTFConverter
 {
-    public GameObject Mark;
-    CultureInfo ci = new CultureInfo("en-US");
-    
-    public void SetParamsToMarkFromInputs()
+    /// <summary> Класс, содержащий параметры меток. </summary>
+    public class MarkParamPanel : MonoBehaviour
     {
-        if (Mark == null) return;
-        Text idText = gameObject.transform.GetChild(0).GetComponent<Text>();
-        idText.text = Convert.ToString(Mark.GetComponent<MarkOnScene>().Id);
-        InputField inputFieldX = gameObject.transform.GetChild(1).GetChild(0).GetComponent<InputField>();
-        InputField inputFieldY = gameObject.transform.GetChild(1).GetChild(1).GetComponent<InputField>();
-        InputField inputFieldZ = gameObject.transform.GetChild(1).GetChild(2).GetComponent<InputField>();
+        /// <summary> Метка, к которой привязана модель. </summary>
+        [Tooltip("Метка, к которой привязана модель.")] 
+        public Mark Mark;
 
-        Mark.transform.position = new Vector3(float.Parse(inputFieldX.text,ci), float.Parse(inputFieldY.text,ci),float.Parse(inputFieldZ.text,ci));
-        InputField inputFieldRotationX = gameObject.transform.GetChild(2).GetChild(0).GetComponent<InputField>();
-        InputField inputFieldRotationY = gameObject.transform.GetChild(2).GetChild(1).GetComponent<InputField>();
-        InputField inputFieldRotationZ = gameObject.transform.GetChild(2).GetChild(2).GetComponent<InputField>();
-        Mark.transform.rotation = Quaternion.Euler(float.Parse(inputFieldRotationX.text,ci), float.Parse(inputFieldRotationY.text,ci),float.Parse(inputFieldRotationZ.text,ci));
-      // Mark.transform.Rotate(new Vector3(float.Parse(inputFieldRotationX.text,ci), float.Parse(inputFieldRotationY.text,ci),float.Parse(inputFieldRotationZ.text,ci)));
-        
+        /// <summary> Поле ввода смещения по X. </summary>
+        [Tooltip("Поле ввода смещения по X.")] 
+        public InputFromPanelValidator InputX;
+
+        /// <summary> Поле ввода смещения по Y. </summary>
+        [Tooltip("оле ввода смещения по Y.")] 
+        public InputFromPanelValidator InputY;
+
+        /// <summary> Поле ввода смещения по Z. </summary>
+        [Tooltip("Поле ввода смещения по Z.")] 
+        public InputFromPanelValidator InputZ;
+
+        /// <summary> Поле ввода вращения относительно оси X. </summary>
+        [Tooltip("Поле ввода вращения относительно оси X.")] 
+        public InputFromPanelValidator InputRotationX;
+
+        /// <summary> Поле ввода вращения относительно оси Y. </summary>
+        [Tooltip("Поле ввода вращения относительно оси Y.")] 
+        public InputFromPanelValidator InputRotationY;
+
+        /// <summary> Поле ввода вращения относительно оси Z. </summary>
+        [Tooltip("Поле ввода вращения относительно оси Z.")] 
+        public InputFromPanelValidator InputRotationZ;
+
+        /// <summary> Текстовое поле с Id панели. </summary>
+        [Tooltip("Текстовое поле с Id панели.")] 
+        public Text IdText;
+
+        /// <summary> Задает метке параметры из панели. </summary>
+        public void SetParamsToMarkFromInputs()
+        {
+            if (Mark == null) return;
+            Mark.transform.position = new Vector3(InputX.Value, InputY.Value, InputZ.Value);
+            _markRotation = new Vector3(InputRotationX.Value, InputRotationY.Value, InputRotationZ.Value);
+
+            Mark.transform.rotation = Quaternion.Euler(_markRotation);
+        }
+
+        /// <summary> Вносит в панель параметры метки. </summary>
+        public void MarkTransformIntoInput()
+        {
+            Transform markTransform = Mark.transform;
+            Vector3 markPosition = markTransform.position;
+            _markRotation = markTransform.eulerAngles;
+            InputX.Value = markPosition.x;
+            InputY.Value = markPosition.y;
+            InputZ.Value = markPosition.z;
+            InputRotationX.Value = _markRotation.x;
+            InputRotationY.Value = _markRotation.y;
+            InputRotationZ.Value = _markRotation.z;
+        }
+
+        /// <summary> Удаляет привязанную метку. </summary>
+        public void DeleteMark()
+        {
+            MarksController.Instance.DeleteMark(Mark.Id);
+        }
+
+        /// <summary> Выбирает привязанную метку. </summary>
+        public void SelectMark()
+        {
+            MarksController.Instance.SelectMark(Mark.Id);
+        }
+
+        #region Private definitions
+
+        /// <summary> Вектор с углами вращдения вокруг осей метки. </summary>
+        private Vector3 _markRotation;
+
+        #endregion
     }
-
-    private void Update()
-    {
-        if (Mark == null) return;
-        if (!Mark.GetComponent<MarkOnScene>().HasUpdate) return;
-        Text idText = gameObject.transform.GetChild(0).GetComponent<Text>();
-        idText.text = Convert.ToString(Mark.GetComponent<MarkOnScene>().Id);
-        InputField inputFieldX = gameObject.transform.GetChild(1).GetChild(0).GetComponent<InputField>();
-        inputFieldX.text =Mark.transform.position.x.ToString(ci);
-        InputField inputFieldY = gameObject.transform.GetChild(1).GetChild(1).GetComponent<InputField>();
-        inputFieldY.text =Mark.transform.position.y.ToString(ci);
-        InputField inputFieldZ = gameObject.transform.GetChild(1).GetChild(2).GetComponent<InputField>();
-        inputFieldZ.text =Mark.transform.position.z.ToString(ci);
-        InputField inputFieldRotationX = gameObject.transform.GetChild(2).GetChild(0).GetComponent<InputField>();
-        inputFieldRotationX.text = Mark.transform.eulerAngles.x.ToString(ci);
-        InputField inputFieldRotationY = gameObject.transform.GetChild(2).GetChild(1).GetComponent<InputField>();
-        inputFieldRotationY.text = Mark.transform.eulerAngles.y.ToString(ci);
-        InputField inputFieldRotationZ = gameObject.transform.GetChild(2).GetChild(2).GetComponent<InputField>();
-        inputFieldRotationZ.text = Mark.transform.eulerAngles.z.ToString(ci);
-        Mark.GetComponent<MarkOnScene>().HasUpdate = false;
-    }
-
-
 }

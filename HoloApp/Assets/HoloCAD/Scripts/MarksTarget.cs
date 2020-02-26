@@ -16,7 +16,7 @@ namespace HoloCAD
     public sealed class MarksTarget : MonoBehaviour, INotifyPropertyChanged
     {
         /// <summary> Объект с мешем модели. </summary>
-        public GameObject Model;
+        [CanBeNull] public GameObject Model;
 
         /// <summary> Alpha текстуры модели в режиме прозрачности. </summary>
         public float TransparentAlpha = 0.5f;
@@ -52,8 +52,11 @@ namespace HoloCAD
         /// <param name="transparent"></param>
         public void MakeTransparent(bool transparent)
         {
-            Model.GetComponent<MeshCollider>().enabled = !transparent;
-            Model.GetComponent<MeshRenderer>().sharedMaterial.SetFloat(Alpha, transparent ? TransparentAlpha : 1f);
+            if (Model != null)
+            {
+                Model.GetComponent<MeshCollider>().enabled = !transparent;
+                Model.GetComponent<MeshRenderer>().sharedMaterial.SetFloat(Alpha, transparent ? TransparentAlpha : 1f);
+            }
         }
         
         /// <summary> Изменение поворота модели относительно метки. </summary>
@@ -112,17 +115,12 @@ namespace HoloCAD
 
             if (markId == -1) return;
             
-            Transform currentMark = Marks[markId].transform;
-
-            transform.SetParent(currentMark, false);
-            var lossyScale = currentMark.lossyScale;
-            transform.localScale = new Vector3(1 / lossyScale.x, 
-                                               1 / lossyScale.y, 
-                                               1 / lossyScale.z);
+            transform.SetParent(Marks[markId].transform, false);
             transform.localPosition = PositionsOfMarks[markId];
             transform.localRotation = Quaternion.Euler(RotationsOfMarks[markId]);
 
             transform.SetParent(null, true);
+            transform.localScale = Vector3.one;
         }
 
         #endregion
