@@ -3,26 +3,13 @@
 
 using System.Collections.Generic;
 using HoloCAD.UnityTubes;
-using SFB;
 using UnityEngine;
-
-#if ENABLE_WINMD_SUPPORT
-    using System;
-    using Windows.Storage;
-    using Windows.Storage.Pickers;
-#endif
 
 namespace HoloCAD.IO
 {
     /// <summary> Класс, экспортирующий сцену в файл. </summary>
     public static class SceneExporter
     {
-#if ENABLE_WINMD_SUPPORT
-        public static StorageFile File;
-#else
-        public static string FilePath; 
-#endif
-
         /// <summary> Экспорт сцену. </summary>
         /// <remarks> Для выбора файла будет вызван диалог сохранения файла. </remarks>
         /// <param name="tubes"> Массив всех труб на сцене. </param>
@@ -30,22 +17,7 @@ namespace HoloCAD.IO
         public static void Export(IEnumerable<Tube> tubes, bool isExportAs)
         {
             string data = SerializeScheme(tubes);
-#if ENABLE_WINMD_SUPPORT
-            UnityEngine.WSA.Application.InvokeOnUIThread(() => WriteFileOnHololens(data, isExportAs), true);
-#else
-            UnityEngine.WSA.Application.InvokeOnUIThread(() =>
-            {
-                Cursor.visible = true;
-                if (isExportAs || string.IsNullOrEmpty(FilePath))
-                {
-                    FilePath = StandaloneFileBrowser.SaveFilePanel("Save Scheme", 
-                                                                   "", 
-                                                                   "New Scheme", 
-                                                                   "json");
-                }
-                System.IO.File.WriteAllText(FilePath, data);
-            }, true);
-#endif
+            UnityFileManager.PickAndWriteTextFileAsync(data, new[] {"json"});
         }
 
         #region Private definitioins
@@ -131,25 +103,6 @@ namespace HoloCAD.IO
             
             return result;
         }
-        
-#if ENABLE_WINMD_SUPPORT
-        /// <summary> Запись файла на очках Hololens. Перед записью вызывает диалог сохранения файла. </summary>
-        /// <param name="data"> Данные, которые будут записаны в файл. </param>
-        /// <param name="isExportAs"> Надо ли экспортировать как отдельный файл. </param>
-        private static async void WriteFileOnHololens(string data, bool isExportAs)
-        {
-            if (isExportAs || File == null) 
-            {
-                FileSavePicker savePicker = new FileSavePicker();
-                savePicker.DefaultFileExtension = ".json";
-                savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
-                savePicker.FileTypeChoices.Add("HoloCAD json", new List<string>() { ".json" });
-                File = await savePicker.PickSaveFileAsync();
-            }
-
-            await FileIO.WriteTextAsync(File, data);
-        }    
-#endif
         
         #endregion
     }

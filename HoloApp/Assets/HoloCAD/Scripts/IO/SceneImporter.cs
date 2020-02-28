@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using HoloCAD.UnityTubes;
 using SFB;
 using UnityEngine;
@@ -20,56 +21,20 @@ namespace HoloCAD.IO
         /// <summary> Экспорт сцены. </summary>
         /// <remarks> Для выбора файла будет вызван диалог сохранения файла. </remarks>
         /// <return> Массив всех труб на сцене. </return>
-        public static void Import(List<Transform> marks = null)
+        public static async void Import(List<Transform> marks = null)
         {
             _marks = marks ?? new List<Transform>();
-#if ENABLE_WINMD_SUPPORT
-            UnityEngine.WSA.Application.InvokeOnUIThread(() => ReadFileOnHololens(), true);
-#else
-            UnityEngine.WSA.Application.InvokeOnUIThread(() =>
-            {
-                Cursor.visible = true;
-                _jsonFile = ReadFileOnPC();
-                DeserializeScheme();
-            }, true);
-#endif
+            (string data, string path) = await UnityFileManager.PickAndReadTextFileAsync(new[] {"json"});
+            DeserializeScheme(data);
         }
 
         #region Private definitions
 
-        private static string _jsonFile = "";
         private static List<Transform> _marks;
 
-#if ENABLE_WINMD_SUPPORT
-        /// <summary> Запись файла на очках Hololens. Перед записью вызывает диалог сохранения файла. </summary>
-        private static async void ReadFileOnHololens()
+        private static void DeserializeScheme(string jsonFile)
         {
-            FileOpenPicker openPicker = new FileOpenPicker();
-            openPicker.FileTypeFilter.Add(".json");
-            openPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-            StorageFile file = await openPicker.PickSingleFileAsync();
-            if (file == null) return;
-            SceneExporter.File = file;
-
-            _jsonFile = await FileIO.ReadTextAsync(file);
-            UnityEngine.WSA.Application.InvokeOnAppThread(DeserializeScheme, true);
-        }    
-#else
-
-        /// <summary> Загрузка файла на компьютере. Перед загрузкой вызывает диалог выбора файла. </summary>
-        /// <returns> Возвращает текст json-файла с описанием сцены. </returns>
-        private static string ReadFileOnPC()
-        {
-            var paths = StandaloneFileBrowser.OpenFilePanel("Open scheme", "", "json", false);
-            if (paths.Length == 0) return null;
-            SceneExporter.FilePath = paths[0];
-            return System.IO.File.ReadAllText(paths[0]);
-        }
-#endif
-
-        private static void DeserializeScheme()
-        {
-            ExpTubesArray array = JsonUtility.FromJson<ExpTubesArray>(_jsonFile);
+            ExpTubesArray array = JsonUtility.FromJson<ExpTubesArray>(jsonFile);
 
             for (int i = 0; i < array.tubes.Count; i++)
             {
