@@ -51,14 +51,14 @@ namespace GLTFConverter
         public Quaternion Rotation
         {
             get => new Quaternion(rotation[0], rotation[1], rotation[2], rotation[3]);
-            set { rotation = new float[4] {value.x, value.y, value.z, value.w}; }
+            set { rotation = new [] {value.x, value.y, value.z, value.w}; }
         }
 
         /// <summary> Вектор позиции в пространстве узла </summary>
         public Vector3 Position
         {
             get => new Vector3(translation[0], translation[1], translation[2]);
-            set { translation = new float[3] {value.x, value.y, value.z}; }
+            set { translation = new [] {value.x, value.y, value.z}; }
         }
 
 
@@ -67,7 +67,7 @@ namespace GLTFConverter
         public Vector3 Scale
         {
             get => new Vector3(scale[0], scale[1], scale[2]);
-            set { scale = new float[3] {value.x, value.y, value.z}; }
+            set { scale = new [] {value.x, value.y, value.z}; }
         }
     }
 

@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using HoloCAD.IO;
 using JetBrains.Annotations;
 using HoloCAD.UnityTubes;
+using HoloCore.IO;
 
 namespace HoloCAD
 {
@@ -34,24 +35,30 @@ namespace HoloCAD
         /// <summary> Сохраняет сцену в выбираемый пользователем файл. </summary>
         public static void SaveScene()
         {
-            SceneExporter.Export(AllTubes, false);
+#pragma warning disable 4014
+            FileManager.SaveAsync( SceneSerialization.SerializeScheme(AllTubes));
+#pragma warning restore 4014
         }
 
         public static void SaveSceneAs()
         {
-            SceneExporter.Export(AllTubes, true);
+#pragma warning disable 4014
+            FileManager.SaveAsAsync( SceneSerialization.SerializeScheme(AllTubes));
+#pragma warning restore 4014
         }
         
         /// <summary> Загрузить сцену из выбираемого пользователем файла. </summary>
-        public static void LoadScene()
+        public static async void LoadScene()
         {
-            SceneImporter.Import(TubeUnityManager.Instance.StartTubeMarks);
+            var file = await FileManager.OpenAsync();
+            SceneSerialization.DeserializeScheme(file.Data, TubeUnityManager.Instance.StartTubeMarks);
         }
         
         #region Private definitions
-
+        
         // ReSharper disable once InconsistentNaming
         private static readonly List<Tube> _allTubes = new List<Tube>();
+        private static readonly IUnityFileManager FileManager = UnityFileManager.Create(new[] {"json"});
 
         #endregion
     }

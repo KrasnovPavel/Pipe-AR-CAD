@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using HoloCAD.IO;
+using HoloCore.IO;
 using HoloCore;
 using HoloCore.UI.Transparent;
 using Microsoft.MixedReality.Toolkit;
@@ -37,7 +37,7 @@ namespace HoloCAD.UI.Docs2D
             var rot = Quaternion.AngleAxis(t.rotation.eulerAngles.y, Vector3.up);
 
             (byte[] data, string path) =
-                await UnityFileManager.PickAndReadBinaryFileAsync(new[] {"pdf", "jpg", "png", "txt"});
+                await UnityFileManager.PickAndReadBinaryFileAsync(new[] { "pdf", "jpg", "png", "txt" });
 
             GameObject go;
 

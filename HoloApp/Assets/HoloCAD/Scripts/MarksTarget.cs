@@ -4,7 +4,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using HoloCAD.UI;
 using HoloCAD.UI.TubeControls;
 using JetBrains.Annotations;
 using UnityEngine;
