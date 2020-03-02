@@ -201,8 +201,7 @@ namespace HoloCAD.UnityTubes
         public virtual void CreateTube()
         {
             var newTube = TubeManager.CreateTube(Owner);
-            newTube.StartFragment.SelectThis();
-            newTube.StartFragment.IsPlacing = true;
+            newTube.StartPlacing();
         }
 
         /// <summary> Удаление этого участка трубы. </summary>

@@ -20,6 +20,7 @@ namespace HoloCAD.IO
             ExpTubesArray array = new ExpTubesArray();
             foreach (Tube tube in tubes)
             {
+                if (!tube.StartFragment.HasChild) continue;
                 ExpTube expTube = new ExpTube();
                 array.tubes.Add(expTube);
                 expTube.diameter = tube.Data.diameter * 1000;
