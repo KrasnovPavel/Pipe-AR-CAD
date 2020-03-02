@@ -32,9 +32,11 @@ namespace HoloCAD.UI.Docs2D
         /// <summary> Открывает файл, используя окно выбора файла и создаёт новый обозреватель. </summary>
         public static async void OpenFile()
         {
-            Transform t = Camera.main.transform;
-            var pos = Quaternion.AngleAxis(t.rotation.eulerAngles.y, Vector3.up) * Vector3.forward * 1.5f + t.position;
-            var rot = Quaternion.AngleAxis(t.rotation.eulerAngles.y, Vector3.up);
+            // ReSharper disable once PossibleNullReferenceException
+            var cameraPos = Camera.main.transform.position;
+            var cameraRot = Camera.main.transform.rotation.eulerAngles;
+            var pos = Quaternion.AngleAxis(cameraRot.y, Vector3.up) * Vector3.forward * 1.5f + cameraPos;
+            var rot = Quaternion.AngleAxis(cameraRot.y, Vector3.up);
 
             (byte[] data, string path) =
                 await UnityFileManager.PickAndReadBinaryFileAsync(new[] { "pdf", "jpg", "png", "txt" });
