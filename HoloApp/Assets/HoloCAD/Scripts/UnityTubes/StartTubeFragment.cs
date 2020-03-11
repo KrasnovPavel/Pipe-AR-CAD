@@ -3,6 +3,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.XR.WSA;
 #if ENABLE_WINMD_SUPPORT
 using UnityEngine.XR.WSA.Input;
 #endif
@@ -55,6 +56,8 @@ namespace HoloCAD.UnityTubes
         public override void StartPlacing()
         {
             Owner.StartPlacing();
+            var anchor = GetComponent<WorldAnchor>();
+            if (anchor != null) Destroy(anchor);
 #if ENABLE_WINMD_SUPPORT
             _recognizer.StartCapturingGestures();
 #endif
@@ -77,13 +80,12 @@ namespace HoloCAD.UnityTubes
         /// <summary> Выход из режима размещения трубы. </summary>
         public override void StopPlacing()
         {
-            if (IsPlacing)
-            {
-                Owner.StopPlacing();
+            if (!IsPlacing) return;
+            Owner.StopPlacing();
+            gameObject.AddComponent<WorldAnchor>();
 #if ENABLE_WINMD_SUPPORT
                 _recognizer.StopCapturingGestures();
 #endif
-            }
         }
         
         /// <summary> Вызывается при уничтожении по паттерну IDisposable. </summary>
@@ -102,13 +104,13 @@ namespace HoloCAD.UnityTubes
             _camera = Camera.main;
             base.Awake();
             Tube.transform.localPosition = new Vector3(0, 0, -Length);
+            gameObject.AddComponent<WorldAnchor>();
         }
 
         /// <inheritdoc />
         protected override void Start()
         {
             base.Start();
-            // TODO: Сделать вход в режим перемещения, если труба была создана нажатием на кнопку. 
 #if ENABLE_WINMD_SUPPORT
             _recognizer = new GestureRecognizer();
             _recognizer.Tapped += args =>
