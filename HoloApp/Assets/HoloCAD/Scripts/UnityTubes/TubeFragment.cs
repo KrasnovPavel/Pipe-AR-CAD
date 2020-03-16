@@ -194,16 +194,6 @@ namespace HoloCAD.UnityTubes
             ((DirectTubeFragment) Child).StartLength = startLength;
         }
 
-        /// <summary> Создание новой трубы. </summary>
-        /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.CreateFragment()</c>.
-        /// </remarks>
-        public virtual void CreateTube()
-        {
-            var newTube = TubeManager.CreateTube(Owner);
-            newTube.StartPlacing();
-        }
-
         /// <summary> Удаление этого участка трубы. </summary>
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.RemoveThisFragment()</c>.

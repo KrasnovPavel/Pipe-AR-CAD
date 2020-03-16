@@ -1,6 +1,7 @@
-﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System;
 using System.ComponentModel;
 using HoloCAD.UnityTubes;
 using HoloCore;
@@ -84,7 +85,7 @@ namespace HoloCAD.UI.TubeControls
                                                BaseFragment.AddDirectFragment);
             GamepadController.SubscribeToClick(GamepadController.InputAxis.JoystickX,
                                                null,
-                                               BaseFragment.CreateTube);
+                                               _createTubeDel);
             GamepadController.SubscribeToClick(GamepadController.InputAxis.DPADRight,
                                                null,
                                                BaseFragment.SelectChild);
@@ -114,7 +115,7 @@ namespace HoloCAD.UI.TubeControls
                                                    BaseFragment.AddDirectFragment);
             GamepadController.UnsubscribeFromClick(GamepadController.InputAxis.JoystickX,
                                                    null,
-                                                   BaseFragment.CreateTube);
+                                                   _createTubeDel);
             GamepadController.UnsubscribeFromClick(GamepadController.InputAxis.DPADRight,
                                                    null,
                                                    BaseFragment.SelectChild);
@@ -244,6 +245,12 @@ namespace HoloCAD.UI.TubeControls
         {
             if (ButtonBar != null) ButtonBar.gameObject.SetActive(true);
         }
+
+        #endregion
+
+        #region Private definitions
+
+        private Action _createTubeDel = delegate { TubeManager.CreateTube().StartPlacing(); };  
 
         #endregion
     }

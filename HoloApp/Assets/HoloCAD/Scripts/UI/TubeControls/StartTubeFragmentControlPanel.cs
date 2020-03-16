@@ -88,7 +88,7 @@ namespace HoloCAD.UI.TubeControls
             base.InitButtons();
             if (CreateTubeButton != null)
             {
-                CreateTubeButton.OnClick += delegate { _fragment.CreateTube(); };
+                CreateTubeButton.OnClick += delegate { TubeManager.CreateTube().StartPlacing(); };
             }
             if (SaveSceneButton != null)
             {
