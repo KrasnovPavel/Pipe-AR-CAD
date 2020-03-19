@@ -1,6 +1,7 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using HoloCore.UI;
 using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace HoloCAD.UnityTubes
         {
             TubeFragment parent = transform.parent.GetComponent<TubeFragment>();
             if (parent == null) parent = transform.parent.parent.GetComponent<TubeFragment>();
-            parent.ToggleSelection();
+            parent.GetComponent<SelectableObject>()?.ToggleSelection();
             parent.Owner.FinishTubesConnectorCreation();
         }
 

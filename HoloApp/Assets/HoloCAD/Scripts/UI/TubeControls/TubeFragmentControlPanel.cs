@@ -18,6 +18,8 @@ namespace HoloCAD.UI.TubeControls
         [Tooltip("Панель с кнопками и информацией о трубе.")]
         [CanBeNull] public Transform ButtonBar;
         
+        /// <summary> Панель с информацией об отрезке трубы. </summary>
+        [Tooltip("Панель с информацией об отрезке трубы.")]
         [CanBeNull] public TextMesh TextLabel;
         
         /// <summary> Кнопка добавления погиба. </summary>
@@ -43,30 +45,15 @@ namespace HoloCAD.UI.TubeControls
         /// <summary> Кнопка перехода на предыдущий отрезок трубы. </summary>
         [Tooltip("Кнопка перехода на предыдущий отрезок трубы.")]
         [CanBeNull] public Button3D PreviousFragmentButton;
+        
+        /// <summary> Кнопка открытия настроек. </summary>
+        [Tooltip("Кнопка открытия настроек.")]
+        [CanBeNull] public Button3D ExpandButton;
 
         /// <summary> Участок трубы, которому принадлежит эта панель. </summary>
         protected TubeFragment BaseFragment;
 
-        /// <inheritdoc/>
-        public bool IsSelected => SelectableObject.SelectedObject == gameObject;
-
-        /// <inheritdoc/>
-        public void ToggleSelection()
-        {
-            GetComponent<SelectableObject>().ToggleSelection();
-        }
-        
-        /// <inheritdoc/>
-        public virtual void SelectThis()
-        {
-            GetComponent<SelectableObject>().SelectThis();
-        }
-
-        /// <inheritdoc/>
-        public virtual void DeselectThis()
-        {
-            GetComponent<SelectableObject>().DeselectThis();
-        }
+        protected bool isExpanded;
 
         /// <inheritdoc/>
         public virtual void OnSelect()
@@ -160,6 +147,10 @@ namespace HoloCAD.UI.TubeControls
             {
                 PreviousFragmentButton.OnClick += delegate { BaseFragment.SelectParent(); };
             }
+            if (ExpandButton != null)
+            {
+                ExpandButton.OnClick += delegate { ToggleExpanded(); };
+            }
         }
 
         /// <summary> Функция, для отслеживания и переключения состояния основных кнопок. </summary>
@@ -208,6 +199,18 @@ namespace HoloCAD.UI.TubeControls
             if (NextFragmentButton != null) NextFragmentButton.SetEnabled(fragment.HasChild);
         }
 
+        /// <summary> Разворачивает панель с кнопками. </summary>
+        protected virtual void ExpandSettings()
+        {
+            
+        }
+
+        /// <summary> Скрывает панель с кнопками. </summary>
+        protected virtual void HideSettings()
+        {
+            
+        }
+        
         #region Unity event functions
         
         /// <summary> Функция, выполняющаяся после инициализизации участка трубы в Unity. </summary>
@@ -250,7 +253,20 @@ namespace HoloCAD.UI.TubeControls
 
         #region Private definitions
 
-        private Action _createTubeDel = delegate { TubeManager.CreateTube().StartPlacing(); };  
+        private Action _createTubeDel = delegate { TubeManager.CreateTube().StartPlacing(); };
+
+        private void ToggleExpanded()
+        {
+            isExpanded = !isExpanded;
+            if (isExpanded)
+            {
+                ExpandSettings();
+            }
+            else
+            {
+                HideSettings();
+            }
+        }
 
         #endregion
     }

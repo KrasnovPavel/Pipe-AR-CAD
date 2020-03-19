@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using HoloCAD.IO;
 using HoloCAD.UI;
 using HoloCAD.UnityTubes;
+using HoloCore.UI;
 using JetBrains.Annotations;
 
 namespace HoloCAD
@@ -156,7 +157,7 @@ namespace HoloCAD
         public void StartPlacing()
         {
             TubeUnityManager.ShowGrid(true);
-            StartFragment.SelectThis();
+            StartFragment.GetComponent<SelectableObject>()?.SelectThis();
             MapFragmentsWithOutgrowth((fragment => fragment.IsPlacing = true));
         }
 
