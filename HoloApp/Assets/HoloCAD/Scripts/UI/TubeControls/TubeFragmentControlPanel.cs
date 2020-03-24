@@ -53,7 +53,7 @@ namespace HoloCAD.UI.TubeControls
         /// <summary> Участок трубы, которому принадлежит эта панель. </summary>
         protected TubeFragment BaseFragment;
 
-        protected bool isExpanded;
+        protected bool IsExpanded;
 
         /// <inheritdoc/>
         public virtual void OnSelect()
@@ -220,6 +220,7 @@ namespace HoloCAD.UI.TubeControls
         protected virtual void Start()
         {
             InitButtons();
+            HideSettings();
         }
     
         /// <summary> Функция, выполняющаяся в Unity каждый кадр. </summary>
@@ -257,8 +258,8 @@ namespace HoloCAD.UI.TubeControls
 
         private void ToggleExpanded()
         {
-            isExpanded = !isExpanded;
-            if (isExpanded)
+            IsExpanded = !IsExpanded;
+            if (IsExpanded)
             {
                 ExpandSettings();
             }

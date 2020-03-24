@@ -206,7 +206,6 @@ namespace HoloCAD.UI.TubeControls
                                          };
             CheckIsButtonsEnabled(_fragment);
             SetText();
-            HideSettings();
         }
 
         #endregion

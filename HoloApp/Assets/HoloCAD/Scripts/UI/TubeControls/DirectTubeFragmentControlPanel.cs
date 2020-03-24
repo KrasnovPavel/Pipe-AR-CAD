@@ -90,6 +90,38 @@ namespace HoloCAD.UI.TubeControls
         }
 
         /// <inheritdoc />
+        protected override void ExpandSettings()
+        {
+            base.ExpandSettings();
+            if (ButtonBar == null) return;
+            foreach (Transform child in ButtonBar)
+            {
+                child.gameObject.SetActive(true);
+            }
+
+            if (ExpandButton != null) ExpandButton.transform.localPosition = new Vector3(0f, 0.5f, 0f);
+        }
+
+        /// <inheritdoc />
+        protected override void HideSettings()
+        {
+            base.ExpandSettings();
+            if (ButtonBar == null) return;
+            foreach (Transform child in ButtonBar)
+            {
+                child.gameObject.SetActive(false);
+            }
+
+            if (TextLabel != null) TextLabel.gameObject.SetActive(true);
+
+            if (ExpandButton != null)
+            {
+                ExpandButton.gameObject.SetActive(true);
+                ExpandButton.transform.localPosition = new Vector3(0f, 0.2f, 0f);
+            }
+        }
+
+        /// <inheritdoc />
         protected override void Start()
         {
             base.Start();
@@ -104,6 +136,31 @@ namespace HoloCAD.UI.TubeControls
             
             CheckIsButtonsEnabled(_fragment);
             SetText();
+            _lengthGrabber = GetComponent<GrabExtender>();
+            if (_lengthGrabber != null)
+            {
+                _lengthGrabber.Value = _fragment.Length;
+                _lengthGrabber.GrabberScale = _fragment.Diameter * 0.8f;
+                _fragment.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+                                             {
+                                                 switch (args.PropertyName)
+                                                 {
+                                                     case nameof(TubeFragment.Diameter):
+                                                         _lengthGrabber.GrabberScale = _fragment.Diameter * 0.8f;
+                                                         break;
+                                                     case nameof(DirectTubeFragment.Length):
+                                                         _lengthGrabber.Value = _fragment.Length;
+                                                         break;
+                                                 }
+                                             };
+                _lengthGrabber.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+                                                  {
+                                                      if (args.PropertyName == nameof(GrabExtender.Value))
+                                                      {
+                                                          _fragment.Length = _lengthGrabber.Value;
+                                                      }
+                                                  };
+            }
         }
 
         #endregion
@@ -112,6 +169,7 @@ namespace HoloCAD.UI.TubeControls
 
         private Camera _camera;
         private DirectTubeFragment _fragment;
+        private GrabExtender _lengthGrabber;
 
         private void SetText()
         {

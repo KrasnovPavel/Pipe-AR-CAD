@@ -34,7 +34,9 @@ namespace GLTFConverter
         private static string _jsonText;
         private static root _currentRoot;
 
+#pragma warning disable 1998
         private static async void PickJson()
+#pragma warning restore 1998
         {
 #if ENABLE_WINMD_SUPPORT
             FileOpenPicker openPicker = new FileOpenPicker();
