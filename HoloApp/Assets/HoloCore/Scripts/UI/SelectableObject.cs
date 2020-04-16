@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace HoloCAD.UI
+namespace HoloCore.UI
 {
     /// <summary> Компонент отвечающий за возможность выбора объекта. </summary>
     public class SelectableObject : MonoBehaviour

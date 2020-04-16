@@ -104,7 +104,6 @@ namespace HoloCAD.UnityTubes
             _camera = Camera.main;
             base.Awake();
             Tube.transform.localPosition = new Vector3(0, 0, -Length);
-            gameObject.AddComponent<WorldAnchor>();
         }
 
         /// <inheritdoc />

@@ -39,8 +39,9 @@ MonoBehaviour:
       Microsoft.MixedReality.Toolkit.Services.SpatialAwarenessSystem
   spatialAwarenessSystemProfile: {fileID: 11400000, guid: 18ee510526940dc49987be2e9a05d761,
     type: 2}
-  diagnosticsSystemProfile: {fileID: 0}
-  enableDiagnosticsSystem: 0
+  diagnosticsSystemProfile: {fileID: 11400000, guid: 478436bd1083882479a52d067e98e537,
+    type: 2}
+  enableDiagnosticsSystem: 1
   diagnosticsSystemType:
     reference: Microsoft.MixedReality.Toolkit.Diagnostics.MixedRealityDiagnosticsSystem,
       Microsoft.MixedReality.Toolkit.Services.DiagnosticsSystem
@@ -51,4 +52,3 @@ MonoBehaviour:
   registeredServiceProvidersProfile: {fileID: 11400000, guid: c486f4f5abdaeaa4cbede5fb445bb113,
     type: 2}
   useServiceInspectors: 0
-  renderDepthBuffer: 0

@@ -1,6 +1,7 @@
-﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System;
 using System.ComponentModel;
 using HoloCAD.UnityTubes;
 using HoloCore;
@@ -17,6 +18,8 @@ namespace HoloCAD.UI.TubeControls
         [Tooltip("Панель с кнопками и информацией о трубе.")]
         [CanBeNull] public Transform ButtonBar;
         
+        /// <summary> Панель с информацией об отрезке трубы. </summary>
+        [Tooltip("Панель с информацией об отрезке трубы.")]
         [CanBeNull] public TextMesh TextLabel;
         
         /// <summary> Кнопка добавления погиба. </summary>
@@ -42,30 +45,15 @@ namespace HoloCAD.UI.TubeControls
         /// <summary> Кнопка перехода на предыдущий отрезок трубы. </summary>
         [Tooltip("Кнопка перехода на предыдущий отрезок трубы.")]
         [CanBeNull] public Button3D PreviousFragmentButton;
+        
+        /// <summary> Кнопка открытия настроек. </summary>
+        [Tooltip("Кнопка открытия настроек.")]
+        [CanBeNull] public Button3D ExpandButton;
 
         /// <summary> Участок трубы, которому принадлежит эта панель. </summary>
         protected TubeFragment BaseFragment;
 
-        /// <inheritdoc/>
-        public bool IsSelected => SelectableObject.SelectedObject == gameObject;
-
-        /// <inheritdoc/>
-        public void ToggleSelection()
-        {
-            GetComponent<SelectableObject>().ToggleSelection();
-        }
-        
-        /// <inheritdoc/>
-        public virtual void SelectThis()
-        {
-            GetComponent<SelectableObject>().SelectThis();
-        }
-
-        /// <inheritdoc/>
-        public virtual void DeselectThis()
-        {
-            GetComponent<SelectableObject>().DeselectThis();
-        }
+        protected bool IsExpanded;
 
         /// <inheritdoc/>
         public virtual void OnSelect()
@@ -84,7 +72,7 @@ namespace HoloCAD.UI.TubeControls
                                                BaseFragment.AddDirectFragment);
             GamepadController.SubscribeToClick(GamepadController.InputAxis.JoystickX,
                                                null,
-                                               BaseFragment.CreateTube);
+                                               _createTubeDel);
             GamepadController.SubscribeToClick(GamepadController.InputAxis.DPADRight,
                                                null,
                                                BaseFragment.SelectChild);
@@ -114,7 +102,7 @@ namespace HoloCAD.UI.TubeControls
                                                    BaseFragment.AddDirectFragment);
             GamepadController.UnsubscribeFromClick(GamepadController.InputAxis.JoystickX,
                                                    null,
-                                                   BaseFragment.CreateTube);
+                                                   _createTubeDel);
             GamepadController.UnsubscribeFromClick(GamepadController.InputAxis.DPADRight,
                                                    null,
                                                    BaseFragment.SelectChild);
@@ -158,6 +146,10 @@ namespace HoloCAD.UI.TubeControls
             if (PreviousFragmentButton != null)
             {
                 PreviousFragmentButton.OnClick += delegate { BaseFragment.SelectParent(); };
+            }
+            if (ExpandButton != null)
+            {
+                ExpandButton.OnClick += delegate { ToggleExpanded(); };
             }
         }
 
@@ -207,6 +199,18 @@ namespace HoloCAD.UI.TubeControls
             if (NextFragmentButton != null) NextFragmentButton.SetEnabled(fragment.HasChild);
         }
 
+        /// <summary> Разворачивает панель с кнопками. </summary>
+        protected virtual void ExpandSettings()
+        {
+            
+        }
+
+        /// <summary> Скрывает панель с кнопками. </summary>
+        protected virtual void HideSettings()
+        {
+            
+        }
+        
         #region Unity event functions
         
         /// <summary> Функция, выполняющаяся после инициализизации участка трубы в Unity. </summary>
@@ -216,6 +220,7 @@ namespace HoloCAD.UI.TubeControls
         protected virtual void Start()
         {
             InitButtons();
+            HideSettings();
         }
     
         /// <summary> Функция, выполняющаяся в Unity каждый кадр. </summary>
@@ -243,6 +248,25 @@ namespace HoloCAD.UI.TubeControls
         protected virtual void OnEnable()
         {
             if (ButtonBar != null) ButtonBar.gameObject.SetActive(true);
+        }
+
+        #endregion
+
+        #region Private definitions
+
+        private Action _createTubeDel = delegate { TubeManager.CreateTube().StartPlacing(); };
+
+        private void ToggleExpanded()
+        {
+            IsExpanded = !IsExpanded;
+            if (IsExpanded)
+            {
+                ExpandSettings();
+            }
+            else
+            {
+                HideSettings();
+            }
         }
 
         #endregion

@@ -39,14 +39,14 @@ namespace HoloCAD.UI.TubeControls
         public override void OnSelect()
         {
             base.OnSelect();
-            GamepadController.SubscribeToAxis(GamepadController.InputAxis.RightStickHorizontal, 
-                                             null, 
-                                             _fragment.ChangeAngle,
-                                             4);
-            GamepadController.SubscribeToAxis(GamepadController.InputAxis.LeftStickHorizontal, 
-                                             null, 
-                                             _fragment.TurnAround,
-                                             4);
+            GamepadController.SubscribeToAxis(GamepadController.InputAxis.RightStickHorizontal,
+                                              null,
+                                              _fragment.ChangeAngle,
+                                              4);
+            GamepadController.SubscribeToAxis(GamepadController.InputAxis.LeftStickHorizontal,
+                                              null,
+                                              _fragment.TurnAround,
+                                              4);
             GamepadController.SubscribeToClick(GamepadController.InputAxis.DPADUp,
                                                null,
                                                _fragment.ChangeRadius);
@@ -56,14 +56,14 @@ namespace HoloCAD.UI.TubeControls
         public override void OnDeselect()
         {
             base.OnDeselect();
-            GamepadController.UnsubscribeFromAxis(GamepadController.InputAxis.RightStickHorizontal, 
-                                                 null, 
-                                                 _fragment.ChangeAngle,
-                                                 4);
-            GamepadController.UnsubscribeFromAxis(GamepadController.InputAxis.LeftStickHorizontal, 
-                                                 null, 
-                                                 _fragment.TurnAround,
-                                                 4);
+            GamepadController.UnsubscribeFromAxis(GamepadController.InputAxis.RightStickHorizontal,
+                                                  null,
+                                                  _fragment.ChangeAngle,
+                                                  4);
+            GamepadController.UnsubscribeFromAxis(GamepadController.InputAxis.LeftStickHorizontal,
+                                                  null,
+                                                  _fragment.TurnAround,
+                                                  4);
             GamepadController.UnsubscribeFromClick(GamepadController.InputAxis.DPADUp,
                                                    null,
                                                    _fragment.ChangeRadius);
@@ -74,9 +74,9 @@ namespace HoloCAD.UI.TubeControls
         {
             if (ButtonBar == null) return;
             Vector3 endPointPosition = ButtonBar.parent.position;
-            
+
             Vector3 direction = _fragment.Diameter * 1.1f * (_camera.transform.position - endPointPosition).normalized;
-            
+
             Quaternion rotation = Quaternion.FromToRotation(Vector3.back, direction);
             ButtonBar.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
             ButtonBar.position = new Vector3(direction.x, 0, direction.z) + endPointPosition;
@@ -89,21 +89,75 @@ namespace HoloCAD.UI.TubeControls
             {
                 IncreaseAngleButton.OnClick = delegate { _fragment.ChangeAngle(Steps.Angular); };
             }
+
             if (DecreaseAngleButton != null)
             {
                 DecreaseAngleButton.OnClick = delegate { _fragment.ChangeAngle(-Steps.Angular); };
             }
+
             if (TurnClockwiseButton != null)
             {
                 TurnClockwiseButton.OnClick = delegate { _fragment.TurnAround(Steps.Angular); };
             }
+
             if (TurnAnticlockwiseButton != null)
             {
                 TurnAnticlockwiseButton.OnClick = delegate { _fragment.TurnAround(-Steps.Angular); };
             }
+
             if (ChangeRadiusButton != null)
             {
                 ChangeRadiusButton.OnClick = delegate { _fragment.ChangeRadius(); };
+            }
+        }
+
+        /// <inheritdoc />
+        protected override void ExpandSettings()
+        {
+            base.ExpandSettings();
+            if (ButtonBar == null) return;
+            
+            foreach (Transform child in ButtonBar)
+            {
+                child.gameObject.SetActive(true);
+            }
+
+            if (TextLabel != null)
+            {
+                TextLabel.gameObject.SetActive(true);
+                TextLabel.transform.localPosition = new Vector3(0f, 0.3f, 0f);
+            }
+
+            if (ExpandButton != null)
+            {
+                ExpandButton.transform.localPosition = new Vector3(0f, 0.25f, 0f);
+                ExpandButton.Text = "Скрыть";
+            }
+            
+        }
+
+        /// <inheritdoc />
+        protected override void HideSettings()
+        {
+            base.HideSettings();
+            if (ButtonBar == null) return;
+            
+            foreach (Transform child in ButtonBar)
+            {
+                child.gameObject.SetActive(false);
+            }
+
+            if (TextLabel != null)
+            {
+                TextLabel.gameObject.SetActive(true);
+                TextLabel.transform.localPosition = new Vector3(0f, 0.07f, 0f);
+            }
+
+            if (ExpandButton != null)
+            {
+                ExpandButton.gameObject.SetActive(true);
+                ExpandButton.transform.localPosition = Vector3.zero;
+                ExpandButton.Text = "Настройки";
             }
         }
 
@@ -120,16 +174,36 @@ namespace HoloCAD.UI.TubeControls
         {
             base.Start();
             _camera = Camera.main;
-            _fragment.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+            RotationController = GetComponent<GrabRotator>();
+            if (RotationController != null)
             {
-                switch (args.PropertyName)
-                {
-                    case nameof(BendedTubeFragment.Angle):
-                    case nameof(BendedTubeFragment.RotationAngle):
-                        SetText();
-                        break;
-                }
-            };
+                RotationController.PropertyChanged += delegate
+                                                          (object sender, PropertyChangedEventArgs args)
+                                                      {
+                                                          if (args.PropertyName == nameof(GrabRotator.Angle))
+                                                          {
+                                                              _fragment.RotationAngle = RotationController.Angle;
+                                                          }
+                                                      };
+                RotationController.Radius = _fragment.Diameter;
+            }
+            _fragment.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+                                         {
+                                             switch (args.PropertyName)
+                                             {
+                                                 case nameof(BendedTubeFragment.Angle):
+                                                 case nameof(BendedTubeFragment.RotationAngle):
+                                                     SetText();
+                                                     break;
+                                                 case nameof(BendedTubeFragment.Diameter):
+                                                     if (RotationController != null)
+                                                     {
+                                                         RotationController.Radius = _fragment.Diameter / 2 * 1.5f;
+                                                     }
+
+                                                     break;
+                                             }
+                                         };
             CheckIsButtonsEnabled(_fragment);
             SetText();
         }
@@ -140,6 +214,7 @@ namespace HoloCAD.UI.TubeControls
 
         private Camera _camera;
         private BendedTubeFragment _fragment;
+        [CanBeNull] public GrabRotator RotationController;
 
         private void SetText()
         {

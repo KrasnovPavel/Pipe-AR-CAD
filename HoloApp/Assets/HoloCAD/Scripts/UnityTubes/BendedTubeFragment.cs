@@ -38,7 +38,7 @@ namespace HoloCAD.UnityTubes
 
                 _angle = value;
                 SetColliders(_angle);
-                Tube.GetComponent<MeshRenderer>().material.SetFloat(ShaderAngle, _angle / 180f * (float)Math.PI);
+                Tube.GetComponent<MeshRenderer>().material.SetFloat(ShaderAngle, _angle / 180f * (float) Math.PI);
                 SetEndpoint();
                 OnPropertyChanged();
             }
@@ -102,7 +102,7 @@ namespace HoloCAD.UnityTubes
                 base.IsPlacing = value;
 
                 Tube.GetComponent<MeshCollider>().enabled = !IsPlacing;
-                
+
                 if (IsPlacing)
                 {
                     foreach (GameObject col in _colliders)
@@ -120,7 +120,26 @@ namespace HoloCAD.UnityTubes
         /// <summary> Угол поворота вокруг оси. </summary>
         public float RotationAngle
         {
-            get => _rotationAngle;
+            get
+            {
+                float result = _rotationAngle;
+                if (Mathf.Abs(result) > 360f)
+                {
+                    result -= Mathf.Ceil(result / 360f) * 360f;
+                }
+
+                if (result < 0)
+                {
+                    result = 360f + result;
+                }
+
+                if (result > 180f)
+                {
+                    result = -360f + result;
+                }
+
+                return result;
+            }
             set
             {
                 if (Math.Abs(_rotationAngle - value) < float.Epsilon) return;
@@ -140,8 +159,8 @@ namespace HoloCAD.UnityTubes
                 Math.Abs(Owner.Data.second_radius - radius) > float.Epsilon) return;
             StartUseSecondRadius = !(Math.Abs(Owner.Data.first_radius - radius) < float.Epsilon);
         }
-        
-        
+
+
         /// <summary> Увеличивает угол погиба. </summary>
         public void ChangeAngle(float delta)
         {
@@ -188,9 +207,9 @@ namespace HoloCAD.UnityTubes
             base.SetColor();
 
             Color color;
-            
+
             if (IsSelected) color = SelectedTubeGridColor;
-            else            color = IsColliding ? CollidingTubeGridColor : DefaultTubeGridColor;
+            else color = IsColliding ? CollidingTubeGridColor : DefaultTubeGridColor;
 
             EndPoint.GetComponent<MeshRenderer>().material.SetColor(GridColor, color);
         }
@@ -208,20 +227,24 @@ namespace HoloCAD.UnityTubes
         }
 
         #endregion
-        
+
         #region Private defintions
-        
+
         /// <summary> Список мешей для погиба данного диаметра. </summary>
         /// <remarks> Содержит три меша: погиб первого радиуса, погиб второго радиуса, плоское кольцо. </remarks>
         private List<Mesh> _meshes;
 
         /// <summary> Список плоских выпуклых коллайдеров. </summary>
         private readonly List<GameObject> _colliders = new List<GameObject>();
+
         private readonly List<TubeFragmentCollider> _collidersComponents = new List<TubeFragmentCollider>();
+
         /// <summary> Минимальный угол погиба. </summary>
         private const float MinAngle = 5f;
+
         /// <summary> Максимальный угол погиба. </summary>
         private const float MaxAngle = 180f;
+
         private const float DeltaAngle = 15f;
 
         private static readonly int ShaderDiameter = Shader.PropertyToID("_Diameter");
@@ -244,8 +267,8 @@ namespace HoloCAD.UnityTubes
             {
                 _colliders[i].GetComponent<SphereCollider>().radius = Diameter / 2;
                 float shiftAngle = (2 * i + 2) / 2f * DeltaAngle;
-                Vector3 shiftVector = Vector3.zero.RotateAround(new Vector3(-Radius, 0f, 0f), 
-                                                        Quaternion.Euler(0, -shiftAngle, 0));
+                Vector3 shiftVector = Vector3.zero.RotateAround(new Vector3(-Radius, 0f, 0f),
+                                                                Quaternion.Euler(0, -shiftAngle, 0));
                 _colliders[i].transform.localPosition = shiftVector;
             }
         }
@@ -254,7 +277,7 @@ namespace HoloCAD.UnityTubes
         /// <param name="newAngle"> Новый угол поворота. </param>
         private void SetColliders(float newAngle)
         {
-            int newPos = (int)Math.Floor(newAngle / DeltaAngle);
+            int newPos = (int) Math.Floor(newAngle / DeltaAngle);
 
             if (newPos < 3)
             {
@@ -262,9 +285,8 @@ namespace HoloCAD.UnityTubes
                 {
                     col.SetActive(false);
                 }
-                
+
                 _colliders[0].SetActive(true);
-                
             }
             else
             {
@@ -298,7 +320,7 @@ namespace HoloCAD.UnityTubes
 
         private int GetNumberOfCollisions()
         {
-            int angle = (int)Math.Floor(Angle / DeltaAngle);
+            int angle = (int) Math.Floor(Angle / DeltaAngle);
             int numberOfCollisions = 0;
             for (int i = 0; i < _colliders.Count && i < angle - 2; i++)
             {

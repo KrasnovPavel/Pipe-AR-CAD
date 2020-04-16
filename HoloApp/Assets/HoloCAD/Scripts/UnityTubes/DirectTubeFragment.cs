@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using HoloCore.UI;
 using UnityEngine;
 
 namespace HoloCAD.UnityTubes
@@ -85,7 +86,7 @@ namespace HoloCAD.UnityTubes
         {
             if (Parent != null)
             {
-                Parent.SelectThis();
+                Parent.GetComponent<SelectableObject>()?.SelectThis();
                 
                 if (Parent.Child == this) Parent.Child = null;
                 else                      ((DirectTubeFragment)Parent).RemoveOutgrowth(this);

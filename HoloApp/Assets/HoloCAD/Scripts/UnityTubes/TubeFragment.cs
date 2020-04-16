@@ -4,7 +4,7 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using HoloCAD.UI;
+using HoloCore.UI;
 using HoloCAD.UI.TubeControls;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -31,24 +31,6 @@ namespace HoloCAD.UnityTubes
         public bool IsSelected => SelectableObject.SelectedObject == gameObject;
 
         /// <inheritdoc/>
-        public void ToggleSelection()
-        {
-            GetComponent<SelectableObject>().ToggleSelection();
-        }
-
-        /// <inheritdoc/>
-        public void SelectThis()
-        {
-            GetComponent<SelectableObject>().SelectThis();
-        }
-
-        /// <inheritdoc/>
-        public void DeselectThis()
-        {
-            GetComponent<SelectableObject>().DeselectThis();
-        }
-
-        /// <inheritdoc/>
         public void OnSelect()
         {
             SetColor();
@@ -67,13 +49,13 @@ namespace HoloCAD.UnityTubes
         /// <summary> Выбирает следующий отрезок трубы. </summary>
         public void SelectChild()
         {
-            if (HasChild) Child.SelectThis();
+            if (HasChild) Child.GetComponent<SelectableObject>()?.SelectThis();
         }
 
         /// <summary> Выбирает предыдущий отрезок трубы. </summary>
         public void SelectParent()
         {
-            if (Parent != null) Parent.SelectThis();
+            if (Parent != null) Parent.GetComponent<SelectableObject>()?.SelectThis();
         }
 
         /// <summary> Диаметр участка трубы. </summary>
@@ -194,16 +176,6 @@ namespace HoloCAD.UnityTubes
             ((DirectTubeFragment) Child).StartLength = startLength;
         }
 
-        /// <summary> Создание новой трубы. </summary>
-        /// <remarks>
-        /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.CreateFragment()</c>.
-        /// </remarks>
-        public virtual void CreateTube()
-        {
-            var newTube = TubeManager.CreateTube(Owner);
-            newTube.StartPlacing();
-        }
-
         /// <summary> Удаление этого участка трубы. </summary>
         /// <remarks>
         /// При переопределении в потомке обязательно должна вызываться с помощью <c> base.RemoveThisFragment()</c>.
@@ -212,7 +184,7 @@ namespace HoloCAD.UnityTubes
         {
             if (Parent != null)
             {
-                Parent.SelectThis();
+                Parent.GetComponent<SelectableObject>()?.SelectThis();
                 Parent.Child = null;
             }
             Destroy(gameObject);
@@ -299,7 +271,7 @@ namespace HoloCAD.UnityTubes
         protected virtual void Start()
         {
             Diameter = Owner.Data.diameter;
-            SelectThis();
+            GetComponent<SelectableObject>()?.SelectThis();
         }
 
         /// <summary> Функция, выполняющаяся в Unity каждый кадр. </summary>

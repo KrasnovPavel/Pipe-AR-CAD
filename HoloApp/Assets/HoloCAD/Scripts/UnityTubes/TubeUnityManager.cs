@@ -156,10 +156,10 @@ namespace HoloCAD.UnityTubes
 
             foreach (Transform mark in StartTubeMarks)
             {
-                Transform t = TubeManager.CreateTube().StartFragment.transform;
-                t.parent = mark;
-                t.localPosition = Vector3.zero;
-                t.localRotation = Quaternion.Euler(-90, 0, 180);
+                var startFragment = TubeManager.CreateTube().StartFragment;
+                startFragment.transform.parent = mark;
+                startFragment.transform.localPosition = Vector3.zero;
+                startFragment.transform.localRotation = Quaternion.Euler(-90, 0, 180);
             }
             
             // ReSharper disable once PossibleNullReferenceException

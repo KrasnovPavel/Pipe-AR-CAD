@@ -38,5 +38,11 @@ namespace HoloCAD.UI
         {
             Controller2D.OpenFile();
         }
+
+        /// <summary> Создаёт новую трубу. </summary>
+        public void NewTube()
+        {
+            TubeManager.CreateTube().StartPlacing();
+        }
     }
 }
