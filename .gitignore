@@ -156,16 +156,10 @@ MarksEditor/Corridor/Library/metadata/
 # ================ #
 # Third-party libs #
 # ================ #
-HoloApp/Assets/StandaloneFileBrowser/
-HoloApp/Assets/StandaloneFileBrowser.meta
 HoloApp/Assets/Plugins
-HoloApp/Assets/HoloToolkit/
-HoloApp/Assets/HoloToolkit.meta
 HoloApp/MSBuild/
 HoloApp/Assets/MixedReality*
 HoloApp/Assets/MixedRealityToolkit*/
-HoloApp/Assets/Paroxe/
-HoloApp/Assets/Paroxe*
 !HoloApp/Assets/MixedRealityToolkit.Generated/CustomProfiles/
 !HoloApp/Assets/MixedRealityToolkit.Generated/CustomProfiles.meta
 
