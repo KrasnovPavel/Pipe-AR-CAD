@@ -170,16 +170,17 @@ namespace HoloCAD
 
         /// <summary> Проходит по всем участкам трубы(без отростков) и вызывает переданную функцию. </summary>
         /// <param name="function"> Функция, которая будет вызвана для каждого участка.</param>
+        /// <param name="reverse"></param>
         /// <param name="firstFragment">
         /// Участок, с которого будет начат обход. Если он равен null, то обход начинается с фланца.
         /// </param>
-        public void MapFragments(Action<TubeFragment> function, TubeFragment firstFragment = null)
+        public void MapFragments(Action<TubeFragment> function, bool reverse = false, TubeFragment firstFragment = null)
         {
             TubeFragment current = (firstFragment != null) ? firstFragment : StartFragment;
             while (current != null)
             {
                 function.Invoke(current);
-                current = current.Child;
+                current = reverse ? current.Parent : current.Child;
             }
         }
 

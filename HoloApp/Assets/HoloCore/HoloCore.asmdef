@@ -1,0 +1,17 @@
+{
+    "name": "HoloCore",
+    "references": [
+        "Microsoft.MixedReality.Toolkit",
+        "Unity.TextMeshPro",
+        "Microsoft.MixedReality.Toolkit.SDK",
+        "StandAloneFileBrowser"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
