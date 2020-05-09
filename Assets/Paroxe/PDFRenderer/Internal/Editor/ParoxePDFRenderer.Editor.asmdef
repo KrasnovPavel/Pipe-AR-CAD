@@ -1,7 +1,7 @@
 {
-    "name": "PDFRenderer.Editor",
+    "name": "ParoxePDFRenderer.Editor",
     "references": [
-        "PDFRenderer"
+        "ParoxePDFRenderer"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

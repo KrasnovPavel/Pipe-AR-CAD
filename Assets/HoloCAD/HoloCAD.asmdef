@@ -8,7 +8,7 @@
         "Microsoft.MixedReality.Toolkit.SDK",
         "Unity.XR.WindowsMR",
         "Unity.TextMeshPro",
-        "PDFRenderer"
+        "ParoxePDFRenderer"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
