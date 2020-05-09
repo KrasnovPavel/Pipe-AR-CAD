@@ -3,9 +3,8 @@
 Узкоспециализированная недо-САПР для прокладки трубопроводов в дополненной реальности по месту
 ----------------------------------------------------------------------------------------------
 
-
-Состоит из следующих подпроектов:
-- **HoloApp** - Hololens-приложение для работы в очках дополненной реальности.
-- **HoloCADExporter** - PC-приложение для преобразования файлов из внутреннего формата проекта в форматы для популярных CAD-систем.
-- **MarksEditor** - PC-приолжение для привязки трехмерной модели к меткам.
-- **Meter** - Hololens-приложение для определения погрешностей распознавания меток.
+ 
+Используемые пакеты:
+- [Microsoft Mixed Reality Toolkit v2.1.0](https://github.com/Microsoft/MixedRealityToolkit-Unity/releases)
+- [UnityStandaloneFileBrowser v.1.2](https://github.com/gkngkc/UnityStandaloneFileBrowser/releases)
+- [PDF Renderer 3.992](https://drive.google.com/open?id=1ck-2h4y4_5hRp_Z7PTBBkYlVsp20eCAV)
