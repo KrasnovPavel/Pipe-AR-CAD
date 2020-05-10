@@ -1,10 +1,8 @@
 {
-    "name": "HoloCore",
+    "name": "HoloCore.Marks",
     "references": [
-        "Microsoft.MixedReality.Toolkit",
-        "Unity.TextMeshPro",
-        "Microsoft.MixedReality.Toolkit.SDK",
-        "Unity.XR.WindowsMR"
+        "VuforiaScripts",
+        "HoloCore"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

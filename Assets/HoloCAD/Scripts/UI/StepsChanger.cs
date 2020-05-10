@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System.ComponentModel;
-using HoloCAD.UnityTubes;
+using HoloCore;
 using HoloCore.UI;
 using JetBrains.Annotations;
 using UnityEngine;

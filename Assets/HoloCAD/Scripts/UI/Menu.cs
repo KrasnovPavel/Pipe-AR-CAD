@@ -1,7 +1,8 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-using HoloCAD.UI.Docs2D;
+using HoloCAD.Tubes;
+using HoloCore.Docs2D;
 using UnityEngine;
 
 namespace HoloCAD.UI
@@ -12,19 +13,19 @@ namespace HoloCAD.UI
         /// <summary> Сохранение сцены. </summary>
         public void SaveScene()
         {
-            TubeManager.SaveScene();
+            SceneManager.SaveScene();
         }
 
         /// <summary> Загрузка сцены. </summary>
         public void LoadScene()
         {
-            TubeManager.LoadScene();
+            SceneManager.LoadScene();
         }
 
         /// <summary> Сохранение сцены отдельным файлом. </summary>
         public void SaveSceneAs()
         {
-            TubeManager.SaveSceneAs();
+            SceneManager.SaveSceneAs();
         }
 
         /// <summary> Выход из программы. </summary>

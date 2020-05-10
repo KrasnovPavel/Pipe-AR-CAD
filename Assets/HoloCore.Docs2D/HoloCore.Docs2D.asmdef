@@ -1,10 +1,12 @@
 {
-    "name": "HoloCore",
+    "name": "HoloCore.Docs2D",
     "references": [
+        "HoloCore.FileManager",
+        "ParoxePDFRenderer",
         "Microsoft.MixedReality.Toolkit",
-        "Unity.TextMeshPro",
         "Microsoft.MixedReality.Toolkit.SDK",
-        "Unity.XR.WindowsMR"
+        "Unity.TextMeshPro",
+        "HoloCore"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
