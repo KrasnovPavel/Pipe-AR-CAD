@@ -1,7 +1,7 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-using HoloCAD.UnityTubes;
+using HoloCAD.Tubes.UnityTubes;
 using HoloCore;
 using HoloCore.UI;
 using UnityEngine;
@@ -17,8 +17,8 @@ namespace HoloCAD.UI
         {
             _camera = Camera.main;
             GamepadController.SubscribeToClick(GamepadController.InputAxis.JoystickA, null, Click);
-            GamepadController.SubscribeToClick(GamepadController.InputAxis.JoystickStart, null, TubeManager.SaveScene);
-            GamepadController.SubscribeToClick(GamepadController.InputAxis.JoystickBack, null, TubeManager.LoadScene);
+            GamepadController.SubscribeToClick(GamepadController.InputAxis.JoystickStart, null, SceneManager.SaveScene);
+            GamepadController.SubscribeToClick(GamepadController.InputAxis.JoystickBack, null, SceneManager.LoadScene);
         }
 
         #endregion
@@ -56,6 +56,5 @@ namespace HoloCAD.UI
         }
 
         #endregion
-
     }
 }

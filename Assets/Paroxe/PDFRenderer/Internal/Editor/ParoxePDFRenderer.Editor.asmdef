@@ -1,13 +1,12 @@
 {
-    "name": "HoloCore",
+    "name": "ParoxePDFRenderer.Editor",
     "references": [
-        "Microsoft.MixedReality.Toolkit",
-        "Unity.TextMeshPro",
-        "Microsoft.MixedReality.Toolkit.SDK",
-        "Unity.XR.WindowsMR"
+        "ParoxePDFRenderer"
     ],
     "optionalUnityReferences": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
