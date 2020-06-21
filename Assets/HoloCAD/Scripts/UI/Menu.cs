@@ -1,6 +1,7 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using HoloCAD.Bluetooth;
 using HoloCAD.Tubes;
 using HoloCore.Docs2D;
 using UnityEngine;
@@ -44,6 +45,11 @@ namespace HoloCAD.UI
         public void NewTube()
         {
             TubeManager.CreateTube().StartPlacing();
+        }
+
+        public void Bluetooth()
+        {
+            BluetoothConnectorUI.ShowConnectionWindow();
         }
     }
 }

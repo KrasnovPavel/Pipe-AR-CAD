@@ -9,7 +9,7 @@ namespace HoloCore.UI
     /// <summary> Компонент, включающий видимость объекта только при наведении. </summary>
     public class HoverVisibility : MonoBehaviour, IMixedRealityFocusHandler
     {
-        private void Start()
+        private void Start() //-V3013
         {
             GetComponent<MeshRenderer>().enabled = false;
         }

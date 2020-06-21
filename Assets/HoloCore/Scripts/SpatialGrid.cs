@@ -17,7 +17,7 @@ namespace HoloCore
             _mapRenderer = gameObject.GetComponent<SpatialMappingRenderer>();
         }
         
-        private void OnEnable()
+        private void OnEnable() //-V3013
         {
             Instance._mapCollider.enabled = true;
             Instance._mapRenderer.enabled = true;
