@@ -133,7 +133,7 @@ namespace HoloCAD.Bluetooth
             float length;
             if (float.TryParse(data, out length))
             {
-                NewDataReceived?.Invoke(length);
+                Application.InvokeOnAppThread(() => NewDataReceived?.Invoke(length), false);
             }
         }
 

@@ -10,23 +10,23 @@ namespace HoloCore
     [RequireComponent(typeof(SpatialMappingCollider), typeof(SpatialMappingRenderer))]
     public class SpatialGrid : Singleton<SpatialGrid>
     {
-        private void Start()
+        private void Awake()
         {
+            _mapCollider = GetComponent<SpatialMappingCollider>();
+            _mapRenderer = GetComponent<SpatialMappingRenderer>();
             enabled = false;
-            _mapCollider = gameObject.GetComponent<SpatialMappingCollider>();
-            _mapRenderer = gameObject.GetComponent<SpatialMappingRenderer>();
         }
         
-        private void OnEnable() //-V3013
+        private void OnEnable()
         {
-            Instance._mapCollider.enabled = true;
-            Instance._mapRenderer.enabled = true;
+            _mapCollider.enabled = true;
+            _mapRenderer.enabled = true;
         }
 
         private void OnDisable()
         {
-            Instance._mapCollider.enabled = true;
-            Instance._mapRenderer.enabled = true;
+            _mapCollider.enabled = false;
+            _mapRenderer.enabled = false;
         }
         
         private SpatialMappingCollider _mapCollider;

@@ -11,6 +11,8 @@ namespace HoloCAD.UI
     /// <summary> Класс, реагирующий на события нажатий кнопок в меню. </summary>
     public class Menu : MonoBehaviour
     {
+        public GameObject LengthMeterPrefab;
+        
         /// <summary> Сохранение сцены. </summary>
         public void SaveScene()
         {
@@ -50,6 +52,11 @@ namespace HoloCAD.UI
         public void Bluetooth()
         {
             BluetoothConnectorUI.ShowConnectionWindow();
+        }
+
+        public void SpawnLengthMeter()
+        {
+            Instantiate(LengthMeterPrefab);
         }
     }
 }
