@@ -15,6 +15,10 @@ App/
 !App/HoloCAD/Assets
 !**/*.obj
 !**/*.obj.meta
+/Logs/
+/Packages/
+/UIElementsSchema/
+/UWP/
 
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #
@@ -54,7 +58,4 @@ Corridor/Library/metadata/
 # ================ #
 Assets/Plugins
 MSBuild/
-Assets/MixedReality*
-Assets/MixedRealityToolkit*/
-!Assets/MixedRealityToolkit.Generated/CustomProfiles/
-!Assets/MixedRealityToolkit.Generated/CustomProfiles.meta
+/Assets/MRTK/
