@@ -64,7 +64,7 @@ namespace HoloTest
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"{Namespace} {TypeName} {TestName} {TestDuration?.TotalMilliseconds}ms {Result} {ErrorMassage}";
+            return $"{Namespace} {TypeName} {TestName} {TestDuration?.TotalMilliseconds:f0}ms {Result} {ErrorMassage}";
         }
     }
 }

@@ -2,6 +2,8 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
+using UnityEngine;
+
 #if ENABLE_WINMD_SUPPORT
 using System.Reflection;
 #endif
@@ -19,6 +21,19 @@ namespace HoloTest
         public static void AreEqual(float first, float second, float eps = float.Epsilon)
         {
             if (Math.Abs(first - second) > eps)
+            {
+                throw new AssertFailedException($"AreEqual({first}, {second}, eps={eps})");
+            }
+        }
+        
+        /// <summary> Проверяет равенство двух трёхмерных векторов с плавающей запятой. </summary>
+        /// <param name="first"> Первое число. </param>
+        /// <param name="second"> Второе число. </param>
+        /// <param name="eps"> Точность проверки. </param>
+        /// <exception cref="AssertFailedException"> Тест провален. </exception>
+        public static void AreEqual(Vector3 first, Vector3 second, float eps = float.Epsilon)
+        {
+            if (!FloatEquals(first, second, eps))
             {
                 throw new AssertFailedException($"AreEqual({first}, {second}, eps={eps})");
             }
@@ -91,7 +106,7 @@ namespace HoloTest
         /// <exception cref="AssertFailedException"> Тест провален. </exception>
         public static void AreNotEqual(object first, object second)
         {
-            if (!first.Equals(second))
+            if (first.Equals(second))
             {
                 throw new AssertFailedException($"AreNotEqual({first}, {second})");
             }
@@ -106,6 +121,19 @@ namespace HoloTest
             if (first == second)
             {
                 throw new AssertFailedException($"AreEqual({first}, {second})");
+            }
+        }
+        
+        /// <summary> Проверяет неравенство двух трёхмерных векторов с плавающей запятой. </summary>
+        /// <param name="first"> Первое число. </param>
+        /// <param name="second"> Второе число. </param>
+        /// <param name="eps"> Точность проверки. </param>
+        /// <exception cref="AssertFailedException"> Тест провален. </exception>
+        public static void AreNotEqual(Vector3 first, Vector3 second, float eps = float.Epsilon)
+        {
+            if (FloatEquals(first, second, eps))
+            {
+                throw new AssertFailedException($"AreEqual({first}, {second}, eps={eps})");
             }
         }
 
@@ -211,6 +239,17 @@ namespace HoloTest
             }
 
             throw new AssertFailedException($"ThrowsException ({typeof(T).Name}) (null)");
+        }
+        
+        /// <summary> Проверяет равенство двух векторов с учетом неточности значений типа float. </summary>
+        /// <param name="vector"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        private static bool FloatEquals(Vector3 vector, Vector3 other, float eps)
+        {
+            return Math.Abs(vector.x - other.x) < eps
+                   && Math.Abs(vector.y - other.y) < eps
+                   && Math.Abs(vector.z - other.z) < eps;
         }
     }
 
