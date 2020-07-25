@@ -6,6 +6,7 @@ using HoloCAD.Tubes.UnityTubes;
 using HoloCore;
 using HoloCore.UI;
 using JetBrains.Annotations;
+using MathExtensions;
 using UnityEngine;
 
 namespace HoloCAD.Tubes.TubeControls

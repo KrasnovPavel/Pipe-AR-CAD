@@ -2,7 +2,8 @@
     "name": "HoloCAD.Tubes",
     "references": [
         "HoloCore",
-        "Microsoft.MixedReality.Toolkit"
+        "Microsoft.MixedReality.Toolkit",
+        "MathExtensions"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

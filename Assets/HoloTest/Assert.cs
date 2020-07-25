@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
+using MathExtensions;
 using UnityEngine;
 
 #if ENABLE_WINMD_SUPPORT
@@ -33,7 +34,7 @@ namespace HoloTest
         /// <exception cref="AssertFailedException"> Тест провален. </exception>
         public static void AreEqual(Vector3 first, Vector3 second, float eps = float.Epsilon)
         {
-            if (!FloatEquals(first, second, eps))
+            if (!first.FloatEquals(second, eps))
             {
                 throw new AssertFailedException($"AreEqual({first}, {second}, eps={eps})");
             }
@@ -131,7 +132,7 @@ namespace HoloTest
         /// <exception cref="AssertFailedException"> Тест провален. </exception>
         public static void AreNotEqual(Vector3 first, Vector3 second, float eps = float.Epsilon)
         {
-            if (FloatEquals(first, second, eps))
+            if ((first.FloatEquals(second, eps)))
             {
                 throw new AssertFailedException($"AreEqual({first}, {second}, eps={eps})");
             }
@@ -239,17 +240,6 @@ namespace HoloTest
             }
 
             throw new AssertFailedException($"ThrowsException ({typeof(T).Name}) (null)");
-        }
-        
-        /// <summary> Проверяет равенство двух векторов с учетом неточности значений типа float. </summary>
-        /// <param name="vector"></param>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        private static bool FloatEquals(Vector3 vector, Vector3 other, float eps)
-        {
-            return Math.Abs(vector.x - other.x) < eps
-                   && Math.Abs(vector.y - other.y) < eps
-                   && Math.Abs(vector.z - other.z) < eps;
         }
     }
 
