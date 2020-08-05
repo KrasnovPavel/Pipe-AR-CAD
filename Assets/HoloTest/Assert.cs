@@ -121,7 +121,7 @@ namespace HoloTest
         {
             if (first == second)
             {
-                throw new AssertFailedException($"AreEqual({first}, {second})");
+                throw new AssertFailedException($"AreNotEqual({first}, {second})");
             }
         }
         
@@ -132,9 +132,9 @@ namespace HoloTest
         /// <exception cref="AssertFailedException"> Тест провален. </exception>
         public static void AreNotEqual(Vector3 first, Vector3 second, float eps = float.Epsilon)
         {
-            if ((first.FloatEquals(second, eps)))
+            if (first.FloatEquals(second, eps))
             {
-                throw new AssertFailedException($"AreEqual({first}, {second}, eps={eps})");
+                throw new AssertFailedException($"AreNotEqual({first}, {second}, eps={eps})");
             }
         }
 

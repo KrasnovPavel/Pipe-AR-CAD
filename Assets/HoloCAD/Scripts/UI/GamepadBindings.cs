@@ -15,7 +15,8 @@ namespace HoloCAD.UI
 
         private void Start()
         {
-            _camera = Camera.main;
+            // ReSharper disable once PossibleNullReferenceException
+            _camera = Camera.main.transform;
             GamepadController.SubscribeToClick(GamepadController.InputAxis.JoystickA, null, Click);
             GamepadController.SubscribeToClick(GamepadController.InputAxis.JoystickStart, null, SceneManager.SaveScene);
             GamepadController.SubscribeToClick(GamepadController.InputAxis.JoystickBack, null, SceneManager.LoadScene);
@@ -25,12 +26,12 @@ namespace HoloCAD.UI
 
         #region Private definitions
 
-        private Camera _camera;
+        private Transform _camera;
         
         private void Click()
         {
-            Vector3 headPosition = _camera.transform.position;
-            Vector3 gazeDirection = _camera.transform.forward;
+            Vector3 headPosition = _camera.position;
+            Vector3 gazeDirection = _camera.forward;
 
             RaycastHit hitInfo;
             if (!Physics.Raycast(headPosition, gazeDirection, out hitInfo, 30.0f)) return;

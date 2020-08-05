@@ -33,7 +33,9 @@ namespace HoloTest
         #region Private definitions
 
         /// <summary> Запускает все тесты. </summary>
+#pragma warning disable 1998
         private async void RunUnitTests()
+#pragma warning restore 1998
         {
             Debug.Log("=========================== Testing started. ==========================");
             Assembly[] assemblies;

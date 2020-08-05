@@ -1,15 +1,17 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-using System.ComponentModel;
 using HoloTest;
 using UnityEngine;
+// ReSharper disable AccessToStaticMemberViaDerivedType
 
 namespace UnityC3D.Tests
 {
     [HoloTestClass]
     public static class GCMSystemTests
     {
+        public const float Epsilon = 0.0001f;
+        
         [HoloTestCase]
         public static void CreateRemove()
         {
@@ -173,6 +175,51 @@ namespace UnityC3D.Tests
                 circle.PropertyChanged += delegate { calls++; };
                 sys.Evaluate();
                 Assert.AreEqual(calls, 3);
+            }
+        }
+
+        [HoloTestCase]
+        public static void Parent()
+        {
+            using (var sys = new GCMSystem())
+            {
+                var g = new GameObject();
+                Transform t = GameObject.Instantiate(g).transform;
+                t.position = Vector3.one;
+
+                var lcs = new GCM_LCS(sys, t);
+                Assert.IsNull(lcs.Parent);
+                
+                var p = new GCMPoint(sys, Vector3.down, lcs);
+                Assert.AreEqual(p.Parent, lcs);
+                Assert.AreEqual(p.Origin, lcs.Origin + Vector3.down);
+                
+                GameObject.Destroy(g);
+            }
+        }
+
+        [HoloTestCase]
+        public static void FreezeFree()
+        {
+            using (var sys = new GCMSystem())
+            {
+                var g = new GameObject();
+                Transform t = GameObject.Instantiate(g).transform;
+                t.position = Vector3.one;
+
+                var lcs = new GCM_LCS(sys, t);
+                Assert.IsNull(lcs.Parent);
+                
+                var p = new GCMPoint(sys, Vector3.down, lcs);
+                Assert.AreEqual(p.Parent, lcs);
+                Assert.AreEqual(p.Origin, lcs.Origin + Vector3.down);
+                
+                p.Freeze();
+                lcs.Origin = Vector3.zero;
+                Assert.AreEqual(p.Origin, lcs.Origin + Vector3.down);
+                p.Free();
+                
+                GameObject.Destroy(g);
             }
         }
     }

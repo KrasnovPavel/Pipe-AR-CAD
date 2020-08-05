@@ -1,11 +1,13 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace UnityC3D
 {
     /// <summary> Структура, хранящая вектор в C3D. </summary>
+    [StructLayout(LayoutKind.Sequential)]
     internal struct MbVector3D
     {
         /// <summary> X - координата. </summary>

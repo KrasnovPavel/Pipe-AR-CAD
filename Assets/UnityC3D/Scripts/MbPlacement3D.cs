@@ -2,16 +2,15 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace UnityC3D
 {
     /// <summary> Размещение объекта в системе координат C3D. </summary>
     /// <remarks> Аналог UnityEngine.Transform, но в правостронней системе координат. </remarks>
-    public struct MbPlacement3D : INotifyPropertyChanged
+    [StructLayout(LayoutKind.Sequential)]
+    public struct MbPlacement3D
     {
         #region Private definitions
 
@@ -33,6 +32,7 @@ namespace UnityC3D
         
         /// <remarks> НЕ ТРОГАТЬ. НЕОБХОДИМО ДЛЯ МАРШАЛИНГА. </remarks>
         private Byte _flag;
+        
         #endregion
 
         /// <summary> Положение начала локальной системы координат. </summary>
@@ -115,17 +115,5 @@ namespace UnityC3D
                 return hashCode;
             }
         }
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
     }
 }
