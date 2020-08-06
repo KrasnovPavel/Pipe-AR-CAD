@@ -159,6 +159,8 @@ namespace UnityC3D.Tests
 
                 GameObject.Destroy(g1);
                 GameObject.Destroy(g2);
+                GameObject.Destroy(t1.gameObject);
+                GameObject.Destroy(t2.gameObject);
             }
         }
 
@@ -179,6 +181,7 @@ namespace UnityC3D.Tests
                 Assert.AreEqual(p1.Origin, lcs1.Origin);
                 
                 GameObject.Destroy(g1);
+                GameObject.Destroy(t1.gameObject);
             }
         }
 
@@ -541,6 +544,8 @@ namespace UnityC3D.Tests
 
                 GameObject.Destroy(g1);
                 GameObject.Destroy(g2);
+                GameObject.Destroy(t1.gameObject);
+                GameObject.Destroy(t2.gameObject);
             }
         }
 
@@ -562,6 +567,7 @@ namespace UnityC3D.Tests
                 Assert.AreEqual(Vector3.Angle(lcs1.Placement.AxisZ, c1.Normal), 45, Epsilon);
 
                 GameObject.Destroy(g1);
+                GameObject.Destroy(t1.gameObject);
             }
         }
 
@@ -583,6 +589,7 @@ namespace UnityC3D.Tests
                 Assert.AreEqual(Vector3.Angle(lcs1.Placement.AxisZ, l1.Direction), 45, Epsilon);
 
                 GameObject.Destroy(g1);
+                GameObject.Destroy(t1.gameObject);
             }
         }
 
@@ -604,6 +611,7 @@ namespace UnityC3D.Tests
                 Assert.AreEqual(Vector3.Angle(lcs1.Placement.AxisZ, pl2.Normal), 30, Epsilon);
 
                 GameObject.Destroy(g1);
+                GameObject.Destroy(t1.gameObject);
             }
         }
 

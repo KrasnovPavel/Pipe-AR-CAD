@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -17,22 +18,22 @@ namespace UnityC3D
         /// <summary> Положение начала локальной системы координат. </summary>
         /// <remarks> НЕ ТРОГАТЬ. НЕОБХОДИМО ДЛЯ МАРШАЛИНГА. </remarks>
         private MbVector3D _origin;
-        
+
         /// <summary> Направление первой оси. </summary>
         /// <remarks> НЕ ТРОГАТЬ. НЕОБХОДИМО ДЛЯ МАРШАЛИНГА. </remarks>
-        private MbVector3D _axisX; 
-        
+        private MbVector3D _axisX;
+
         /// <summary> Направление второй оси. </summary>
         /// <remarks> НЕ ТРОГАТЬ. НЕОБХОДИМО ДЛЯ МАРШАЛИНГА. </remarks>
-        private MbVector3D _axisY; 
-        
+        private MbVector3D _axisY;
+
         /// <summary> Направление третьей оси. </summary>
         /// <remarks> НЕ ТРОГАТЬ. НЕОБХОДИМО ДЛЯ МАРШАЛИНГА. </remarks>
-        private MbVector3D _axisZ; 
-        
+        private MbVector3D _axisZ;
+
         /// <remarks> НЕ ТРОГАТЬ. НЕОБХОДИМО ДЛЯ МАРШАЛИНГА. </remarks>
         private Byte _flag;
-        
+
         #endregion
 
         /// <summary> Положение начала локальной системы координат. </summary>
@@ -81,9 +82,9 @@ namespace UnityC3D
             return new MbPlacement3D
             {
                 _origin = MbVector3D.FromUnity(tr.position),
-                _axisX  = MbVector3D.FromUnity(tr.right),
-                _axisY  = MbVector3D.FromUnity(tr.up),
-                _axisZ  = MbVector3D.FromUnity(-tr.forward),
+                _axisX = MbVector3D.FromUnity(tr.right),
+                _axisY = MbVector3D.FromUnity(tr.up),
+                _axisZ = MbVector3D.FromUnity(-tr.forward),
             };
         }
 
@@ -95,7 +96,10 @@ namespace UnityC3D
 
         public bool Equals(MbPlacement3D other)
         {
-            return _origin.Equals(other._origin) && _axisX.Equals(other._axisX) && _axisY.Equals(other._axisY) && _axisZ.Equals(other._axisZ);
+            return _origin.Equals(other._origin) 
+                   && _axisX.Equals(other._axisX) 
+                   && _axisY.Equals(other._axisY) 
+                   && _axisZ.Equals(other._axisZ);
         }
 
         /// <inheritdoc />
@@ -104,6 +108,7 @@ namespace UnityC3D
             return obj is MbPlacement3D other && Equals(other);
         }
 
+        [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode")]
         public override int GetHashCode()
         {
             unchecked

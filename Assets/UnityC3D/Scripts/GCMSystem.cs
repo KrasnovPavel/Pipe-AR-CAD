@@ -12,7 +12,7 @@ namespace UnityC3D
 {
     /// <summary> Система C3D. </summary>
     [SuppressMessage("ReSharper", "RedundantCast")]
-    public class GCMSystem : IDisposable
+    public class GCMSystem : IDisposable //-V3073
     {
         /// <summary> Система координат закреплённая в начале координат. </summary>
         public readonly GCM_LCS GroundLCS;
@@ -889,36 +889,5 @@ namespace UnityC3D
         private static extern GCMResult GCM_ChangeDrivingDimension(IntPtr gSys, GCMDescriptor c, double value);
 
         #endregion
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal readonly struct GCMDescriptor
-    {
-        internal GCMDescriptor(uint id)
-        {
-            this.id = id;
-        }
-
-        internal readonly UInt32 id;
-
-        internal bool Equals(GCMDescriptor other)
-        {
-            return id == other.id;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is GCMDescriptor other && Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            return (int) id;
-        }
-
-        public override string ToString()
-        {
-            return $"{id}";
-        }
     }
 }

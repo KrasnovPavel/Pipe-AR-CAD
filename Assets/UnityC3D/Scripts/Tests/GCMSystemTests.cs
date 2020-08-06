@@ -65,6 +65,7 @@ namespace UnityC3D.Tests
             Assert.AreEqual(p.AxisY,  t.up);
             
             GameObject.Destroy(g);
+            GameObject.Destroy(t.gameObject);
         }
 
         [HoloTestCase]
@@ -149,6 +150,7 @@ namespace UnityC3D.Tests
                 Assert.AreEqual(lcs.Placement.AxisX,  t.right);
                 
                 GameObject.Destroy(g);
+                GameObject.Destroy(t.gameObject);
             }
         }
 
@@ -162,19 +164,6 @@ namespace UnityC3D.Tests
                 Assert.AreEqual(lcs.Placement.AxisZ,  -Vector3.forward);
                 Assert.AreEqual(lcs.Placement.AxisY,  Vector3.up);
                 Assert.AreEqual(lcs.Placement.AxisX,  Vector3.right);
-            }
-        }
-
-        [HoloTestCase]
-        public static void PropertyChanged()
-        {
-            using (var sys = new GCMSystem())
-            {
-                var circle = new GCMCircle(sys, Vector3.back, Vector3.forward, 34f);
-                int calls = 0;
-                circle.PropertyChanged += delegate { calls++; };
-                sys.Evaluate();
-                Assert.AreEqual(calls, 3);
             }
         }
 
@@ -195,6 +184,7 @@ namespace UnityC3D.Tests
                 Assert.AreEqual(p.Origin, lcs.Origin + Vector3.down);
                 
                 GameObject.Destroy(g);
+                GameObject.Destroy(t.gameObject);
             }
         }
 
@@ -220,6 +210,7 @@ namespace UnityC3D.Tests
                 p.Free();
                 
                 GameObject.Destroy(g);
+                GameObject.Destroy(t.gameObject);
             }
         }
     }

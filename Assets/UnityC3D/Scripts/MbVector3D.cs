@@ -1,6 +1,8 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -13,9 +15,11 @@ namespace UnityC3D
         /// <summary> X - координата. </summary>
         /// <remarks> НЕ ТРОГАТЬ. НЕОБХОДИМО ДЛЯ МАРШАЛИНГА. </remarks>
         public double X;
+
         /// <summary> Y - координата. </summary>
         /// <remarks> НЕ ТРОГАТЬ. НЕОБХОДИМО ДЛЯ МАРШАЛИНГА. </remarks>
         public double Y;
+
         /// <summary> Z - координата. </summary>
         /// <remarks> НЕ ТРОГАТЬ. НЕОБХОДИМО ДЛЯ МАРШАЛИНГА. </remarks>
         public double Z;
@@ -41,7 +45,33 @@ namespace UnityC3D
         /// <summary> Преобразует в вектор Unity. </summary>
         public Vector3 ToUnity()
         {
-            return new Vector3((float)X, (float)Y, (float)Z);
+            return new Vector3((float) X, (float) Y, (float) Z);
+        }
+
+        public bool Equals(MbVector3D other)
+        {
+            return Math.Abs(X - other.X) < Double.Epsilon
+                   && Math.Abs(Y - other.Y) < Double.Epsilon
+                   && Math.Abs(Z - other.Z) < Double.Epsilon;
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is MbVector3D other && Equals(other);
+        }
+
+        /// <inheritdoc />
+        [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode")]
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = X.GetHashCode();
+                hashCode = (hashCode * 397) ^ Y.GetHashCode();
+                hashCode = (hashCode * 397) ^ Z.GetHashCode();
+                return hashCode;
+            }
         }
     }
 }

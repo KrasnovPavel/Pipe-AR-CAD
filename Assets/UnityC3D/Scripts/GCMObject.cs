@@ -5,13 +5,11 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
+using MathExtensions;
 using UnityEngine;
 
 namespace UnityC3D
 {
-    // TODO: Кешировать Placement
-    // TODO: Вызывать OnPropertyChanged только тогда, когда свойство действительно изменилось.
-    
     /// <summary> Точка в системе C3D. </summary>
     public class GCMPoint : GCMObject
     {
@@ -146,43 +144,36 @@ namespace UnityC3D
     /// <summary> Абстрактрный геометрический объект в C3D. </summary>
     public abstract class GCMObject : INotifyPropertyChanged, IDisposable
     {
-        protected bool Equals(GCMObject other)
-        {
-            return Descriptor.Equals(other.Descriptor) && Equals(GCMSys, other.GCMSys);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((GCMObject) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return (Descriptor.GetHashCode() * 397) ^ (GCMSys != null ? GCMSys.GetHashCode() : 0);
-            }
-        }
-
         internal GCMObject(GCMSystem sys, GCMDescriptor desc, GCM_LCS parent = null)
         {
             GCMSys = sys;
             Descriptor = desc;
             Parent = parent;
 
-            sys.Evaluated += delegate { OnPropertyChanged(nameof(Placement)); };
-            sys.Evaluated += delegate { OnPropertyChanged(nameof(Origin)); };
+            sys.Evaluated += delegate { Placement = GCMSys.GetPlacement(this); };
+            
+            if (parent != null)
+            {
+                parent.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+                {
+                    if (args.PropertyName == nameof(Placement))
+                    {
+                        Placement = GCMSys.GetPlacement(this);
+                    }
+                };
+            }
+
+            Placement = GCMSys.GetPlacement(this);
         }
 
-        /// <summary> Координиты объекта. </summary>
+        /// <summary> Координаты объекта. </summary>
         public Vector3 Origin
         {
             get => Placement.Origin;
             set
             {
+                if (Origin.FloatEquals(value)) return;
+                
                 var p = Placement;
                 p.Origin = value;
                 Placement = p;
@@ -193,10 +184,13 @@ namespace UnityC3D
         /// <summary> Расположение объекта. </summary>
         public MbPlacement3D Placement
         {
-            get => GCMSys.GetPlacement(this);
+            get => _placement;
             set
             {
-                GCMSys.SetPlacement(this, value);
+                if (value.Equals(_placement)) return;
+
+                _placement = value;
+                GCMSys.SetPlacement(this, _placement);
                 OnPropertyChanged();
             }
         }
@@ -217,6 +211,29 @@ namespace UnityC3D
         {
             GCMSys.Free(this);
         }
+
+        protected bool Equals(GCMObject other)
+        {
+            return Descriptor.Equals(other.Descriptor) && Equals(GCMSys, other.GCMSys);
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((GCMObject) obj);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (Descriptor.GetHashCode() * 397) ^ (GCMSys != null ? GCMSys.GetHashCode() : 0);
+            }
+        }
         
         /// <summary> Родительская система координат объекта. </summary>
         public readonly GCMObject Parent;
@@ -233,6 +250,12 @@ namespace UnityC3D
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
+
+        #region Private definitions
+
+        private MbPlacement3D _placement;
 
         #endregion
     }
