@@ -45,8 +45,29 @@ namespace UnityC3D
         public GCMResult Evaluate()
         {
             var res = GCM_Evaluate(_gcmSystemPtr);
+            if (res != GCMResult.GCM_RESULT_Ok)
+            {
+                Debug.LogWarning(res);
+                foreach (var constraint in _gcmConstraints)
+                {
+                    var cRes = EvaluationResult(constraint);
+                    if (cRes != GCMResult.GCM_RESULT_Ok)
+                    {
+                        Debug.LogWarning(
+                            $"{cRes}-{constraint.Type}:  {constraint.Obj1.GetType()}-{constraint.Obj1.Descriptor}, {constraint.Obj2.GetType()}-{constraint.Obj2.Descriptor} ");
+                    }
+                }
+            }
+
             Evaluated?.Invoke();
             return res;
+        }
+
+        /// <summary> Включает журналирование обращений к системе. </summary>
+        /// <param name="filename"></param>
+        public void SetJournal(string filename)
+        {
+            GCM_SetJournal(_gcmSystemPtr, filename);
         }
 
         /// <summary> Задаёт совпадение двух точек. </summary>
@@ -166,7 +187,7 @@ namespace UnityC3D
         /// <summary> Задаёт совпадение центра окружности с точкой. </summary>
         /// <param name="circle"> Окружность. </param>
         /// <param name="point"> Точка. </param>
-        /// <param name="alignment"></param>
+        /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
         public GCMConstraint MakeConcentric(GCMCircle circle, GCMPoint point, GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
@@ -268,10 +289,11 @@ namespace UnityC3D
         /// <param name="first"> Первая плоскость. </param>
         /// <param name="second"> Вторая плоскость. </param>
         /// <param name="distance"> Расстояние. </param>
+        /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint SetDistance(GCMPlane first, GCMPlane second, float distance)
+        public GCMConstraint SetDistance(GCMPlane first, GCMPlane second, float distance, GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
-            return SetDistance((GCMObject) first, (GCMObject) second, distance, GCMAlignment.NoAlignment);
+            return SetDistance((GCMObject) first, (GCMObject) second, distance, alignment);
         }
 
         /// <summary> Задаёт расстояние между точкой и плоскостью. </summary>
@@ -354,51 +376,19 @@ namespace UnityC3D
             return SetAngle((GCMObject) plane, (GCMObject) circle, radians);
         }
 
-        /// <summary> Задаёт угол между осями Z двух ЛСК. </summary>
-        /// <param name="first"> Первая ЛСК. </param>
-        /// <param name="second"> Вторая ЛСК. </param>
-        /// <param name="radians"> Угол в радианах. </param>
-        /// <returns> Объект ограничения. </returns>
-        public GCMConstraint SetAngle(GCM_LCS first, GCM_LCS second, float radians)
-        {
-            return SetAngle((GCMObject) first, (GCMObject) second, radians);
-        }
-
-        /// <summary> Задаёт угол между прямой и осью Z ЛСК. </summary>
-        /// <param name="line"> Прямая. </param>
-        /// <param name="lcs"> ЛСК. </param>
-        /// <param name="radians"> Угол в радианах. </param>
-        /// <returns> Объект ограничения. </returns>
-        public GCMConstraint SetAngle(GCMLine line, GCM_LCS lcs, float radians)
-        {
-            return SetAngle((GCMObject) line, (GCMObject) lcs, radians);
-        }
-
-        /// <summary> Задаёт угол между плоскостью и осью Z ЛСК. </summary>
-        /// <param name="plane"> Плоскость. </param>
-        /// <param name="lcs"> ЛСК. </param>
-        /// <param name="radians"> Угол в радианах. </param>
-        /// <returns> Объект ограничения. </returns>
-        public GCMConstraint SetAngle(GCMPlane plane, GCM_LCS lcs, float radians)
-        {
-            return SetAngle((GCMObject) plane, (GCMObject) lcs, radians);
-        }
-
-        /// <summary> Задаёт угол между окружностью и осью Z ЛСК. </summary>
-        /// <param name="circle"> Окружность. </param>
-        /// <param name="lcs"> ЛСК. </param>
-        /// <param name="radians"> Угол в радианах. </param>
-        /// <returns> Объект ограничения. </returns>
-        public GCMConstraint SetAngle(GCMCircle circle, GCM_LCS lcs, float radians)
-        {
-            return SetAngle((GCMObject) circle, (GCMObject) lcs, radians);
-        }
-
         /// <summary> Удаляет переданное ограничение из системы. </summary>
         /// <param name="constraint"> Удаляемое ограничение. </param>
         public void RemoveConstraint(GCMConstraint constraint)
         {
             GCM_RemoveConstraint(_gcmSystemPtr, constraint.Descriptor);
+        }
+
+        /// <summary> Возвращает результат вычисления для заданного ограничения. </summary>
+        /// <param name="constraint"></param>
+        /// <returns></returns>
+        public GCMResult EvaluationResult(GCMConstraint constraint)
+        {
+            return GCM_EvaluationResult(_gcmSystemPtr, constraint.Descriptor);
         }
 
         #region Internal definitions
@@ -464,15 +454,27 @@ namespace UnityC3D
         }
 
         /// <summary> Добавляет локальную систему координат. </summary>
-        /// <param name="tr"> Transform зи Unity. </param>
+        /// <param name="tr"> Transform из Unity. </param>
         /// <param name="parent"> Родительская ЛСК. </param>
         /// <returns> Дескриптор объекта в системе. </returns>
         internal GCMDescriptor AddLCS(Transform tr, GCMDescriptor? parent = null)
         {
             var p = MbPlacement3D.FromUnity(tr);
             var lcs = GCM_SolidLCS(ref p);
-            return parent == null 
-                ? GCM_AddGeom(_gcmSystemPtr, ref lcs) 
+            return parent == null
+                ? GCM_AddGeom(_gcmSystemPtr, ref lcs)
+                : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref lcs);
+        }
+
+        /// <summary> Добавляет локальную систему координат. </summary>
+        /// <param name="placement"> Расположение. </param>
+        /// <param name="parent"> Родительская ЛСК. </param>
+        /// <returns> Дескриптор объекта в системе. </returns>
+        internal GCMDescriptor AddLCS(MbPlacement3D placement, GCMDescriptor? parent = null)
+        {
+            var lcs = GCM_SolidLCS(ref placement);
+            return parent == null
+                ? GCM_AddGeom(_gcmSystemPtr, ref lcs)
                 : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref lcs);
         }
 
@@ -562,8 +564,11 @@ namespace UnityC3D
         private GCMConstraint MakeCoincident(GCMObject first, GCMObject second, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor) 
-                && c.Obj2.Descriptor.Equals(second.Descriptor) 
+                c.Obj1.Descriptor.Equals(first.Descriptor)
+                && c.Obj2.Descriptor.Equals(second.Descriptor)
+                && c.Type == GCMConstraintType.GCM_COINCIDENT
+                || c.Obj1.Descriptor.Equals(second.Descriptor)
+                && c.Obj2.Descriptor.Equals(first.Descriptor)
                 && c.Type == GCMConstraintType.GCM_COINCIDENT);
 
             if (co != null) return co;
@@ -584,8 +589,11 @@ namespace UnityC3D
         private GCMConstraint MakeConcentric(GCMObject first, GCMObject second, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor) 
-                && c.Obj2.Descriptor.Equals(second.Descriptor) 
+                c.Obj1.Descriptor.Equals(first.Descriptor)
+                && c.Obj2.Descriptor.Equals(second.Descriptor)
+                && c.Type == GCMConstraintType.GCM_CONCENTRIC
+                || c.Obj1.Descriptor.Equals(second.Descriptor)
+                && c.Obj2.Descriptor.Equals(first.Descriptor)
                 && c.Type == GCMConstraintType.GCM_CONCENTRIC);
 
             if (co != null) return co;
@@ -606,8 +614,11 @@ namespace UnityC3D
         private GCMConstraint MakeParallel(GCMObject first, GCMObject second, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor) 
-                && c.Obj2.Descriptor.Equals(second.Descriptor) 
+                c.Obj1.Descriptor.Equals(first.Descriptor)
+                && c.Obj2.Descriptor.Equals(second.Descriptor)
+                && c.Type == GCMConstraintType.GCM_PARALLEL
+                || c.Obj1.Descriptor.Equals(second.Descriptor)
+                && c.Obj2.Descriptor.Equals(first.Descriptor)
                 && c.Type == GCMConstraintType.GCM_PARALLEL);
 
             if (co != null) return co;
@@ -628,9 +639,12 @@ namespace UnityC3D
         private GCMConstraint MakePerpendicular(GCMObject first, GCMObject second, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor) 
-                && c.Obj2.Descriptor.Equals(second.Descriptor) 
-                && c.Type == GCMConstraintType.GCM_PERPENDICULAR);
+                c.Obj1.Descriptor.Equals(first.Descriptor)
+                && c.Obj2.Descriptor.Equals(second.Descriptor)
+                && c.Type == GCMConstraintType.GCM_PERPENDICULAR
+                || c.Obj1.Descriptor.Equals(second.Descriptor)
+                && c.Obj2.Descriptor.Equals(first.Descriptor)
+                && c.Type == GCMConstraintType.GCM_DISTANCE);
 
             if (co != null) return co;
 
@@ -651,8 +665,11 @@ namespace UnityC3D
         private GCMConstraint SetDistance(GCMObject first, GCMObject second, float distance, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor) 
-                && c.Obj2.Descriptor.Equals(second.Descriptor) 
+                c.Obj1.Descriptor.Equals(first.Descriptor)
+                && c.Obj2.Descriptor.Equals(second.Descriptor)
+                && c.Type == GCMConstraintType.GCM_DISTANCE
+                || c.Obj1.Descriptor.Equals(second.Descriptor)
+                && c.Obj2.Descriptor.Equals(first.Descriptor)
                 && c.Type == GCMConstraintType.GCM_DISTANCE);
 
             if (co == null)
@@ -676,8 +693,11 @@ namespace UnityC3D
         private GCMConstraint SetAngle(GCMObject first, GCMObject second, float angle)
         {
             var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor) 
-                && c.Obj2.Descriptor.Equals(second.Descriptor) 
+                c.Obj1.Descriptor.Equals(first.Descriptor)
+                && c.Obj2.Descriptor.Equals(second.Descriptor)
+                && c.Type == GCMConstraintType.GCM_ANGLE
+                || c.Obj1.Descriptor.Equals(second.Descriptor)
+                && c.Obj2.Descriptor.Equals(first.Descriptor)
                 && c.Type == GCMConstraintType.GCM_ANGLE);
 
             if (co == null)
@@ -850,6 +870,13 @@ namespace UnityC3D
         private static extern void GCM_FreeGeom(IntPtr gSys, GCMDescriptor g);
 
 #if UNITY_EDITOR_64
+        [DllImport("c3d", EntryPoint = "?GCM_EvaluationResult@@YA?AW4GCM_result@@PEAVMtGeomSolver@@UMtObjectId@@@Z")]
+#else
+        [DllImport("c3d", EntryPoint = "?GCM_EvaluationResult@@YA?AW4GCM_result@@PAVMtGeomSolver@@UMtObjectId@@@Z")]
+#endif
+        private static extern GCMResult GCM_EvaluationResult(IntPtr gSys, GCMDescriptor g);
+
+#if UNITY_EDITOR_64
         [DllImport("c3d",
             EntryPoint =
                 "?GCM_AddBinConstraint@@YA?AUMtObjectId@@PEAVMtGeomSolver@@W4GCM_c_type@@U1@2W4GCM_alignment@@W4GCM_tan_choice@@@Z")]
@@ -887,6 +914,13 @@ namespace UnityC3D
  "?GCM_ChangeDrivingDimension@@YA?AW4GCM_result@@PAVMtGeomSolver@@UMtObjectId@@N@Z")]
 #endif
         private static extern GCMResult GCM_ChangeDrivingDimension(IntPtr gSys, GCMDescriptor c, double value);
+
+#if UNITY_EDITOR_64
+        [DllImport("c3d", EntryPoint = "?GCM_SetJournal@@YA_NPEAVMtGeomSolver@@PEBD@Z")]
+#else
+        [DllImport("c3d", EntryPoint = "?GCM_SetJournal@@YA_NPAVMtGeomSolver@@PBD@Z")]
+#endif
+        private static extern bool GCM_SetJournal(IntPtr gSys, string filename);
 
         #endregion
     }

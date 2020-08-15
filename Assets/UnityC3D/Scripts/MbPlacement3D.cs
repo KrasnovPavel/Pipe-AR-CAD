@@ -76,7 +76,7 @@ namespace UnityC3D
 
         /// <summary> Создаёт размещение из Transform. </summary>
         /// <param name="tr"> Исходный Transform. </param>
-        /// <returns></returns>
+        /// <returns> Новое размещение. </returns>
         public static MbPlacement3D FromUnity(Transform tr)
         {
             return new MbPlacement3D
@@ -85,6 +85,32 @@ namespace UnityC3D
                 _axisX = MbVector3D.FromUnity(tr.right),
                 _axisY = MbVector3D.FromUnity(tr.up),
                 _axisZ = MbVector3D.FromUnity(-tr.forward),
+            };
+        }
+
+        /// <summary> Создаёт размещение из позиции начала координат и координатных векторов для правосторонней системы координат. </summary>
+        /// <returns> Новое размещение </returns>
+        public static MbPlacement3D FromRightCS(Vector3 origin, Vector3 axisX, Vector3 axisY, Vector3 axisZ)
+        {
+            return new MbPlacement3D
+            {
+                _origin = MbVector3D.FromUnity(origin),
+                _axisX = MbVector3D.FromUnity(axisX),
+                _axisY = MbVector3D.FromUnity(axisY),
+                _axisZ = MbVector3D.FromUnity(axisZ),
+            };
+        }
+
+        /// <summary> Создаёт размещение из позиции начала координат и координатных векторов для левосторонней системы координат. </summary>
+        /// <returns> Новое размещение </returns>
+        public static MbPlacement3D FromLeftCS(Vector3 origin, Vector3 axisX, Vector3 axisY, Vector3 axisZ)
+        {
+            return new MbPlacement3D
+            {
+                _origin = MbVector3D.FromUnity(origin),
+                _axisX = MbVector3D.FromUnity(axisX),
+                _axisY = MbVector3D.FromUnity(axisY),
+                _axisZ = MbVector3D.FromUnity(-axisZ),
             };
         }
 

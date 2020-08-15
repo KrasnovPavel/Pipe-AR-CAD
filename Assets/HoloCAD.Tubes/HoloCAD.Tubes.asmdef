@@ -3,7 +3,9 @@
     "references": [
         "HoloCore",
         "Microsoft.MixedReality.Toolkit",
-        "MathExtensions"
+        "MathExtensions",
+        "UnityC3D",
+        "HoloTest"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

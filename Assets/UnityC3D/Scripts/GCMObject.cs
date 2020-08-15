@@ -136,6 +136,15 @@ namespace UnityC3D
         {
         }
         
+        /// <summary> Конструктор. </summary>
+        /// <param name="sys"> Система геометрических ограничений. </param>
+        /// <param name="placement"> Размещение объекта в C3D. </param>
+        /// <param name="parent"> Родительская система координат. </param>
+        public GCM_LCS(GCMSystem sys, MbPlacement3D placement, GCM_LCS parent = null)
+            : base(sys, sys.AddLCS(placement, parent?.Descriptor), parent)
+        {
+        }
+        
         internal GCM_LCS(GCMSystem sys, GCMDescriptor desc) : base(sys, desc)
         {
         }

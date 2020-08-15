@@ -4,6 +4,7 @@
 using HoloTest;
 using MathExtensions;
 using UnityEngine;
+
 // ReSharper disable AccessToStaticMemberViaDerivedType
 
 namespace UnityC3D.Tests
@@ -11,8 +12,6 @@ namespace UnityC3D.Tests
     [HoloTestClass]
     public class ConstraintTests
     {
-        public const float Epsilon = 0.0001f;
-
         [HoloTestCase]
         public static void CoincidentPoints()
         {
@@ -37,7 +36,7 @@ namespace UnityC3D.Tests
 
                 sys.MakeCoincident(l1, l2);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(l1.Origin, l2.Origin, Epsilon);
+                Assert.AreEqual(l1.Origin, l2.Origin);
                 Assert.IsTrue(l1.Direction.IsCollinear(l2.Direction));
             }
         }
@@ -67,7 +66,7 @@ namespace UnityC3D.Tests
                 sys.MakeCoincident(pl1, pl2);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.IsTrue(pl1.Normal.IsCollinear(pl2.Normal));
-                Assert.AreEqual(pl1.Origin.ProjectOn(pl1.Normal), pl2.Origin.ProjectOn(pl1.Normal), Epsilon);
+                Assert.AreEqual(pl1.Origin.ProjectOn(pl1.Normal), pl2.Origin.ProjectOn(pl1.Normal));
             }
         }
 
@@ -81,7 +80,7 @@ namespace UnityC3D.Tests
 
                 sys.MakeCoincident(p1, pl1);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(pl1.Origin.ProjectOn(pl1.Normal), p1.Origin.ProjectOn(pl1.Normal), Epsilon);
+                Assert.AreEqual(pl1.Origin.ProjectOn(pl1.Normal), p1.Origin.ProjectOn(pl1.Normal));
             }
         }
 
@@ -110,7 +109,7 @@ namespace UnityC3D.Tests
 
                 sys.MakeCoincident(c1, c2);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(c1.Origin, c2.Origin, Epsilon);
+                Assert.AreEqual(c1.Origin, c2.Origin);
                 Assert.IsTrue(c1.Normal.IsCollinear(c2.Normal));
                 Assert.AreEqual(c1.Radius, c2.Radius);
 
@@ -132,7 +131,7 @@ namespace UnityC3D.Tests
                 sys.MakeCoincident(c1, pl1);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.IsTrue(pl1.Normal.IsCollinear(c1.Normal));
-                Assert.AreEqual(pl1.Origin.ProjectOn(pl1.Normal), c1.Origin.ProjectOn(pl1.Normal), Epsilon);
+                Assert.AreEqual(pl1.Origin.ProjectOn(pl1.Normal), c1.Origin.ProjectOn(pl1.Normal));
             }
         }
 
@@ -338,7 +337,7 @@ namespace UnityC3D.Tests
 
                 sys.SetDistance(l3, l4, 0.76f);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(GeometryUtils.DistanceLines(l3, l4), 0.76f, Epsilon);
+                Assert.AreEqual(GeometryUtils.DistanceLines(l3, l4), 0.76f);
             }
         }
 
@@ -361,7 +360,7 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var pl1 = new GCMPlane(sys, Vector3.back, Vector3.forward);
+                var pl1 = new GCMPlane(sys, Vector3.zero, Vector3.forward);
                 var pl2 = new GCMPlane(sys, Vector3.zero, Vector3.forward);
 
                 sys.SetDistance(pl1, pl2, 6.4f);
@@ -397,18 +396,18 @@ namespace UnityC3D.Tests
             using (var sys = new GCMSystem())
             {
                 var l1 = new GCMLine(sys, Vector3.one, Vector3.forward);
-                var pl1 = new GCMPlane(sys, Vector3.back, Vector3.forward);
+                var pl1 = new GCMPlane(sys, Vector3.one, Vector3.left);
 
                 sys.SetDistance(l1, pl1, 10);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(GeometryUtils.DistanceLinePlane(l1, pl1), 10, Epsilon);
+                Assert.AreEqual(GeometryUtils.DistanceLinePlane(l1, pl1), 10);
                 
                 var l2 = new GCMLine(sys, Vector3.one, Vector3.up);
                 var pl2 = new GCMPlane(sys, Vector3.back, Vector3.forward);
 
                 sys.SetDistance(l2, pl2, 14.51f);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(GeometryUtils.DistanceLinePlane(l2, pl2), 14.51f, Epsilon);
+                Assert.AreEqual(GeometryUtils.DistanceLinePlane(l2, pl2), 14.51f);
             }
         }
 
@@ -422,11 +421,11 @@ namespace UnityC3D.Tests
 
                 sys.SetDistance(l1, pl1, 10);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(GeometryUtils.DistanceLinePlane(l1, pl1), 10, Epsilon);
+                Assert.AreEqual(GeometryUtils.DistanceLinePlane(l1, pl1), 10);
 
                 sys.SetDistance(l1, pl1, 35.2f);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(GeometryUtils.DistanceLinePlane(l1, pl1), 35.2f, Epsilon);
+                Assert.AreEqual(GeometryUtils.DistanceLinePlane(l1, pl1), 35.2f);
             }
         }
 
@@ -440,14 +439,14 @@ namespace UnityC3D.Tests
 
                 sys.SetAngle(l1, l2, Mathf.PI / 4);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(l1.Direction, l2.Direction), 45, Epsilon);
+                Assert.AreEqual(Vector3.Angle(l1.Direction, l2.Direction), 45);
                 
                 var l3 = new GCMLine(sys, Vector3.back, Vector3.forward);
                 var l4 = new GCMLine(sys, Vector3.one, Vector3.up);
 
                 sys.SetAngle(l3, l4, 2 * Mathf.PI / 3);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(l3.Direction, l4.Direction), 120, Epsilon);
+                Assert.AreEqual(Vector3.Angle(l3.Direction, l4.Direction), 120);
             }
         }
 
@@ -461,7 +460,7 @@ namespace UnityC3D.Tests
 
                 sys.SetAngle(pl1, pl2, Mathf.PI / 4);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(pl1.Normal, pl2.Normal), 45, Epsilon);
+                Assert.AreEqual(Vector3.Angle(pl1.Normal, pl2.Normal), 45);
             }
         }
 
@@ -475,7 +474,7 @@ namespace UnityC3D.Tests
 
                 sys.SetAngle(l1, pl2, Mathf.PI / 3);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(l1.Direction, pl2.Normal), 30, Epsilon);
+                Assert.AreEqual(Vector3.Angle(l1.Direction, pl2.Normal), 30);
             }
         }
 
@@ -489,7 +488,7 @@ namespace UnityC3D.Tests
 
                 sys.SetAngle(c1, c2, Mathf.PI / 4);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(c1.Normal, c2.Normal), 45, Epsilon);
+                Assert.AreEqual(Vector3.Angle(c1.Normal, c2.Normal), 45);
             }
         }
 
@@ -503,7 +502,7 @@ namespace UnityC3D.Tests
 
                 sys.SetAngle(l1, c2, Mathf.PI / 3);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(l1.Direction, c2.Normal), 30, Epsilon);
+                Assert.AreEqual(Vector3.Angle(l1.Direction, c2.Normal), 30);
             }
         }
 
@@ -517,101 +516,7 @@ namespace UnityC3D.Tests
 
                 sys.SetAngle(pl2, c1, Mathf.PI / 4);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(c1.Normal, pl2.Normal), 45, Epsilon);
-            }
-        }
-
-        [HoloTestCase]
-        public static void AngleLCS()
-        {
-            using (var sys = new GCMSystem())
-            {
-                var g1 = new GameObject();
-                Transform t1 = GameObject.Instantiate(g1).transform;
-                t1.position = Vector3.one;
-                t1.rotation = Quaternion.Euler(Vector3.left);
-                var g2 = new GameObject();
-                Transform t2 = GameObject.Instantiate(g1).transform;
-                t2.position = Vector3.zero;
-                t2.rotation = Quaternion.Euler(Vector3.up);
-
-                var lcs1 = new GCM_LCS(sys, t1);
-                var lcs2 = new GCM_LCS(sys, t2);
-
-                sys.SetAngle(lcs1, lcs2, Mathf.PI / 4);
-                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(lcs1.Placement.AxisZ, lcs2.Placement.AxisZ), 45, Epsilon);
-
-                GameObject.Destroy(g1);
-                GameObject.Destroy(g2);
-                GameObject.Destroy(t1.gameObject);
-                GameObject.Destroy(t2.gameObject);
-            }
-        }
-
-        [HoloTestCase]
-        public static void AngleCircleLCS()
-        {
-            using (var sys = new GCMSystem())
-            {
-                var g1 = new GameObject();
-                Transform t1 = GameObject.Instantiate(g1).transform;
-                t1.position = Vector3.one;
-                t1.rotation = Quaternion.Euler(Vector3.left);
-
-                var lcs1 = new GCM_LCS(sys, t1);
-                var c1 = new GCMCircle(sys, Vector3.back, Vector3.forward, 10);
-
-                sys.SetAngle(c1, lcs1, Mathf.PI / 4);
-                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(lcs1.Placement.AxisZ, c1.Normal), 45, Epsilon);
-
-                GameObject.Destroy(g1);
-                GameObject.Destroy(t1.gameObject);
-            }
-        }
-
-        [HoloTestCase]
-        public static void AngleLineLCS()
-        {
-            using (var sys = new GCMSystem())
-            {
-                var g1 = new GameObject();
-                Transform t1 = GameObject.Instantiate(g1).transform;
-                t1.position = Vector3.one;
-                t1.rotation = Quaternion.Euler(Vector3.left);
-
-                var lcs1 = new GCM_LCS(sys, t1);
-                var l1 = new GCMLine(sys, Vector3.back, Vector3.forward);
-
-                sys.SetAngle(l1, lcs1, Mathf.PI / 4);
-                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(lcs1.Placement.AxisZ, l1.Direction), 45, Epsilon);
-
-                GameObject.Destroy(g1);
-                GameObject.Destroy(t1.gameObject);
-            }
-        }
-
-        [HoloTestCase]
-        public static void AnglePlaneLCS()
-        {
-            using (var sys = new GCMSystem())
-            {
-                var g1 = new GameObject();
-                Transform t1 = GameObject.Instantiate(g1).transform;
-                t1.position = Vector3.one;
-                t1.rotation = Quaternion.Euler(Vector3.left);
-
-                var lcs1 = new GCM_LCS(sys, t1);
-                var pl2 = new GCMPlane(sys, Vector3.one, Vector3.right);
-
-                sys.SetAngle(pl2, lcs1, Mathf.PI / 3);
-                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(lcs1.Placement.AxisZ, pl2.Normal), 30, Epsilon);
-
-                GameObject.Destroy(g1);
-                GameObject.Destroy(t1.gameObject);
+                Assert.AreEqual(Vector3.Angle(c1.Normal, pl2.Normal), 45);
             }
         }
 
@@ -625,11 +530,11 @@ namespace UnityC3D.Tests
 
                 sys.SetAngle(pl2, c1, Mathf.PI / 4);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(c1.Normal, pl2.Normal), 45, Epsilon);
+                Assert.AreEqual(Vector3.Angle(c1.Normal, pl2.Normal), 45);
 
                 sys.SetAngle(pl2, c1, Mathf.PI / 6);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(c1.Normal, pl2.Normal), 30, Epsilon);
+                Assert.AreEqual(Vector3.Angle(c1.Normal, pl2.Normal), 30);
             }
         }
 

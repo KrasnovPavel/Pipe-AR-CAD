@@ -14,12 +14,15 @@ namespace HoloTest
     /// <summary> Класс, содержащий функции проверок для тестирования. </summary>
     public static class Assert
     {
+        /// <summary> Допустимая точность при сравнении чисел с плавающей запятой. </summary>
+        public const float Epsilon = 0.0001f;
+        
         /// <summary> Проверяет равенство двух чисел с плавающей запятой. </summary>
         /// <param name="first"> Первое число. </param>
         /// <param name="second"> Второе число. </param>
         /// <param name="eps"> Точность проверки. </param>
         /// <exception cref="AssertFailedException"> Тест провален. </exception>
-        public static void AreEqual(float first, float second, float eps = float.Epsilon)
+        public static void AreEqual(float first, float second, float eps = Epsilon)
         {
             if (Math.Abs(first - second) > eps)
             {
@@ -32,7 +35,7 @@ namespace HoloTest
         /// <param name="second"> Второе число. </param>
         /// <param name="eps"> Точность проверки. </param>
         /// <exception cref="AssertFailedException"> Тест провален. </exception>
-        public static void AreEqual(Vector3 first, Vector3 second, float eps = float.Epsilon)
+        public static void AreEqual(Vector3 first, Vector3 second, float eps = Epsilon)
         {
             if (!first.FloatEquals(second, eps))
             {
@@ -81,7 +84,7 @@ namespace HoloTest
         /// <param name="second"> Второе число. </param>
         /// <param name="eps"> Точность проверки. </param>
         /// <exception cref="AssertFailedException"> Тест провален. </exception>
-        public static void AreNotEqual(float first, float second, float eps = float.Epsilon)
+        public static void AreNotEqual(float first, float second, float eps = Epsilon)
         {
             if (Math.Abs(first - second) < eps)
             {
@@ -130,7 +133,7 @@ namespace HoloTest
         /// <param name="second"> Второе число. </param>
         /// <param name="eps"> Точность проверки. </param>
         /// <exception cref="AssertFailedException"> Тест провален. </exception>
-        public static void AreNotEqual(Vector3 first, Vector3 second, float eps = float.Epsilon)
+        public static void AreNotEqual(Vector3 first, Vector3 second, float eps = Epsilon)
         {
             if (first.FloatEquals(second, eps))
             {
