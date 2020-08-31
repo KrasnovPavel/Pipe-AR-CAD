@@ -24,13 +24,18 @@ namespace HoloCAD.Tubes.C3D
                 Sys.Evaluate();
                 OnPropertyChanged();
             }
+            // get;
+            // set;
         }
 
         /// <summary> Окружность на конце отрезка. </summary>
         public readonly GCMCircle EndCircle;
-
+        
         /// <summary> Плоскость канца отрезка. </summary>
         public readonly GCMPlane EndPlane;
+
+        public readonly GCMLine RightAxis;
+
 
         /// <summary> Предыдущий отрезок. </summary>
         public readonly TubeFragment Parent;
@@ -39,43 +44,46 @@ namespace HoloCAD.Tubes.C3D
         public Action Disposed;
 
         /// <summary> Размещение отрезка. </summary>
-        public MbPlacement3D Placement
-        {
-            get => MainLCS.Placement;
-            set
-            {
-                MainLCS.Placement = value;
-                Sys.Evaluate();
-            }
-        }
+        // public virtual MbPlacement3D Placement => MainLCS.Placement;
 
         /// <summary> Конструктор. </summary>
         /// <param name="sys"> Система C3D. </param>
         /// <param name="diameter"> Диаметр отрезка. </param>
         /// <param name="parent"> Предыдущий отрезок. </param>
-        protected TubeFragment(GCMSystem sys, float diameter, TubeFragment parent)
+        protected TubeFragment(GCMSystem sys, float diameter, TubeFragment parent, bool useLCS = false)
         {
             Sys = sys;
-            MainLCS = new GCM_LCS(Sys,
-                MbPlacement3D.FromLeftCS(Vector3.zero, Vector3.right, Vector3.up, Vector3.forward), sys.GroundLCS);
-            EndCircle = new GCMCircle(sys, Vector3.zero, -Vector3.forward, diameter / 2, MainLCS);
-            EndPlane = new GCMPlane(sys, Vector3.zero, -Vector3.forward, MainLCS);
+            if (useLCS) MainLCS = new GCM_LCS(Sys, sys.GroundLCS.Placement, sys.GroundLCS);
+            
+            EndCircle = new GCMCircle(sys, Vector3.zero, -Vector3.forward, diameter / 2, useLCS ? MainLCS : null);
+            EndPlane = new GCMPlane(sys, Vector3.zero, -Vector3.forward, useLCS ? MainLCS : null);
+            RightAxis = new GCMLine(sys, Vector3.zero, Vector3.right, useLCS ? MainLCS : null);
+
+            sys.MakeCoincident(EndCircle, EndPlane);
+            sys.MakeCoincident(RightAxis, EndPlane);
+            
             Parent = parent;
 
-            MainLCS.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
-            {
-                if (args.PropertyName == nameof(GCM_LCS.Placement)) OnPropertyChanged(nameof(Placement));
-            };
+            // MainLCS.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+            // {
+            //     if (args.PropertyName == nameof(GCM_LCS.Placement)) OnPropertyChanged(nameof(Placement));
+            // };
 
             Sys.Evaluate();
         }
 
         public virtual void Dispose()
         {
+            
             EndPlane?.Dispose();
             EndCircle?.Dispose();
             MainLCS?.Dispose();
             Disposed?.Invoke();
+        }
+
+        public virtual void TestDraw(string name)
+        {
+            EndCircle.TestDraw($"{name}-EndCircle");
         }
 
         #region Protecteed definitions

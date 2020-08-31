@@ -14,16 +14,23 @@ namespace HoloCAD.Tubes.C3D
         /// <param name="diameter"> Диаметр отрезка. </param>
         /// <param name="placement"> Размещение отрезка. </param>
         public StartFragment(GCMSystem sys, float diameter, MbPlacement3D placement) 
-            : base(sys, diameter, null)
+            : base(sys, diameter, null, true)
         {
             MainLCS.Freeze();
-            EndPlane.Freeze();
             EndCircle.Freeze();
+            EndPlane.Freeze();
+            RightAxis.Freeze();
+            
             MainLCS.Placement = placement;
-            EndCircle.Placement = placement;
-            EndPlane.Placement = placement;
+            // EndCircle.Placement = placement;
+            // EndPlane.Placement = placement;
+            // EndAxis.Placement = placement;
+            // EndPoint.Placement = placement;
+            // sys.MakeCoincident(EndCircle, EndPlane, GCMAlignment.Cooriented);
+            // sys.MakeCoincident(EndPoint, EndAxis);
             Sys.Evaluate();
         }
+        
         /// <summary> Конструктор. </summary>
         /// <param name="sys"> Система C3D. </param>
         /// <param name="diameter"> Диаметр отрезка. </param>
@@ -32,6 +39,17 @@ namespace HoloCAD.Tubes.C3D
             : this (sys, diameter, MbPlacement3D.FromUnity(transform))
         {
             // Do nothing
+        }
+
+        /// <summary> Устанавливает расположение данного фланца </summary>
+        /// <param name="placement"> Новое расположение. </param>
+        public void SetPlacement(MbPlacement3D placement)
+        {
+            // MainLCS.Placement = placement;
+            // EndCircle.Placement = placement;
+            // EndCircle.Origin = placement.Origin;
+            // EndCircle.Normal = placement.AxisZ;
+            Sys.Evaluate();
         }
     }
 }

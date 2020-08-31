@@ -13,7 +13,7 @@ namespace MathExtensions
         /// <param name="lineOrigin"> Точка на прямой. </param>
         /// <param name="lineDirection"> Направляющий вектор прямой. </param>
         /// <returns></returns>
-        public static float DistanceLinePoint(Vector3 point, Vector3 lineOrigin, Vector3 lineDirection)
+        public static float DistancePointLine(Vector3 point, Vector3 lineOrigin, Vector3 lineDirection)
         {
             var originToPoint = point - lineOrigin;
             return (float)Math.Sin(Vector3.Angle(originToPoint, lineDirection) / 180f * Math.PI) * originToPoint.magnitude;
@@ -30,7 +30,7 @@ namespace MathExtensions
         {
             if (l1Direction.IsCollinear(l2Direction))
             {
-                return DistanceLinePoint(l1Origin, l2Origin, l2Direction);
+                return DistancePointLine(l1Origin, l2Origin, l2Direction);
             }
 
             return DistancePointPlane(l1Origin, l2Origin, Vector3.Cross(l1Direction, l2Direction));

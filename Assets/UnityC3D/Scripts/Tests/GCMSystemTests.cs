@@ -3,6 +3,8 @@
 
 using HoloTest;
 using UnityEngine;
+using UnityEngine.Experimental.PlayerLoop;
+
 // ReSharper disable AccessToStaticMemberViaDerivedType
 
 namespace UnityC3D.Tests
@@ -130,6 +132,12 @@ namespace UnityC3D.Tests
                 circle.Radius = newRadius;
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.AreEqual(circle.Radius, newRadius);
+                
+                circle.Origin = -Vector3.one;
+                circle.Normal = Vector3.one;
+                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
+                Assert.AreEqual(circle.Origin, -Vector3.one);
+                Assert.AreEqual(circle.Normal, Vector3.one.normalized);
             }
         }
 
@@ -180,6 +188,7 @@ namespace UnityC3D.Tests
                 Assert.IsNull(lcs.Parent);
                 
                 var p = new GCMPoint(sys, Vector3.down, lcs);
+                Assert.AreEqual(lcs.Descriptor, sys.GetParent(p));
                 Assert.AreEqual(p.Parent, lcs);
                 Assert.AreEqual(p.Origin, lcs.Origin + Vector3.down);
                 

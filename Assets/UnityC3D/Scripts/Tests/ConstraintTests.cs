@@ -4,6 +4,7 @@
 using HoloTest;
 using MathExtensions;
 using UnityEngine;
+using UnityEngine.UI;
 
 // ReSharper disable AccessToStaticMemberViaDerivedType
 
@@ -178,7 +179,7 @@ namespace UnityC3D.Tests
                 sys.MakeCoincident(p1, lcs1);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.AreEqual(p1.Origin, lcs1.Origin);
-                
+
                 GameObject.Destroy(g1);
                 GameObject.Destroy(t1.gameObject);
             }
@@ -305,7 +306,7 @@ namespace UnityC3D.Tests
                 Assert.IsTrue(pl1.Normal.IsCollinear(l1.Direction));
             }
         }
-        
+
         [HoloTestCase]
         public static void DistancePoints()
         {
@@ -331,7 +332,7 @@ namespace UnityC3D.Tests
                 sys.SetDistance(l1, l2, 34);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.AreEqual(GeometryUtils.DistanceLines(l1, l2), 34);
-                
+
                 var l3 = new GCMLine(sys, Vector3.back, Vector3.forward);
                 var l4 = new GCMLine(sys, Vector3.one, Vector3.up);
 
@@ -366,7 +367,7 @@ namespace UnityC3D.Tests
                 sys.SetDistance(pl1, pl2, 6.4f);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.AreEqual(GeometryUtils.DistancePlanes(pl1, pl2), 6.4f);
-                
+
                 var pl3 = new GCMPlane(sys, Vector3.one, Vector3.up);
                 var pl4 = new GCMPlane(sys, Vector3.zero, Vector3.forward);
 
@@ -401,7 +402,7 @@ namespace UnityC3D.Tests
                 sys.SetDistance(l1, pl1, 10);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.AreEqual(GeometryUtils.DistanceLinePlane(l1, pl1), 10);
-                
+
                 var l2 = new GCMLine(sys, Vector3.one, Vector3.up);
                 var pl2 = new GCMPlane(sys, Vector3.back, Vector3.forward);
 
@@ -434,19 +435,13 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
+                sys.SetJournal();
                 var l1 = new GCMLine(sys, Vector3.back, Vector3.forward);
                 var l2 = new GCMLine(sys, Vector3.back, Vector3.up);
 
                 sys.SetAngle(l1, l2, Mathf.PI / 4);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.AreEqual(Vector3.Angle(l1.Direction, l2.Direction), 45);
-                
-                var l3 = new GCMLine(sys, Vector3.back, Vector3.forward);
-                var l4 = new GCMLine(sys, Vector3.one, Vector3.up);
-
-                sys.SetAngle(l3, l4, 2 * Mathf.PI / 3);
-                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(Vector3.Angle(l3.Direction, l4.Direction), 120);
             }
         }
 
@@ -557,6 +552,58 @@ namespace UnityC3D.Tests
                 pl1.Normal = Vector3.forward;
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.IsFalse(pl1.Normal.IsCollinear(pl2.Normal));
+            }
+        }
+
+        [HoloTestCase]
+        public static void AngularPattern()
+        {
+            using (var sys = new GCMSystem())
+            {
+                sys.SetJournal();
+                var axis = new GCMLine(sys, Vector3.zero, Vector3.up);
+                var sample = new GCMCircle(sys, Vector3.right, Vector3.forward, 1);
+                var pattern = sys.AddAngularPattern(sample, axis, GCMAlignment.NoAlignment);
+                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
+
+                var circle = new GCMCircle(sys, Vector3.forward, Vector3.forward, 1);
+                sys.AddObjectToPattern(pattern, circle, Mathf.Deg2Rad * 90, GCMAlignment.Rotated, GCMScale.GCM_RIGID);
+
+                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
+                Assert.IsTrue(sample.Normal.IsPerpendicular(circle.Normal));
+                Assert.AreEqual((axis.Origin - sample.Origin).magnitude, (axis.Origin - circle.Origin).magnitude);
+                Assert.IsTrue((axis.Origin - sample.Origin).IsPerpendicular(axis.Origin - circle.Origin));
+            }
+        }
+        
+        [HoloTestCase]
+        public static void TangentCircles()
+        {
+            using (var sys = new GCMSystem())
+            {
+                var c1 = new GCMCircle(sys, Vector3.zero, Vector3.back, 5.0f);
+                var c2 = new GCMCircle(sys, Vector3.back, Vector3.down, 0.1f);
+
+                sys.MakeTangent(c1, c2, GCMAlignment.Closest, GCMTanChoice.GCM_TAN_POINT);
+                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
+                Assert.AreEqual((c1.Origin - c2.Origin).magnitude, c1.Radius + c2.Radius);
+                Assert.IsTrue(c1.Normal.IsCollinear(c2.Normal));
+            }
+        }
+
+        [HoloTestCase]
+        public static void TangentCircleLine()
+        {
+            using (var sys = new GCMSystem())
+            {
+                sys.SetJournal();
+                var c1 = new GCMCircle(sys, Vector3.zero, Vector3.back, 5.0f);
+                var l1 = new GCMLine(sys, Vector3.up, Vector3.left);
+
+                sys.MakeTangent(c1, l1, GCMAlignment.NoAlignment, GCMTanChoice.GCM_TAN_NONE);
+                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
+                Assert.AreEqual(Geometry.DistancePointLine(c1.Origin, l1.Origin, l1.Direction), c1.Radius);
+                Assert.IsTrue(c1.Normal.IsPerpendicular(l1.Direction));
             }
         }
     }

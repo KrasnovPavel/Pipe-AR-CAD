@@ -13,19 +13,20 @@ namespace HoloCAD.Tubes.C3D
         /// <summary> Длина отрезка. </summary>
         public float Length
         {
-            get => (_startCircle.Origin - EndCircle.Origin).magnitude;
+            get => (StartCircle.Origin - EndCircle.Origin).magnitude;
             set
             {
                 if (Math.Abs(Length - value) < float.Epsilon) return;
-
+            
                 Sys.SetDistance(EndPlane, _startPlane, value, GCMAlignment.Cooriented);
                 Sys.Evaluate();
                 OnPropertyChanged();
             }
+            // get;
+            // set;
         }
 
-        /// <summary> Диаметр отрезка трубы. </summary>
-        /// <exception cref="FragmentsNotConnectable"></exception>
+        /// <inheritdoc />
         public override float Diameter
         {
             get => EndCircle.Radius * 2;
@@ -37,9 +38,9 @@ namespace HoloCAD.Tubes.C3D
                 {
                     throw new FragmentsNotConnectable();
                 }
-
+        
                 EndCircle.Radius = value / 2;
-                _startCircle.Radius = value / 2;
+                StartCircle.Radius = value / 2;
                 Sys.Evaluate();
                 OnPropertyChanged();
             }
@@ -52,30 +53,36 @@ namespace HoloCAD.Tubes.C3D
         /// <param name="length"> Длина отрезка </param>
         /// <exception cref="FragmentsNotConnectable"></exception>
         public DirectTubeFragment(GCMSystem sys, TubeFragment parent, float diameter, float length) 
-            : base(sys, diameter, parent)
+            : base(sys, diameter, parent, true)
         {
             if (parent != null && Math.Abs(parent.Diameter - diameter) > float.Epsilon)
             {
                 throw new FragmentsNotConnectable();
             }
-
-            _startCircle = new GCMCircle(sys, Vector3.zero, -Vector3.forward, diameter / 2, MainLCS);
-            _startCircle.Freeze();
+            
+            StartCircle = new GCMCircle(sys, Vector3.zero, -Vector3.forward, diameter / 2, MainLCS);
+            StartCircle.Freeze();
             _axis = new GCMLine(sys, Vector3.zero, -Vector3.forward, MainLCS);
             _axis.Freeze();
             _startPlane = new GCMPlane(sys, Vector3.zero, -Vector3.forward, MainLCS);
             _startPlane.Freeze();
+            _startRightAxis = new GCMLine(sys, Vector3.zero, Vector3.right, MainLCS);
+            _startRightAxis.Freeze();
             
             sys.MakeParallel(EndPlane, _startPlane, GCMAlignment.Cooriented);
             sys.MakeConcentric(EndCircle, _axis);
+            sys.MakeConcentric(StartCircle, _axis);
             sys.MakeCoincident(EndCircle, EndPlane, GCMAlignment.Cooriented);
+            sys.MakeCoincident(StartCircle, _startPlane, GCMAlignment.Cooriented);
+            sys.MakePerpendicular(_axis, _startPlane);
+            sys.MakeParallel(_startRightAxis, RightAxis);
 
             Length = length;
             
             if (parent != null)
             {
                 sys.MakeCoincident(parent.EndPlane, _startPlane, GCMAlignment.Cooriented);
-                sys.MakeConcentric(parent.EndCircle, _startCircle, GCMAlignment.Cooriented);
+                sys.MakeConcentric(parent.EndCircle, StartCircle, GCMAlignment.Cooriented);
             }
 
             sys.Evaluate();
@@ -86,15 +93,24 @@ namespace HoloCAD.Tubes.C3D
         {
             _axis?.Dispose();
             _startPlane?.Dispose();
-            _startCircle?.Dispose();
+            StartCircle?.Dispose();
             base.Dispose();
+        }
+
+        public override void TestDraw(string name)
+        {
+            base.TestDraw(name);
+            _axis.TestDraw($"{name}-_axis");
+            StartCircle.TestDraw($"{name}-StartCircle");
         }
 
         #region Private definitions
 
+        // public readonly GCMPoint StartPoint;
         private readonly GCMLine _axis;
         private readonly GCMPlane _startPlane;
-        private readonly GCMCircle _startCircle;
+        private readonly GCMLine _startRightAxis;
+        public readonly GCMCircle StartCircle;
         private GCMConstraint _lengthConstraint;
         
         #endregion

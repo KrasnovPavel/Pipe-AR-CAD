@@ -10,12 +10,14 @@ namespace UnityC3D
     /// <summary> Геометрическое ограничение. </summary>
     public class GCMConstraint
     {
-        internal GCMConstraint(GCMDescriptor descriptor, GCMObject obj1, GCMObject obj2,
-            GCMConstraintType type)
+        internal GCMConstraint(GCMDescriptor descriptor,
+            GCMConstraintType type, GCMObject obj1, GCMObject obj2,
+            GCMObject obj3 = null)
         {
             Descriptor = descriptor;
             Obj1 = obj1;
             Obj2 = obj2;
+            Obj3 = obj3;
             Type = type;
         }
 
@@ -27,6 +29,9 @@ namespace UnityC3D
 
         /// <summary> Второй объект. </summary>
         public readonly GCMObject Obj2;
+
+        /// <summary> Второй объект. </summary>
+        public readonly GCMObject Obj3;
 
         /// <summary> Тип огрпничения. </summary>
         public readonly GCMConstraintType Type;
@@ -109,8 +114,14 @@ namespace UnityC3D
         /// <summary> Сонаправленные. </summary>
         Cooriented = 1,
 
-        /// <summary> Нет определенной ориентации </summary>
+        /// <summary> Нет определенной ориентации. </summary>
         NoAlignment = 2,
+        
+        /// <summary> Ротационное (вращательной) выравнивание элементов паттерна. </summary>
+        Rotated   = 9,
+        
+        /// <summary> Выровнять с объектом, задающим ось. </summary>
+        AlignWithAxialGeom = 10,
     }
 
     /// <summary> Варианты касания поверхностей или кривых.  </summary>
@@ -134,5 +145,17 @@ namespace UnityC3D
 
         /// <summary> Касание по окружности (например сфера в конусе). </summary>
         GCM_TAN_CIRCLE = 0x04
+    }
+
+    /// <summary> Тип связи между элементами в паттерне. </summary>
+    public enum GCMScale
+    {
+        GCM_NO_SCALE = 0,
+        
+        /// <summary> Шаг между элементами константен. Паттерн не масштабируется (не растягивается). </summary>
+        GCM_RIGID = 1,
+        
+        /// <summary> Шаг между элементами линейно масштабируется при растяжениях. </summary>
+        GCM_LINEAR_SCALE = 2
     }
 }

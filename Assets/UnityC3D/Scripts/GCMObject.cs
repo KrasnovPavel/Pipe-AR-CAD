@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
@@ -49,6 +50,23 @@ namespace UnityC3D
                 OnPropertyChanged();
             }
         }
+
+        protected override void UpdatePlacement()
+        {
+            var oldNormal = Direction;
+            base.UpdatePlacement();
+            if (!oldNormal.FloatEquals(Direction))
+            {
+                OnPropertyChanged(nameof(Direction));
+            }
+        }
+
+        public override void TestDraw(string name)
+        {
+            base.TestDraw(name);
+            var lineRenderer = DrawObject.GetComponent<LineRenderer>();
+            lineRenderer.SetPosition(1, Vector3.forward);
+        }
     }
 
     /// <summary> Плоскость в системе C3D. </summary>
@@ -77,6 +95,16 @@ namespace UnityC3D
                 OnPropertyChanged();
             }
         }
+
+        protected override void UpdatePlacement()
+        {
+            var oldNormal = Normal;
+            base.UpdatePlacement();
+            if (!oldNormal.FloatEquals(Normal))
+            {
+                OnPropertyChanged(nameof(Normal));
+            }
+        }
     }
 
     /// <summary> Окружность в системе C3D. </summary>
@@ -93,7 +121,6 @@ namespace UnityC3D
         {
             RadiusConstraint = sys.CreateRadiusConstraint(this);
             Radius = radius;
-            sys.Evaluated += delegate { OnPropertyChanged(nameof(Normal)); };
         }
         
         /// <summary> Радиус окружности. </summary>
@@ -118,6 +145,36 @@ namespace UnityC3D
                 Placement = p;
                 OnPropertyChanged();
             }
+        }
+
+        protected override void UpdatePlacement()
+        {
+            var oldNormal = Normal;
+            base.UpdatePlacement();
+            if (!oldNormal.FloatEquals(Normal))
+            {
+                OnPropertyChanged(nameof(Normal));
+            }
+        }
+
+        public override void TestDraw(string name)
+        {
+            base.TestDraw(name);
+            if (DrawObject == null) return;
+
+            var lineRenderer = DrawObject.GetComponent<LineRenderer>();
+            lineRenderer.endWidth = Radius / 3;
+            lineRenderer.startWidth = Radius / 3;
+            lineRenderer.loop = true;
+
+            var numberOfPoints = 15;
+            lineRenderer.positionCount = numberOfPoints;
+            Vector3[] points = new Vector3[numberOfPoints];
+            for (int i = 0; i < numberOfPoints; i++)
+            {
+                points[i] =  Quaternion.AngleAxis(360 / numberOfPoints * i, Vector3.forward) * Vector3.right * Radius;
+            }
+            lineRenderer.SetPositions(points);
         }
 
         internal readonly GCMDescriptor RadiusConstraint;
@@ -159,7 +216,7 @@ namespace UnityC3D
             Descriptor = desc;
             Parent = parent;
 
-            sys.Evaluated += delegate { Placement = GCMSys.GetPlacement(this); };
+            sys.Evaluated += UpdatePlacement;
             
             if (parent != null)
             {
@@ -167,12 +224,12 @@ namespace UnityC3D
                 {
                     if (args.PropertyName == nameof(Placement))
                     {
-                        Placement = GCMSys.GetPlacement(this);
+                        UpdatePlacement();
                     }
                 };
             }
 
-            Placement = GCMSys.GetPlacement(this);
+            _placement = GCMSys.GetPlacement(this);
         }
 
         /// <summary> Координаты объекта. </summary>
@@ -203,10 +260,17 @@ namespace UnityC3D
                 OnPropertyChanged();
             }
         }
-        
+
         public void Dispose()
         {
             GCMSys.Remove(this);
+            GCMSys.Evaluated -= UpdatePlacement;
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"{GetType()}-{Descriptor}";
         }
 
         /// <summary> Заморозить объект. </summary>
@@ -219,6 +283,19 @@ namespace UnityC3D
         public void Free()
         {
             GCMSys.Free(this);
+        }
+
+        public virtual void TestDraw(string name)
+        {
+            if (DrawObject == null)
+            {
+                DrawObject = UnityEngine.Object.Instantiate(Resources.Load("DrawObject", typeof(GameObject))) as GameObject;
+            }
+            
+            if (DrawObject == null) return;
+
+            DrawObject.name = name;
+            Placement.Apply(DrawObject.transform);
         }
 
         protected bool Equals(GCMObject other)
@@ -243,12 +320,29 @@ namespace UnityC3D
                 return (Descriptor.GetHashCode() * 397) ^ (GCMSys != null ? GCMSys.GetHashCode() : 0);
             }
         }
+
+        protected virtual void UpdatePlacement()
+        {
+            var newPlacement = GCMSys.GetPlacement(this);
+            var oldOrigin = Origin;
+            if (!newPlacement.Equals(Placement))
+            {
+                _placement = newPlacement;
+                OnPropertyChanged(nameof(Placement));
+            }
+
+            if (!oldOrigin.FloatEquals(Origin))
+            {
+                OnPropertyChanged(nameof(Origin));
+            }
+        }
         
         /// <summary> Родительская система координат объекта. </summary>
         public readonly GCMObject Parent;
 
         internal readonly GCMDescriptor Descriptor;
         protected readonly GCMSystem GCMSys;
+        [CanBeNull] protected GameObject DrawObject;
 
         #region INotifyPropertyChanged
         

@@ -68,10 +68,8 @@ namespace UnityC3D
         /// <param name="tr"></param>
         public void Apply(Transform tr)
         {
-            tr.forward = AxisZ;
-            tr.right = AxisX;
-            tr.up = AxisY;
             tr.position = Origin;
+            tr.LookAt(Origin + AxisZ, AxisY);
         }
 
         /// <summary> Создаёт размещение из Transform. </summary>

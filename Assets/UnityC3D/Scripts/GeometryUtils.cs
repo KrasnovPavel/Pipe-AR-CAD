@@ -13,7 +13,7 @@ namespace UnityC3D
         /// <returns></returns>
         public static float DistanceLinePoint(GCMPoint point, GCMLine line)
         {
-            return Geometry.DistanceLinePoint(point.Origin, line.Origin, line.Direction);
+            return Geometry.DistancePointLine(point.Origin, line.Origin, line.Direction);
         }
 
         /// <summary> Возвращает расстояние между двумя прямыми. </summary>

@@ -41,4 +41,18 @@ namespace UnityC3D
             return $"{id}";
         }
     }
+    
+    public class GCMPattern
+    {
+        internal GCMPattern(GCMDescriptor descriptor, GCMObject sample, GCMObject axialObject)
+        {
+            Descriptor = descriptor;
+            Sample = sample;
+            AxialObject = axialObject;
+        }
+        
+        internal readonly GCMDescriptor Descriptor;
+        internal readonly GCMObject Sample;
+        internal readonly GCMObject AxialObject;
+    }
 }

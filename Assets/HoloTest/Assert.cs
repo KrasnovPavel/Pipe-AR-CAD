@@ -39,7 +39,7 @@ namespace HoloTest
         {
             if (!first.FloatEquals(second, eps))
             {
-                throw new AssertFailedException($"AreEqual({first}, {second}, eps={eps})");
+                throw new AssertFailedException($"AreEqual(({first.x:f3}, {first.y:f3}, {first.z:f3}), ({second.x:f3}, {second.y:f3}, {second.z:f3}), eps={eps})");
             }
         }
 
@@ -137,7 +137,7 @@ namespace HoloTest
         {
             if (first.FloatEquals(second, eps))
             {
-                throw new AssertFailedException($"AreNotEqual({first}, {second}, eps={eps})");
+                throw new AssertFailedException($"AreNotEqual(({first.x:f3}, {first.y:f3}, {first.z:f3}), ({second.x:f3}, {second.y:f3}, {second.z:f3}), eps={eps})");
             }
         }
 
