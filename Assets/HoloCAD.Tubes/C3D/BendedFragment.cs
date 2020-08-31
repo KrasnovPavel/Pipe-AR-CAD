@@ -33,6 +33,7 @@ namespace HoloCAD.Tubes.C3D
             
             _startRightAxis = new GCMLine(sys, Vector3.zero, Vector3.right);
             _rightPoint = new GCMPoint(sys, Vector3.right * bendRadius);
+            sys.MakeCoincident(_startRightAxis, _startPlane);
             sys.MakeCoincident(_rightPoint, _startRightAxis);
             sys.MakeCoincident(_startPoint, _startRightAxis);
             
@@ -40,21 +41,24 @@ namespace HoloCAD.Tubes.C3D
             sys.SetDistance(_startPoint, _pivot, bendRadius);
             sys.MakeCoincident(_pivot, _startPlane);
             // sys.MakeCoincident(_pivot, RightAxis);
-
-            sys.SetAngle(_rightPoint, _pivot, _axis, rotation * Mathf.Deg2Rad);
+            _pivotAxis = new GCMLine(sys, Vector3.zero, Vector3.right);
+            sys.MakeCoincident(_pivot, _pivotAxis);
+            sys.MakeCoincident(_startPoint, _pivotAxis);
+            
+            sys.SetAngle(_startRightAxis, _pivotAxis, _axis, rotation * Mathf.Deg2Rad);
 
             _bendCircle = new GCMCircle(sys, Vector3.right * bendRadius, Vector3.up, bendRadius);
             _bendPlane = new GCMPlane(sys, Vector3.right * bendRadius, Vector3.up);
             sys.MakeCoincident(_bendCircle, _bendPlane);
             sys.MakeCoincident(_axis, _bendPlane);
-            // sys.MakeConcentric(_bendCircle, _pivot);
+            sys.MakeConcentric(_bendCircle, _pivot);
             
             // _rotationPattern = sys.AddAngularPattern(_rightPoint, _rotationCircle, GCMAlignment.Cooriented);
             // sys.AddObjectToPattern(_rotationPattern, _bendCircle, Mathf.Deg2Rad * rotation, GCMAlignment.Rotated,
             //     GCMScale.GCM_RIGID);
             
             _bendPattern = sys.AddAngularPattern(StartCircle, _bendCircle, GCMAlignment.AlignWithAxialGeom);
-            sys.AddObjectToPattern(_bendPattern, EndCircle, Mathf.Deg2Rad * -bendAngle, GCMAlignment.Rotated, GCMScale.GCM_RIGID);
+            sys.AddObjectToPattern(_bendPattern, EndCircle, Mathf.Deg2Rad * bendAngle, GCMAlignment.Rotated, GCMScale.GCM_RIGID);
             
 
             if (parent != null)
@@ -154,9 +158,11 @@ namespace HoloCAD.Tubes.C3D
         {
             base.TestDraw(name);
             StartCircle.TestDraw($"{name}-StartCircle");
-            // _pivot.TestDraw($"{name}-_pivot");
+            _pivot.TestDraw($"{name}-_pivot");
             _bendCircle.TestDraw($"{name}-_bendCircle");
-            // _rightPoint.TestDraw($"{name}-_right");
+            _rightPoint.TestDraw($"{name}-_right");
+            _startRightAxis.TestDraw($"{name}-_startRightAxis");
+            _pivotAxis.TestDraw($"{name}-_pivotAxis");
             // _rotationCircle.TestDraw($"{name}-_rotationCircle");
             _axis.TestDraw($"{name}-_axis");
         }
@@ -175,6 +181,7 @@ namespace HoloCAD.Tubes.C3D
         private readonly GCMLine _axis;
         private readonly GCMPlane _bendPlane;
         private readonly GCMLine _startRightAxis;
+        private readonly GCMLine _pivotAxis;
 
         // private readonly GCMPoint _endPoint;
         // private readonly GCMPlane _rotationPlane;
