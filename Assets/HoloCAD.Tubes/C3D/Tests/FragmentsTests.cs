@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using HoloTest;
+using MathExtensions;
 using UnityC3D;
 using UnityEngine;
 
@@ -101,26 +102,11 @@ namespace HoloCAD.Tubes.C3D.Tests
         private static Vector3 GetBendedEndPoint(float bendRadius, float bendAngle, float rotationAngle)
         {
             return new
-                Vector3(bendRadius * (1 - Mathf.Cos(Mathf.Deg2Rad * bendAngle)) * Mathf.Cos(Mathf.Deg2Rad * rotationAngle),
-                        bendRadius * (1 - Mathf.Cos(Mathf.Deg2Rad * bendAngle)) *
-                        Mathf.Sin(Mathf.Deg2Rad * rotationAngle),
-                        -bendRadius * Mathf.Sin(Mathf.Deg2Rad * bendAngle));
-        }
-
-        private static float GetBendedDistance(float bendRadius, float bendAngle)
-        {
-            int intAngle = (int) bendAngle;
-            if (intAngle % 90 == 0)
-            {
-                if (intAngle % 180 == 0)
-                {
-                    return bendRadius * 2;
-                }
-
-                return bendRadius * Mathf.Sqrt(2);
-            }
-
-            return Mathf.Sqrt(2 * bendRadius * bendRadius * (1 - Mathf.Cos(Mathf.Deg2Rad * bendAngle)));
+                Vector3(
+                    bendRadius * (1 - Mathf.Cos(Mathf.Deg2Rad * bendAngle)) * Mathf.Cos(Mathf.Deg2Rad * rotationAngle),
+                    bendRadius * (1 - Mathf.Cos(Mathf.Deg2Rad * bendAngle)) *
+                    Mathf.Sin(Mathf.Deg2Rad * rotationAngle),
+                    -bendRadius * Mathf.Sin(Mathf.Deg2Rad * bendAngle));
         }
 
         private struct AngleData
@@ -130,7 +116,7 @@ namespace HoloCAD.Tubes.C3D.Tests
 
             public override string ToString()
             {
-                return $"[bend: {bend:f1}, rotation: {rotation:f1}]";
+                return $"[bend {bend:f1}, rotation {rotation:f1}]";
             }
         }
 
@@ -139,7 +125,7 @@ namespace HoloCAD.Tubes.C3D.Tests
         {
             var diameter = 0.01f;
             var bendRadius = 0.15f;
-        
+
             var angles = new[]
             {
                 new AngleData {bend = 90f, rotation = 0f},
@@ -198,25 +184,34 @@ namespace HoloCAD.Tubes.C3D.Tests
                 new AngleData {bend = 180f, rotation = 450f},
                 new AngleData {bend = 130f, rotation = 450f},
             };
-        
+
             foreach (var angle in angles)
             {
                 yield return delegate
                 {
                     using (var sys = new GCMSystem())
                     {
-                        sys.SetJournal();
+                        sys.SetJournal($"Journals\\BendedFragmentCreation{angle.ToString()}");
                         var s = new StartFragment(sys, diameter, sys.GroundLCS.Placement);
                         var b = new BendedFragment(sys, bendRadius, angle.bend, angle.rotation, diameter, s);
-                    
-                        if (angle.rotation >= 90) b.TestDraw("b");
-        
-                        Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                        Assert.AreEqual((s.EndCircle.Origin - b.EndCircle.Origin).magnitude,
-                            GetBendedDistance(bendRadius, angle.bend), Assert.Epsilon, angle.ToString());
+
+                        b.TestDraw("b");
+
+                        Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok, angle.ToString());
                         Assert.AreEqual(b.EndCircle.Origin - b.StartCircle.Origin,
                             GetBendedEndPoint(bendRadius, angle.bend, angle.rotation), Assert.Epsilon,
-                            angle.ToString());
+                            angle + " // EndCircle pos");
+
+                        Assert.AreEqual(
+                            Geometry.DistancePointLine(b.EndCircle.Origin, b.RightAxis.Origin, b.RightAxis.Direction),
+                            0f,
+                            angle + " // RightLine origin");
+                        Assert.AreEqual(b.RightAxis.Direction,
+                            -(b.EndCircle.Origin - Quaternion.AngleAxis(-angle.rotation, b.StartCircle.Normal) *
+                                Vector3.right * bendRadius).normalized,
+                            Assert.Epsilon,
+                            angle + " // Right Line direction");
+
                         Assert.AreEqual(b.EndCircle.Radius, diameter / 2, Assert.Epsilon, angle.ToString());
                     }
                 };

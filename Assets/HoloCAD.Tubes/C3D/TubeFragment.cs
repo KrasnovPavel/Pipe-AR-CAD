@@ -92,7 +92,7 @@ namespace HoloCAD.Tubes.C3D
         protected readonly GCMSystem Sys;
         
         /// <summary> Локальная система координат отрезка. </summary>
-        protected readonly GCM_LCS MainLCS;
+        protected GCM_LCS MainLCS;
 
         #endregion
 

@@ -172,7 +172,7 @@ namespace UnityC3D
             Vector3[] points = new Vector3[numberOfPoints];
             for (int i = 0; i < numberOfPoints; i++)
             {
-                points[i] =  Quaternion.AngleAxis(360 / numberOfPoints * i, Vector3.forward) * Vector3.right * Radius;
+                points[i] =  Quaternion.AngleAxis(360 / numberOfPoints * i, Vector3.forward) * Vector3.right * Radius; //-V3041
             }
             lineRenderer.SetPositions(points);
         }
