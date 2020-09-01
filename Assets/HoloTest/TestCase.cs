@@ -40,6 +40,9 @@ namespace HoloTest
         /// <summary> Сообщение об ошибке. </summary>
         public string ErrorMassage = "";
 
+        /// <summary> Был ли тест сгенерирован автоматически. </summary>
+        public bool IsGenerated = false;
+
         /// <summary> Запускает тест. </summary>
         public void Run()
         {
@@ -51,7 +54,7 @@ namespace HoloTest
             }
             catch (Exception e)
             {
-                ErrorMassage = e.InnerException?.Message;
+                ErrorMassage = IsGenerated ? e.Message : e.InnerException?.Message;
                 Result = TestResult.Failed;
                 TestDuration = DateTime.Now - start;
                 return;

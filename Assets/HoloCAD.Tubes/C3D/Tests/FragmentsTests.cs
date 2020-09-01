@@ -1,4 +1,8 @@
-﻿using System;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using System;
+using System.Collections.Generic;
 using HoloTest;
 using UnityC3D;
 using UnityEngine;
@@ -130,12 +134,12 @@ namespace HoloCAD.Tubes.C3D.Tests
             }
         }
 
-        [HoloTestCase]
-        public static void BendedFragmentCreation()
+        [HoloTestGenerator]
+        public static IEnumerable<Action> BendedFragmentCreation()
         {
             var diameter = 0.01f;
             var bendRadius = 0.15f;
-
+        
             var angles = new[]
             {
                 new AngleData {bend = 90f, rotation = 0f},
@@ -194,25 +198,28 @@ namespace HoloCAD.Tubes.C3D.Tests
                 new AngleData {bend = 180f, rotation = 450f},
                 new AngleData {bend = 130f, rotation = 450f},
             };
-
+        
             foreach (var angle in angles)
             {
-                using (var sys = new GCMSystem())
+                yield return delegate
                 {
-                    sys.SetJournal();
-                    var s = new StartFragment(sys, diameter, sys.GroundLCS.Placement);
-                    var b = new BendedFragment(sys, bendRadius, angle.bend, angle.rotation, diameter, s);
+                    using (var sys = new GCMSystem())
+                    {
+                        sys.SetJournal();
+                        var s = new StartFragment(sys, diameter, sys.GroundLCS.Placement);
+                        var b = new BendedFragment(sys, bendRadius, angle.bend, angle.rotation, diameter, s);
                     
-                    if (angle.rotation >= 90) b.TestDraw("b");
-
-                    Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                    Assert.AreEqual((s.EndCircle.Origin - b.EndCircle.Origin).magnitude,
-                                    GetBendedDistance(bendRadius, angle.bend), Assert.Epsilon, angle.ToString());
-                    Assert.AreEqual(b.EndCircle.Origin - b.StartCircle.Origin,
-                                    GetBendedEndPoint(bendRadius, angle.bend, angle.rotation), Assert.Epsilon,
-                                    angle.ToString());
-                    Assert.AreEqual(b.EndCircle.Radius, diameter / 2, Assert.Epsilon, angle.ToString());
-                }
+                        if (angle.rotation >= 90) b.TestDraw("b");
+        
+                        Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
+                        Assert.AreEqual((s.EndCircle.Origin - b.EndCircle.Origin).magnitude,
+                            GetBendedDistance(bendRadius, angle.bend), Assert.Epsilon, angle.ToString());
+                        Assert.AreEqual(b.EndCircle.Origin - b.StartCircle.Origin,
+                            GetBendedEndPoint(bendRadius, angle.bend, angle.rotation), Assert.Epsilon,
+                            angle.ToString());
+                        Assert.AreEqual(b.EndCircle.Radius, diameter / 2, Assert.Epsilon, angle.ToString());
+                    }
+                };
             }
         }
     }

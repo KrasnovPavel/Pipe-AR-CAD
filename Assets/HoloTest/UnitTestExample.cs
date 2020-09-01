@@ -2,17 +2,18 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 //
 // using System;
+// using System.Collections.Generic;
 //
 // namespace HoloTest
 // {
 //     [HoloTestClass]
 //     public class UnitTestExample
 //     {
-//         [HoloTestCase]
-//         public static void TestCase()
-//         {
-//             Assert.IsTrue(true);
-//         }
+//          [HoloTestCase]
+//          public static void TestCase()
+//          {
+//              Assert.IsTrue(false);
+//          }
 //         
 //         [HoloTestCase]
 //         public static void TestCase1()
@@ -55,5 +56,16 @@
 //             var a = new ArgumentOutOfRangeException();
 //             Assert.IsInstanceOfType(a, typeof(UnitTestExample));
 //         }
+//
+//          [HoloTestGenerator]
+//          public static IEnumerable<Action> TestGenerator()
+//          {
+//              bool[] data = {true, false, false, true, true, true, false};
+//
+//              foreach (var b in data)
+//              {
+//                  yield return delegate { Assert.IsTrue(b); };
+//              }
+//          }
 //     }
 // }

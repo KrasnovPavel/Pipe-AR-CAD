@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -58,6 +59,24 @@ namespace HoloTest
                                 TestFunction = delegate { m.Invoke(null, null); }
                             })
                             .ToList();
+            
+            // Добавляем тесты сгенерированные автоматически
+            testCases.AddRange(assemblies
+                .SelectMany(a => a.GetTypes())
+                .Where(IsTestClass)
+                .SelectMany(t => t.GetMethods())
+                .Where(m => m.GetCustomAttributes(typeof(HoloTestGeneratorAttribute)).Any())
+                .SelectMany(m =>
+                {
+                    return (m.Invoke(null, null) as IEnumerable<Action>)?.Select(a => new TestCase
+                    {
+                        Namespace = m.DeclaringType?.Namespace,
+                        TestName = $"{m.Name}-{a.GetHashCode()}",
+                        TypeName = m.DeclaringType?.Name,
+                        IsGenerated = true,
+                        TestFunction = a
+                    });
+                }));
             
             foreach (var test in testCases)
             {
