@@ -13,30 +13,27 @@ namespace HoloCAD.Tubes.C3D
         /// <param name="sys"> Система C3D. </param>
         /// <param name="diameter"> Диаметр отрезка. </param>
         /// <param name="placement"> Размещение отрезка. </param>
-        public StartFragment(GCMSystem sys, float diameter, MbPlacement3D placement) 
+        public StartFragment(GCMSystem sys, float diameter, MbPlacement3D placement)
             : base(sys, diameter, null, true)
         {
             MainLCS.Freeze();
             EndCircle.Freeze();
             EndPlane.Freeze();
             RightAxis.Freeze();
-            
+
+            StartCircle = EndCircle;
+            StartPlane  = EndPlane;
+
             MainLCS.Placement = placement;
-            // EndCircle.Placement = placement;
-            // EndPlane.Placement = placement;
-            // EndAxis.Placement = placement;
-            // EndPoint.Placement = placement;
-            // sys.MakeCoincident(EndCircle, EndPlane, GCMAlignment.Cooriented);
-            // sys.MakeCoincident(EndPoint, EndAxis);
             Sys.Evaluate();
         }
-        
+
         /// <summary> Конструктор. </summary>
         /// <param name="sys"> Система C3D. </param>
         /// <param name="diameter"> Диаметр отрезка. </param>
         /// <param name="transform"> Размещение отрезка в Unity. </param>
         public StartFragment(GCMSystem sys, float diameter, Transform transform)
-            : this (sys, diameter, MbPlacement3D.FromUnity(transform))
+            : this(sys, diameter, MbPlacement3D.FromUnity(transform))
         {
             // Do nothing
         }
@@ -45,10 +42,6 @@ namespace HoloCAD.Tubes.C3D
         /// <param name="placement"> Новое расположение. </param>
         public void SetPlacement(MbPlacement3D placement)
         {
-            // MainLCS.Placement = placement;
-            // EndCircle.Placement = placement;
-            // EndCircle.Origin = placement.Origin;
-            // EndCircle.Normal = placement.AxisZ;
             Sys.Evaluate();
         }
     }

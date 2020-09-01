@@ -10,15 +10,15 @@ namespace UnityC3D
     /// <summary> Геометрическое ограничение. </summary>
     public class GCMConstraint
     {
-        internal GCMConstraint(GCMDescriptor descriptor,
-            GCMConstraintType type, GCMObject obj1, GCMObject obj2,
-            GCMObject obj3 = null)
+        internal GCMConstraint(GCMDescriptor     descriptor,
+                               GCMConstraintType type, GCMObject obj1, GCMObject obj2,
+                               GCMObject         obj3 = null)
         {
             Descriptor = descriptor;
-            Obj1 = obj1;
-            Obj2 = obj2;
-            Obj3 = obj3;
-            Type = type;
+            Obj1       = obj1;
+            Obj2       = obj2;
+            Obj3       = obj3;
+            Type       = type;
         }
 
         /// <summary> Дескриптор ограничения. </summary>
@@ -116,10 +116,10 @@ namespace UnityC3D
 
         /// <summary> Нет определенной ориентации. </summary>
         NoAlignment = 2,
-        
+
         /// <summary> Ротационное (вращательной) выравнивание элементов паттерна. </summary>
-        Rotated   = 9,
-        
+        Rotated = 9,
+
         /// <summary> Выровнять с объектом, задающим ось. </summary>
         AlignWithAxialGeom = 10,
     }
@@ -151,10 +151,10 @@ namespace UnityC3D
     public enum GCMScale
     {
         GCM_NO_SCALE = 0,
-        
+
         /// <summary> Шаг между элементами константен. Паттерн не масштабируется (не растягивается). </summary>
         GCM_RIGID = 1,
-        
+
         /// <summary> Шаг между элементами линейно масштабируется при растяжениях. </summary>
         GCM_LINEAR_SCALE = 2
     }

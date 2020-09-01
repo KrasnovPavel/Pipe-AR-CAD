@@ -25,7 +25,7 @@ namespace UnityC3D
         {
             return Geometry.DistanceLines(line1.Origin, line1.Direction, line2.Origin, line2.Direction);
         }
-        
+
         /// <summary> Возвращает расстояние между точкой и плоскостью. </summary>
         /// <param name="point"> Точка. </param>
         /// <param name="plane"> Плоскость. </param>

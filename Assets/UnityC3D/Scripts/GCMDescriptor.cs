@@ -1,4 +1,7 @@
-﻿using System;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using System;
 using System.Runtime.InteropServices;
 
 namespace UnityC3D
@@ -10,14 +13,14 @@ namespace UnityC3D
         /// <summary> ID в системе C3D. </summary>
         /// <remarks> НЕ ТРОГАТЬ! НЕОБХОДИМО ДЛЯ МАРШАЛИНГА. </remarks>
         private readonly UInt32 id;
-        
+
         /// <summary> Конструктор. </summary>
         /// <param name="id"></param>
         internal GCMDescriptor(uint id)
         {
             this.id = id;
         }
-        
+
         internal bool Equals(GCMDescriptor other)
         {
             return id == other.id;
@@ -40,19 +43,5 @@ namespace UnityC3D
         {
             return $"{id}";
         }
-    }
-    
-    public class GCMPattern
-    {
-        internal GCMPattern(GCMDescriptor descriptor, GCMObject sample, GCMObject axialObject)
-        {
-            Descriptor = descriptor;
-            Sample = sample;
-            AxialObject = axialObject;
-        }
-        
-        internal readonly GCMDescriptor Descriptor;
-        internal readonly GCMObject Sample;
-        internal readonly GCMObject AxialObject;
     }
 }

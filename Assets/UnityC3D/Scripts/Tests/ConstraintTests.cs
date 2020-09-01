@@ -76,7 +76,7 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var p1 = new GCMPoint(sys, Vector3.zero);
+                var p1  = new GCMPoint(sys, Vector3.zero);
                 var pl1 = new GCMPlane(sys, Vector3.back, Vector3.forward);
 
                 sys.MakeCoincident(p1, pl1);
@@ -90,7 +90,7 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var l1 = new GCMLine(sys, Vector3.zero, Vector3.up);
+                var l1  = new GCMLine(sys, Vector3.zero, Vector3.up);
                 var pl1 = new GCMPlane(sys, Vector3.back, Vector3.forward);
 
                 sys.MakeCoincident(l1, pl1);
@@ -127,7 +127,7 @@ namespace UnityC3D.Tests
             using (var sys = new GCMSystem())
             {
                 var pl1 = new GCMPlane(sys, Vector3.back, Vector3.forward);
-                var c1 = new GCMCircle(sys, Vector3.one, Vector3.back, 20);
+                var c1  = new GCMCircle(sys, Vector3.one, Vector3.back, 20);
 
                 sys.MakeCoincident(c1, pl1);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
@@ -141,11 +141,11 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var g1 = new GameObject();
+                var       g1 = new GameObject();
                 Transform t1 = GameObject.Instantiate(g1).transform;
                 t1.position = Vector3.one;
                 t1.rotation = Quaternion.Euler(Vector3.left);
-                var g2 = new GameObject();
+                var       g2 = new GameObject();
                 Transform t2 = GameObject.Instantiate(g1).transform;
                 t2.position = Vector3.one;
                 t2.rotation = Quaternion.Euler(Vector3.left);
@@ -169,12 +169,12 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var g1 = new GameObject();
+                var       g1 = new GameObject();
                 Transform t1 = GameObject.Instantiate(g1).transform;
                 t1.position = Vector3.one;
                 t1.rotation = Quaternion.Euler(Vector3.left);
                 var lcs1 = new GCM_LCS(sys, t1);
-                var p1 = new GCMPoint(sys, Vector3.zero);
+                var p1   = new GCMPoint(sys, Vector3.zero);
 
                 sys.MakeCoincident(p1, lcs1);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
@@ -207,7 +207,7 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var point = new GCMPoint(sys, Vector3.left);
+                var point  = new GCMPoint(sys, Vector3.left);
                 var circle = new GCMCircle(sys, Vector3.zero, Vector3.down, 2);
                 sys.MakeConcentric(circle, point);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
@@ -220,7 +220,7 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var line = new GCMLine(sys, Vector3.left, Vector3.one);
+                var line   = new GCMLine(sys, Vector3.left, Vector3.one);
                 var circle = new GCMCircle(sys, Vector3.zero, Vector3.down, 2);
                 sys.MakeConcentric(circle, line);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
@@ -260,7 +260,7 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var l1 = new GCMLine(sys, Vector3.zero, Vector3.one);
+                var l1  = new GCMLine(sys, Vector3.zero, Vector3.one);
                 var pl1 = new GCMPlane(sys, Vector3.back, Vector3.forward);
                 sys.MakeParallel(l1, pl1);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
@@ -299,7 +299,7 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var l1 = new GCMLine(sys, Vector3.back, Vector3.forward);
+                var l1  = new GCMLine(sys, Vector3.back, Vector3.forward);
                 var pl1 = new GCMPlane(sys, Vector3.back, Vector3.forward);
                 sys.MakePerpendicular(l1, pl1);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
@@ -382,7 +382,7 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var p1 = new GCMPoint(sys, Vector3.zero);
+                var p1  = new GCMPoint(sys, Vector3.zero);
                 var pl1 = new GCMPlane(sys, Vector3.back, Vector3.forward);
 
                 sys.SetDistance(p1, pl1, 10);
@@ -396,14 +396,14 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var l1 = new GCMLine(sys, Vector3.one, Vector3.forward);
+                var l1  = new GCMLine(sys, Vector3.one, Vector3.forward);
                 var pl1 = new GCMPlane(sys, Vector3.one, Vector3.left);
 
                 sys.SetDistance(l1, pl1, 10);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.AreEqual(GeometryUtils.DistanceLinePlane(l1, pl1), 10);
 
-                var l2 = new GCMLine(sys, Vector3.one, Vector3.up);
+                var l2  = new GCMLine(sys, Vector3.one, Vector3.up);
                 var pl2 = new GCMPlane(sys, Vector3.back, Vector3.forward);
 
                 sys.SetDistance(l2, pl2, 14.51f);
@@ -417,7 +417,7 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var l1 = new GCMLine(sys, Vector3.one, Vector3.forward);
+                var l1  = new GCMLine(sys, Vector3.one, Vector3.forward);
                 var pl1 = new GCMPlane(sys, Vector3.back, Vector3.forward);
 
                 sys.SetDistance(l1, pl1, 10);
@@ -464,7 +464,7 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var l1 = new GCMLine(sys, Vector3.back, Vector3.forward);
+                var l1  = new GCMLine(sys, Vector3.back, Vector3.forward);
                 var pl2 = new GCMPlane(sys, Vector3.back, Vector3.left);
 
                 sys.SetAngle(l1, pl2, Mathf.PI / 3);
@@ -506,7 +506,7 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var c1 = new GCMCircle(sys, Vector3.back, Vector3.forward, 10);
+                var c1  = new GCMCircle(sys, Vector3.back, Vector3.forward, 10);
                 var pl2 = new GCMPlane(sys, Vector3.one, Vector3.right);
 
                 sys.SetAngle(pl2, c1, Mathf.PI / 4);
@@ -520,7 +520,7 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var c1 = new GCMCircle(sys, Vector3.back, Vector3.forward, 10);
+                var c1  = new GCMCircle(sys, Vector3.back, Vector3.forward, 10);
                 var pl2 = new GCMPlane(sys, Vector3.one, Vector3.right);
 
                 sys.SetAngle(pl2, c1, Mathf.PI / 4);
@@ -561,9 +561,9 @@ namespace UnityC3D.Tests
             using (var sys = new GCMSystem())
             {
                 sys.SetJournal();
-                var axis = new GCMLine(sys, Vector3.zero, Vector3.up);
-                var sample = new GCMCircle(sys, Vector3.right, Vector3.forward, 1);
-                var pattern = sys.AddAngularPattern(sample, axis, GCMAlignment.NoAlignment);
+                var axis    = new GCMLine(sys, Vector3.zero, Vector3.up);
+                var sample  = new GCMCircle(sys, Vector3.right, Vector3.forward, 1);
+                var pattern = sys.CreateAngularPattern(sample, axis, GCMAlignment.NoAlignment);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
 
                 var circle = new GCMCircle(sys, Vector3.forward, Vector3.forward, 1);
@@ -575,7 +575,7 @@ namespace UnityC3D.Tests
                 Assert.IsTrue((axis.Origin - sample.Origin).IsPerpendicular(axis.Origin - circle.Origin));
             }
         }
-        
+
         [HoloTestCase]
         public static void TangentCircles()
         {

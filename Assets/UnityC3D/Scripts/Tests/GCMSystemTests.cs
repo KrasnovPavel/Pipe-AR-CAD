@@ -13,7 +13,7 @@ namespace UnityC3D.Tests
     public static class GCMSystemTests
     {
         public const float Epsilon = 0.0001f;
-        
+
         [HoloTestCase]
         public static void CreateRemove()
         {
@@ -47,25 +47,25 @@ namespace UnityC3D.Tests
         [HoloTestCase]
         public static void Placement()
         {
-            var g = new GameObject();
+            var       g = new GameObject();
             Transform t = GameObject.Instantiate(g).transform;
             t.position = Vector3.one;
             t.rotation = Quaternion.Euler(Vector3.left);
 
             var p = MbPlacement3D.FromUnity(t);
             Assert.AreEqual(p.Origin, t.position);
-            Assert.AreEqual(p.AxisZ,  t.forward);
-            Assert.AreEqual(p.AxisX,  t.right);
-            Assert.AreEqual(p.AxisY,  t.up);
-            
+            Assert.AreEqual(p.AxisZ, t.forward);
+            Assert.AreEqual(p.AxisX, t.right);
+            Assert.AreEqual(p.AxisY, t.up);
+
             t.position = Vector3.zero;
             t.rotation = Quaternion.Euler(Vector3.up);
             p.Apply(t);
             Assert.AreEqual(p.Origin, t.position);
-            Assert.AreEqual(p.AxisZ,  t.forward);
-            Assert.AreEqual(p.AxisX,  t.right);
-            Assert.AreEqual(p.AxisY,  t.up);
-            
+            Assert.AreEqual(p.AxisZ, t.forward);
+            Assert.AreEqual(p.AxisX, t.right);
+            Assert.AreEqual(p.AxisY, t.up);
+
             GameObject.Destroy(g);
             GameObject.Destroy(t.gameObject);
         }
@@ -76,9 +76,9 @@ namespace UnityC3D.Tests
             using (var sys = new GCMSystem())
             {
                 var origin = new Vector3(1, 2, 3);
-                var point = new GCMPoint(sys, origin);
+                var point  = new GCMPoint(sys, origin);
                 Assert.AreEqual(point.Placement.Origin, origin);
-                
+
                 point.Origin = Vector3.left;
                 Assert.AreEqual(point.Placement.Origin, Vector3.left);
             }
@@ -89,12 +89,12 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var origin = new Vector3(1, 2, 3);
+                var origin    = new Vector3(1, 2, 3);
                 var direction = Vector3.up;
-                var line = new GCMLine(sys, origin, direction);
+                var line      = new GCMLine(sys, origin, direction);
                 Assert.AreEqual(line.Placement.Origin, origin);
                 Assert.AreEqual(line.Placement.AxisZ, direction);
-                
+
                 line.Direction = Vector3.back;
                 Assert.AreEqual(line.Placement.Origin, origin);
                 Assert.AreEqual(line.Placement.AxisZ, Vector3.back);
@@ -108,7 +108,7 @@ namespace UnityC3D.Tests
             {
                 var origin = new Vector3(1, 2, 3);
                 var normal = Vector3.up;
-                var p = new GCMPlane(sys, origin, normal);
+                var p      = new GCMPlane(sys, origin, normal);
                 Assert.AreEqual(p.Placement.Origin, origin);
                 Assert.AreEqual(p.Placement.AxisZ, normal);
             }
@@ -119,20 +119,20 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var origin = new Vector3(1, 2, 3);
-                var normal = Vector3.up;
+                var   origin = new Vector3(1, 2, 3);
+                var   normal = Vector3.up;
                 float radius = 5.3f;
-                var circle = new GCMCircle(sys, origin, normal, radius);
+                var   circle = new GCMCircle(sys, origin, normal, radius);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.AreEqual(circle.Placement.Origin, origin);
                 Assert.AreEqual(circle.Placement.AxisZ, normal);
                 Assert.AreEqual(circle.Radius, radius);
-                
+
                 float newRadius = 7.56f;
                 circle.Radius = newRadius;
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.AreEqual(circle.Radius, newRadius);
-                
+
                 circle.Origin = -Vector3.one;
                 circle.Normal = Vector3.one;
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
@@ -146,17 +146,17 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var g = new GameObject();
+                var       g = new GameObject();
                 Transform t = GameObject.Instantiate(g).transform;
                 t.position = Vector3.one;
                 t.rotation = Quaternion.Euler(Vector3.left);
 
                 var lcs = new GCM_LCS(sys, t);
                 Assert.AreEqual(lcs.Placement.Origin, t.position);
-                Assert.AreEqual(lcs.Placement.AxisZ,  t.forward);
-                Assert.AreEqual(lcs.Placement.AxisY,  t.up);
-                Assert.AreEqual(lcs.Placement.AxisX,  t.right);
-                
+                Assert.AreEqual(lcs.Placement.AxisZ, t.forward);
+                Assert.AreEqual(lcs.Placement.AxisY, t.up);
+                Assert.AreEqual(lcs.Placement.AxisX, t.right);
+
                 GameObject.Destroy(g);
                 GameObject.Destroy(t.gameObject);
             }
@@ -169,9 +169,9 @@ namespace UnityC3D.Tests
             {
                 var lcs = sys.GroundLCS;
                 Assert.AreEqual(lcs.Placement.Origin, Vector3.zero);
-                Assert.AreEqual(lcs.Placement.AxisZ,  -Vector3.forward);
-                Assert.AreEqual(lcs.Placement.AxisY,  Vector3.up);
-                Assert.AreEqual(lcs.Placement.AxisX,  Vector3.right);
+                Assert.AreEqual(lcs.Placement.AxisZ, -Vector3.forward);
+                Assert.AreEqual(lcs.Placement.AxisY, Vector3.up);
+                Assert.AreEqual(lcs.Placement.AxisX, Vector3.right);
             }
         }
 
@@ -180,18 +180,18 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var g = new GameObject();
+                var       g = new GameObject();
                 Transform t = GameObject.Instantiate(g).transform;
                 t.position = Vector3.one;
 
                 var lcs = new GCM_LCS(sys, t);
                 Assert.IsNull(lcs.Parent);
-                
+
                 var p = new GCMPoint(sys, Vector3.down, lcs);
                 Assert.AreEqual(lcs.Descriptor, sys.GetParent(p));
                 Assert.AreEqual(p.Parent, lcs);
                 Assert.AreEqual(p.Origin, lcs.Origin + Vector3.down);
-                
+
                 GameObject.Destroy(g);
                 GameObject.Destroy(t.gameObject);
             }
@@ -202,22 +202,22 @@ namespace UnityC3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var g = new GameObject();
+                var       g = new GameObject();
                 Transform t = GameObject.Instantiate(g).transform;
                 t.position = Vector3.one;
 
                 var lcs = new GCM_LCS(sys, t);
                 Assert.IsNull(lcs.Parent);
-                
+
                 var p = new GCMPoint(sys, Vector3.down, lcs);
                 Assert.AreEqual(p.Parent, lcs);
                 Assert.AreEqual(p.Origin, lcs.Origin + Vector3.down);
-                
+
                 p.Freeze();
                 lcs.Origin = Vector3.zero;
                 Assert.AreEqual(p.Origin, lcs.Origin + Vector3.down);
                 p.Free();
-                
+
                 GameObject.Destroy(g);
                 GameObject.Destroy(t.gameObject);
             }

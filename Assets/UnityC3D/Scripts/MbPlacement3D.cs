@@ -80,9 +80,9 @@ namespace UnityC3D
             return new MbPlacement3D
             {
                 _origin = MbVector3D.FromUnity(tr.position),
-                _axisX = MbVector3D.FromUnity(tr.right),
-                _axisY = MbVector3D.FromUnity(tr.up),
-                _axisZ = MbVector3D.FromUnity(-tr.forward),
+                _axisX  = MbVector3D.FromUnity(tr.right),
+                _axisY  = MbVector3D.FromUnity(tr.up),
+                _axisZ  = MbVector3D.FromUnity(-tr.forward),
             };
         }
 
@@ -93,9 +93,9 @@ namespace UnityC3D
             return new MbPlacement3D
             {
                 _origin = MbVector3D.FromUnity(origin),
-                _axisX = MbVector3D.FromUnity(axisX),
-                _axisY = MbVector3D.FromUnity(axisY),
-                _axisZ = MbVector3D.FromUnity(axisZ),
+                _axisX  = MbVector3D.FromUnity(axisX),
+                _axisY  = MbVector3D.FromUnity(axisY),
+                _axisZ  = MbVector3D.FromUnity(axisZ),
             };
         }
 
@@ -106,9 +106,9 @@ namespace UnityC3D
             return new MbPlacement3D
             {
                 _origin = MbVector3D.FromUnity(origin),
-                _axisX = MbVector3D.FromUnity(axisX),
-                _axisY = MbVector3D.FromUnity(axisY),
-                _axisZ = MbVector3D.FromUnity(-axisZ),
+                _axisX  = MbVector3D.FromUnity(axisX),
+                _axisY  = MbVector3D.FromUnity(axisY),
+                _axisZ  = MbVector3D.FromUnity(-axisZ),
             };
         }
 
@@ -120,9 +120,9 @@ namespace UnityC3D
 
         public bool Equals(MbPlacement3D other)
         {
-            return _origin.Equals(other._origin) 
-                   && _axisX.Equals(other._axisX) 
-                   && _axisY.Equals(other._axisY) 
+            return _origin.Equals(other._origin)
+                   && _axisX.Equals(other._axisX)
+                   && _axisY.Equals(other._axisY)
                    && _axisZ.Equals(other._axisZ);
         }
 

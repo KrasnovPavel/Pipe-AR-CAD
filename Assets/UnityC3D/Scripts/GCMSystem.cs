@@ -25,7 +25,7 @@ namespace UnityC3D
         public GCMSystem()
         {
             _gcmSystemPtr = GCM_CreateSystem();
-            GroundLCS = new GCM_LCS(this, new GCMDescriptor(0));
+            GroundLCS     = new GCM_LCS(this, new GCMDescriptor(0));
         }
 
         /// <summary> Удаляет все объекты из системы. </summary>
@@ -54,8 +54,7 @@ namespace UnityC3D
                     var cRes = EvaluationResult(constraint);
                     if (cRes != GCMResult.GCM_RESULT_Ok)
                     {
-                        Debug.LogWarning(
-                            $"{cRes}-{constraint.Type}:  {constraint.Obj1}, {constraint.Obj2}, {constraint.Obj3}");
+                        Debug.LogWarning($"{cRes}-{constraint.Type}:  {constraint.Obj1}, {constraint.Obj2}, {constraint.Obj3}");
                     }
                 }
             }
@@ -85,8 +84,8 @@ namespace UnityC3D
         /// <param name="second"> Вторая прямая. </param>
         /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint MakeCoincident(GCMLine first, GCMLine second,
-            GCMAlignment alignment = GCMAlignment.NoAlignment)
+        public GCMConstraint MakeCoincident(GCMLine      first, GCMLine second,
+                                            GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
             return MakeCoincident((GCMObject) first, (GCMObject) second, alignment);
         }
@@ -105,8 +104,8 @@ namespace UnityC3D
         /// <param name="second"> Вторая плоскость. </param>
         /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint MakeCoincident(GCMPlane first, GCMPlane second,
-            GCMAlignment alignment = GCMAlignment.NoAlignment)
+        public GCMConstraint MakeCoincident(GCMPlane     first, GCMPlane second,
+                                            GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
             return MakeCoincident((GCMObject) first, (GCMObject) second, alignment);
         }
@@ -134,8 +133,8 @@ namespace UnityC3D
         /// <param name="second"> Вторая окружность. </param>
         /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint MakeCoincident(GCMCircle first, GCMCircle second,
-            GCMAlignment alignment = GCMAlignment.NoAlignment)
+        public GCMConstraint MakeCoincident(GCMCircle    first, GCMCircle second,
+                                            GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
             return MakeCoincident((GCMObject) first, (GCMObject) second, alignment);
         }
@@ -145,8 +144,8 @@ namespace UnityC3D
         /// <param name="plane"> Плоскость. </param>
         /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint MakeCoincident(GCMCircle circle, GCMPlane plane,
-            GCMAlignment alignment = GCMAlignment.NoAlignment)
+        public GCMConstraint MakeCoincident(GCMCircle    circle, GCMPlane plane,
+                                            GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
             return MakeCoincident((GCMObject) circle, (GCMObject) plane, alignment);
         }
@@ -174,8 +173,8 @@ namespace UnityC3D
         /// <param name="second"> Вторая окружность. </param>
         /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint MakeConcentric(GCMCircle first, GCMCircle second,
-            GCMAlignment alignment = GCMAlignment.NoAlignment)
+        public GCMConstraint MakeConcentric(GCMCircle    first, GCMCircle second,
+                                            GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
             return MakeConcentric((GCMObject) first, (GCMObject) second, alignment);
         }
@@ -185,8 +184,8 @@ namespace UnityC3D
         /// <param name="line"> Прямая. </param>
         /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint MakeConcentric(GCMCircle circle, GCMLine line,
-            GCMAlignment alignment = GCMAlignment.NoAlignment)
+        public GCMConstraint MakeConcentric(GCMCircle    circle, GCMLine line,
+                                            GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
             return MakeConcentric((GCMObject) circle, (GCMObject) line, alignment);
         }
@@ -205,8 +204,8 @@ namespace UnityC3D
         /// <param name="second"> Вторая прямая. </param>
         /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint MakeParallel(GCMLine first, GCMLine second,
-            GCMAlignment alignment = GCMAlignment.NoAlignment)
+        public GCMConstraint MakeParallel(GCMLine      first, GCMLine second,
+                                          GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
             return MakeParallel((GCMObject) first, (GCMObject) second, alignment);
         }
@@ -216,8 +215,8 @@ namespace UnityC3D
         /// <param name="second"> Вторая плоскость. </param>
         /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint MakeParallel(GCMPlane first, GCMPlane second,
-            GCMAlignment alignment = GCMAlignment.NoAlignment)
+        public GCMConstraint MakeParallel(GCMPlane     first, GCMPlane second,
+                                          GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
             return MakeParallel((GCMObject) first, (GCMObject) second, alignment);
         }
@@ -227,8 +226,8 @@ namespace UnityC3D
         /// <param name="plane"> Плоскость. </param>
         /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint MakeParallel(GCMLine line, GCMPlane plane,
-            GCMAlignment alignment = GCMAlignment.NoAlignment)
+        public GCMConstraint MakeParallel(GCMLine      line, GCMPlane plane,
+                                          GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
             return MakeParallel((GCMObject) line, (GCMObject) plane, alignment);
         }
@@ -238,8 +237,8 @@ namespace UnityC3D
         /// <param name="second"> Вторая прямая. </param>
         /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint MakePerpendicular(GCMLine first, GCMLine second,
-            GCMAlignment alignment = GCMAlignment.NoAlignment)
+        public GCMConstraint MakePerpendicular(GCMLine      first, GCMLine second,
+                                               GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
             return MakePerpendicular((GCMObject) first, (GCMObject) second, alignment);
         }
@@ -249,8 +248,8 @@ namespace UnityC3D
         /// <param name="second"> Вторая плоскость. </param>
         /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint MakePerpendicular(GCMPlane first, GCMPlane second,
-            GCMAlignment alignment = GCMAlignment.NoAlignment)
+        public GCMConstraint MakePerpendicular(GCMPlane     first, GCMPlane second,
+                                               GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
             return MakePerpendicular((GCMObject) first, (GCMObject) second, alignment);
         }
@@ -260,8 +259,8 @@ namespace UnityC3D
         /// <param name="plane"> Плоскость. </param>
         /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint MakePerpendicular(GCMLine line, GCMPlane plane,
-            GCMAlignment alignment = GCMAlignment.NoAlignment)
+        public GCMConstraint MakePerpendicular(GCMLine      line, GCMPlane plane,
+                                               GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
             return MakePerpendicular((GCMObject) line, (GCMObject) plane, alignment);
         }
@@ -302,8 +301,8 @@ namespace UnityC3D
         /// <param name="distance"> Расстояние. </param>
         /// <param name="alignment"> Опция выравнивания. </param>
         /// <returns> Объект ограничения. </returns>
-        public GCMConstraint SetDistance(GCMPlane first, GCMPlane second, float distance,
-            GCMAlignment alignment = GCMAlignment.NoAlignment)
+        public GCMConstraint SetDistance(GCMPlane     first, GCMPlane second, float distance,
+                                         GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
             return SetDistance((GCMObject) first, (GCMObject) second, distance, alignment);
         }
@@ -388,23 +387,12 @@ namespace UnityC3D
             return SetAngle((GCMObject) plane, (GCMObject) circle, radians);
         }
 
-        public GCMPattern AddAngularPattern(GCMObject sample, GCMObject axialObject, GCMAlignment alignment)
+        public GCMPattern CreateAngularPattern(GCMObject sample, GCMObject axialObject, GCMAlignment alignment)
         {
-            return new GCMPattern(GCM_AddAngularPattern(_gcmSystemPtr, sample.Descriptor, axialObject.Descriptor, alignment),
-                sample, axialObject);
-        }
-
-        public GCMConstraint AddObjectToPattern(
-            GCMPattern pattern,
-            GCMObject obj,
-            float position,
-            GCMAlignment alignment,
-            GCMScale scale)
-        {
-            var desc = GCM_AddGeomToPattern(_gcmSystemPtr, pattern.Descriptor, obj.Descriptor, position, alignment,
-                scale);
-
-            return new GCMConstraint(desc, GCMConstraintType.GCM_ANGULAR_PATTERN, pattern.Sample, pattern.AxialObject, obj);
+            return new GCMPattern(this,
+                                  GCM_AddAngularPattern(_gcmSystemPtr, sample.Descriptor, axialObject.Descriptor,
+                                                        alignment),
+                                  sample, axialObject);
         }
 
         /// <summary> Удаляет переданное ограничение из системы. </summary>
@@ -434,8 +422,8 @@ namespace UnityC3D
             var p = GCM_Point(ref o);
 
             return parent == null
-                ? GCM_AddGeom(_gcmSystemPtr, ref p)
-                : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref p);
+                       ? GCM_AddGeom(_gcmSystemPtr, ref p)
+                       : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref p);
         }
 
         /// <summary> Добавляет прямую в систему. </summary>
@@ -445,12 +433,12 @@ namespace UnityC3D
         /// <returns> Дескриптор объекта в системе. </returns>
         internal GCMDescriptor AddLine(Vector3 origin, Vector3 direction, GCMDescriptor? parent = null)
         {
-            var o = MbVector3D.FromUnity(origin);
-            var d = MbVector3D.FromUnity(-direction);
+            var o    = MbVector3D.FromUnity(origin);
+            var d    = MbVector3D.FromUnity(-direction);
             var line = GCM_Line(ref o, ref d);
             return parent == null
-                ? GCM_AddGeom(_gcmSystemPtr, ref line)
-                : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref line);
+                       ? GCM_AddGeom(_gcmSystemPtr, ref line)
+                       : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref line);
         }
 
         /// <summary> Добавляет плоскость в систему. </summary>
@@ -460,12 +448,12 @@ namespace UnityC3D
         /// <returns> Дескриптор объекта в системе. </returns>
         internal GCMDescriptor AddPlane(Vector3 origin, Vector3 normal, GCMDescriptor? parent = null)
         {
-            var o = MbVector3D.FromUnity(origin);
-            var n = MbVector3D.FromUnity(-normal);
+            var o     = MbVector3D.FromUnity(origin);
+            var n     = MbVector3D.FromUnity(-normal);
             var plane = GCM_Plane(ref o, ref n);
             return parent == null
-                ? GCM_AddGeom(_gcmSystemPtr, ref plane)
-                : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref plane);
+                       ? GCM_AddGeom(_gcmSystemPtr, ref plane)
+                       : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref plane);
         }
 
         /// <summary> Добавляет окружность в систему. </summary>
@@ -476,12 +464,12 @@ namespace UnityC3D
         /// <returns> Дескриптор объекта в системе. </returns>
         internal GCMDescriptor AddCircle(Vector3 origin, Vector3 normal, float radius, GCMDescriptor? parent = null)
         {
-            var o = MbVector3D.FromUnity(origin);
-            var n = MbVector3D.FromUnity(-normal);
+            var o      = MbVector3D.FromUnity(origin);
+            var n      = MbVector3D.FromUnity(-normal);
             var circle = GCM_Circle(ref o, ref n, radius);
             return parent == null
-                ? GCM_AddGeom(_gcmSystemPtr, ref circle)
-                : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref circle);
+                       ? GCM_AddGeom(_gcmSystemPtr, ref circle)
+                       : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref circle);
         }
 
         /// <summary> Добавляет локальную систему координат. </summary>
@@ -490,11 +478,11 @@ namespace UnityC3D
         /// <returns> Дескриптор объекта в системе. </returns>
         internal GCMDescriptor AddLCS(Transform tr, GCMDescriptor? parent = null)
         {
-            var p = MbPlacement3D.FromUnity(tr);
+            var p   = MbPlacement3D.FromUnity(tr);
             var lcs = GCM_SolidLCS(ref p);
             return parent == null
-                ? GCM_AddGeom(_gcmSystemPtr, ref lcs)
-                : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref lcs);
+                       ? GCM_AddGeom(_gcmSystemPtr, ref lcs)
+                       : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref lcs);
         }
 
         /// <summary> Добавляет локальную систему координат. </summary>
@@ -505,8 +493,8 @@ namespace UnityC3D
         {
             var lcs = GCM_SolidLCS(ref placement);
             return parent == null
-                ? GCM_AddGeom(_gcmSystemPtr, ref lcs)
-                : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref lcs);
+                       ? GCM_AddGeom(_gcmSystemPtr, ref lcs)
+                       : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref lcs);
         }
 
         /// <summary> Возвращает дескриптор родительской ЛСК переданного объекта. </summary>
@@ -582,6 +570,46 @@ namespace UnityC3D
             }
         }
 
+        internal GCMConstraint AddObjectToPattern(
+            GCMPattern   pattern,
+            GCMObject    obj,
+            float        position,
+            GCMAlignment alignment,
+            GCMScale     scale)
+        {
+            var co = _gcmConstraints.Find(c =>
+                                              c.Obj1.Equals(pattern.Sample) && c.Obj2.Equals(pattern.AxialObject) &&
+                                              c.Obj3.Equals(obj)
+                                              && c.Type == GCMConstraintType.GCM_ANGULAR_PATTERN);
+
+            if (co != null) return co;
+
+            var desc = GCM_AddGeomToPattern(_gcmSystemPtr, pattern.Descriptor, obj.Descriptor, position, alignment,
+                                            scale);
+            co = new GCMConstraint(desc, GCMConstraintType.GCM_ANGULAR_PATTERN, pattern.Sample, pattern.AxialObject,
+                                   obj);
+
+            _gcmConstraints.Add(co);
+            return co;
+        }
+
+        internal void ChangeDrivingDimensions(GCMConstraint constraint, float newValue)
+        {
+            GCM_ChangeDrivingDimension(_gcmSystemPtr, constraint.Descriptor, newValue);
+        }
+
+        /// <summary> Удаляет переданный паттерн из системы. </summary>
+        /// <param name="pattern"> Удаляемое паттерн. </param>
+        public void RemovePattern(GCMPattern pattern)
+        {
+            foreach (var constraint in pattern.Constraints)
+            {
+                _gcmConstraints.Remove(constraint);
+            }
+
+            GCM_RemoveConstraint(_gcmSystemPtr, pattern.Descriptor);
+        }
+
         #endregion
 
         #region Private definitions
@@ -595,17 +623,14 @@ namespace UnityC3D
         private GCMConstraint MakeCoincident(GCMObject first, GCMObject second, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor)
-                && c.Obj2.Descriptor.Equals(second.Descriptor)
-                && c.Type == GCMConstraintType.GCM_COINCIDENT
-                || c.Obj1.Descriptor.Equals(second.Descriptor)
-                && c.Obj2.Descriptor.Equals(first.Descriptor)
-                && c.Type == GCMConstraintType.GCM_COINCIDENT);
+                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                               || c.Obj1.Equals(second) && c.Obj2.Equals(first))
+                                              && c.Type == GCMConstraintType.GCM_COINCIDENT);
 
             if (co != null) return co;
 
             var desc = GCM_AddBinConstraint(_gcmSystemPtr, GCMConstraintType.GCM_COINCIDENT, first.Descriptor,
-                second.Descriptor, alignment, GCMTanChoice.GCM_TAN_NONE);
+                                            second.Descriptor, alignment, GCMTanChoice.GCM_TAN_NONE);
             var cons = new GCMConstraint(desc, GCMConstraintType.GCM_COINCIDENT, first, second);
             _gcmConstraints.Add(cons);
             return cons;
@@ -620,17 +645,14 @@ namespace UnityC3D
         private GCMConstraint MakeConcentric(GCMObject first, GCMObject second, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor)
-                && c.Obj2.Descriptor.Equals(second.Descriptor)
-                && c.Type == GCMConstraintType.GCM_CONCENTRIC
-                || c.Obj1.Descriptor.Equals(second.Descriptor)
-                && c.Obj2.Descriptor.Equals(first.Descriptor)
-                && c.Type == GCMConstraintType.GCM_CONCENTRIC);
+                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                               || c.Obj1.Equals(second) && c.Obj2.Equals(first))
+                                              && c.Type == GCMConstraintType.GCM_CONCENTRIC);
 
             if (co != null) return co;
 
             var desc = GCM_AddBinConstraint(_gcmSystemPtr, GCMConstraintType.GCM_CONCENTRIC, first.Descriptor,
-                second.Descriptor, alignment, GCMTanChoice.GCM_TAN_NONE);
+                                            second.Descriptor, alignment, GCMTanChoice.GCM_TAN_NONE);
             var cons = new GCMConstraint(desc, GCMConstraintType.GCM_CONCENTRIC, first, second);
             _gcmConstraints.Add(cons);
             return cons;
@@ -645,17 +667,14 @@ namespace UnityC3D
         private GCMConstraint MakeParallel(GCMObject first, GCMObject second, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor)
-                && c.Obj2.Descriptor.Equals(second.Descriptor)
-                && c.Type == GCMConstraintType.GCM_PARALLEL
-                || c.Obj1.Descriptor.Equals(second.Descriptor)
-                && c.Obj2.Descriptor.Equals(first.Descriptor)
-                && c.Type == GCMConstraintType.GCM_PARALLEL);
+                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                               || c.Obj1.Equals(second) && c.Obj2.Equals(first))
+                                              && c.Type == GCMConstraintType.GCM_PARALLEL);
 
             if (co != null) return co;
 
             var desc = GCM_AddBinConstraint(_gcmSystemPtr, GCMConstraintType.GCM_PARALLEL, first.Descriptor,
-                second.Descriptor, alignment, GCMTanChoice.GCM_TAN_NONE);
+                                            second.Descriptor, alignment, GCMTanChoice.GCM_TAN_NONE);
             var cons = new GCMConstraint(desc, GCMConstraintType.GCM_PARALLEL, first, second);
             _gcmConstraints.Add(cons);
             return cons;
@@ -670,17 +689,14 @@ namespace UnityC3D
         private GCMConstraint MakePerpendicular(GCMObject first, GCMObject second, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor)
-                && c.Obj2.Descriptor.Equals(second.Descriptor)
-                && c.Type == GCMConstraintType.GCM_PERPENDICULAR
-                || c.Obj1.Descriptor.Equals(second.Descriptor)
-                && c.Obj2.Descriptor.Equals(first.Descriptor)
-                && c.Type == GCMConstraintType.GCM_PERPENDICULAR);
+                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                               || c.Obj1.Equals(second) && c.Obj2.Equals(first))
+                                              && c.Type == GCMConstraintType.GCM_PERPENDICULAR);
 
             if (co != null) return co;
 
             var desc = GCM_AddBinConstraint(_gcmSystemPtr, GCMConstraintType.GCM_PERPENDICULAR, first.Descriptor,
-                second.Descriptor, alignment, GCMTanChoice.GCM_TAN_NONE);
+                                            second.Descriptor, alignment, GCMTanChoice.GCM_TAN_NONE);
             var cons = new GCMConstraint(desc, GCMConstraintType.GCM_PERPENDICULAR, first, second);
             _gcmConstraints.Add(cons);
             return cons;
@@ -693,23 +709,20 @@ namespace UnityC3D
         /// <param name="tanChoice"> Вариант касания. </param>
         /// <returns> Объект ограничения. </returns>
         public GCMConstraint MakeTangent(
-            GCMObject first, 
-            GCMObject second, 
+            GCMObject    first,
+            GCMObject    second,
             GCMAlignment alignment,
             GCMTanChoice tanChoice)
         {
             var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor)
-                && c.Obj2.Descriptor.Equals(second.Descriptor)
-                && c.Type == GCMConstraintType.GCM_TANGENT
-                || c.Obj1.Descriptor.Equals(second.Descriptor)
-                && c.Obj2.Descriptor.Equals(first.Descriptor)
-                && c.Type == GCMConstraintType.GCM_TANGENT);
+                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                               || c.Obj1.Equals(second) && c.Obj2.Equals(first))
+                                              && c.Type == GCMConstraintType.GCM_TANGENT);
 
             if (co != null) return co;
 
             var desc = GCM_AddBinConstraint(_gcmSystemPtr, GCMConstraintType.GCM_TANGENT, first.Descriptor,
-                second.Descriptor, alignment, tanChoice);
+                                            second.Descriptor, alignment, tanChoice);
             var cons = new GCMConstraint(desc, GCMConstraintType.GCM_TANGENT, first, second);
             _gcmConstraints.Add(cons);
             return cons;
@@ -725,12 +738,9 @@ namespace UnityC3D
         private GCMConstraint SetDistance(GCMObject first, GCMObject second, float distance, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor)
-                && c.Obj2.Descriptor.Equals(second.Descriptor)
-                && c.Type == GCMConstraintType.GCM_DISTANCE
-                || c.Obj1.Descriptor.Equals(second.Descriptor)
-                && c.Obj2.Descriptor.Equals(first.Descriptor)
-                && c.Type == GCMConstraintType.GCM_DISTANCE);
+                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                               || c.Obj1.Equals(second) && c.Obj2.Equals(first))
+                                              && c.Type == GCMConstraintType.GCM_DISTANCE);
 
             if (co == null)
             {
@@ -753,47 +763,14 @@ namespace UnityC3D
         private GCMConstraint SetAngle(GCMObject first, GCMObject second, float angle)
         {
             var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor)
-                && c.Obj2.Descriptor.Equals(second.Descriptor)
-                && c.Type == GCMConstraintType.GCM_ANGLE
-                || c.Obj1.Descriptor.Equals(second.Descriptor)
-                && c.Obj2.Descriptor.Equals(first.Descriptor)
-                && c.Type == GCMConstraintType.GCM_ANGLE);
+                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                               || c.Obj1.Equals(second) && c.Obj2.Equals(first))
+                                              && c.Type == GCMConstraintType.GCM_ANGLE);
 
             if (co == null)
             {
                 var desc = GCM_AddAngle(_gcmSystemPtr, first.Descriptor, second.Descriptor, angle);
                 var cons = new GCMConstraint(desc, GCMConstraintType.GCM_ANGLE, first, second);
-                _gcmConstraints.Add(cons);
-                return cons;
-            }
-
-            GCM_ChangeDrivingDimension(_gcmSystemPtr, co.Descriptor, angle);
-            return co;
-        }
-
-        /// <summary> Задаёт угол между двумя любыми объектами системы. </summary>
-        /// <remarks> Может привести к ошибке при расчете, если ограничение не применимо к переданным объектам. </remarks>
-        /// <param name="first"> Первый объект. </param>
-        /// <param name="second"> Второй объект. </param>
-        /// <param name="angle"> Угол в радианах. </param>
-        /// <returns> Объект ограничения. </returns>
-        public GCMConstraint SetAngle(GCMObject first, GCMObject second, GCMObject axis, float angle)
-        {
-            var co = _gcmConstraints.Find(c =>
-                c.Obj1.Descriptor.Equals(first.Descriptor)
-                && c.Obj2.Descriptor.Equals(second.Descriptor)
-                && (c.Obj3?.Equals(axis) ?? true)
-                && c.Type == GCMConstraintType.GCM_ANGLE
-                || c.Obj1.Descriptor.Equals(second.Descriptor)
-                && c.Obj2.Descriptor.Equals(first.Descriptor)
-                && (c.Obj3?.Equals(axis) ?? true)
-                && c.Type == GCMConstraintType.GCM_ANGLE);
-
-            if (co == null)
-            {
-                var desc = GCM_AddAngle(_gcmSystemPtr, first.Descriptor, second.Descriptor, axis.Descriptor, angle);
-                var cons = new GCMConstraint(desc, GCMConstraintType.GCM_ANGLE, first, second, axis);
                 _gcmConstraints.Add(cons);
                 return cons;
             }
@@ -968,25 +945,25 @@ namespace UnityC3D
 
 #if UNITY_EDITOR_64
         [DllImport("c3d",
-            EntryPoint =
-                "?GCM_AddBinConstraint@@YA?AUMtObjectId@@PEAVMtGeomSolver@@W4GCM_c_type@@U1@2W4GCM_alignment@@W4GCM_tan_choice@@@Z")]
+                   EntryPoint =
+                       "?GCM_AddBinConstraint@@YA?AUMtObjectId@@PEAVMtGeomSolver@@W4GCM_c_type@@U1@2W4GCM_alignment@@W4GCM_tan_choice@@@Z")]
 #else
         [DllImport("c3d", 
                    EntryPoint =
                        "?GCM_AddBinConstraint@@YA?AUMtObjectId@@PAVMtGeomSolver@@W4GCM_c_type@@U1@2W4GCM_alignment@@W4GCM_tan_choice@@@Z")]
 #endif
-        private static extern GCMDescriptor GCM_AddBinConstraint(IntPtr gSys, GCMConstraintType cType,
-            GCMDescriptor geom1, GCMDescriptor geom2,
-            GCMAlignment aValue, GCMTanChoice tValue);
+        private static extern GCMDescriptor GCM_AddBinConstraint(IntPtr        gSys,   GCMConstraintType cType,
+                                                                 GCMDescriptor geom1,  GCMDescriptor     geom2,
+                                                                 GCMAlignment  aValue, GCMTanChoice      tValue);
 
 #if UNITY_EDITOR_64
         [DllImport("c3d", EntryPoint = "?GCM_AddDistance@@YA?AUMtObjectId@@PEAVMtGeomSolver@@U1@1NW4GCM_alignment@@@Z")]
 #else
         [DllImport("c3d", EntryPoint = "?GCM_AddDistance@@YA?AUMtObjectId@@PAVMtGeomSolver@@U1@1NW4GCM_alignment@@@Z")]
 #endif
-        private static extern GCMDescriptor GCM_AddDistance(IntPtr gSys, GCMDescriptor geom1, GCMDescriptor geom2,
-            double value,
-            GCMAlignment aValue);
+        private static extern GCMDescriptor GCM_AddDistance(IntPtr       gSys, GCMDescriptor geom1, GCMDescriptor geom2,
+                                                            double       value,
+                                                            GCMAlignment aValue);
 
 #if UNITY_EDITOR_64
         [DllImport("c3d", EntryPoint = "?GCM_AddAngle@@YA?AUMtObjectId@@PEAVMtGeomSolver@@U1@1N@Z")]
@@ -994,7 +971,7 @@ namespace UnityC3D
         [DllImport("c3d", EntryPoint = "?GCM_AddAngle@@YA?AUMtObjectId@@PAVMtGeomSolver@@U1@1N@Z")]
 #endif
         private static extern GCMDescriptor GCM_AddAngle(IntPtr gSys, GCMDescriptor geom1, GCMDescriptor geom2,
-            double value);
+                                                         double value);
 
 #if UNITY_EDITOR_64
         [DllImport("c3d", EntryPoint = "?GCM_AddAngle@@YA?AUMtObjectId@@PEAVMtGeomSolver@@U1@11N@Z")]
@@ -1002,16 +979,16 @@ namespace UnityC3D
         [DllImport("c3d", EntryPoint = "?GCM_AddAngle@@YA?AUMtObjectId@@PAVMtGeomSolver@@U1@11N@Z")]
 #endif
         private static extern GCMDescriptor GCM_AddAngle(
-            IntPtr gSys,
+            IntPtr        gSys,
             GCMDescriptor geom1,
             GCMDescriptor geom2,
             GCMDescriptor axis,
-            double value);
+            double        value);
 
 
 #if UNITY_EDITOR_64
         [DllImport("c3d",
-            EntryPoint = "?GCM_ChangeDrivingDimension@@YA?AW4GCM_result@@PEAVMtGeomSolver@@UMtObjectId@@N@Z")]
+                   EntryPoint = "?GCM_ChangeDrivingDimension@@YA?AW4GCM_result@@PEAVMtGeomSolver@@UMtObjectId@@N@Z")]
 #else
         [DllImport("c3d", EntryPoint =
  "?GCM_ChangeDrivingDimension@@YA?AW4GCM_result@@PAVMtGeomSolver@@UMtObjectId@@N@Z")]
@@ -1024,36 +1001,36 @@ namespace UnityC3D
         [DllImport("c3d", EntryPoint = "?GCM_SetJournal@@YA_NPAVMtGeomSolver@@PBD@Z")]
 #endif
         private static extern bool GCM_SetJournal(IntPtr gSys, string filename);
-        
+
 
 #if UNITY_EDITOR_64
         [DllImport("c3d",
-            EntryPoint = "?GCM_AddAngularPattern@@YA?AUMtObjectId@@PEAVMtGeomSolver@@U1@1W4GCM_alignment@@@Z")]
+                   EntryPoint = "?GCM_AddAngularPattern@@YA?AUMtObjectId@@PEAVMtGeomSolver@@U1@1W4GCM_alignment@@@Z")]
 #else
         [DllImport("c3d", EntryPoint =
             "?GCM_AddAngularPattern@@YA?AUMtObjectId@@PAVMtGeomSolver@@U1@1W4GCM_alignment@@@Z")]
 #endif
         private static extern GCMDescriptor GCM_AddAngularPattern(
-            IntPtr gSys,
+            IntPtr        gSys,
             GCMDescriptor sample,
             GCMDescriptor axis,
-            GCMAlignment align);
+            GCMAlignment  align);
 
 #if UNITY_EDITOR_64
         [DllImport("c3d",
-            EntryPoint =
-                "?GCM_AddGeomToPattern@@YA?AUMtObjectId@@PEAVMtGeomSolver@@U1@1NW4GCM_alignment@@W4GCM_scale@@@Z")]
+                   EntryPoint =
+                       "?GCM_AddGeomToPattern@@YA?AUMtObjectId@@PEAVMtGeomSolver@@U1@1NW4GCM_alignment@@W4GCM_scale@@@Z")]
 #else
         [DllImport("c3d", EntryPoint =
             "?GCM_AddGeomToPattern@@YA?AUMtObjectId@@PAVMtGeomSolver@@U1@1NW4GCM_alignment@@W4GCM_scale@@@Z")]
 #endif
         private static extern GCMDescriptor GCM_AddGeomToPattern(
-            IntPtr gSys,
+            IntPtr        gSys,
             GCMDescriptor pattern,
             GCMDescriptor geom,
-            double position,
-            GCMAlignment align,
-            GCMScale scale);
+            double        position,
+            GCMAlignment  align,
+            GCMScale      scale);
 
         #endregion
     }

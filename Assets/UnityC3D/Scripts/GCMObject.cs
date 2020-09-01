@@ -45,7 +45,7 @@ namespace UnityC3D
             set
             {
                 var p = Placement;
-                p.AxisZ = value;
+                p.AxisZ   = value;
                 Placement = p;
                 OnPropertyChanged();
             }
@@ -90,7 +90,7 @@ namespace UnityC3D
             set
             {
                 var p = Placement;
-                p.AxisZ = value;
+                p.AxisZ   = value;
                 Placement = p;
                 OnPropertyChanged();
             }
@@ -120,9 +120,9 @@ namespace UnityC3D
             : base(sys, sys.AddCircle(origin, normal, radius, parent?.Descriptor), parent)
         {
             RadiusConstraint = sys.CreateRadiusConstraint(this);
-            Radius = radius;
+            Radius           = radius;
         }
-        
+
         /// <summary> Радиус окружности. </summary>
         public float Radius
         {
@@ -141,7 +141,7 @@ namespace UnityC3D
             set
             {
                 var p = Placement;
-                p.AxisZ = value;
+                p.AxisZ   = value;
                 Placement = p;
                 OnPropertyChanged();
             }
@@ -163,17 +163,19 @@ namespace UnityC3D
             if (DrawObject == null) return;
 
             var lineRenderer = DrawObject.GetComponent<LineRenderer>();
-            lineRenderer.endWidth = Radius / 3;
+            lineRenderer.endWidth   = Radius / 3;
             lineRenderer.startWidth = Radius / 3;
-            lineRenderer.loop = true;
+            lineRenderer.loop       = true;
 
             var numberOfPoints = 15;
             lineRenderer.positionCount = numberOfPoints;
             Vector3[] points = new Vector3[numberOfPoints];
             for (int i = 0; i < numberOfPoints; i++)
             {
-                points[i] =  Quaternion.AngleAxis(360 / numberOfPoints * i, Vector3.forward) * Vector3.right * Radius; //-V3041
+                points[i] = Quaternion.AngleAxis(360 / numberOfPoints * i, Vector3.forward) * Vector3.right *
+                            Radius; //-V3041
             }
+
             lineRenderer.SetPositions(points);
         }
 
@@ -192,7 +194,7 @@ namespace UnityC3D
             : base(sys, sys.AddLCS(placement, parent?.Descriptor), parent)
         {
         }
-        
+
         /// <summary> Конструктор. </summary>
         /// <param name="sys"> Система геометрических ограничений. </param>
         /// <param name="placement"> Размещение объекта в C3D. </param>
@@ -201,32 +203,32 @@ namespace UnityC3D
             : base(sys, sys.AddLCS(placement, parent?.Descriptor), parent)
         {
         }
-        
+
         internal GCM_LCS(GCMSystem sys, GCMDescriptor desc) : base(sys, desc)
         {
         }
     }
-    
+
     /// <summary> Абстрактрный геометрический объект в C3D. </summary>
     public abstract class GCMObject : INotifyPropertyChanged, IDisposable
     {
         internal GCMObject(GCMSystem sys, GCMDescriptor desc, GCM_LCS parent = null)
         {
-            GCMSys = sys;
+            GCMSys     = sys;
             Descriptor = desc;
-            Parent = parent;
+            Parent     = parent;
 
             sys.Evaluated += UpdatePlacement;
-            
+
             if (parent != null)
             {
                 parent.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
-                {
-                    if (args.PropertyName == nameof(Placement))
-                    {
-                        UpdatePlacement();
-                    }
-                };
+                                          {
+                                              if (args.PropertyName == nameof(Placement))
+                                              {
+                                                  UpdatePlacement();
+                                              }
+                                          };
             }
 
             _placement = GCMSys.GetPlacement(this);
@@ -239,9 +241,9 @@ namespace UnityC3D
             set
             {
                 if (Origin.FloatEquals(value)) return;
-                
+
                 var p = Placement;
-                p.Origin = value;
+                p.Origin  = value;
                 Placement = p;
                 OnPropertyChanged();
             }
@@ -263,6 +265,8 @@ namespace UnityC3D
 
         public void Dispose()
         {
+            if (IsDisposed) return;
+            IsDisposed = true;
             GCMSys.Remove(this);
             GCMSys.Evaluated -= UpdatePlacement;
         }
@@ -289,9 +293,10 @@ namespace UnityC3D
         {
             if (DrawObject == null)
             {
-                DrawObject = UnityEngine.Object.Instantiate(Resources.Load("DrawObject", typeof(GameObject))) as GameObject;
+                DrawObject =
+                    UnityEngine.Object.Instantiate(Resources.Load("DrawObject", typeof(GameObject))) as GameObject;
             }
-            
+
             if (DrawObject == null) return;
 
             DrawObject.name = name;
@@ -324,7 +329,7 @@ namespace UnityC3D
         protected virtual void UpdatePlacement()
         {
             var newPlacement = GCMSys.GetPlacement(this);
-            var oldOrigin = Origin;
+            var oldOrigin    = Origin;
             if (!newPlacement.Equals(Placement))
             {
                 _placement = newPlacement;
@@ -336,18 +341,20 @@ namespace UnityC3D
                 OnPropertyChanged(nameof(Origin));
             }
         }
-        
+
         /// <summary> Родительская система координат объекта. </summary>
         public readonly GCMObject Parent;
 
-        internal readonly GCMDescriptor Descriptor;
-        protected readonly GCMSystem GCMSys;
-        [CanBeNull] protected GameObject DrawObject;
+        public bool IsDisposed { get; private set; }
+
+        internal readonly     GCMDescriptor Descriptor;
+        protected readonly    GCMSystem     GCMSys;
+        [CanBeNull] protected GameObject    DrawObject;
 
         #region INotifyPropertyChanged
-        
+
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
