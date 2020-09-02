@@ -3,7 +3,6 @@
 
 using HoloTest;
 using UnityEngine;
-using UnityEngine.Experimental.PlayerLoop;
 
 // ReSharper disable AccessToStaticMemberViaDerivedType
 
@@ -28,10 +27,11 @@ namespace UnityC3D.Tests
             var a = new MbVector3D
             {
                 X = 1,
-                Y = 2,
-                Z = 3,
+                Y = 3,
+                Z = 2,
             };
 
+            // Проверка на преобразование левосторонней СК в правостороннюю
             var b = MbVector3D.FromUnity(new Vector3(1, 2, 3));
             Assert.AreEqual(a, b);
 
@@ -41,7 +41,7 @@ namespace UnityC3D.Tests
                 Y = 23432.4,
                 Z = -23123,
             };
-            Assert.AreEqual(a.ToUnity(), new Vector3(2.5f, 23432.4f, -23123f));
+            Assert.AreEqual(a.ToUnity(), new Vector3(2.5f, -23123f, 23432.4f));
         }
 
         [HoloTestCase]
@@ -77,10 +77,10 @@ namespace UnityC3D.Tests
             {
                 var origin = new Vector3(1, 2, 3);
                 var point  = new GCMPoint(sys, origin);
-                Assert.AreEqual(point.Placement.Origin, origin);
+                Assert.AreEqual(point.Origin, origin);
 
                 point.Origin = Vector3.left;
-                Assert.AreEqual(point.Placement.Origin, Vector3.left);
+                Assert.AreEqual(point.Origin, Vector3.left);
             }
         }
 
@@ -92,12 +92,12 @@ namespace UnityC3D.Tests
                 var origin    = new Vector3(1, 2, 3);
                 var direction = Vector3.up;
                 var line      = new GCMLine(sys, origin, direction);
-                Assert.AreEqual(line.Placement.Origin, origin);
-                Assert.AreEqual(line.Placement.AxisZ, direction);
+                Assert.AreEqual(line.Origin, origin);
+                Assert.AreEqual(line.Direction, direction);
 
                 line.Direction = Vector3.back;
-                Assert.AreEqual(line.Placement.Origin, origin);
-                Assert.AreEqual(line.Placement.AxisZ, Vector3.back);
+                Assert.AreEqual(line.Origin, origin);
+                Assert.AreEqual(line.Direction, Vector3.back);
             }
         }
 
@@ -109,8 +109,8 @@ namespace UnityC3D.Tests
                 var origin = new Vector3(1, 2, 3);
                 var normal = Vector3.up;
                 var p      = new GCMPlane(sys, origin, normal);
-                Assert.AreEqual(p.Placement.Origin, origin);
-                Assert.AreEqual(p.Placement.AxisZ, normal);
+                Assert.AreEqual(p.Origin, origin);
+                Assert.AreEqual(p.Normal, normal);
             }
         }
 
@@ -124,8 +124,8 @@ namespace UnityC3D.Tests
                 float radius = 5.3f;
                 var   circle = new GCMCircle(sys, origin, normal, radius);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                Assert.AreEqual(circle.Placement.Origin, origin);
-                Assert.AreEqual(circle.Placement.AxisZ, normal);
+                Assert.AreEqual(circle.Origin, origin);
+                Assert.AreEqual(circle.Normal, normal);
                 Assert.AreEqual(circle.Radius, radius);
 
                 float newRadius = 7.56f;
@@ -169,7 +169,7 @@ namespace UnityC3D.Tests
             {
                 var lcs = sys.GroundLCS;
                 Assert.AreEqual(lcs.Placement.Origin, Vector3.zero);
-                Assert.AreEqual(lcs.Placement.AxisZ, -Vector3.forward);
+                Assert.AreEqual(lcs.Placement.AxisZ, Vector3.forward);
                 Assert.AreEqual(lcs.Placement.AxisY, Vector3.up);
                 Assert.AreEqual(lcs.Placement.AxisX, Vector3.right);
             }

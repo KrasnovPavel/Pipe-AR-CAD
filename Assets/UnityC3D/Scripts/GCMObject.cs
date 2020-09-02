@@ -2,7 +2,6 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
@@ -41,11 +40,11 @@ namespace UnityC3D
         /// <summary> Направляющий вектор прямой. </summary>
         public Vector3 Direction
         {
-            get => Placement.AxisZ;
+            get => Placement.AxisY;
             set
             {
                 var p = Placement;
-                p.AxisZ   = value;
+                p.AxisY = value;
                 Placement = p;
                 OnPropertyChanged();
             }
@@ -86,11 +85,11 @@ namespace UnityC3D
         /// <summary> Нормаль к плоскости. </summary>
         public Vector3 Normal
         {
-            get => Placement.AxisZ;
+            get => Placement.AxisY;
             set
             {
                 var p = Placement;
-                p.AxisZ   = value;
+                p.AxisY = value;
                 Placement = p;
                 OnPropertyChanged();
             }
@@ -120,7 +119,7 @@ namespace UnityC3D
             : base(sys, sys.AddCircle(origin, normal, radius, parent?.Descriptor), parent)
         {
             RadiusConstraint = sys.CreateRadiusConstraint(this);
-            Radius           = radius;
+            Radius = radius;
         }
 
         /// <summary> Радиус окружности. </summary>
@@ -137,11 +136,11 @@ namespace UnityC3D
         /// <summary> Нормаль к плоскости окружности. </summary>
         public Vector3 Normal
         {
-            get => Placement.AxisZ;
+            get => Placement.AxisY;
             set
             {
                 var p = Placement;
-                p.AxisZ   = value;
+                p.AxisY = value;
                 Placement = p;
                 OnPropertyChanged();
             }
@@ -163,17 +162,17 @@ namespace UnityC3D
             if (DrawObject == null) return;
 
             var lineRenderer = DrawObject.GetComponent<LineRenderer>();
-            lineRenderer.endWidth   = Radius / 3;
+            lineRenderer.endWidth = Radius / 3;
             lineRenderer.startWidth = Radius / 3;
-            lineRenderer.loop       = true;
+            lineRenderer.loop = true;
 
             var numberOfPoints = 15;
             lineRenderer.positionCount = numberOfPoints;
             Vector3[] points = new Vector3[numberOfPoints];
             for (int i = 0; i < numberOfPoints; i++)
             {
-                points[i] = Quaternion.AngleAxis(360 / numberOfPoints * i, Vector3.forward) * Vector3.right *
-                            Radius; //-V3041
+                points[i] = Quaternion.AngleAxis(360 / numberOfPoints * i, Vector3.forward) //-V3041
+                            * Vector3.right * Radius;
             }
 
             lineRenderer.SetPositions(points);
@@ -214,9 +213,9 @@ namespace UnityC3D
     {
         internal GCMObject(GCMSystem sys, GCMDescriptor desc, GCM_LCS parent = null)
         {
-            GCMSys     = sys;
+            GCMSys = sys;
             Descriptor = desc;
-            Parent     = parent;
+            Parent = parent;
 
             sys.Evaluated += UpdatePlacement;
 
@@ -243,7 +242,7 @@ namespace UnityC3D
                 if (Origin.FloatEquals(value)) return;
 
                 var p = Placement;
-                p.Origin  = value;
+                p.Origin = value;
                 Placement = p;
                 OnPropertyChanged();
             }
@@ -329,7 +328,7 @@ namespace UnityC3D
         protected virtual void UpdatePlacement()
         {
             var newPlacement = GCMSys.GetPlacement(this);
-            var oldOrigin    = Origin;
+            var oldOrigin = Origin;
             if (!newPlacement.Equals(Placement))
             {
                 _placement = newPlacement;
@@ -347,9 +346,9 @@ namespace UnityC3D
 
         public bool IsDisposed { get; private set; }
 
-        internal readonly     GCMDescriptor Descriptor;
-        protected readonly    GCMSystem     GCMSys;
-        [CanBeNull] protected GameObject    DrawObject;
+        internal readonly GCMDescriptor Descriptor;
+        protected readonly GCMSystem GCMSys;
+        [CanBeNull] protected GameObject DrawObject;
 
         #region INotifyPropertyChanged
 

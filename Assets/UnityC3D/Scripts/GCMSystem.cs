@@ -434,7 +434,7 @@ namespace UnityC3D
         internal GCMDescriptor AddLine(Vector3 origin, Vector3 direction, GCMDescriptor? parent = null)
         {
             var o    = MbVector3D.FromUnity(origin);
-            var d    = MbVector3D.FromUnity(-direction);
+            var d    = MbVector3D.FromUnity(direction);
             var line = GCM_Line(ref o, ref d);
             return parent == null
                        ? GCM_AddGeom(_gcmSystemPtr, ref line)
@@ -449,7 +449,7 @@ namespace UnityC3D
         internal GCMDescriptor AddPlane(Vector3 origin, Vector3 normal, GCMDescriptor? parent = null)
         {
             var o     = MbVector3D.FromUnity(origin);
-            var n     = MbVector3D.FromUnity(-normal);
+            var n     = MbVector3D.FromUnity(normal);
             var plane = GCM_Plane(ref o, ref n);
             return parent == null
                        ? GCM_AddGeom(_gcmSystemPtr, ref plane)
@@ -465,7 +465,7 @@ namespace UnityC3D
         internal GCMDescriptor AddCircle(Vector3 origin, Vector3 normal, float radius, GCMDescriptor? parent = null)
         {
             var o      = MbVector3D.FromUnity(origin);
-            var n      = MbVector3D.FromUnity(-normal);
+            var n      = MbVector3D.FromUnity(normal);
             var circle = GCM_Circle(ref o, ref n, radius);
             return parent == null
                        ? GCM_AddGeom(_gcmSystemPtr, ref circle)

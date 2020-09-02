@@ -42,6 +42,7 @@ namespace HoloCAD.Tubes.C3D
         /// <param name="placement"> Новое расположение. </param>
         public void SetPlacement(MbPlacement3D placement)
         {
+            MainLCS.Placement = placement;
             Sys.Evaluate();
         }
     }

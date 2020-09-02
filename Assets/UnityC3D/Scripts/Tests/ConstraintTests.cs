@@ -4,7 +4,6 @@
 using HoloTest;
 using MathExtensions;
 using UnityEngine;
-using UnityEngine.UI;
 
 // ReSharper disable AccessToStaticMemberViaDerivedType
 

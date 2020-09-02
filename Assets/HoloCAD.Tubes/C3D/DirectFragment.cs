@@ -58,11 +58,11 @@ namespace HoloCAD.Tubes.C3D
                 throw new FragmentsNotConnectable();
             }
 
-            StartCircle = new GCMCircle(sys, Vector3.zero, -Vector3.forward, diameter / 2, MainLCS);
+            StartCircle = new GCMCircle(sys, Vector3.zero, Vector3.forward, diameter / 2, MainLCS);
             StartCircle.Freeze();
-            _axis = new GCMLine(sys, Vector3.zero, -Vector3.forward, MainLCS);
+            _axis = new GCMLine(sys, Vector3.zero, Vector3.forward, MainLCS);
             _axis.Freeze();
-            StartPlane = new GCMPlane(sys, Vector3.zero, -Vector3.forward, MainLCS);
+            StartPlane = new GCMPlane(sys, Vector3.zero, Vector3.forward, MainLCS);
             StartPlane.Freeze();
             _startRightAxis = new GCMLine(sys, Vector3.zero, Vector3.right, MainLCS);
             _startRightAxis.Freeze();

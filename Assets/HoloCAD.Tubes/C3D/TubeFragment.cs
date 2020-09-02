@@ -82,8 +82,8 @@ namespace HoloCAD.Tubes.C3D
             Sys = sys;
             if (useLCS) MainLCS = new GCM_LCS(Sys, sys.GroundLCS.Placement, sys.GroundLCS);
 
-            EndCircle = new GCMCircle(sys, Vector3.zero, -Vector3.forward, diameter / 2, useLCS ? MainLCS : null);
-            EndPlane  = new GCMPlane(sys, Vector3.zero, -Vector3.forward, useLCS ? MainLCS : null);
+            EndCircle = new GCMCircle(sys, Vector3.zero, Vector3.forward, diameter / 2, useLCS ? MainLCS : null);
+            EndPlane  = new GCMPlane(sys, Vector3.zero, Vector3.forward, useLCS ? MainLCS : null);
             RightAxis = new GCMLine(sys, Vector3.zero, Vector3.right, useLCS ? MainLCS : null);
 
             sys.MakeCoincident(EndCircle, EndPlane);

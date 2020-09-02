@@ -31,8 +31,8 @@ namespace HoloCAD.Tubes
 
         public void Join()
         {
-            // TubeFragmentsFactory.MainSys.MakeCoincident(_firstTubeFragment.EndCircle, 
-            //     _secondTubeFragment.EndCircle, GCMAlignment.Opposite);
+            TubeFragmentsFactory.MainSys.MakeCoincident(_firstTubeFragment.EndCircle, 
+                _secondTubeFragment.EndCircle, GCMAlignment.Opposite);
         }
 
         public void Evaluate()

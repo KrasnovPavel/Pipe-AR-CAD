@@ -31,8 +31,8 @@ namespace UnityC3D
             return new MbVector3D
             {
                 X = unityVector.x,
-                Y = unityVector.y,
-                Z = unityVector.z,
+                Y = unityVector.z,
+                Z = unityVector.y,
             };
         }
 
@@ -45,14 +45,14 @@ namespace UnityC3D
         /// <summary> Преобразует в вектор Unity. </summary>
         public Vector3 ToUnity()
         {
-            return new Vector3((float) X, (float) Y, (float) Z);
+            return new Vector3((float) X, (float) Z, (float) Y);
         }
 
-        public bool Equals(MbVector3D other)
+        public bool Equals(MbVector3D other, double eps = 0.0001)
         {
-            return Math.Abs(X - other.X) < Double.Epsilon
-                   && Math.Abs(Y - other.Y) < Double.Epsilon
-                   && Math.Abs(Z - other.Z) < Double.Epsilon;
+            return Math.Abs(X - other.X) < eps
+                   && Math.Abs(Y - other.Y) < eps
+                   && Math.Abs(Z - other.Z) < eps;
         }
 
         /// <inheritdoc />

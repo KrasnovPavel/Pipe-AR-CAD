@@ -15,16 +15,16 @@ namespace HoloCAD.Tubes.C3D
         {
             MainLCS = new GCM_LCS(sys, sys.GroundLCS.Placement);
             
-            StartCircle = new GCMCircle(sys, Vector3.zero, -Vector3.forward, diameter / 2);
+            StartCircle = new GCMCircle(sys, Vector3.zero, Vector3.forward, diameter / 2);
             _startPoint = new GCMPoint(sys, Vector3.zero);
             _startPoint.Freeze();
             sys.MakeConcentric(StartCircle, _startPoint);
             
-            StartPlane = new GCMPlane(sys, Vector3.zero, -Vector3.forward, MainLCS);
+            StartPlane = new GCMPlane(sys, Vector3.zero, Vector3.forward, MainLCS);
             sys.MakeCoincident(StartCircle, StartPlane, GCMAlignment.Cooriented);
             StartPlane.Freeze();
 
-            _axis = new GCMLine(sys, Vector3.zero, Vector3.zero, MainLCS);
+            _axis = new GCMLine(sys, Vector3.zero, Vector3.forward, MainLCS);
             _axis.Freeze();
             
             _startRightAxis = new GCMLine(sys, Vector3.zero, Vector3.right, MainLCS); //-V3127

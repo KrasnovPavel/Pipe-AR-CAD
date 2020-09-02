@@ -88,39 +88,35 @@ namespace HoloCAD.Tubes.C3D.Tests
                 t.LookAt(Vector3.one);
                 s.SetPlacement(MbPlacement3D.FromUnity(t));
 
-                // Странная фигня, почему-то c3d меняет направление оси Y на противоположное.
-                // В данном случае, это ни на что не влияет, но может неприятно вылезти в будущем.
-                // Это не c3d, это проблема перевода в левостороннюю систему координат,
-                // Assert.AreEqual(s.Placement, MbPlacement3D.FromUnity(t));
+                Assert.AreEqual(s.Placement, MbPlacement3D.FromUnity(t));
                 Assert.AreEqual(f.StartCircle.Origin, s.EndCircle.Origin);
                 Assert.AreEqual(f.StartCircle.Normal, s.EndCircle.Normal);
                 Assert.AreEqual((s.EndCircle.Origin - f.EndCircle.Origin).magnitude, 0.43f);
-                Assert.AreEqual(s.Placement, MbPlacement3D.FromUnity(t));
 
                 GameObject.Destroy(g);
                 GameObject.Destroy(t.gameObject);
             }
         }
-
+        
         private static Vector3 GetBendedEndPoint(float bendRadius, float bendAngle, float rotationAngle)
         {
             return new
                 Vector3(
                         bendRadius * (1 - Mathf.Cos(Mathf.Deg2Rad * bendAngle)) *
                         Mathf.Cos(Mathf.Deg2Rad * rotationAngle),
-                        bendRadius * (1 - Mathf.Cos(Mathf.Deg2Rad * bendAngle)) *
+                        -bendRadius * (1 - Mathf.Cos(Mathf.Deg2Rad * bendAngle)) *
                         Mathf.Sin(Mathf.Deg2Rad * rotationAngle),
                         -bendRadius * Mathf.Sin(Mathf.Deg2Rad * bendAngle));
         }
 
         private struct AngleData
         {
-            public float bend;
-            public float rotation;
+            public float Bend;
+            public float Rotation;
 
             public override string ToString()
             {
-                return $"[bend {bend:f1}, rotation {rotation:f1}]";
+                return $"[bend {Bend:f1}, rotation {Rotation:f1}]";
             }
         }
 
@@ -132,61 +128,61 @@ namespace HoloCAD.Tubes.C3D.Tests
 
             var angles = new[]
             {
-                new AngleData {bend = 90f, rotation  = 0f},
-                new AngleData {bend = 30f, rotation  = 0f},
-                new AngleData {bend = 45f, rotation  = 0f},
-                new AngleData {bend = 180f, rotation = 0f},
-                new AngleData {bend = 130f, rotation = 0f},
-                new AngleData {bend = 90f, rotation  = 45f},
-                new AngleData {bend = 30f, rotation  = 45f},
-                new AngleData {bend = 45f, rotation  = 45f},
-                new AngleData {bend = 180f, rotation = 45f},
-                new AngleData {bend = 130f, rotation = 45f},
-                new AngleData {bend = 90f, rotation  = 90f},
-                new AngleData {bend = 30f, rotation  = 90f},
-                new AngleData {bend = 45f, rotation  = 90f},
-                new AngleData {bend = 180f, rotation = 90f},
-                new AngleData {bend = 130f, rotation = 90f},
-                new AngleData {bend = 90f, rotation  = 60f},
-                new AngleData {bend = 30f, rotation  = 60f},
-                new AngleData {bend = 45f, rotation  = 60f},
-                new AngleData {bend = 180f, rotation = 60f},
-                new AngleData {bend = 130f, rotation = 60f},
-                new AngleData {bend = 90f, rotation  = 120f},
-                new AngleData {bend = 30f, rotation  = 120f},
-                new AngleData {bend = 45f, rotation  = 120f},
-                new AngleData {bend = 180f, rotation = 120f},
-                new AngleData {bend = 130f, rotation = 120f},
-                new AngleData {bend = 90f, rotation  = 180f},
-                new AngleData {bend = 30f, rotation  = 180f},
-                new AngleData {bend = 45f, rotation  = 180f},
-                new AngleData {bend = 180f, rotation = 180f},
-                new AngleData {bend = 130f, rotation = 180f},
-                new AngleData {bend = 90f, rotation  = 200f},
-                new AngleData {bend = 30f, rotation  = 200f},
-                new AngleData {bend = 45f, rotation  = 200f},
-                new AngleData {bend = 180f, rotation = 200f},
-                new AngleData {bend = 130f, rotation = 200f},
-                new AngleData {bend = 90f, rotation  = 270f},
-                new AngleData {bend = 30f, rotation  = 270f},
-                new AngleData {bend = 45f, rotation  = 270f},
-                new AngleData {bend = 180f, rotation = 270f},
-                new AngleData {bend = 130f, rotation = 270f},
-                new AngleData {bend = 90f, rotation  = 300f},
-                new AngleData {bend = 30f, rotation  = 300f},
-                new AngleData {bend = 45f, rotation  = 300f},
-                new AngleData {bend = 180f, rotation = 300f},
-                new AngleData {bend = 130f, rotation = 300f},
-                new AngleData {bend = 90f, rotation  = 360f},
-                new AngleData {bend = 30f, rotation  = 360f},
-                new AngleData {bend = 45f, rotation  = 360f},
-                new AngleData {bend = 180f, rotation = 360f},
-                new AngleData {bend = 130f, rotation = 360f},
-                new AngleData {bend = 90f, rotation  = 450f},
-                new AngleData {bend = 30f, rotation  = 450f},
-                new AngleData {bend = 45f, rotation  = 450f},
-                new AngleData {bend = 180f, rotation = 450f},
-                new AngleData {bend = 130f, rotation = 450f},
+                new AngleData {Bend = 90f, Rotation  = 0f},
+                new AngleData {Bend = 30f, Rotation  = 0f},
+                new AngleData {Bend = 45f, Rotation  = 0f},
+                new AngleData {Bend = 180f, Rotation = 0f},
+                new AngleData {Bend = 130f, Rotation = 0f},
+                new AngleData {Bend = 90f, Rotation  = 45f},
+                new AngleData {Bend = 30f, Rotation  = 45f},
+                new AngleData {Bend = 45f, Rotation  = 45f},
+                new AngleData {Bend = 180f, Rotation = 45f},
+                new AngleData {Bend = 130f, Rotation = 45f},
+                new AngleData {Bend = 90f, Rotation  = 90f},
+                new AngleData {Bend = 30f, Rotation  = 90f},
+                new AngleData {Bend = 45f, Rotation  = 90f},
+                new AngleData {Bend = 180f, Rotation = 90f},
+                new AngleData {Bend = 130f, Rotation = 90f},
+                new AngleData {Bend = 90f, Rotation  = 60f},
+                new AngleData {Bend = 30f, Rotation  = 60f},
+                new AngleData {Bend = 45f, Rotation  = 60f},
+                new AngleData {Bend = 180f, Rotation = 60f},
+                new AngleData {Bend = 130f, Rotation = 60f},
+                new AngleData {Bend = 90f, Rotation  = 120f},
+                new AngleData {Bend = 30f, Rotation  = 120f},
+                new AngleData {Bend = 45f, Rotation  = 120f},
+                new AngleData {Bend = 180f, Rotation = 120f},
+                new AngleData {Bend = 130f, Rotation = 120f},
+                new AngleData {Bend = 90f, Rotation  = 180f},
+                new AngleData {Bend = 30f, Rotation  = 180f},
+                new AngleData {Bend = 45f, Rotation  = 180f},
+                new AngleData {Bend = 180f, Rotation = 180f},
+                new AngleData {Bend = 130f, Rotation = 180f},
+                new AngleData {Bend = 90f, Rotation  = 200f},
+                new AngleData {Bend = 30f, Rotation  = 200f},
+                new AngleData {Bend = 45f, Rotation  = 200f},
+                new AngleData {Bend = 180f, Rotation = 200f},
+                new AngleData {Bend = 130f, Rotation = 200f},
+                new AngleData {Bend = 90f, Rotation  = 270f},
+                new AngleData {Bend = 30f, Rotation  = 270f},
+                new AngleData {Bend = 45f, Rotation  = 270f},
+                new AngleData {Bend = 180f, Rotation = 270f},
+                new AngleData {Bend = 130f, Rotation = 270f},
+                new AngleData {Bend = 90f, Rotation  = 300f},
+                new AngleData {Bend = 30f, Rotation  = 300f},
+                new AngleData {Bend = 45f, Rotation  = 300f},
+                new AngleData {Bend = 180f, Rotation = 300f},
+                new AngleData {Bend = 130f, Rotation = 300f},
+                new AngleData {Bend = 90f, Rotation  = 360f},
+                new AngleData {Bend = 30f, Rotation  = 360f},
+                new AngleData {Bend = 45f, Rotation  = 360f},
+                new AngleData {Bend = 180f, Rotation = 360f},
+                new AngleData {Bend = 130f, Rotation = 360f},
+                new AngleData {Bend = 90f, Rotation  = 450f},
+                new AngleData {Bend = 30f, Rotation  = 450f},
+                new AngleData {Bend = 45f, Rotation  = 450f},
+                new AngleData {Bend = 180f, Rotation = 450f},
+                new AngleData {Bend = 130f, Rotation = 450f},
             };
 
             foreach (var angle in angles)
@@ -197,12 +193,12 @@ namespace HoloCAD.Tubes.C3D.Tests
                                  {
                                      sys.SetJournal($"Journals\\BendedFragmentCreation{angle.ToString()}");
                                      var s = new StartFragment(sys, diameter, sys.GroundLCS.Placement);
-                                     var b = new BendedFragment(sys, bendRadius, angle.bend, angle.rotation, diameter,
+                                     var b = new BendedFragment(sys, bendRadius, angle.Bend, angle.Rotation, diameter,
                                                                 s);
 
                                      Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok, angle.ToString());
                                      Assert.AreEqual(b.EndCircle.Origin - b.StartCircle.Origin,
-                                                     GetBendedEndPoint(bendRadius, angle.bend, angle.rotation),
+                                                     GetBendedEndPoint(bendRadius, angle.Bend, angle.Rotation),
                                                      Assert.Epsilon,
                                                      angle + " // EndCircle pos");
 
@@ -213,7 +209,7 @@ namespace HoloCAD.Tubes.C3D.Tests
                                                      angle + " // RightLine origin");
                                      Assert.AreEqual(b.RightAxis.Direction,
                                                      -(b.EndCircle.Origin -
-                                                       Quaternion.AngleAxis(-angle.rotation, b.StartCircle.Normal) *
+                                                       Quaternion.AngleAxis(-angle.Rotation, b.StartCircle.Normal) *
                                                        Vector3.right * bendRadius).normalized,
                                                      Assert.Epsilon,
                                                      angle + " // Right Line direction");
