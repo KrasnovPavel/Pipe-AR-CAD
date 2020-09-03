@@ -69,7 +69,7 @@ namespace UnityC3D
         public void Apply(Transform tr)
         {
             tr.position = Origin;
-            tr.LookAt(Origin + AxisZ, AxisY);
+            tr.LookAt(Origin + AxisY, AxisZ);
         }
 
         /// <summary> Создаёт размещение из Transform. </summary>

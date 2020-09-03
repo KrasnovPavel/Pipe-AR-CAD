@@ -8,7 +8,7 @@ using UnityEngine;
 namespace HoloCAD.Tubes.C3D
 {
     /// <summary> Модель прямого отрезка трубы в системе C3D. </summary>
-    public class DirectTubeFragment : TubeFragment
+    public class DirectFragment : TubeFragment
     {
         /// <summary> Длина отрезка. </summary>
         public float Length
@@ -18,7 +18,9 @@ namespace HoloCAD.Tubes.C3D
             {
                 if (Math.Abs(Length - value) < float.Epsilon) return;
 
-                Sys.SetDistance(EndPlane, StartPlane, value, GCMAlignment.Cooriented);
+                // Sys.SetDistance(EndPlane, StartPlane, value, GCMAlignment.Cooriented);
+                _lengthPattern.ChangeValue(EndCircle, value);
+                
                 Sys.Evaluate();
                 OnPropertyChanged();
             }
@@ -46,41 +48,44 @@ namespace HoloCAD.Tubes.C3D
 
         /// <summary> Конструктор. </summary>
         /// <param name="sys"> Система C3D. </param>
-        /// <param name="parent"> Предыдущий отрезок. </param>
         /// <param name="diameter"> Диаметр отрезка. </param>
         /// <param name="length"> Длина отрезка </param>
+        /// <param name="parent"> Предыдущий отрезок. </param>
         /// <exception cref="FragmentsNotConnectable"></exception>
-        public DirectTubeFragment(GCMSystem sys, TubeFragment parent, float diameter, float length)
-            : base(sys, diameter, parent, true)
+        public DirectFragment(GCMSystem sys, float diameter, float length, TubeFragment parent)
+            : base(sys, diameter, parent)
         {
             if (parent != null && Math.Abs(parent.Diameter - diameter) > float.Epsilon)
             {
                 throw new FragmentsNotConnectable();
             }
 
-            StartCircle = new GCMCircle(sys, Vector3.zero, Vector3.forward, diameter / 2, MainLCS);
-            StartCircle.Freeze();
-            _axis = new GCMLine(sys, Vector3.zero, Vector3.forward, MainLCS);
-            _axis.Freeze();
-            StartPlane = new GCMPlane(sys, Vector3.zero, Vector3.forward, MainLCS);
-            StartPlane.Freeze();
-            _startRightAxis = new GCMLine(sys, Vector3.zero, Vector3.right, MainLCS);
-            _startRightAxis.Freeze();
+            // MainLCS = new GCM_LCS(Sys, sys.GroundLCS.Placement, sys.GroundLCS);
 
-            sys.MakeParallel(EndPlane, StartPlane, GCMAlignment.Cooriented);
-            sys.MakeConcentric(EndCircle, _axis);
-            sys.MakeConcentric(StartCircle, _axis);
-            sys.MakeCoincident(EndCircle, EndPlane, GCMAlignment.Cooriented);
-            sys.MakeCoincident(StartCircle, StartPlane, GCMAlignment.Cooriented);
-            sys.MakePerpendicular(_axis, StartPlane);
-            sys.MakeParallel(_startRightAxis, RightAxis);
+            StartCircle = new GCMCircle(sys, Vector3.zero, Vector3.forward, diameter / 2);
+            var startPoint = new GCMPoint(sys, Vector3.zero);
+            sys.MakeConcentric(StartCircle, startPoint);
+            
+            var startPlane = new GCMPlane(sys, Vector3.zero, Vector3.forward);
+            _axis = new GCMLine(sys, Vector3.zero, Vector3.forward);
+            sys.MakeCoincident(StartCircle, startPlane, GCMAlignment.Cooriented);
+            sys.MakePerpendicular(_axis, startPlane, GCMAlignment.Cooriented);
+            
+            _startRightAxis = new GCMLine(sys, Vector3.zero, Vector3.right);
 
-            Length = length;
+            _lengthPattern = sys.CreateLinearPattern(StartCircle, _axis, GCMAlignment.AlignWithAxialGeom);
+            _lengthPattern.AddObject(EndCircle, length, GCMAlignment.Cooriented, GCMScale.GCM_RIGID);
 
+            var endPoint = new GCMPoint(sys, Vector3.forward * length);
+            sys.MakeConcentric(EndCircle, endPoint);
+            sys.MakeCoincident(endPoint, RightAxis);
+            sys.MakeParallel(RightAxis, _startRightAxis, GCMAlignment.Cooriented);
+            
             if (parent != null)
             {
-                sys.MakeCoincident(parent.EndPlane, StartPlane, GCMAlignment.Cooriented);
-                sys.MakeConcentric(parent.EndCircle, StartCircle, GCMAlignment.Cooriented);
+                sys.MakeConcentric(parent.EndCircle, startPoint);
+                sys.SetAngle(parent.EndCircle, StartCircle, 0);
+                sys.MakeCoincident(parent.RightAxis, _startRightAxis, GCMAlignment.Cooriented);
             }
 
             sys.Evaluate();
@@ -89,6 +94,7 @@ namespace HoloCAD.Tubes.C3D
         /// <inheritdoc />
         public override void Dispose()
         {
+            _lengthPattern?.Dispose();
             _axis?.Dispose();
             StartPlane?.Dispose();
             StartCircle?.Dispose();
@@ -107,6 +113,7 @@ namespace HoloCAD.Tubes.C3D
         private readonly GCMLine       _axis;
         private readonly GCMLine       _startRightAxis;
         private          GCMConstraint _lengthConstraint;
+        private readonly GCMPattern    _lengthPattern;
 
         #endregion
     }

@@ -54,17 +54,17 @@ namespace UnityC3D.Tests
 
             var p = MbPlacement3D.FromUnity(t);
             Assert.AreEqual(p.Origin, t.position);
-            Assert.AreEqual(p.AxisZ, t.forward);
+            Assert.AreEqual(p.AxisZ, t.up);
             Assert.AreEqual(p.AxisX, t.right);
-            Assert.AreEqual(p.AxisY, t.up);
+            Assert.AreEqual(p.AxisY, t.forward);
 
             t.position = Vector3.zero;
             t.rotation = Quaternion.Euler(Vector3.up);
             p.Apply(t);
             Assert.AreEqual(p.Origin, t.position);
-            Assert.AreEqual(p.AxisZ, t.forward);
+            Assert.AreEqual(p.AxisZ, t.up);
             Assert.AreEqual(p.AxisX, t.right);
-            Assert.AreEqual(p.AxisY, t.up);
+            Assert.AreEqual(p.AxisY, t.forward);
 
             GameObject.Destroy(g);
             GameObject.Destroy(t.gameObject);

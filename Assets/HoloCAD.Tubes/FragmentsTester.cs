@@ -14,7 +14,7 @@ namespace HoloCAD.Tubes
         {
             _firstTube = TubeFragmentsFactory.CreateDirect();
             _firstTube.name = "Parent";
-            _firstTubeFragment = _firstTube.GetComponent<DirectFragmentView>().TubeFragment;
+            _firstTubeFragment = _firstTube.GetComponent<DirectFragmentView>().Fragment;
         }
 
         public void ChangeLength()
@@ -26,7 +26,7 @@ namespace HoloCAD.Tubes
         {
             _secondTube = TubeFragmentsFactory.CreateDirect(TubeFragmentsFactory.MainSys, _firstTubeFragment);
             _secondTube.name = "Second";
-            _secondTubeFragment = _secondTube.GetComponent<DirectFragmentView>().TubeFragment;
+            _secondTubeFragment = _secondTube.GetComponent<DirectFragmentView>().Fragment;
         }
 
         public void Join()
@@ -41,8 +41,8 @@ namespace HoloCAD.Tubes
         }
 
         private GameObject _firstTube;
-        private DirectTubeFragment _firstTubeFragment;
+        private DirectFragment _firstTubeFragment;
         private GameObject _secondTube;
-        private DirectTubeFragment _secondTubeFragment;
+        private DirectFragment _secondTubeFragment;
     }
 }

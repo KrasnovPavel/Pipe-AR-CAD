@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System;
+using MathExtensions;
 using UnityC3D;
 using UnityEngine;
 
@@ -15,13 +16,10 @@ namespace HoloCAD.Tubes.C3D
         {
             MainLCS = new GCM_LCS(sys, sys.GroundLCS.Placement);
             
-            StartCircle = new GCMCircle(sys, Vector3.zero, Vector3.forward, diameter / 2);
-            _startPoint = new GCMPoint(sys, Vector3.zero);
-            _startPoint.Freeze();
-            sys.MakeConcentric(StartCircle, _startPoint);
+            StartCircle = new GCMCircle(sys, Vector3.zero, Vector3.forward, diameter / 2, MainLCS);
+            StartCircle.Freeze();
             
             StartPlane = new GCMPlane(sys, Vector3.zero, Vector3.forward, MainLCS);
-            sys.MakeCoincident(StartCircle, StartPlane, GCMAlignment.Cooriented);
             StartPlane.Freeze();
 
             _axis = new GCMLine(sys, Vector3.zero, Vector3.forward, MainLCS);
@@ -39,7 +37,7 @@ namespace HoloCAD.Tubes.C3D
 
             // Гнём трубу
             _bendPattern = sys.CreateAngularPattern(StartCircle, _bendAxis, GCMAlignment.Cooriented);
-            _bendPattern.AddObject(EndCircle, Mathf.Deg2Rad * bendAngle, GCMAlignment.Rotated, GCMScale.GCM_RIGID);
+            _bendPattern.AddObject(EndCircle, -Mathf.Deg2Rad * bendAngle, GCMAlignment.Rotated, GCMScale.GCM_RIGID);
             sys.MakeCoincident(EndCircle, EndPlane);
 
             // Устанавливаем положение оси X на конце отрезка
@@ -47,7 +45,7 @@ namespace HoloCAD.Tubes.C3D
             _rightAxisRotationPattern = sys.CreateAngularPattern(_startRightAxis, _axis, GCMAlignment.Cooriented);
             _rightAxisRotationPattern.AddObject(_pivotAxis, Mathf.Deg2Rad * rotation, GCMAlignment.Rotated, GCMScale.GCM_RIGID);
             _rightAxisBendPattern = sys.CreateAngularPattern(_pivotAxis, _bendAxis, GCMAlignment.Cooriented);
-            _rightAxisBendPattern.AddObject(RightAxis, Mathf.Deg2Rad * bendAngle, GCMAlignment.Rotated, GCMScale.GCM_RIGID);
+            _rightAxisBendPattern.AddObject(RightAxis, -Mathf.Deg2Rad * bendAngle, GCMAlignment.Rotated, GCMScale.GCM_RIGID);
             sys.MakeCoincident(RightAxis, EndPlane);
 
             if (parent != null)
@@ -62,7 +60,7 @@ namespace HoloCAD.Tubes.C3D
 
         public float BendRadius
         {
-            get => GeometryUtils.DistanceLinePoint(_startPoint, _pivotAxis);
+            get => Geometry.DistancePointLine(StartCircle.Origin, _pivotAxis.Origin, _pivotAxis.Direction);
             // set
             // {
             //     if (Math.Abs(BendRadius - value) < float.Epsilon) return;
@@ -131,7 +129,7 @@ namespace HoloCAD.Tubes.C3D
             
             _axis?.Dispose();
             _startRightAxis?.Dispose();
-            _startPoint?.Dispose();
+            // _startPoint?.Dispose();
             _zeroBendAxis?.Dispose();
             _bendAxis?.Dispose();
             _pivotAxis?.Dispose();
@@ -149,7 +147,6 @@ namespace HoloCAD.Tubes.C3D
 
         private readonly GCMLine _axis;
         private readonly GCMLine _startRightAxis;
-        private readonly GCMPoint _startPoint;
         private readonly GCMLine _zeroBendAxis;
         private readonly GCMLine _bendAxis;
         private readonly GCMLine _pivotAxis;

@@ -22,9 +22,9 @@ namespace HoloCAD.Tubes
         {
             if (sys == null) sys = MainSys;
             
-            var f = new DirectTubeFragment(sys, parent, diameter, length);
+            var f  = new DirectFragment(sys, diameter, length, parent);
             var go = Instantiate(Instance.DirectTubePrefab);
-            go.GetComponent<DirectFragmentView>().TubeFragment = f;
+            go.GetComponent<DirectFragmentView>().Fragment = f;
             return go;
         }
     }

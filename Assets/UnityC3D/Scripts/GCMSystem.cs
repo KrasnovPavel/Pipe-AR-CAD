@@ -395,6 +395,13 @@ namespace UnityC3D
                                   sample, axialObject);
         }
 
+        public GCMPattern CreateLinearPattern(GCMObject sample, GCMLine axis, GCMAlignment alignment)
+        {
+            return new GCMPattern(this,
+                                  GCM_AddLinearPattern(_gcmSystemPtr, sample.Descriptor, axis.Descriptor, alignment),
+                                  sample, axis);
+        }
+
         /// <summary> Удаляет переданное ограничение из системы. </summary>
         /// <param name="constraint"> Удаляемое ограничение. </param>
         public void RemoveConstraint(GCMConstraint constraint)
@@ -411,6 +418,14 @@ namespace UnityC3D
         }
 
         #region Internal definitions
+
+        /// <summary> Удаляет переданное ограничение из системы. </summary>
+        /// <param name="constraint"> Удаляемое ограничение. </param>
+        internal void RemoveConstraint(GCMDescriptor constraint)
+        {
+            GCM_RemoveConstraint(_gcmSystemPtr, constraint);
+        }
+
 
         /// <summary> Добавляет точку в систему. </summary>
         /// <param name="point"> Точка. </param>
@@ -531,10 +546,13 @@ namespace UnityC3D
 
         /// <summary> Устанавливает радиус окружности. </summary>
         /// <param name="circle"> Окружность. </param>
-        /// <param name="newRadius"> Радиуы. </param>
+        /// <param name="newRadius"> Радиус. </param>
         internal void SetRadius(GCMCircle circle, float newRadius)
         {
-            GCM_ChangeDrivingDimension(_gcmSystemPtr, circle.RadiusConstraint, newRadius);
+            if (circle.RadiusConstraint != null)
+            {
+                GCM_ChangeDrivingDimension(_gcmSystemPtr, circle.RadiusConstraint.Value, newRadius);
+            }
         }
 
         /// <summary> Возвращает радиус окружности. </summary>
@@ -580,13 +598,13 @@ namespace UnityC3D
             var co = _gcmConstraints.Find(c =>
                                               c.Obj1.Equals(pattern.Sample) && c.Obj2.Equals(pattern.AxialObject) &&
                                               c.Obj3.Equals(obj)
-                                              && c.Type == GCMConstraintType.GCM_ANGULAR_PATTERN);
+                                              && c.Type == GCMConstraintType.GCM_PATTERNED);
 
             if (co != null) return co;
 
             var desc = GCM_AddGeomToPattern(_gcmSystemPtr, pattern.Descriptor, obj.Descriptor, position, alignment,
                                             scale);
-            co = new GCMConstraint(desc, GCMConstraintType.GCM_ANGULAR_PATTERN, pattern.Sample, pattern.AxialObject,
+            co = new GCMConstraint(desc, GCMConstraintType.GCM_PATTERNED, pattern.Sample, pattern.AxialObject,
                                    obj);
 
             _gcmConstraints.Add(co);
@@ -1001,8 +1019,7 @@ namespace UnityC3D
         [DllImport("c3d", EntryPoint = "?GCM_SetJournal@@YA_NPAVMtGeomSolver@@PBD@Z")]
 #endif
         private static extern bool GCM_SetJournal(IntPtr gSys, string filename);
-
-
+        
 #if UNITY_EDITOR_64
         [DllImport("c3d",
                    EntryPoint = "?GCM_AddAngularPattern@@YA?AUMtObjectId@@PEAVMtGeomSolver@@U1@1W4GCM_alignment@@@Z")]
@@ -1011,6 +1028,17 @@ namespace UnityC3D
             "?GCM_AddAngularPattern@@YA?AUMtObjectId@@PAVMtGeomSolver@@U1@1W4GCM_alignment@@@Z")]
 #endif
         private static extern GCMDescriptor GCM_AddAngularPattern(
+            IntPtr        gSys,
+            GCMDescriptor sample,
+            GCMDescriptor axis,
+            GCMAlignment  align);
+        
+#if UNITY_EDITOR_64
+        [DllImport("c3d", EntryPoint = "?GCM_AddLinearPattern@@YA?AUMtObjectId@@PEAVMtGeomSolver@@U1@1W4GCM_alignment@@@Z")]
+#else
+        [DllImport("c3d", EntryPoint = "?GCM_AddLinearPattern@@YA?AUMtObjectId@@PAVMtGeomSolver@@U1@1W4GCM_alignment@@@Z")]
+#endif
+        private static extern GCMDescriptor GCM_AddLinearPattern(
             IntPtr        gSys,
             GCMDescriptor sample,
             GCMDescriptor axis,

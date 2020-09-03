@@ -13,7 +13,7 @@ namespace HoloCAD.Tubes.Unity
         public Transform StartObject;
         public Transform EndObject;
         
-        public DirectTubeFragment TubeFragment 
+        public DirectFragment Fragment 
         { 
             get => _tubeFragment;
             set
@@ -43,7 +43,7 @@ namespace HoloCAD.Tubes.Unity
 
         #region Private definitions
         
-        private DirectTubeFragment _tubeFragment;
+        private DirectFragment _tubeFragment;
         private LineRenderer _renderer;
 
         private void TubeFragmentOnPropertyChanged(object sender, PropertyChangedEventArgs e)

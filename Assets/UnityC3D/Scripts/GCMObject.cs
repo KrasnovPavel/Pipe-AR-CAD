@@ -128,6 +128,10 @@ namespace UnityC3D
             get => GCMSys.GetRadius(this);
             set
             {
+                if (RadiusConstraint == null)
+                {
+                    RadiusConstraint = GCMSys.CreateRadiusConstraint(this);
+                }
                 GCMSys.SetRadius(this, value);
                 OnPropertyChanged();
             }
@@ -146,6 +150,13 @@ namespace UnityC3D
             }
         }
 
+        public void FreeRadius()
+        {
+            if (RadiusConstraint == null) return;
+            GCMSys.RemoveConstraint(RadiusConstraint.Value);
+            RadiusConstraint = null;
+        }
+
         protected override void UpdatePlacement()
         {
             var oldNormal = Normal;
@@ -160,6 +171,8 @@ namespace UnityC3D
         {
             base.TestDraw(name);
             if (DrawObject == null) return;
+            
+            // DrawObject.transform.LookAt(Origin + Normal);
 
             var lineRenderer = DrawObject.GetComponent<LineRenderer>();
             lineRenderer.endWidth = Radius / 3;
@@ -178,7 +191,7 @@ namespace UnityC3D
             lineRenderer.SetPositions(points);
         }
 
-        internal readonly GCMDescriptor RadiusConstraint;
+        internal GCMDescriptor? RadiusConstraint { get; private set; }
     }
 
     /// <summary> Локальная система координат. </summary>

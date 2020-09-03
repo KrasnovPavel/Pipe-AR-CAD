@@ -18,22 +18,30 @@ namespace HoloCAD.Tubes.C3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var f = new DirectTubeFragment(sys, null, 34, 0.43f);
-                Assert.AreEqual(f.Diameter, 34);
+                sys.SetJournal();
+                var f = new DirectFragment(sys, 0.34f, 0.43f, null);
+                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
+                Assert.AreEqual(f.Diameter, 0.34f);
                 Assert.AreEqual(f.Length, 0.43f);
                 Assert.IsNull(f.Parent);
                 Assert.AreEqual((f.StartCircle.Origin - f.EndCircle.Origin).magnitude, 0.43f);
 
-                var f1 = new DirectTubeFragment(sys, f, 34, 2.4f);
-                Assert.AreEqual(f.Diameter, 34);
+                var f1 = new DirectFragment(sys, 0.34f, 2.4f, f);
+                
+                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
+                Assert.AreEqual(f.Diameter, 0.34f);
+                Assert.AreEqual(f1.StartCircle.Origin, f.EndCircle.Origin);
                 Assert.AreEqual((f1.StartCircle.Origin - f1.EndCircle.Origin).magnitude, 2.4f);
                 Assert.AreEqual((f.EndCircle.Origin - f1.EndCircle.Origin).magnitude, 2.4f);
+                
+                Assert.AreEqual(f.EndCircle.Normal, f1.StartCircle.Normal);
+                
                 Assert.AreEqual((f.StartCircle.Origin - f1.EndCircle.Origin).magnitude, 2.4f + 0.43f);
                 Assert.AreEqual(f1.Parent, f);
 
                 // ReSharper disable once ObjectCreationAsStatement
                 // ReSharper disable once AccessToDisposedClosure
-                Assert.ThrowsException<FragmentsNotConnectable>(() => new DirectTubeFragment(sys, f, 2, 2));
+                Assert.ThrowsException<FragmentsNotConnectable>(() => new DirectFragment(sys, 2, 2, f));
             }
         }
 
@@ -42,23 +50,36 @@ namespace HoloCAD.Tubes.C3D.Tests
         {
             using (var sys = new GCMSystem())
             {
-                var f = new DirectTubeFragment(sys, null, 34, 0.43f);
+                sys.SetJournal();
+                var f = new DirectFragment(sys, 34, 0.43f, null);
                 f.Diameter = 0.53f;
                 Assert.AreEqual(f.Diameter, 0.53f);
                 f.Length = 2.31f;
                 Assert.AreEqual(f.Length, 2.31f);
+                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
 
-                var f1 = new DirectTubeFragment(sys, f, 0.53f, 2.4f);
+                var f1 = new DirectFragment(sys, 0.53f, 2.4f, f);
+                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
+                Assert.AreEqual(f1.Length, 2.4f);
+                Assert.AreEqual(f1.StartCircle.Origin, f.EndCircle.Origin);
+                Assert.AreEqual((f1.StartCircle.Origin - f1.EndCircle.Origin).magnitude, 2.4f);
+                Assert.AreEqual((f1.EndCircle.Origin - f.EndCircle.Origin).magnitude, 2.4f);
+                Assert.AreEqual((f.StartCircle.Origin - f1.EndCircle.Origin).magnitude, 2.31f + 2.4f);
+                
                 Assert.ThrowsException<FragmentsNotConnectable>(() => f1.Diameter = 3.2f);
 
                 f1.Length = 0.12f;
+                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.AreEqual(f1.Length, 0.12f);
+                Assert.AreEqual(f1.StartCircle.Origin, f.EndCircle.Origin);
                 Assert.AreEqual((f1.StartCircle.Origin - f1.EndCircle.Origin).magnitude, 0.12f);
                 Assert.AreEqual((f1.EndCircle.Origin - f.EndCircle.Origin).magnitude, 0.12f);
                 Assert.AreEqual((f.StartCircle.Origin - f1.EndCircle.Origin).magnitude, 2.31f + 0.12f);
 
                 f.Length = 0.36f;
+                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.AreEqual(f.Length, 0.36f);
+                Assert.AreEqual(f1.StartCircle.Origin, f.EndCircle.Origin);
                 Assert.AreEqual((f.StartCircle.Origin - f.EndCircle.Origin).magnitude, 0.36f);
                 Assert.AreEqual((f1.StartCircle.Origin - f1.EndCircle.Origin).magnitude, 0.12f);
                 Assert.AreEqual((f.EndCircle.Origin - f1.EndCircle.Origin).magnitude, 0.12f);
@@ -80,7 +101,7 @@ namespace HoloCAD.Tubes.C3D.Tests
                 Assert.AreEqual(s.EndCircle.Normal, t.forward);
                 Assert.AreEqual(s.Placement, MbPlacement3D.FromUnity(t));
 
-                var f = new DirectTubeFragment(sys, s, 34, 0.43f);
+                var f = new DirectFragment(sys, 34, 0.43f, s);
                 Assert.AreEqual(f.StartCircle.Origin, s.EndCircle.Origin);
                 Assert.AreEqual(f.StartCircle.Normal, s.EndCircle.Normal);
 
@@ -97,26 +118,25 @@ namespace HoloCAD.Tubes.C3D.Tests
                 GameObject.Destroy(t.gameObject);
             }
         }
-        
+
         private static Vector3 GetBendedEndPoint(float bendRadius, float bendAngle, float rotationAngle)
         {
-            return new
-                Vector3(
-                        bendRadius * (1 - Mathf.Cos(Mathf.Deg2Rad * bendAngle)) *
-                        Mathf.Cos(Mathf.Deg2Rad * rotationAngle),
-                        -bendRadius * (1 - Mathf.Cos(Mathf.Deg2Rad * bendAngle)) *
-                        Mathf.Sin(Mathf.Deg2Rad * rotationAngle),
-                        -bendRadius * Mathf.Sin(Mathf.Deg2Rad * bendAngle));
+            return new Vector3(
+                               bendRadius * (1 - Mathf.Cos(Mathf.Deg2Rad * bendAngle)) *
+                               Mathf.Cos(Mathf.Deg2Rad * rotationAngle),
+                               -bendRadius * (1 - Mathf.Cos(Mathf.Deg2Rad * bendAngle)) *
+                               Mathf.Sin(Mathf.Deg2Rad * rotationAngle),
+                               bendRadius * Mathf.Sin(Mathf.Deg2Rad * bendAngle));
         }
 
         private struct AngleData
         {
-            public float Bend;
-            public float Rotation;
+            public float bend;
+            public float rotation;
 
             public override string ToString()
             {
-                return $"[bend {Bend:f1}, rotation {Rotation:f1}]";
+                return $"[bend {bend:f1}, rotation {rotation:f1}]";
             }
         }
 
@@ -128,96 +148,120 @@ namespace HoloCAD.Tubes.C3D.Tests
 
             var angles = new[]
             {
-                new AngleData {Bend = 90f, Rotation  = 0f},
-                new AngleData {Bend = 30f, Rotation  = 0f},
-                new AngleData {Bend = 45f, Rotation  = 0f},
-                new AngleData {Bend = 180f, Rotation = 0f},
-                new AngleData {Bend = 130f, Rotation = 0f},
-                new AngleData {Bend = 90f, Rotation  = 45f},
-                new AngleData {Bend = 30f, Rotation  = 45f},
-                new AngleData {Bend = 45f, Rotation  = 45f},
-                new AngleData {Bend = 180f, Rotation = 45f},
-                new AngleData {Bend = 130f, Rotation = 45f},
-                new AngleData {Bend = 90f, Rotation  = 90f},
-                new AngleData {Bend = 30f, Rotation  = 90f},
-                new AngleData {Bend = 45f, Rotation  = 90f},
-                new AngleData {Bend = 180f, Rotation = 90f},
-                new AngleData {Bend = 130f, Rotation = 90f},
-                new AngleData {Bend = 90f, Rotation  = 60f},
-                new AngleData {Bend = 30f, Rotation  = 60f},
-                new AngleData {Bend = 45f, Rotation  = 60f},
-                new AngleData {Bend = 180f, Rotation = 60f},
-                new AngleData {Bend = 130f, Rotation = 60f},
-                new AngleData {Bend = 90f, Rotation  = 120f},
-                new AngleData {Bend = 30f, Rotation  = 120f},
-                new AngleData {Bend = 45f, Rotation  = 120f},
-                new AngleData {Bend = 180f, Rotation = 120f},
-                new AngleData {Bend = 130f, Rotation = 120f},
-                new AngleData {Bend = 90f, Rotation  = 180f},
-                new AngleData {Bend = 30f, Rotation  = 180f},
-                new AngleData {Bend = 45f, Rotation  = 180f},
-                new AngleData {Bend = 180f, Rotation = 180f},
-                new AngleData {Bend = 130f, Rotation = 180f},
-                new AngleData {Bend = 90f, Rotation  = 200f},
-                new AngleData {Bend = 30f, Rotation  = 200f},
-                new AngleData {Bend = 45f, Rotation  = 200f},
-                new AngleData {Bend = 180f, Rotation = 200f},
-                new AngleData {Bend = 130f, Rotation = 200f},
-                new AngleData {Bend = 90f, Rotation  = 270f},
-                new AngleData {Bend = 30f, Rotation  = 270f},
-                new AngleData {Bend = 45f, Rotation  = 270f},
-                new AngleData {Bend = 180f, Rotation = 270f},
-                new AngleData {Bend = 130f, Rotation = 270f},
-                new AngleData {Bend = 90f, Rotation  = 300f},
-                new AngleData {Bend = 30f, Rotation  = 300f},
-                new AngleData {Bend = 45f, Rotation  = 300f},
-                new AngleData {Bend = 180f, Rotation = 300f},
-                new AngleData {Bend = 130f, Rotation = 300f},
-                new AngleData {Bend = 90f, Rotation  = 360f},
-                new AngleData {Bend = 30f, Rotation  = 360f},
-                new AngleData {Bend = 45f, Rotation  = 360f},
-                new AngleData {Bend = 180f, Rotation = 360f},
-                new AngleData {Bend = 130f, Rotation = 360f},
-                new AngleData {Bend = 90f, Rotation  = 450f},
-                new AngleData {Bend = 30f, Rotation  = 450f},
-                new AngleData {Bend = 45f, Rotation  = 450f},
-                new AngleData {Bend = 180f, Rotation = 450f},
-                new AngleData {Bend = 130f, Rotation = 450f},
+                new AngleData {bend = 90f, rotation  = 0f},
+                new AngleData {bend = 30f, rotation  = 0f},
+                new AngleData {bend = 45f, rotation  = 0f},
+                new AngleData {bend = 180f, rotation = 0f},
+                new AngleData {bend = 130f, rotation = 0f},
+                new AngleData {bend = 90f, rotation  = 45f},
+                new AngleData {bend = 30f, rotation  = 45f},
+                new AngleData {bend = 45f, rotation  = 45f},
+                new AngleData {bend = 180f, rotation = 45f},
+                new AngleData {bend = 130f, rotation = 45f},
+                new AngleData {bend = 90f, rotation  = 90f},
+                new AngleData {bend = 30f, rotation  = 90f},
+                new AngleData {bend = 45f, rotation  = 90f},
+                new AngleData {bend = 180f, rotation = 90f},
+                new AngleData {bend = 130f, rotation = 90f},
+                new AngleData {bend = 90f, rotation  = 60f},
+                new AngleData {bend = 30f, rotation  = 60f},
+                new AngleData {bend = 45f, rotation  = 60f},
+                new AngleData {bend = 180f, rotation = 60f},
+                new AngleData {bend = 130f, rotation = 60f},
+                new AngleData {bend = 90f, rotation  = 120f},
+                new AngleData {bend = 30f, rotation  = 120f},
+                new AngleData {bend = 45f, rotation  = 120f},
+                new AngleData {bend = 180f, rotation = 120f},
+                new AngleData {bend = 130f, rotation = 120f},
+                new AngleData {bend = 90f, rotation  = 180f},
+                new AngleData {bend = 30f, rotation  = 180f},
+                new AngleData {bend = 45f, rotation  = 180f},
+                new AngleData {bend = 180f, rotation = 180f},
+                new AngleData {bend = 130f, rotation = 180f},
+                new AngleData {bend = 90f, rotation  = 200f},
+                new AngleData {bend = 30f, rotation  = 200f},
+                new AngleData {bend = 45f, rotation  = 200f},
+                new AngleData {bend = 180f, rotation = 200f},
+                new AngleData {bend = 130f, rotation = 200f},
+                new AngleData {bend = 90f, rotation  = 270f},
+                new AngleData {bend = 30f, rotation  = 270f},
+                new AngleData {bend = 45f, rotation  = 270f},
+                new AngleData {bend = 180f, rotation = 270f},
+                new AngleData {bend = 130f, rotation = 270f},
+                new AngleData {bend = 90f, rotation  = 300f},
+                new AngleData {bend = 30f, rotation  = 300f},
+                new AngleData {bend = 45f, rotation  = 300f},
+                new AngleData {bend = 180f, rotation = 300f},
+                new AngleData {bend = 130f, rotation = 300f},
+                new AngleData {bend = 90f, rotation  = 360f},
+                new AngleData {bend = 30f, rotation  = 360f},
+                new AngleData {bend = 45f, rotation  = 360f},
+                new AngleData {bend = 180f, rotation = 360f},
+                new AngleData {bend = 130f, rotation = 360f},
+                new AngleData {bend = 90f, rotation  = 450f},
+                new AngleData {bend = 30f, rotation  = 450f},
+                new AngleData {bend = 45f, rotation  = 450f},
+                new AngleData {bend = 180f, rotation = 450f},
+                new AngleData {bend = 130f, rotation = 450f},
             };
 
             foreach (var angle in angles)
             {
                 yield return delegate
-                             {
-                                 using (var sys = new GCMSystem())
-                                 {
-                                     sys.SetJournal($"Journals\\BendedFragmentCreation{angle.ToString()}");
-                                     var s = new StartFragment(sys, diameter, sys.GroundLCS.Placement);
-                                     var b = new BendedFragment(sys, bendRadius, angle.Bend, angle.Rotation, diameter,
-                                                                s);
+                {
+                    using (var sys = new GCMSystem())
+                    {
+                        sys.SetJournal($"Journals\\BendedFragmentCreation{angle.ToString()}");
+                        var s = new StartFragment(sys, diameter, sys.GroundLCS.Placement);
+                        var b = new BendedFragment(sys, bendRadius, angle.bend, angle.rotation, diameter, s);
 
-                                     Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok, angle.ToString());
-                                     Assert.AreEqual(b.EndCircle.Origin - b.StartCircle.Origin,
-                                                     GetBendedEndPoint(bendRadius, angle.Bend, angle.Rotation),
-                                                     Assert.Epsilon,
-                                                     angle + " // EndCircle pos");
+                        Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok, angle.ToString());
+                        Assert.AreEqual(b.EndCircle.Origin - b.StartCircle.Origin,
+                                        GetBendedEndPoint(bendRadius, angle.bend, angle.rotation),
+                                        Assert.Epsilon,
+                                        angle + " // EndCircle pos");
 
-                                     Assert.AreEqual(
-                                                     Geometry.DistancePointLine(b.EndCircle.Origin, b.RightAxis.Origin,
-                                                                                    b.RightAxis.Direction),
-                                                     0f,
-                                                     angle + " // RightLine origin");
-                                     Assert.AreEqual(b.RightAxis.Direction,
-                                                     -(b.EndCircle.Origin -
-                                                       Quaternion.AngleAxis(-angle.Rotation, b.StartCircle.Normal) *
-                                                       Vector3.right * bendRadius).normalized,
-                                                     Assert.Epsilon,
-                                                     angle + " // Right Line direction");
+                        Assert.AreEqual(Geometry.DistancePointLine(b.EndCircle.Origin, b.RightAxis.Origin,
+                                                                   b.RightAxis.Direction),
+                                        0f,
+                                        angle + " // RightLine origin");
+                        Assert.AreEqual(b.RightAxis.Direction,
+                                        -(b.EndCircle.Origin -
+                                          Quaternion.AngleAxis(-angle.rotation, b.StartCircle.Normal) *
+                                          Vector3.right * bendRadius).normalized,
+                                        Assert.Epsilon,
+                                        angle + " // Right Line direction");
 
-                                     Assert.AreEqual(b.EndCircle.Radius, diameter / 2, Assert.Epsilon,
-                                                     angle.ToString());
-                                 }
-                             };
+                        Assert.AreEqual(b.EndCircle.Radius, diameter / 2, Assert.Epsilon,
+                                        angle.ToString());
+                    }
+                };
+            }
+        }
+
+        [HoloTestCase]
+        public static void SimpleTube()
+        {
+            var diameter      = 0.1f;
+            var bendRadius    = 0.2f;
+            var bendAngle     = 60;
+            var rotationAngle = 30;
+            
+            using (var sys = new GCMSystem())
+            {
+                sys.SetJournal();
+                var s  = new StartFragment(sys, diameter, sys.GroundLCS.Placement);
+                var d1 = new DirectFragment(sys, diameter, 0.5f, s);
+                var b = new BendedFragment(sys, bendRadius, bendAngle, rotationAngle, diameter, d1);
+                var d2 = new DirectFragment(sys, diameter, 1f, b);
+                
+                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
+                
+                Assert.AreEqual(d1.EndCircle.Origin, Vector3.forward * 0.5f, "d1");
+                Assert.AreEqual(b.EndCircle.Origin, GetBendedEndPoint(bendRadius, bendAngle, rotationAngle) + d1.EndCircle.Origin, "b");
+                Assert.AreEqual(d2.EndCircle.Origin, b.EndCircle.Origin + b.EndCircle.Normal * 1f,
+                                Assert.Epsilon, "d2");
+                
             }
         }
     }

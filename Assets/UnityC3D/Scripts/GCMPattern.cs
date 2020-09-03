@@ -30,6 +30,14 @@ namespace UnityC3D
             _sys.RemoveConstraint(co);
         }
 
+        public void ChangeValue(GCMObject obj, float newValue)
+        {
+            var co = Constraints.Find(c => c.Obj3.Equals(obj));
+            if (co == null) return;
+            
+            _sys.ChangeDrivingDimensions(co, newValue);
+        }
+
         public void Dispose()
         {
             _sys.RemovePattern(this);

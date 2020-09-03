@@ -483,6 +483,10 @@ namespace UnityC3D.Tests
                 sys.SetAngle(c1, c2, Mathf.PI / 4);
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.AreEqual(Vector3.Angle(c1.Normal, c2.Normal), 45);
+
+                sys.SetAngle(c1, c2, 0);
+                Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
+                Assert.AreEqual(Vector3.Angle(c1.Normal, c2.Normal), 0);
             }
         }
 
