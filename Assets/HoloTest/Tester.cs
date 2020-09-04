@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
 
 #if ENABLE_WINMD_SUPPORT
@@ -38,6 +39,8 @@ namespace HoloTest
         private async void RunUnitTests()
 #pragma warning restore 1998
         {
+            
+            var start = DateTime.Now;
             Debug.Log("=========================== Testing started. ==========================");
             Assembly[] assemblies;
 #if ENABLE_WINMD_SUPPORT
@@ -77,7 +80,7 @@ namespace HoloTest
                         TestFunction = a
                     });
                 }));
-            
+
             foreach (var test in testCases)
             {
                 test.Run();
@@ -95,7 +98,8 @@ namespace HoloTest
                 }
             }
 
-            var failedTests = testCases.Where(t => t.Result == TestResult.Failed).ToList();
+            var failedTests  = testCases.Where(t => t.Result == TestResult.Failed).ToList();
+            var testDuration = DateTime.Now - start;
             if (failedTests.Any())
             {
                 Debug.Log($"================== Tests failed: {failedTests.Count} ==================");
@@ -103,11 +107,11 @@ namespace HoloTest
                 {
                     Debug.Log(test);
                 }
-                Debug.Log("=========================== Testing ended. ==========================");
+                Debug.Log($"=========================== Testing ended. {testDuration.TotalMilliseconds:f0}ms ==========================");
             }
             else
             {
-                Debug.Log("=========================== All Tests Passed! ==========================");
+                Debug.Log($"=========================== All Tests Passed! {testDuration.TotalMilliseconds:f0}ms ==========================");
             }
         }
 

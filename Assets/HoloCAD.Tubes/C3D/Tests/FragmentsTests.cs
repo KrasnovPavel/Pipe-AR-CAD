@@ -3,10 +3,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HoloTest;
 using MathExtensions;
 using UnityC3D;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace HoloCAD.Tubes.C3D.Tests
 {
@@ -27,15 +29,15 @@ namespace HoloCAD.Tubes.C3D.Tests
                 Assert.AreEqual((f.StartCircle.Origin - f.EndCircle.Origin).magnitude, 0.43f);
 
                 var f1 = new DirectFragment(sys, 0.34f, 2.4f, f);
-                
+
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
                 Assert.AreEqual(f.Diameter, 0.34f);
                 Assert.AreEqual(f1.StartCircle.Origin, f.EndCircle.Origin);
                 Assert.AreEqual((f1.StartCircle.Origin - f1.EndCircle.Origin).magnitude, 2.4f);
                 Assert.AreEqual((f.EndCircle.Origin - f1.EndCircle.Origin).magnitude, 2.4f);
-                
+
                 Assert.AreEqual(f.EndCircle.Normal, f1.StartCircle.Normal);
-                
+
                 Assert.AreEqual((f.StartCircle.Origin - f1.EndCircle.Origin).magnitude, 2.4f + 0.43f);
                 Assert.AreEqual(f1.Parent, f);
 
@@ -65,7 +67,7 @@ namespace HoloCAD.Tubes.C3D.Tests
                 Assert.AreEqual((f1.StartCircle.Origin - f1.EndCircle.Origin).magnitude, 2.4f);
                 Assert.AreEqual((f1.EndCircle.Origin - f.EndCircle.Origin).magnitude, 2.4f);
                 Assert.AreEqual((f.StartCircle.Origin - f1.EndCircle.Origin).magnitude, 2.31f + 2.4f);
-                
+
                 Assert.ThrowsException<FragmentsNotConnectable>(() => f1.Diameter = 3.2f);
 
                 f1.Length = 0.12f;
@@ -140,70 +142,70 @@ namespace HoloCAD.Tubes.C3D.Tests
             }
         }
 
+        private static AngleData[] angles =
+        {
+            new AngleData {bend = 90f, rotation  = 0f},
+            new AngleData {bend = 30f, rotation  = 0f},
+            new AngleData {bend = 45f, rotation  = 0f},
+            new AngleData {bend = 180f, rotation = 0f},
+            new AngleData {bend = 130f, rotation = 0f},
+            new AngleData {bend = 90f, rotation  = 45f},
+            new AngleData {bend = 30f, rotation  = 45f},
+            new AngleData {bend = 45f, rotation  = 45f},
+            new AngleData {bend = 180f, rotation = 45f},
+            new AngleData {bend = 130f, rotation = 45f},
+            new AngleData {bend = 90f, rotation  = 90f},
+            new AngleData {bend = 30f, rotation  = 90f},
+            new AngleData {bend = 45f, rotation  = 90f},
+            new AngleData {bend = 180f, rotation = 90f},
+            new AngleData {bend = 130f, rotation = 90f},
+            new AngleData {bend = 90f, rotation  = 60f},
+            new AngleData {bend = 30f, rotation  = 60f},
+            new AngleData {bend = 45f, rotation  = 60f},
+            new AngleData {bend = 180f, rotation = 60f},
+            new AngleData {bend = 130f, rotation = 60f},
+            new AngleData {bend = 90f, rotation  = 120f},
+            new AngleData {bend = 30f, rotation  = 120f},
+            new AngleData {bend = 45f, rotation  = 120f},
+            new AngleData {bend = 180f, rotation = 120f},
+            new AngleData {bend = 130f, rotation = 120f},
+            new AngleData {bend = 90f, rotation  = 180f},
+            new AngleData {bend = 30f, rotation  = 180f},
+            new AngleData {bend = 45f, rotation  = 180f},
+            new AngleData {bend = 180f, rotation = 180f},
+            new AngleData {bend = 130f, rotation = 180f},
+            new AngleData {bend = 90f, rotation  = 200f},
+            new AngleData {bend = 30f, rotation  = 200f},
+            new AngleData {bend = 45f, rotation  = 200f},
+            new AngleData {bend = 180f, rotation = 200f},
+            new AngleData {bend = 130f, rotation = 200f},
+            new AngleData {bend = 90f, rotation  = 270f},
+            new AngleData {bend = 30f, rotation  = 270f},
+            new AngleData {bend = 45f, rotation  = 270f},
+            new AngleData {bend = 180f, rotation = 270f},
+            new AngleData {bend = 130f, rotation = 270f},
+            new AngleData {bend = 90f, rotation  = 300f},
+            new AngleData {bend = 30f, rotation  = 300f},
+            new AngleData {bend = 45f, rotation  = 300f},
+            new AngleData {bend = 180f, rotation = 300f},
+            new AngleData {bend = 130f, rotation = 300f},
+            new AngleData {bend = 90f, rotation  = 360f},
+            new AngleData {bend = 30f, rotation  = 360f},
+            new AngleData {bend = 45f, rotation  = 360f},
+            new AngleData {bend = 180f, rotation = 360f},
+            new AngleData {bend = 130f, rotation = 360f},
+            new AngleData {bend = 90f, rotation  = 450f},
+            new AngleData {bend = 30f, rotation  = 450f},
+            new AngleData {bend = 45f, rotation  = 450f},
+            new AngleData {bend = 180f, rotation = 450f},
+            new AngleData {bend = 130f, rotation = 450f},
+        };
+
         [HoloTestGenerator]
         public static IEnumerable<Action> BendedFragmentCreation()
         {
             var diameter   = 0.01f;
             var bendRadius = 0.15f;
-
-            var angles = new[]
-            {
-                new AngleData {bend = 90f, rotation  = 0f},
-                new AngleData {bend = 30f, rotation  = 0f},
-                new AngleData {bend = 45f, rotation  = 0f},
-                new AngleData {bend = 180f, rotation = 0f},
-                new AngleData {bend = 130f, rotation = 0f},
-                new AngleData {bend = 90f, rotation  = 45f},
-                new AngleData {bend = 30f, rotation  = 45f},
-                new AngleData {bend = 45f, rotation  = 45f},
-                new AngleData {bend = 180f, rotation = 45f},
-                new AngleData {bend = 130f, rotation = 45f},
-                new AngleData {bend = 90f, rotation  = 90f},
-                new AngleData {bend = 30f, rotation  = 90f},
-                new AngleData {bend = 45f, rotation  = 90f},
-                new AngleData {bend = 180f, rotation = 90f},
-                new AngleData {bend = 130f, rotation = 90f},
-                new AngleData {bend = 90f, rotation  = 60f},
-                new AngleData {bend = 30f, rotation  = 60f},
-                new AngleData {bend = 45f, rotation  = 60f},
-                new AngleData {bend = 180f, rotation = 60f},
-                new AngleData {bend = 130f, rotation = 60f},
-                new AngleData {bend = 90f, rotation  = 120f},
-                new AngleData {bend = 30f, rotation  = 120f},
-                new AngleData {bend = 45f, rotation  = 120f},
-                new AngleData {bend = 180f, rotation = 120f},
-                new AngleData {bend = 130f, rotation = 120f},
-                new AngleData {bend = 90f, rotation  = 180f},
-                new AngleData {bend = 30f, rotation  = 180f},
-                new AngleData {bend = 45f, rotation  = 180f},
-                new AngleData {bend = 180f, rotation = 180f},
-                new AngleData {bend = 130f, rotation = 180f},
-                new AngleData {bend = 90f, rotation  = 200f},
-                new AngleData {bend = 30f, rotation  = 200f},
-                new AngleData {bend = 45f, rotation  = 200f},
-                new AngleData {bend = 180f, rotation = 200f},
-                new AngleData {bend = 130f, rotation = 200f},
-                new AngleData {bend = 90f, rotation  = 270f},
-                new AngleData {bend = 30f, rotation  = 270f},
-                new AngleData {bend = 45f, rotation  = 270f},
-                new AngleData {bend = 180f, rotation = 270f},
-                new AngleData {bend = 130f, rotation = 270f},
-                new AngleData {bend = 90f, rotation  = 300f},
-                new AngleData {bend = 30f, rotation  = 300f},
-                new AngleData {bend = 45f, rotation  = 300f},
-                new AngleData {bend = 180f, rotation = 300f},
-                new AngleData {bend = 130f, rotation = 300f},
-                new AngleData {bend = 90f, rotation  = 360f},
-                new AngleData {bend = 30f, rotation  = 360f},
-                new AngleData {bend = 45f, rotation  = 360f},
-                new AngleData {bend = 180f, rotation = 360f},
-                new AngleData {bend = 130f, rotation = 360f},
-                new AngleData {bend = 90f, rotation  = 450f},
-                new AngleData {bend = 30f, rotation  = 450f},
-                new AngleData {bend = 45f, rotation  = 450f},
-                new AngleData {bend = 180f, rotation = 450f},
-                new AngleData {bend = 130f, rotation = 450f},
-            };
 
             foreach (var angle in angles)
             {
@@ -246,22 +248,92 @@ namespace HoloCAD.Tubes.C3D.Tests
             var bendRadius    = 0.2f;
             var bendAngle     = 60;
             var rotationAngle = 30;
-            
+
             using (var sys = new GCMSystem())
             {
                 sys.SetJournal();
                 var s  = new StartFragment(sys, diameter, sys.GroundLCS.Placement);
                 var d1 = new DirectFragment(sys, diameter, 0.5f, s);
-                var b = new BendedFragment(sys, bendRadius, bendAngle, rotationAngle, diameter, d1);
+                var b  = new BendedFragment(sys, bendRadius, bendAngle, rotationAngle, diameter, d1);
                 var d2 = new DirectFragment(sys, diameter, 1f, b);
-                
+
                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok);
-                
+
                 Assert.AreEqual(d1.EndCircle.Origin, Vector3.forward * 0.5f, "d1");
-                Assert.AreEqual(b.EndCircle.Origin, GetBendedEndPoint(bendRadius, bendAngle, rotationAngle) + d1.EndCircle.Origin, "b");
+                Assert.AreEqual(b.EndCircle.Origin,
+                                GetBendedEndPoint(bendRadius, bendAngle, rotationAngle) + d1.EndCircle.Origin, "b");
                 Assert.AreEqual(d2.EndCircle.Origin, b.EndCircle.Origin + b.EndCircle.Normal * 1f,
                                 Assert.Epsilon, "d2");
-                
+            }
+        }
+
+        private class FragmentData
+        {
+            public float diameter;
+            public float bendRadius;
+            public float length;
+            public float bend;
+            public float rotation;
+        }
+
+        [HoloTestGenerator]
+        public static IEnumerable<Action> ComplexTubes()
+        {
+            // В этом тесте не проверяется правильность построения из-за сложной математики 
+            // Только разрешимость системы для труб сложной формы
+
+            Action<List<FragmentData>> test = delegate(List<FragmentData> data)
+            {
+                using (var sys = new GCMSystem())
+                {
+                    var          s      = new StartFragment(sys, data[0].diameter, sys.GroundLCS.Placement);
+                    TubeFragment parent = s;
+                    for (int i = 0; i < data.Count; i++)
+                    {
+                        TubeFragment current;
+                        if (i % 3 == 0)
+                        {
+                            current = new DirectFragment(sys, data[i].diameter, data[i].length, parent);
+                        }
+                        else
+                        {
+                            current = new BendedFragment(sys, data[i].bendRadius, data[i].bend, data[i].rotation,
+                                                         data[i].diameter, parent);
+                        }
+
+                        Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok, $"// number of fragments: {i}");
+                        parent = current;
+                    }
+                }
+            };
+
+            int numberOfFragments = 30;
+            var tubeData          = TubeLoader.GetAvailableTubes(TubeLoader.GetStandardNames()[0])[0];
+
+            // foreach (var data in tubeData)
+            // {
+            List<FragmentData> testData = new List<FragmentData>();
+            for (int i = 0; i < numberOfFragments; i++)
+            {
+                testData.Add(new FragmentData());
+                testData[i].diameter   = tubeData.diameter;
+                testData[i].bendRadius = tubeData.first_radius;
+                if (i % 3 == 0)
+                {
+                    testData[i].length = tubeData.diameter + tubeData.first_radius;
+                    yield return delegate { test(testData); };
+                }
+                else
+                {
+                    foreach (var angle in angles)
+                    {
+                        testData[i].bend     = angle.bend;
+                        testData[i].rotation = angle.rotation;
+                        yield return delegate { test(testData); };
+                    }
+                }
+
+                // }
             }
         }
     }

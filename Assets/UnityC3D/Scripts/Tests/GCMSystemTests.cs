@@ -45,32 +45,6 @@ namespace UnityC3D.Tests
         }
 
         [HoloTestCase]
-        public static void Placement()
-        {
-            var       g = new GameObject();
-            Transform t = GameObject.Instantiate(g).transform;
-            t.position = Vector3.one;
-            t.rotation = Quaternion.Euler(Vector3.left);
-
-            var p = MbPlacement3D.FromUnity(t);
-            Assert.AreEqual(p.Origin, t.position);
-            Assert.AreEqual(p.AxisZ, t.up);
-            Assert.AreEqual(p.AxisX, t.right);
-            Assert.AreEqual(p.AxisY, t.forward);
-
-            t.position = Vector3.zero;
-            t.rotation = Quaternion.Euler(Vector3.up);
-            p.Apply(t);
-            Assert.AreEqual(p.Origin, t.position);
-            Assert.AreEqual(p.AxisZ, t.up);
-            Assert.AreEqual(p.AxisX, t.right);
-            Assert.AreEqual(p.AxisY, t.forward);
-
-            GameObject.Destroy(g);
-            GameObject.Destroy(t.gameObject);
-        }
-
-        [HoloTestCase]
         public static void Point()
         {
             using (var sys = new GCMSystem())
