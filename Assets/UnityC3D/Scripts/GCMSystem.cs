@@ -45,6 +45,7 @@ namespace UnityC3D
         /// <returns> Код ошибки. </returns>
         public GCMResult Evaluate()
         {
+            bool hasNotOk = false;
             var res = GCM_Evaluate(_gcmSystemPtr);
             if (res != GCMResult.GCM_RESULT_Ok)
             {
@@ -54,13 +55,14 @@ namespace UnityC3D
                     var cRes = EvaluationResult(constraint);
                     if (cRes != GCMResult.GCM_RESULT_Ok)
                     {
+                        hasNotOk = true;
                         Debug.LogWarning($"{cRes}-{constraint.Type}:  {constraint.Obj1}, {constraint.Obj2}, {constraint.Obj3}");
                     }
                 }
             }
 
             Evaluated?.Invoke();
-            return res;
+            return hasNotOk ? res : GCMResult.GCM_RESULT_Ok;
         }
 
         /// <summary> Включает журналирование обращений к системе. </summary>

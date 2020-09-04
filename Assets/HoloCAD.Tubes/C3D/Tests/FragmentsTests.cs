@@ -276,65 +276,116 @@ namespace HoloCAD.Tubes.C3D.Tests
             public float rotation;
         }
 
-        [HoloTestGenerator]
-        public static IEnumerable<Action> ComplexTubes()
+        private static List<FragmentData> GetTestData(TubeLoader.TubeData tubeData)
         {
-            // В этом тесте не проверяется правильность построения из-за сложной математики 
-            // Только разрешимость системы для труб сложной формы
+            int numberOfFragments = angles.Length + angles.Length / 2 + 1;
+            var result = new List<FragmentData>(numberOfFragments);
 
-            Action<List<FragmentData>> test = delegate(List<FragmentData> data)
+            for (int i = 0, j = 0; i < numberOfFragments; i++)
             {
-                using (var sys = new GCMSystem())
+                result.Add(new FragmentData());
+                result[i].diameter = tubeData.diameter;
+                result[i].bendRadius = tubeData.first_radius;
+                result[i].length = tubeData.diameter + tubeData.first_radius;
+                if (i % 3 != 0)
                 {
-                    var          s      = new StartFragment(sys, data[0].diameter, sys.GroundLCS.Placement);
-                    TubeFragment parent = s;
-                    for (int i = 0; i < data.Count; i++)
-                    {
-                        TubeFragment current;
-                        if (i % 3 == 0)
-                        {
-                            current = new DirectFragment(sys, data[i].diameter, data[i].length, parent);
-                        }
-                        else
-                        {
-                            current = new BendedFragment(sys, data[i].bendRadius, data[i].bend, data[i].rotation,
-                                                         data[i].diameter, parent);
-                        }
-
-                        Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok, $"// number of fragments: {i}");
-                        parent = current;
-                    }
+                    result[i].bend = angles[j].bend;
+                    result[i].rotation = angles[j].rotation;
+                    j++;
                 }
-            };
+            }
 
-            int numberOfFragments = 30;
-            var tubeData          = TubeLoader.GetAvailableTubes(TubeLoader.GetStandardNames()[0])[0];
+            return result;
+        }
 
-            // foreach (var data in tubeData)
-            // {
-            List<FragmentData> testData = new List<FragmentData>();
-            for (int i = 0; i < numberOfFragments; i++)
+        [HoloTestCase]
+        public static void ComplexTube()
+        {
+            var tubeData          = TubeLoader.GetAvailableTubes(TubeLoader.GetStandardNames()[0])[10];
+            var data = GetTestData(tubeData);
+            using (var sys = new GCMSystem())
             {
-                testData.Add(new FragmentData());
-                testData[i].diameter   = tubeData.diameter;
-                testData[i].bendRadius = tubeData.first_radius;
-                if (i % 3 == 0)
+                sys.SetJournal();
+                var          s      = new StartFragment(sys, data[0].diameter, sys.GroundLCS.Placement);
+                TubeFragment parent = s;
+                for (int i = 0; i < data.Count; i++)
                 {
-                    testData[i].length = tubeData.diameter + tubeData.first_radius;
-                    yield return delegate { test(testData); };
-                }
-                else
-                {
-                    foreach (var angle in angles)
+                    TubeFragment current;
+                    if (i % 3 == 0)
                     {
-                        testData[i].bend     = angle.bend;
-                        testData[i].rotation = angle.rotation;
-                        yield return delegate { test(testData); };
+                        current = new DirectFragment(sys, data[i].diameter, data[i].length, parent);
                     }
-                }
+                    else
+                    {
+                        current = new BendedFragment(sys, data[i].bendRadius, data[i].bend, data[i].rotation,
+                                                     data[i].diameter, parent);
+                    }
+                    current.TestDraw($"{i}");
 
-                // }
+                    Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok, $"// number of fragments: {i}");
+                    parent = current;
+                }
             }
         }
+
+        // [HoloTestGenerator]
+        // public static IEnumerable<Action> ComplexTubes()
+        // {
+        //     // В этом тесте не проверяется правильность построения из-за сложной математики 
+        //     // Только разрешимость системы для труб сложной формы
+        //
+        //     var tubeData          = TubeLoader.GetAvailableTubes(TubeLoader.GetStandardNames()[0])[0];
+        //     Action<List<FragmentData>> test = delegate(List<FragmentData> data)
+        //     {
+        //         using (var sys = new GCMSystem())
+        //         {
+        //             var          s      = new StartFragment(sys, data[0].diameter, sys.GroundLCS.Placement);
+        //             TubeFragment parent = s;
+        //             for (int i = 0; i < data.Count; i++)
+        //             {
+        //                 TubeFragment current;
+        //                 if (i % 3 == 0)
+        //                 {
+        //                     current = new DirectFragment(sys, data[i].diameter, data[i].length, parent);
+        //                 }
+        //                 else
+        //                 {
+        //                     current = new BendedFragment(sys, data[i].bendRadius, data[i].bend, data[i].rotation,
+        //                                                  data[i].diameter, parent);
+        //                 }
+        //
+        //                 Assert.AreEqual(sys.Evaluate(), GCMResult.GCM_RESULT_Ok, $"// number of fragments: {i}");
+        //                 parent = current;
+        //             }
+        //         }
+        //     };
+        //
+        //
+        //     // foreach (var data in tubeData)
+        //     // {
+        //     List<FragmentData> testData = new List<FragmentData>();
+        //     for (int i = 0; i < numberOfFragments; i++)
+        //     {
+        //         testData.Add(new FragmentData());
+        //         testData[i].diameter   = tubeData.diameter;
+        //         testData[i].bendRadius = tubeData.first_radius;
+        //         if (i % 3 == 0)
+        //         {
+        //             testData[i].length = tubeData.diameter + tubeData.first_radius;
+        //             yield return delegate { test(testData); };
+        //         }
+        //         else
+        //         {
+        //             foreach (var angle in angles)
+        //             {
+        //                 testData[i].bend     = angle.bend;
+        //                 testData[i].rotation = angle.rotation;
+        //                 yield return delegate { test(testData); };
+        //             }
+        //         }
+        //
+        //         // }
+        //     }
+        // }
     }
 }
