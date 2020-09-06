@@ -16,7 +16,8 @@ namespace MathExtensions
         public static float DistancePointLine(Vector3 point, Vector3 lineOrigin, Vector3 lineDirection)
         {
             var originToPoint = point - lineOrigin;
-            return (float)Math.Sin(Vector3.Angle(originToPoint, lineDirection) / 180f * Math.PI) * originToPoint.magnitude;
+            return (float) Math.Sin(Vector3.Angle(originToPoint, lineDirection) / 180f * Math.PI) *
+                   originToPoint.magnitude;
         }
 
         /// <summary> Возвращает расстояние между двумя прямыми. </summary>
@@ -44,7 +45,8 @@ namespace MathExtensions
         public static float DistancePointPlane(Vector3 point, Vector3 planeOrigin, Vector3 planeNormal)
         {
             var originToPoint = point - planeOrigin;
-            return (float)Math.Abs(Math.Cos(Vector3.Angle(originToPoint, planeNormal) / 180f * Math.PI)) * originToPoint.magnitude;
+            return (float) Math.Abs(Math.Cos(Vector3.Angle(originToPoint, planeNormal) / 180f * Math.PI)) *
+                   originToPoint.magnitude;
         }
 
         /// <summary> Возвращает расстояние между прямой и плоскостью. </summary>
@@ -54,7 +56,8 @@ namespace MathExtensions
         /// <param name="planeOrigin"> Точка на плоскости. </param>
         /// <param name="planeNormal"> Нормаль к плоскости. </param>
         /// <returns></returns>
-        public static float DistanceLinePlane(Vector3 lineOrigin, Vector3 lineDirection, Vector3 planeOrigin, Vector3 planeNormal)
+        public static float DistanceLinePlane(Vector3 lineOrigin, Vector3 lineDirection, Vector3 planeOrigin,
+                                              Vector3 planeNormal)
         {
             if (!lineDirection.IsPerpendicular(planeNormal)) return 0;
 
@@ -73,6 +76,13 @@ namespace MathExtensions
             if (!pl1Normal.IsCollinear(pl2Normal)) return 0;
 
             return DistancePointPlane(pl1Origin, pl2Origin, pl2Normal);
+        }
+
+        public static float NormalizeAngle(float angle)
+        {
+            angle %= 360;
+            if (angle < 0) angle += 360;
+            return angle;
         }
     }
 }

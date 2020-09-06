@@ -60,7 +60,7 @@ namespace HoloCAD.Tubes.C3D
 
         public float BendRadius
         {
-            get => Geometry.DistancePointLine(StartCircle.Origin, _pivotAxis.Origin, _pivotAxis.Direction);
+            get => Geometry.DistancePointLine(StartCircle.Origin, _bendAxis.Origin, _bendAxis.Direction);
             // set
             // {
             //     if (Math.Abs(BendRadius - value) < float.Epsilon) return;
@@ -71,9 +71,20 @@ namespace HoloCAD.Tubes.C3D
             // }
         }
 
-        // public float Rotation
-        // {
-        //     get => _rotation;
+        public float Rotation
+        {
+            get
+            {
+                var x   = Vector3.Project(EndCircle.Origin, Placement.AxisX);
+                var y   = Vector3.Project(EndCircle.Origin, Placement.AxisY);
+                var vec = new Vector2(x.magnitude, y.magnitude);
+
+                vec.x *= Vector3.Angle(x, Placement.AxisX) > 90 ? -1 : 1;
+                vec.y *= Vector3.Angle(y, Placement.AxisY) > 90 ? -1 : 1; 
+                var res = Vector2.Angle(vec, Vector2.right);
+                res *= vec.y > 0 ? -1 : 1;
+                return res;
+            }
         //     // set
         //     // {
         //     //     if (Math.Abs(_rotation - value) < float.Epsilon) return;
@@ -83,9 +94,9 @@ namespace HoloCAD.Tubes.C3D
         //     //     Sys.Evaluate();
         //     //     OnPropertyChanged();
         //     // }
-        // }
+        }
 
-        // public float BendAngle
+        public float BendAngle;
         // {
         //     get => Vector3.Angle(_startPoint.Origin - _bendCircle.Origin, EndCircle.Origin - _bendCircle.Origin);
         //     // set
@@ -129,7 +140,6 @@ namespace HoloCAD.Tubes.C3D
             
             _axis?.Dispose();
             _startRightAxis?.Dispose();
-            // _startPoint?.Dispose();
             _zeroBendAxis?.Dispose();
             _bendAxis?.Dispose();
             _pivotAxis?.Dispose();
@@ -145,11 +155,12 @@ namespace HoloCAD.Tubes.C3D
 
         #region Private definitions
 
-        private readonly GCMLine _axis;
-        private readonly GCMLine _startRightAxis;
-        private readonly GCMLine _zeroBendAxis;
-        private readonly GCMLine _bendAxis;
-        private readonly GCMLine _pivotAxis;
+        // private readonly GCMPoint   _pivot;
+        private readonly GCMLine    _axis;
+        private readonly GCMLine    _startRightAxis;
+        private readonly GCMLine    _zeroBendAxis;
+        private readonly GCMLine    _bendAxis;
+        private readonly GCMLine    _pivotAxis;
         private readonly GCMPattern _bendPattern;
         private readonly GCMPattern _rotationPattern;
         private readonly GCMPattern _rightAxisRotationPattern;
