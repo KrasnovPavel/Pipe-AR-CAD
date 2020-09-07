@@ -18,11 +18,10 @@ namespace HoloCAD.Tubes.C3D
         {
             MainLCS.Freeze();
             EndCircle.Freeze();
-            EndPlane.Freeze();
+            EndPoint.Freeze();
             RightAxis.Freeze();
 
             StartCircle = EndCircle;
-            StartPlane  = EndPlane;
 
             MainLCS.Placement = placement;
             Sys.Evaluate();

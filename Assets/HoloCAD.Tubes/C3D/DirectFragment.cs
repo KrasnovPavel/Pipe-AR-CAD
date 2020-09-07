@@ -18,8 +18,8 @@ namespace HoloCAD.Tubes.C3D
             {
                 if (Math.Abs(Length - value) < float.Epsilon) return;
 
-                // Sys.SetDistance(EndPlane, StartPlane, value, GCMAlignment.Cooriented);
                 _lengthPattern.ChangeValue(EndCircle, value);
+                RightAxis.Origin = StartCircle.Origin + StartCircle.Normal * value;
                 
                 Sys.Evaluate();
                 OnPropertyChanged();
@@ -63,27 +63,22 @@ namespace HoloCAD.Tubes.C3D
             // MainLCS = new GCM_LCS(Sys, sys.GroundLCS.Placement, sys.GroundLCS);
 
             StartCircle = new GCMCircle(sys, Vector3.zero, Vector3.forward, diameter / 2);
-            var startPoint = new GCMPoint(sys, Vector3.zero);
-            sys.MakeConcentric(StartCircle, startPoint);
             
-            var startPlane = new GCMPlane(sys, Vector3.zero, Vector3.forward);
+            _startPlane = new GCMPlane(sys, Vector3.zero, Vector3.forward);
             _axis = new GCMLine(sys, Vector3.zero, Vector3.forward);
-            sys.MakeCoincident(StartCircle, startPlane, GCMAlignment.Cooriented);
-            sys.MakePerpendicular(_axis, startPlane, GCMAlignment.Cooriented);
+            sys.MakeCoincident(StartCircle, _startPlane, GCMAlignment.Cooriented);
+            sys.MakePerpendicular(_axis, _startPlane, GCMAlignment.Cooriented);
             
             _startRightAxis = new GCMLine(sys, Vector3.zero, Vector3.right);
 
             _lengthPattern = sys.CreateLinearPattern(StartCircle, _axis, GCMAlignment.AlignWithAxialGeom);
             _lengthPattern.AddObject(EndCircle, length, GCMAlignment.Cooriented, GCMScale.GCM_RIGID);
-
-            var endPoint = new GCMPoint(sys, Vector3.forward * length);
-            sys.MakeConcentric(EndCircle, endPoint);
-            sys.MakeCoincident(endPoint, RightAxis);
+            
             sys.MakeParallel(RightAxis, _startRightAxis, GCMAlignment.Cooriented);
             
             if (parent != null)
             {
-                sys.MakeConcentric(parent.EndCircle, startPoint);
+                sys.MakeConcentric(StartCircle, parent.EndPoint);
                 sys.SetAngle(parent.EndCircle, StartCircle, 0);
                 sys.MakeCoincident(parent.RightAxis, _startRightAxis, GCMAlignment.Cooriented);
             }
@@ -96,8 +91,7 @@ namespace HoloCAD.Tubes.C3D
         {
             _lengthPattern?.Dispose();
             _axis?.Dispose();
-            StartPlane?.Dispose();
-            StartCircle?.Dispose();
+            _startPlane?.Dispose();
             _startRightAxis?.Dispose();
             base.Dispose();
         }
@@ -105,11 +99,12 @@ namespace HoloCAD.Tubes.C3D
         public override void TestDraw(string name)
         {
             base.TestDraw(name);
-            _axis.TestDraw($"{name}-_axis");
+            // _axis.TestDraw($"{name}-_axis");
         }
 
         #region Private definitions
 
+        private readonly GCMPlane      _startPlane;
         private readonly GCMLine       _axis;
         private readonly GCMLine       _startRightAxis;
         private          GCMConstraint _lengthConstraint;

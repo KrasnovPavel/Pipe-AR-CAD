@@ -29,17 +29,13 @@ namespace HoloCAD.Tubes.C3D
         /// <summary> Окружность на конце отрезка. </summary>
         public readonly GCMCircle EndCircle;
 
-        /// <summary> Плоскость канца отрезка. </summary>
-        public readonly GCMPlane EndPlane;
-
         /// <summary> Окружность в начале отрезка. </summary>
         public GCMCircle StartCircle { get; protected set; }
 
-        /// <summary> Плоскость начала отрезка. </summary>
-        public GCMPlane StartPlane { get; protected set; }
-
         /// <summary> Прямая задающая ось X на конце отрезка. </summary>
         public readonly GCMLine RightAxis;
+
+        public readonly GCMPoint EndPoint;
 
         /// <summary> Предыдущий отрезок. </summary>
         public readonly TubeFragment Parent;
@@ -52,10 +48,9 @@ namespace HoloCAD.Tubes.C3D
 
         public virtual void Dispose()
         {
-            EndPlane?.Dispose();
+            EndPoint?.Dispose();
             EndCircle?.Dispose();
             StartCircle?.Dispose();
-            StartPlane?.Dispose();
             RightAxis?.Dispose();
             MainLCS?.Dispose();
             Disposed?.Invoke();
@@ -67,7 +62,6 @@ namespace HoloCAD.Tubes.C3D
         {
             StartCircle?.TestDraw($"{name}-StartCircle");
             EndCircle.TestDraw($"{name}-EndCircle");
-            RightAxis.TestDraw($"{name}-RightAxis");
         }
 
         #region Protected definitions
@@ -83,11 +77,11 @@ namespace HoloCAD.Tubes.C3D
             if (useLCS) MainLCS = new GCM_LCS(Sys, sys.GroundLCS.Placement, sys.GroundLCS);
 
             EndCircle = new GCMCircle(sys, Vector3.zero, Vector3.forward, diameter / 2, useLCS ? MainLCS : null);
-            EndPlane  = new GCMPlane(sys, Vector3.zero, Vector3.forward, useLCS ? MainLCS : null);
+            EndPoint = new GCMPoint(sys, Vector3.zero, useLCS ? MainLCS : null);
             RightAxis = new GCMLine(sys, Vector3.zero, Vector3.right, useLCS ? MainLCS : null);
 
-            sys.MakeCoincident(EndCircle, EndPlane);
-            sys.MakeCoincident(RightAxis, EndPlane);
+            sys.MakeCoincident(EndPoint, RightAxis);
+            sys.MakeConcentric(EndCircle, EndPoint);
 
             Parent = parent;
 
