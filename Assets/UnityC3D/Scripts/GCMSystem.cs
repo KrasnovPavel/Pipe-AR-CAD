@@ -604,10 +604,8 @@ namespace UnityC3D
 
             if (co != null) return co;
 
-            var desc = GCM_AddGeomToPattern(_gcmSystemPtr, pattern.Descriptor, obj.Descriptor, position, alignment,
-                                            scale);
-            co = new GCMConstraint(desc, GCMConstraintType.GCM_PATTERNED, pattern.Sample, pattern.AxialObject,
-                                   obj);
+            var desc = GCM_AddGeomToPattern(_gcmSystemPtr, pattern.Descriptor, obj.Descriptor, position, alignment, scale);
+            co = new GCMConstraint(desc, GCMConstraintType.GCM_PATTERNED, pattern.Sample, pattern.AxialObject, obj);
 
             _gcmConstraints.Add(co);
             return co;

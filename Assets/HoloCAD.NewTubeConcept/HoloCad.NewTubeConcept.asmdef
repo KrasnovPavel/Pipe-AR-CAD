@@ -1,0 +1,14 @@
+{
+    "name": "HoloCad.NewTubeConcept",
+    "references": [
+        "UnityC3D"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

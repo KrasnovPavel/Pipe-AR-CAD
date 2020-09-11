@@ -39,7 +39,6 @@ namespace HoloTest
         private async void RunUnitTests()
 #pragma warning restore 1998
         {
-            
             var start = DateTime.Now;
             Debug.Log("=========================== Testing started. ==========================");
             Assembly[] assemblies;
@@ -54,32 +53,32 @@ namespace HoloTest
                             .Where(IsTestClass)
                             .SelectMany(t => t.GetMethods())
                             .Where(m => m.GetCustomAttributes(typeof(HoloTestCaseAttribute)).Any())
-                            .Select(m=> new TestCase
+                            .Select(m => new TestCase
                             {
-                                Namespace = m.DeclaringType?.Namespace,
-                                TestName = m.Name,
-                                TypeName = m.DeclaringType?.Name,
+                                Namespace    = m.DeclaringType?.Namespace,
+                                TestName     = m.Name,
+                                TypeName     = m.DeclaringType?.Name,
                                 TestFunction = delegate { m.Invoke(null, null); }
                             })
                             .ToList();
-            
+
             // Добавляем тесты сгенерированные автоматически
             testCases.AddRange(assemblies
-                .SelectMany(a => a.GetTypes())
-                .Where(IsTestClass)
-                .SelectMany(t => t.GetMethods())
-                .Where(m => m.GetCustomAttributes(typeof(HoloTestGeneratorAttribute)).Any())
-                .SelectMany(m =>
-                {
-                    return (m.Invoke(null, null) as IEnumerable<Action>)?.Select(a => new TestCase
-                    {
-                        Namespace = m.DeclaringType?.Namespace,
-                        TestName = $"{m.Name}-{a.GetHashCode()}",
-                        TypeName = m.DeclaringType?.Name,
-                        IsGenerated = true,
-                        TestFunction = a
-                    });
-                }));
+                               .SelectMany(a => a.GetTypes())
+                               .Where(IsTestClass)
+                               .SelectMany(t => t.GetMethods())
+                               .Where(m => m.GetCustomAttributes(typeof(HoloTestGeneratorAttribute)).Any())
+                               .SelectMany(m =>
+                               {
+                                   return (m.Invoke(null, null) as IEnumerable<Action>)?.Select(a => new TestCase
+                                   {
+                                       Namespace    = m.DeclaringType?.Namespace,
+                                       TestName     = $"{m.Name}-{a.GetHashCode()}",
+                                       TypeName     = m.DeclaringType?.Name,
+                                       IsGenerated  = true,
+                                       TestFunction = a
+                                   });
+                               }));
 
             foreach (var test in testCases)
             {
@@ -107,11 +106,12 @@ namespace HoloTest
                 {
                     Debug.Log(test);
                 }
-                Debug.Log($"=========================== Testing ended. {testDuration.TotalMilliseconds:f0}ms ==========================");
+
+                Debug.Log($"=========================== Testing ended. ({failedTests.Count}/{testCases.Count}) {testDuration.TotalMilliseconds:f0}ms ==========================");
             }
             else
             {
-                Debug.Log($"=========================== All Tests Passed! {testDuration.TotalMilliseconds:f0}ms ==========================");
+                Debug.Log($"=========================== All Tests Passed! ({testCases.Count}) {testDuration.TotalMilliseconds:f0}ms ==========================");
             }
         }
 
@@ -125,7 +125,7 @@ namespace HoloTest
             return type.GetCustomAttributes(typeof(HoloTestClassAttribute)).Any();
 #endif
         }
-        
+
 #if ENABLE_WINMD_SUPPORT
         /// <summary> Выполняет поиск используемых приложением сборок в UWP. </summary>
         private async Task<Assembly[]> GetAssemblies()
