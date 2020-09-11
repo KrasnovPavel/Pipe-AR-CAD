@@ -245,6 +245,8 @@ namespace UnityC3D
 
             _placement = GCMSys.GetPlacement(this);
         }
+        
+        public readonly GCMSystem GCMSys;
 
         /// <summary> Координаты объекта. </summary>
         public Vector3 Origin
@@ -355,12 +357,11 @@ namespace UnityC3D
         }
 
         /// <summary> Родительская система координат объекта. </summary>
-        public readonly GCMObject Parent;
+        public readonly GCM_LCS Parent;
 
         public bool IsDisposed { get; private set; }
 
         internal readonly GCMDescriptor Descriptor;
-        protected readonly GCMSystem GCMSys;
         [CanBeNull] protected GameObject DrawObject;
 
         #region INotifyPropertyChanged
