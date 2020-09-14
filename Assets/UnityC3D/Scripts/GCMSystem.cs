@@ -46,7 +46,7 @@ namespace UnityC3D
         public GCMResult Evaluate()
         {
             bool hasNotOk = false;
-            var res = GCM_Evaluate(_gcmSystemPtr);
+            var  res      = GCM_Evaluate(_gcmSystemPtr);
             if (res != GCMResult.GCM_RESULT_Ok)
             {
                 Debug.LogWarning(res);
@@ -419,6 +419,33 @@ namespace UnityC3D
             return GCM_EvaluationResult(_gcmSystemPtr, constraint.Descriptor);
         }
 
+        public void PrepareReposition(GCMObject moveObj, Transform projPlane, Vector3 curPos)
+        {
+            GCM_PrepareReposition(_gcmSystemPtr,
+                                  moveObj.Descriptor,
+                                  MbPlacement3D.FromUnity(projPlane),
+                                  MbVector3D.FromUnity(curPos));
+        }
+
+        public void SolveReposition(Vector3 newPos)
+        {
+            GCM_SolveReposition(_gcmSystemPtr, MbVector3D.FromUnity(newPos));
+            Evaluated?.Invoke();
+        }
+
+        public void SolveReposition(GCMObject movingObject, Transform newPos)
+        {
+            var result = GCM_SolveReposition(_gcmSystemPtr, movingObject.Descriptor, MbPlacement3D.FromUnity(newPos),
+                                GCMReposition.FreeMoving);
+            if (result != GCMResult.GCM_RESULT_Ok) Debug.LogWarning(result);
+            Evaluated?.Invoke();
+        }
+
+        public void FinishReposition()
+        {
+            GCM_FinishReposition(_gcmSystemPtr);
+        }
+
         #region Internal definitions
 
         /// <summary> Удаляет переданное ограничение из системы. </summary>
@@ -604,7 +631,8 @@ namespace UnityC3D
 
             if (co != null) return co;
 
-            var desc = GCM_AddGeomToPattern(_gcmSystemPtr, pattern.Descriptor, obj.Descriptor, position, alignment, scale);
+            var desc = GCM_AddGeomToPattern(_gcmSystemPtr, pattern.Descriptor, obj.Descriptor, position, alignment,
+                                            scale);
             co = new GCMConstraint(desc, GCMConstraintType.GCM_PATTERNED, pattern.Sample, pattern.AxialObject, obj);
 
             _gcmConstraints.Add(co);
@@ -1019,7 +1047,7 @@ namespace UnityC3D
         [DllImport("c3d", EntryPoint = "?GCM_SetJournal@@YA_NPAVMtGeomSolver@@PBD@Z")]
 #endif
         private static extern bool GCM_SetJournal(IntPtr gSys, string filename);
-        
+
 #if UNITY_EDITOR_64
         [DllImport("c3d",
                    EntryPoint = "?GCM_AddAngularPattern@@YA?AUMtObjectId@@PEAVMtGeomSolver@@U1@1W4GCM_alignment@@@Z")]
@@ -1032,11 +1060,13 @@ namespace UnityC3D
             GCMDescriptor sample,
             GCMDescriptor axis,
             GCMAlignment  align);
-        
+
 #if UNITY_EDITOR_64
-        [DllImport("c3d", EntryPoint = "?GCM_AddLinearPattern@@YA?AUMtObjectId@@PEAVMtGeomSolver@@U1@1W4GCM_alignment@@@Z")]
+        [DllImport("c3d",
+                   EntryPoint = "?GCM_AddLinearPattern@@YA?AUMtObjectId@@PEAVMtGeomSolver@@U1@1W4GCM_alignment@@@Z")]
 #else
-        [DllImport("c3d", EntryPoint = "?GCM_AddLinearPattern@@YA?AUMtObjectId@@PAVMtGeomSolver@@U1@1W4GCM_alignment@@@Z")]
+        [DllImport("c3d", EntryPoint =
+ "?GCM_AddLinearPattern@@YA?AUMtObjectId@@PAVMtGeomSolver@@U1@1W4GCM_alignment@@@Z")]
 #endif
         private static extern GCMDescriptor GCM_AddLinearPattern(
             IntPtr        gSys,
@@ -1059,6 +1089,46 @@ namespace UnityC3D
             double        position,
             GCMAlignment  align,
             GCMScale      scale);
+
+#if UNITY_EDITOR_64
+        [DllImport("c3d",
+                   EntryPoint =
+                       "?GCM_PrepareReposition@@YA?AW4GCM_result@@PEAVMtGeomSolver@@UMtObjectId@@AEBVMbPlacement3D@@AEBVMbCartPoint3D@@@Z")]
+#else
+        [DllImport("c3d", EntryPoint =
+                       "?GCM_PrepareReposition@@YA?AW4GCM_result@@PAVMtGeomSolver@@UMtObjectId@@ABVMbPlacement3D@@ABVMbCartPoint3D@@@Z")]
+#endif
+        private static extern GCMResult GCM_PrepareReposition(
+            IntPtr        gSys,
+            GCMDescriptor movingGeom,
+            MbPlacement3D projPlane,
+            MbVector3D    curPoint);
+
+#if UNITY_EDITOR_64
+        [DllImport("c3d",
+                   EntryPoint = "?GCM_SolveReposition@@YA?AW4GCM_result@@PEAVMtGeomSolver@@AEBVMbCartPoint3D@@@Z")]
+#else
+        [DllImport("c3d", EntryPoint = "?GCM_SolveReposition@@YA?AW4GCM_result@@PAVMtGeomSolver@@ABVMbCartPoint3D@@@Z")]
+#endif
+        private static extern GCMResult GCM_SolveReposition(IntPtr gSys, MbVector3D newPoint);
+
+#if UNITY_EDITOR_64
+        [DllImport("c3d",
+                   EntryPoint =
+                       "?GCM_SolveReposition@@YA?AW4GCM_result@@PEAVMtGeomSolver@@UMtObjectId@@AEBVMbPlacement3D@@W4GCM_reposition@@@Z")]
+#else
+        [DllImport("c3d", EntryPoint =
+ "?GCM_SolveReposition@@YA?AW4GCM_result@@PEAVMtGeomSolver@@UMtObjectId@@AEBVMbPlacement3D@@W4GCM_reposition@@@Z")]
+#endif
+        private static extern GCMResult GCM_SolveReposition(IntPtr gSys, GCMDescriptor objID, MbPlacement3D newPos,
+                                                            GCMReposition repType);
+
+#if UNITY_EDITOR_64
+        [DllImport("c3d", EntryPoint = "?GCM_FinishReposition@@YAXPEAVMtGeomSolver@@@Z")]
+#else
+        [DllImport("c3d", EntryPoint = "?GCM_FinishReposition@@YAXPAVMtGeomSolver@@@Z")]
+#endif
+        private static extern void GCM_FinishReposition(IntPtr gSys);
 
         #endregion
     }

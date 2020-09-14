@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using HoloCAD.NewTubeConcept.Model;
+using HoloCAD.NewTubeConcept.View;
 using UnityC3D;
 using UnityEngine;
 
@@ -20,10 +22,9 @@ namespace HoloCAD.NewTubeConcept.Tests
         
         private void Start()
         {
-            tube = new Tube(_system, StartOrigin, StartNormal, EndOrigin, EndNormal, _system.GroundLCS);
+            _system.SetJournal(name);
+            //tube = new Tube(_system, StartOrigin, StartNormal, EndOrigin, EndNormal, _system.GroundLCS);
             tube.SegmentAdded += OnSegmentAdded;
-            OnSegmentAdded(tube.StartSegment);
-            OnSegmentAdded(tube.EndSegment);
             foreach (var segment in tube.Segments)
             {
                 OnSegmentAdded(segment);
@@ -45,6 +46,11 @@ namespace HoloCAD.NewTubeConcept.Tests
 
             _system.MakeParallel(tube.Segments.First(), vert);
             _system.Evaluate();
+        }
+
+        private void OnDestroy()
+        {
+            _system.Dispose();
         }
     }
 }

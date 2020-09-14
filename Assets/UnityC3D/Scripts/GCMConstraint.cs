@@ -158,4 +158,24 @@ namespace UnityC3D
         /// <summary> Шаг между элементами линейно масштабируется при растяжениях. </summary>
         GCM_LINEAR_SCALE = 2
     }
+
+    /// <summary> Режим поведения при манипулировании недоопределенной системой. </summary>
+    internal enum GCMReposition
+    {
+        /// <summary> Произвольная репозиция с преимуществом вращения. </summary>
+        FreeRotation,
+
+        /// <summary> Произвольная репозиция с преимуществом перемещения. </summary>
+        FreeMoving,
+
+        /// <summary> Перетаскивание в плоскости "экрана". </summary>
+        Dragging,
+
+        /// <summary> Вращение вокруг неподвижной оси. </summary>
+        Rotation,
+        
+        /// <summary> Перенос только для одного твердого тела. </summary>
+        /// <remarks> Этот режим был задуман для процессов вставки нового тела в сборку САПР. </remarks>
+        Transfer
+    }
 }

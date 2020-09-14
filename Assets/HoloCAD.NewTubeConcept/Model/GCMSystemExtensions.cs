@@ -1,6 +1,6 @@
 ﻿using UnityC3D;
 
-namespace HoloCAD.NewTubeConcept
+namespace HoloCAD.NewTubeConcept.Model
 {
     public static class GCMSystemExtensions
     {
