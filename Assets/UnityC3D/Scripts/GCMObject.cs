@@ -224,29 +224,9 @@ namespace UnityC3D
     /// <summary> Абстрактрный геометрический объект в C3D. </summary>
     public abstract class GCMObject : INotifyPropertyChanged, IDisposable
     {
-        internal GCMObject(GCMSystem sys, GCMDescriptor desc, GCM_LCS parent = null)
-        {
-            GCMSys = sys;
-            Descriptor = desc;
-            Parent = parent;
-
-            sys.Evaluated += UpdatePlacement;
-
-            if (parent != null)
-            {
-                parent.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
-                                          {
-                                              if (args.PropertyName == nameof(Placement))
-                                              {
-                                                  UpdatePlacement();
-                                              }
-                                          };
-            }
-
-            _placement = GCMSys.GetPlacement(this);
-        }
-        
         public readonly GCMSystem GCMSys;
+
+        public event Action Disposed;
 
         /// <summary> Координаты объекта. </summary>
         public Vector3 Origin
@@ -276,6 +256,28 @@ namespace UnityC3D
                 OnPropertyChanged();
             }
         }
+        
+        internal GCMObject(GCMSystem sys, GCMDescriptor desc, GCM_LCS parent = null)
+        {
+            GCMSys = sys;
+            Descriptor = desc;
+            Parent = parent;
+
+            sys.Evaluated += UpdatePlacement;
+
+            if (parent != null)
+            {
+                parent.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+                                          {
+                                              if (args.PropertyName == nameof(Placement))
+                                              {
+                                                  UpdatePlacement();
+                                              }
+                                          };
+            }
+
+            _placement = GCMSys.GetPlacement(this);
+        }
 
         public void Dispose()
         {
@@ -283,6 +285,7 @@ namespace UnityC3D
             IsDisposed = true;
             GCMSys.Remove(this);
             GCMSys.Evaluated -= UpdatePlacement;
+            Disposed?.Invoke();
         }
 
         /// <inheritdoc />

@@ -14,18 +14,24 @@ namespace HoloCAD.NewTubeConcept.Model
         public const float BendRadius = 0.1f;
 
         public readonly List<Segment> Segments = new List<Segment>();
+        public readonly List<GCMPoint> Points = new List<GCMPoint>();
 
         public event Action<Segment> SegmentAdded;
+        public event Action<GCMPoint> PointAdded;
 
         public Tube(GCMSystem sys, Flange startFlange, Flange endFlange)
         {
             StartFlange = startFlange;
-            EndFlange   = endFlange;
+            EndFlange = endFlange;
 
-            var point1 = new GCMPoint(sys, StartFlange.Origin + StartFlange.Normal * BendRadius, sys.GroundLCS);
-            var point2 = new GCMPoint(sys, EndFlange.Origin   + EndFlange.Normal   * BendRadius, sys.GroundLCS);
+            StartFlange.FirstSegment.Owner = this;
+            EndFlange.FirstSegment.Owner = this;
 
-            Segments.Add(new Segment(point1, point2, null, null, this));
+            Segments.Add(new Segment(StartFlange.FirstSegment.End,
+                                     EndFlange.FirstSegment.End,
+                                     StartFlange.FirstSegment,
+                                     EndFlange.FirstSegment,
+                                     this));
 
             sys.Evaluate();
         }
@@ -45,17 +51,18 @@ namespace HoloCAD.NewTubeConcept.Model
             Segments.Remove(segment);
 
             var start = segment.Start;
-            var end   = segment.End;
-            var sys   = start.GCMSys;
+            var end = segment.End;
+            var sys = start.GCMSys;
 
             var middle = new GCMPoint(sys, segment.Middle, sys.GroundLCS);
-            var first  = new Segment(start, middle, segment.Parent, null, this);
-            ;
+            var first = new Segment(start, middle, segment.Parent, null, this);
             var second = new Segment(middle, end, first, segment.Child, this);
 
             Segments.Add(first);
             Segments.Add(second);
+            Points.Add(middle);
 
+            PointAdded?.Invoke(middle);
             SegmentAdded?.Invoke(first);
             SegmentAdded?.Invoke(second);
 
@@ -76,14 +83,19 @@ namespace HoloCAD.NewTubeConcept.Model
                 segment?.Dispose();
             }
 
+            foreach (var point in Points)
+            {
+                point?.Dispose();
+            }
+
             StartFlange?.Dispose();
             EndFlange?.Dispose();
         }
 
         #region Private defifnitons
 
-        private List<Vector3>       _savedPoints = new List<Vector3>();
-        private List<MbPlacement3D> _savedLines  = new List<MbPlacement3D>();
+        private List<Vector3> _savedPoints = new List<Vector3>();
+        private List<MbPlacement3D> _savedLines = new List<MbPlacement3D>();
 
         #endregion
     }

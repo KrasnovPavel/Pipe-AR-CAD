@@ -4,7 +4,8 @@
         "UnityC3D",
         "MathExtensions",
         "HoloCore",
-        "Microsoft.MixedReality.Toolkit"
+        "Microsoft.MixedReality.Toolkit",
+        "Microsoft.MixedReality.Toolkit.SDK"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

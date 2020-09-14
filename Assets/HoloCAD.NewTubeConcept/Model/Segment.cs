@@ -12,7 +12,7 @@ namespace HoloCAD.NewTubeConcept.Model
         public readonly GCMPoint Start;
         public readonly GCMPoint End;
         public readonly GCMLine  Line;
-        public readonly Tube     Owner;
+        public Tube     Owner;
 
         public float Length => (End.Origin - Start.Origin).magnitude;
 

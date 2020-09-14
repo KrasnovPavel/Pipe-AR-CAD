@@ -11,12 +11,11 @@ namespace HoloCAD.NewTubeConcept.Model
     public class Flange : IDisposable, INotifyPropertyChanged
     {
         public readonly GCMPlane Plane;
-        public readonly GCMLine  Axis;
-        public readonly GCMPoint Point;
+        public readonly Segment FirstSegment;
 
         public Vector3 Origin
         {
-            get => Point.Origin;
+            get => _startPoint.Origin;
             set => Move(value, Normal);
         }
 
@@ -30,20 +29,20 @@ namespace HoloCAD.NewTubeConcept.Model
         {
             _sys  = sys;
             Plane = new GCMPlane(sys, Vector3.zero, Vector3.forward, sys.GroundLCS);
-            Axis  = new GCMLine(sys, Vector3.zero, Vector3.forward, sys.GroundLCS);
-            Point = new GCMPoint(sys, Vector3.zero, sys.GroundLCS);
+            _startPoint = new GCMPoint(sys, Vector3.zero, sys.GroundLCS);
+            _endPoint = new GCMPoint(sys, Vector3.forward, sys.GroundLCS);
+            FirstSegment = new Segment(_startPoint, _endPoint, null, null, null);
             Plane.Freeze();
-            Point.Freeze();
-            sys.MakeCoincident(Point, Axis);
-            sys.MakePerpendicular(Axis, Plane);
+            _startPoint.Freeze();
+            sys.MakePerpendicular(FirstSegment, Plane);
 
-            Point.PropertyChanged += OnPropertyChanged;
+            _startPoint.PropertyChanged += OnPropertyChanged;
             Plane.PropertyChanged += OnPropertyChanged;
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (ReferenceEquals(sender, Point) && e.PropertyName == nameof(Point.Origin))
+            if (ReferenceEquals(sender, _startPoint) && e.PropertyName == nameof(_startPoint.Origin))
             {
                 OnPropertyChanged(nameof(Origin));   
             }
@@ -58,23 +57,26 @@ namespace HoloCAD.NewTubeConcept.Model
         {
             Plane.Origin = newPos;
             Plane.Normal = newNorm;
-            Point.Origin = newPos;
+            _startPoint.Origin = newPos;
             _sys.Evaluate();
         }
 
         public void Dispose()
         {
-            Point.PropertyChanged -= OnPropertyChanged;
+            _startPoint.PropertyChanged -= OnPropertyChanged;
             Plane.PropertyChanged -= OnPropertyChanged;
             
             Plane?.Dispose();
-            Axis?.Dispose();
-            Point?.Dispose();
+            FirstSegment?.Dispose();
+            _startPoint?.Dispose();
+            _endPoint?.Dispose();
         }
 
         #region Private definitions
 
         private GCMSystem _sys;
+        private readonly GCMPoint _startPoint;
+        private readonly GCMPoint _endPoint;
 
         #endregion
 
