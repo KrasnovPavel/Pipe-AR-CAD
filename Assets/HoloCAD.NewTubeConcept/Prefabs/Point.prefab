@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1953485259129927693}
   - component: {fileID: 8977211888334493203}
   - component: {fileID: 6310369924149775404}
+  - component: {fileID: 6245005190270357084}
   - component: {fileID: 113561692267959875}
   - component: {fileID: 4219702150028542676}
   m_Layer: 0
@@ -60,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a5e028070ace428d8971079be1d965a6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,6 +94,21 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6245005190270357084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6901494997197035062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c9957ec62e74eb98ab35ccd8e95c6ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultMaterial: {fileID: 2100000, guid: a5e028070ace428d8971079be1d965a6, type: 2}
+  HoverMaterial: {fileID: 2100000, guid: d5334c45caee46be937b095a1e977dc6, type: 2}
+  HighlightedComponent: {fileID: 8977211888334493203}
 --- !u!114 &113561692267959875
 MonoBehaviour:
   m_ObjectHideFlags: 0

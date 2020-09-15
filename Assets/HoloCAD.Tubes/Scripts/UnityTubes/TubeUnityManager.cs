@@ -52,9 +52,6 @@ namespace HoloCAD.Tubes.UnityTubes
                 Instance.OnPropertyChanged(nameof(HasActiveTubesConnector));
             }
         }
-        
-        /// <summary> Использовать SpatialMapping для привязки объектов?  </summary>
-        public static bool UseSpatialMapping = true;
 
         /// <summary> Создает на сцене объект начального фланца трубы. </summary>
         /// <param name="owner"> Труба, которой принадлежит этот фланец.</param>
@@ -151,12 +148,6 @@ namespace HoloCAD.Tubes.UnityTubes
             
             // ReSharper disable once PossibleNullReferenceException
             Camera.main.depthTextureMode = DepthTextureMode.DepthNormals;
-        }
-
-        // ReSharper disable once Unity.RedundantEventFunction
-        private void Update()
-        {
-      //      Debug.developerConsoleVisible = false;
         }
 
         #endregion

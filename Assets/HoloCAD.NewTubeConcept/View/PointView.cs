@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using HoloCAD.NewTubeConcept.Model;
 using Microsoft.MixedReality.Toolkit.UI;
 using UnityC3D;
 using UnityEngine;
@@ -9,6 +10,9 @@ namespace HoloCAD.NewTubeConcept.View
     [RequireComponent(typeof(SphereCollider), typeof(ObjectManipulator))]
     public class PointView : MonoBehaviour
     {
+        public Segment PrevSegment;
+        public Segment NextSegment;
+        
         public GCMPoint Point
         {
             get => _point;
@@ -64,13 +68,20 @@ namespace HoloCAD.NewTubeConcept.View
         private void MovePoint()
         {
             var lastPos = _point.Origin;
+            var lastPlacePrev = PrevSegment.Line.Placement;
+            var lastPlaceNext = NextSegment.Line.Placement;
+            
             _point.Origin = transform.position;
+            PrevSegment.ResetLine();
+            NextSegment.ResetLine();
 
             var res = Point.GCMSys.Evaluate(); 
             if (res != GCMResult.GCM_RESULT_Ok)
             {
                 Debug.LogWarning(res);
                 _point.Origin = lastPos;
+                PrevSegment.Line.Placement = lastPlacePrev;
+                NextSegment.Line.Placement = lastPlaceNext;
                 Point.GCMSys.Evaluate();
             }
         }

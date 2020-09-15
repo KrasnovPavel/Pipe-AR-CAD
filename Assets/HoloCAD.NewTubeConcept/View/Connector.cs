@@ -1,7 +1,6 @@
 ﻿using System;
 using HoloCAD.NewTubeConcept.Model;
 using HoloCore;
-using JetBrains.Annotations;
 using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;

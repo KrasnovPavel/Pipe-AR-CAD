@@ -17,7 +17,7 @@ namespace HoloCAD.NewTubeConcept.Model
         public readonly List<GCMPoint> Points = new List<GCMPoint>();
 
         public event Action<Segment> SegmentAdded;
-        public event Action<GCMPoint> PointAdded;
+        public event Action<GCMPoint, Segment, Segment> PointAdded;
 
         public Tube(GCMSystem sys, Flange startFlange, Flange endFlange)
         {
@@ -62,7 +62,7 @@ namespace HoloCAD.NewTubeConcept.Model
             Segments.Add(second);
             Points.Add(middle);
 
-            PointAdded?.Invoke(middle);
+            PointAdded?.Invoke(middle, first, second);
             SegmentAdded?.Invoke(first);
             SegmentAdded?.Invoke(second);
 

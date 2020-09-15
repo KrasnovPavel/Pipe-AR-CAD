@@ -1,23 +1,32 @@
 ﻿using System;
 using UnityEngine;
 using HoloCAD.NewTubeConcept.Model;
+using HoloCore;
 using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.Utilities.Solvers;
 
 namespace HoloCAD.NewTubeConcept.View
 {
-    [RequireComponent(typeof(SurfaceMagnetism), typeof(Collider))]
+    [RequireComponent(typeof(Collider), typeof(TapRecognizer), typeof(SurfaceMagnetism))]
     public class FlangeView : MonoBehaviour, IMixedRealityPointerHandler
     {
         public Flange flange;
 
         public void StartPlacement()
         {
+            _collider.enabled = false;
+            SceneController.Instance.EnableSpatialCollider = true;
+            SceneController.Instance.EnableSpatialRenderer = true;
+            _tapRecognizer.enabled = true;
             _placementSolver.enabled = true;
         }
 
         public void EndPlacement()
         {
+            _collider.enabled = true;
+            SceneController.Instance.EnableSpatialCollider = false;
+            SceneController.Instance.EnableSpatialRenderer = false;
+            _tapRecognizer.enabled = false;
             _placementSolver.enabled = false;
         }
 
@@ -30,6 +39,10 @@ namespace HoloCAD.NewTubeConcept.View
 
         private void Awake()
         {
+            _collider = GetComponent<Collider>();
+            _tapRecognizer = GetComponent<TapRecognizer>();
+            _tapRecognizer.enabled = false;
+            _tapRecognizer.Tap += EndPlacement;
             _placementSolver = GetComponent<SurfaceMagnetism>();
             _placementSolver.enabled = false;
         }
@@ -49,6 +62,11 @@ namespace HoloCAD.NewTubeConcept.View
                 flange.Move(transform.position, transform.forward);
                 transform.hasChanged = false;
             }
+        }
+
+        private void OnDestroy()
+        {
+            _tapRecognizer.Tap -= EndPlacement;
         }
 
         #endregion
@@ -89,10 +107,11 @@ namespace HoloCAD.NewTubeConcept.View
 
         #endregion
 
-        
         #region Private definitions
 
         private SurfaceMagnetism _placementSolver;
+        private TapRecognizer _tapRecognizer;
+        private Collider _collider;
 
         #endregion
     }

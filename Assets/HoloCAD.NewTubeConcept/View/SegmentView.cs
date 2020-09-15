@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace HoloCAD.NewTubeConcept.View
 {
-    [RequireComponent(typeof(LineRenderer))]
-    public class SegmentView : MonoBehaviour
+    [RequireComponent(typeof(LineRenderer), typeof(CapsuleCollider))]
+    public class SegmentView : MonoBehaviour, IMixedRealityPointerHandler
     {
         public const float Diameter = 0.05f;
 
@@ -37,6 +37,31 @@ namespace HoloCAD.NewTubeConcept.View
         public void Awake()
         {
             _renderer = GetComponent<LineRenderer>();
+            _collider = GetComponent<CapsuleCollider>();
+        }
+
+        #endregion
+
+        #region MRTK event functions
+
+        public void OnPointerDown(MixedRealityPointerEventData eventData)
+        {
+            // Do nothing
+        }
+
+        public void OnPointerDragged(MixedRealityPointerEventData eventData)
+        {
+            // Do nothing
+        }
+
+        public void OnPointerUp(MixedRealityPointerEventData eventData)
+        {
+            // Do nothing
+        }
+
+        public void OnPointerClicked(MixedRealityPointerEventData eventData)
+        {
+            _segment.Owner.AddPoint(segment);
         }
 
         #endregion
@@ -45,6 +70,7 @@ namespace HoloCAD.NewTubeConcept.View
 
         private LineRenderer _renderer;
         private Segment      _segment;
+        private CapsuleCollider _collider;
 
         private void SegmentOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -54,11 +80,15 @@ namespace HoloCAD.NewTubeConcept.View
         private void CalculatePosition()
         {
             transform.position = _segment.Start.Origin;
+            transform.LookAt(_segment.End.Origin);
 
             _renderer.useWorldSpace = true;
             _renderer.SetPosition(0, _segment.Start.Origin);
             _renderer.SetPosition(1, _segment.End.Origin);
             _renderer.endWidth = _renderer.startWidth = Diameter / 2;
+            _collider.height = _segment.Length;
+            _collider.radius = Diameter / 2;
+            _collider.center = Vector3.forward * _segment.Length / 2;
         }
 
         #endregion

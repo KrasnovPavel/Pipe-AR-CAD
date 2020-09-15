@@ -84,6 +84,12 @@ namespace HoloCAD.NewTubeConcept.Model
             return childLength + parentLength;
         }
 
+        public void ResetLine()
+        {
+            Line.Origin = Start.Origin;
+            Line.Direction = (End.Origin - Start.Origin).normalized;
+        }
+
         public void Dispose()
         {
             if (Child?.Parent == this) Child.Parent = null;
