@@ -9,8 +9,8 @@ namespace HoloCAD.NewTubeConcept.Model
 {
     public class Segment: IDisposable, INotifyPropertyChanged
     {
-        public readonly GCMPoint Start;
-        public readonly GCMPoint End;
+        public readonly TubePoint Start;
+        public readonly TubePoint End;
         public readonly GCMLine  Line;
         public Tube     Owner;
 
@@ -20,43 +20,39 @@ namespace HoloCAD.NewTubeConcept.Model
         
         public event Action<Segment> Disposed;
 
-        [CanBeNull]
-        public Segment Child
-        {
-            get => _child;
-            set
-            {
-                if (_child == value) return;
+        [CanBeNull] public Segment Next => End.Next;
+        // {
+        //     get => _next;
+        //     set
+        //     {
+        //         if (_next == value) return;
+        //
+        //         if (_next != null && value == null) _next.Prev = null;
+        //         
+        //         _next = value;
+        //         if (value != null) value.Prev = this;
+        //     }
+        // }
 
-                if (_child != null && value == null) _child.Parent = null;
-                
-                _child = value;
-                if (value != null) value.Parent = this;
-            }
-        }
+        [CanBeNull] public Segment Prev => Start.Prev;
+        // {
+        //     get => _prev;
+        //     set
+        //     {
+        //         if (_prev == value) return;
+        //
+        //         if (_prev != null && value == null) _prev.Next = null;
+        //         
+        //         _prev = value;
+        //         if (value != null) value.Next = this;
+        //     }
+        // }
 
-        [CanBeNull]
-        public Segment Parent
-        {
-            get => _parent;
-            set
-            {
-                if (_parent == value) return;
-
-                if (_parent != null && value == null) _parent.Child = null;
-                
-                _parent = value;
-                if (value != null) value.Child = this;
-            }
-        }
-
-        public Segment(GCMPoint start, GCMPoint end, Segment parent, Segment child, Tube owner)
+        public Segment(TubePoint start, TubePoint end, Tube owner)
         {
             Start      = start;
             End        = end;
-            Child      = child;
             Owner      = owner;
-            Parent     = parent;
 
             var sys = start.GCMSys;
             Line = new GCMLine(sys, start.Origin, Start.Origin - End.Origin, Start.Parent);
@@ -69,15 +65,15 @@ namespace HoloCAD.NewTubeConcept.Model
             float childLength  = 0;
             float parentLength = 0;
 
-            if (Child != null)
+            if (Next != null)
             {
-                float angle = Vector3.Angle(Child.End.Origin - Child.Start.Origin, End.Origin - Start.Origin);
+                float angle = Vector3.Angle(Next.End.Origin - Next.Start.Origin, End.Origin - Start.Origin);
                 childLength = bendRadius * Mathf.Tan(angle / 2);
             }
 
-            if (Parent != null)
+            if (Prev != null)
             {
-                float angle = Vector3.Angle(Parent.End.Origin - Parent.Start.Origin, End.Origin - Start.Origin);
+                float angle = Vector3.Angle(Prev.End.Origin - Prev.Start.Origin, End.Origin - Start.Origin);
                 parentLength = bendRadius * Mathf.Tan(angle / 2);
             }
 
@@ -92,18 +88,12 @@ namespace HoloCAD.NewTubeConcept.Model
 
         public void Dispose()
         {
-            if (Child?.Parent == this) Child.Parent = null;
-            else                       _child       = null;
-            
-            if (Parent?.Child == this) Parent.Child = null;
-            else                       _parent      = null;
-            
             Line?.Dispose();
             Disposed?.Invoke(this);
         }
-        
-        private Segment _child;
-        private Segment _parent;
+
+        #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -111,5 +101,7 @@ namespace HoloCAD.NewTubeConcept.Model
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        
+        #endregion
     }
 }

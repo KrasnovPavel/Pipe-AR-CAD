@@ -10,10 +10,9 @@ namespace HoloCAD.NewTubeConcept.View
     [RequireComponent(typeof(SphereCollider), typeof(ObjectManipulator))]
     public class PointView : MonoBehaviour
     {
-        public Segment PrevSegment;
-        public Segment NextSegment;
+        public TubeView Owner;
         
-        public GCMPoint Point
+        public TubePoint Point
         {
             get => _point;
             set
@@ -54,7 +53,7 @@ namespace HoloCAD.NewTubeConcept.View
 
         #region Private definitions
 
-        private GCMPoint _point;
+        private TubePoint _point;
         private bool _isManipulationStarted; 
 
         private void PointOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -68,22 +67,29 @@ namespace HoloCAD.NewTubeConcept.View
         private void MovePoint()
         {
             var lastPos = _point.Origin;
-            var lastPlacePrev = PrevSegment.Line.Placement;
-            var lastPlaceNext = NextSegment.Line.Placement;
+            MbPlacement3D? lastPlacePrev = _point.Prev?.Line.Placement;
+            MbPlacement3D? lastPlaceNext = _point.Next?.Line.Placement;
             
             _point.Origin = transform.position;
-            PrevSegment.ResetLine();
-            NextSegment.ResetLine();
+            _point.Prev?.ResetLine();
+            _point.Next?.ResetLine();
 
             var res = Point.GCMSys.Evaluate(); 
             if (res != GCMResult.GCM_RESULT_Ok)
             {
                 Debug.LogWarning(res);
                 _point.Origin = lastPos;
-                PrevSegment.Line.Placement = lastPlacePrev;
-                NextSegment.Line.Placement = lastPlaceNext;
+                if (_point.Prev != null && lastPlacePrev != null)
+                {
+                    _point.Prev.Line.Placement = lastPlacePrev.Value; 
+                }
+                if (_point.Next != null && lastPlaceNext != null)
+                {
+                    _point.Next.Line.Placement = lastPlaceNext.Value; 
+                }
                 Point.GCMSys.Evaluate();
             }
+            Owner.tube.FixErrors();
         }
 
         #endregion

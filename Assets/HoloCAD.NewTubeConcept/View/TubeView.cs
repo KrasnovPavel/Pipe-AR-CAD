@@ -28,27 +28,21 @@ namespace HoloCAD.NewTubeConcept.View
             }
 
             tube.PointAdded += OnPointAdded;
-            OnPointAdded(startFlangeSegment.End, startFlangeSegment, startFlangeSegment.Child);
-            OnPointAdded(endFlangeSegment.End, endFlangeSegment, endFlangeSegment.Parent);
+            OnPointAdded(startFlangeSegment.End);
+            OnPointAdded(endFlangeSegment.End);
 
             foreach (var point in tube.Points)
             {
-                var segments = SegmentViews
-                               .Select(v => v.segment)
-                               .Where(s => ReferenceEquals(s.Start, point) 
-                                           || ReferenceEquals(s.End, point))
-                               .ToList();
-                OnPointAdded(point, segments[0], segments[1]);
+                OnPointAdded(point);
             }
         }
 
-        private void OnPointAdded(GCMPoint point, Segment prevSegment, Segment nextSegment)
+        private void OnPointAdded(TubePoint point)
         {
             var go = Instantiate(TubePrefabsContainer.Instance.PointPrefab, transform);
             var p = go.GetComponent<PointView>(); 
             p.Point = point;
-            p.PrevSegment = prevSegment;
-            p.NextSegment = nextSegment;
+            p.Owner = this;
         }
 
         private void OnSegmentAdded(Segment segment)

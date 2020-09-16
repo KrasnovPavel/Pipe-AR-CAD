@@ -14,10 +14,10 @@ namespace HoloCAD.NewTubeConcept.Model
         public const float BendRadius = 0.1f;
 
         public readonly List<Segment> Segments = new List<Segment>();
-        public readonly List<GCMPoint> Points = new List<GCMPoint>();
+        public readonly List<TubePoint> Points = new List<TubePoint>();
 
         public event Action<Segment> SegmentAdded;
-        public event Action<GCMPoint, Segment, Segment> PointAdded;
+        public event Action<TubePoint> PointAdded;
 
         public Tube(GCMSystem sys, Flange startFlange, Flange endFlange)
         {
@@ -27,13 +27,23 @@ namespace HoloCAD.NewTubeConcept.Model
             StartFlange.FirstSegment.Owner = this;
             EndFlange.FirstSegment.Owner = this;
 
-            Segments.Add(new Segment(StartFlange.FirstSegment.End,
+            var middle = new Segment(StartFlange.FirstSegment.End,
                                      EndFlange.FirstSegment.End,
-                                     StartFlange.FirstSegment,
-                                     EndFlange.FirstSegment,
-                                     this));
+                                     this);
+
+            StartFlange.FirstSegment.End.Next = middle;
+            EndFlange.FirstSegment.Start.Prev = middle;
+            
+            Segments.Add(middle);
 
             sys.Evaluate();
+        }
+
+        public void FixErrors()
+        {
+            var hasErrors = StartFlange.Fix();
+            hasErrors = hasErrors || EndFlange.Fix();
+            if (hasErrors) sys.Evaluate();
         }
 
         public bool IsCorrect()
@@ -52,17 +62,20 @@ namespace HoloCAD.NewTubeConcept.Model
 
             var start = segment.Start;
             var end = segment.End;
-            var sys = start.GCMSys;
 
-            var middle = new GCMPoint(sys, segment.Middle, sys.GroundLCS);
-            var first = new Segment(start, middle, segment.Parent, null, this);
-            var second = new Segment(middle, end, first, segment.Child, this);
+            var middle = new TubePoint(sys, segment.Middle, sys.GroundLCS);
+            var first = new Segment(start, middle, this);
+            var second = new Segment(middle, end, this);
+
+            start.Next = first;
+            middle.Prev = first;
+            middle.Next = second;
 
             Segments.Add(first);
             Segments.Add(second);
             Points.Add(middle);
 
-            PointAdded?.Invoke(middle, first, second);
+            PointAdded?.Invoke(middle);
             SegmentAdded?.Invoke(first);
             SegmentAdded?.Invoke(second);
 
@@ -96,6 +109,8 @@ namespace HoloCAD.NewTubeConcept.Model
 
         private List<Vector3> _savedPoints = new List<Vector3>();
         private List<MbPlacement3D> _savedLines = new List<MbPlacement3D>();
+
+        private GCMSystem sys => StartFlange.Plane.GCMSys;
 
         #endregion
     }
