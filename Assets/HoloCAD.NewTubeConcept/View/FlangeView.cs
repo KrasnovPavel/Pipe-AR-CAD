@@ -1,19 +1,30 @@
-﻿using System;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using System;
+using System.ComponentModel;
 using UnityEngine;
 using HoloCAD.NewTubeConcept.Model;
 using HoloCore;
+using HoloCore.UI;
 using Microsoft.MixedReality.Toolkit.Input;
+using Microsoft.MixedReality.Toolkit.UI;
+using Microsoft.MixedReality.Toolkit.Utilities;
 using Microsoft.MixedReality.Toolkit.Utilities.Solvers;
 
 namespace HoloCAD.NewTubeConcept.View
 {
     [RequireComponent(typeof(Collider), typeof(TapRecognizer), typeof(SurfaceMagnetism))]
-    public class FlangeView : MonoBehaviour, IMixedRealityPointerHandler
+    [RequireComponent(typeof(ObjectManipulator))]
+    public class FlangeView : MonoBehaviour, IMixedRealityPointerHandler //-V3072
     {
         public Flange flange;
+        public Interactable MoveToggle;
+        public Interactable RotateToggle;
 
         public void StartPlacement()
         {
+            _manipulator.enabled = false;
             _collider.enabled = false;
             SceneController.Instance.EnableSpatialCollider = true;
             SceneController.Instance.EnableSpatialRenderer = true;
@@ -23,6 +34,7 @@ namespace HoloCAD.NewTubeConcept.View
 
         public void EndPlacement()
         {
+            _manipulator.enabled = true;
             _collider.enabled = true;
             SceneController.Instance.EnableSpatialCollider = false;
             SceneController.Instance.EnableSpatialRenderer = false;
@@ -45,6 +57,7 @@ namespace HoloCAD.NewTubeConcept.View
             _tapRecognizer.Tap += EndPlacement;
             _placementSolver = GetComponent<SurfaceMagnetism>();
             _placementSolver.enabled = false;
+            _manipulator = GetComponent<ObjectManipulator>();
         }
 
         private void Start()
@@ -53,6 +66,9 @@ namespace HoloCAD.NewTubeConcept.View
             {
                 flange = new Flange(GCMSystemBehaviour.System);
             }
+            
+            MoveToggle.OnClick.AddListener(delegate { ChangeManipulationMode(MoveToggle); });
+            RotateToggle.OnClick.AddListener(delegate { ChangeManipulationMode(RotateToggle); });
         }
 
         private void Update()
@@ -112,6 +128,21 @@ namespace HoloCAD.NewTubeConcept.View
         private SurfaceMagnetism _placementSolver;
         private TapRecognizer _tapRecognizer;
         private Collider _collider;
+        private ObjectManipulator _manipulator;
+
+        private void ChangeManipulationMode(Interactable sender)
+        {
+            if (sender == MoveToggle)
+            {
+                RotateToggle.IsToggled = false;
+                _manipulator.TwoHandedManipulationType = sender.IsToggled ? TransformFlags.Move : 0;
+            }
+            else if (sender == RotateToggle)
+            {
+                MoveToggle.IsToggled = false;
+                _manipulator.TwoHandedManipulationType = sender.IsToggled ? TransformFlags.Rotate : 0;
+            }
+        }
 
         #endregion
     }

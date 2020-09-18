@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using Microsoft.MixedReality.Toolkit.UI;
@@ -12,10 +13,46 @@ using UnityEngine;
 namespace HoloCore.UI
 {
     /// <summary> Виджет вращения объектов. </summary>
-    public class GrabRotator : MonoBehaviour, INotifyPropertyChanged, ISelectable
+    public class GrabRotator : MonoBehaviour, INotifyPropertyChanged
     {
         /// <summary> Префаб маркера, за который будет тянуть пользователь </summary>
         public GameObject GrabObjectPrefab;
+
+        public float Scale = 1;
+
+        public int AmountOfGrabbersEditor;
+        public float RadiusEditor;
+
+        public Transform HostTransform;
+
+        public int AmountOfGrabbers
+        {
+            get => _grabbers.Count;
+            set
+            {
+                if (value == AmountOfGrabbers) return;
+
+                if (value > AmountOfGrabbers)
+                {
+                    while (AmountOfGrabbers < value)
+                    {
+                        AddGrabber();
+                    }
+                }
+                else
+                {
+                    while (AmountOfGrabbers > value)
+                    {
+                        DestroyImmediate(_grabbers.Last().gameObject);
+                        _grabbers.RemoveAt(_grabbers.Count - 1);
+                    }
+                }
+#if UNITY_EDITOR
+                AmountOfGrabbersEditor = value;
+#endif
+                SetGrabbersPosition();
+            }
+        }
 
         /// <summary> Радиус окружности на которой будут находиться маркеры. </summary>
         public float Radius
@@ -29,7 +66,7 @@ namespace HoloCore.UI
                 SetGrabbersPosition();
                 foreach (var grabber in _grabbers)
                 {
-                    grabber.localScale = Vector3.one * _radius;
+                    grabber.localScale = Vector3.one * (_radius * Scale);
                 }
             }
         }
@@ -42,13 +79,15 @@ namespace HoloCore.UI
             {
                 if (Math.Abs(_angle - value) < float.Epsilon) return;
 
+                DeltaAngle = value - _angle;
                 _angle = value;
                 OnPropertyChanged();
             }
         }
+        
+        public float DeltaAngle { get; protected set; }
 
-        /// <inheritdoc />
-        public void OnSelect()
+        public void OnEnable()
         {
             foreach (var grabber in _grabbers)
             {
@@ -56,8 +95,7 @@ namespace HoloCore.UI
             }
         }
 
-        /// <inheritdoc />
-        public void OnDeselect()
+        public void OnDisable()
         {
             foreach (var grabber in _grabbers)
             {
@@ -83,34 +121,31 @@ namespace HoloCore.UI
 
         private void Start()
         {
-            for (int i = 0; i < _amountOfGrabbers; i++)
-            {
-                var grabber = Instantiate(GrabObjectPrefab, transform);
-                Quaternion q = Quaternion.AngleAxis(DeltaAngle * i, Vector3.forward);
-                grabber.transform.localPosition = Radius * (q * Vector3.right);
-                grabber.transform.localScale = Vector3.one * Radius;
-                var handler = grabber.GetComponent<ManipulationHandler>();
-                int number = i; // Для замыкания
-                handler.OnManipulationStarted.AddListener(delegate { _grabbedChildNumber = number; });
-                handler.OnManipulationEnded.AddListener(delegate { _grabbedChildNumber = -1; });
-                _grabbers.Add(grabber.transform);
-            }
+            AmountOfGrabbers = AmountOfGrabbersEditor;
+            Radius = RadiusEditor;
         }
 
         private void Update()
         {
+#if UNITY_EDITOR
+            AmountOfGrabbers = AmountOfGrabbersEditor;
+            Radius = RadiusEditor;
+#endif
+
             if (_grabbedChildNumber < 0) return;
-            
+
             var pos = _grabbers[_grabbedChildNumber].localPosition;
+            pos.z = 0;
             float grabberAngle = Vector3.Angle(Vector3.right, pos);
             grabberAngle *= pos.y > 0 ? 1 : -1;
-            Quaternion q = Quaternion.AngleAxis(grabberAngle, Vector3.forward);
-            pos = Radius * (q * Vector3.right);
-            pos.z = 0;
-            _grabbers[_grabbedChildNumber].localPosition = pos;
-            Angle = grabberAngle - DeltaAngle * _grabbedChildNumber;
+            Angle = grabberAngle - GrabbersAngle * _grabbedChildNumber;
 
             SetGrabbersPosition();
+
+            if (HostTransform != null)
+            {
+                HostTransform.Rotate(transform.forward, Angle);
+            }
         }
 
         #endregion
@@ -121,21 +156,30 @@ namespace HoloCore.UI
         {
             for (int i = 0; i < _grabbers.Count; i++)
             {
-                if (i == _grabbedChildNumber) continue;
-                
-                Quaternion rot = Quaternion.AngleAxis(Angle + DeltaAngle * i, Vector3.forward);
-                _grabbers[i].localPosition = Radius * (rot * Vector3.right);
+                Quaternion rot = Quaternion.AngleAxis(Angle + GrabbersAngle * i, Vector3.forward);
+                var pos = Radius * (rot * Vector3.right);
+                _grabbers[i].localPosition = pos;
+                _grabbers[i].LookAt(transform, Vector3.Cross(transform.forward, -pos));
             }
+        }
+
+        private void AddGrabber()
+        {
+            var grabber = Instantiate(GrabObjectPrefab, transform);
+            grabber.transform.localScale = Vector3.one * (Radius * Scale);
+            var handler = grabber.GetComponent<ObjectManipulator>();
+            int number = _grabbers.Count; // Для замыкания
+            handler.OnManipulationStarted.AddListener(delegate { _grabbedChildNumber = number; });
+            handler.OnManipulationEnded.AddListener(delegate { _grabbedChildNumber = -1; });
+            _grabbers.Add(grabber.transform);
         }
 
         private float _angle;
 
-        private float _radius = 3;
+        private float _radius;
 
-        private float DeltaAngle => 360f / _amountOfGrabbers;
+        private float GrabbersAngle => 360f / AmountOfGrabbers;
 
-        private int _amountOfGrabbers = 4;
-        
         private int _grabbedChildNumber = -1;
 
         private List<Transform> _grabbers = new List<Transform>();

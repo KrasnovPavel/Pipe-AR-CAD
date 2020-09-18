@@ -1,4 +1,7 @@
-﻿using System;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
@@ -21,32 +24,8 @@ namespace HoloCAD.NewTubeConcept.Model
         public event Action<Segment> Disposed;
 
         [CanBeNull] public Segment Next => End.Next;
-        // {
-        //     get => _next;
-        //     set
-        //     {
-        //         if (_next == value) return;
-        //
-        //         if (_next != null && value == null) _next.Prev = null;
-        //         
-        //         _next = value;
-        //         if (value != null) value.Prev = this;
-        //     }
-        // }
 
         [CanBeNull] public Segment Prev => Start.Prev;
-        // {
-        //     get => _prev;
-        //     set
-        //     {
-        //         if (_prev == value) return;
-        //
-        //         if (_prev != null && value == null) _prev.Next = null;
-        //         
-        //         _prev = value;
-        //         if (value != null) value.Next = this;
-        //     }
-        // }
 
         public Segment(TubePoint start, TubePoint end, Tube owner)
         {

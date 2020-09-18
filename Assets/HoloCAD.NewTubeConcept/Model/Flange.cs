@@ -1,4 +1,7 @@
-﻿using System;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
@@ -69,12 +72,18 @@ namespace HoloCAD.NewTubeConcept.Model
 
         public void Dispose()
         {
-            _startPoint.PropertyChanged -= OnPropertyChanged;
-            Plane.PropertyChanged -= OnPropertyChanged;
-            
-            Plane?.Dispose();
+            if (_startPoint != null)
+            {
+                _startPoint.PropertyChanged -= OnPropertyChanged;
+                _startPoint?.Dispose();
+            }
+            if (Plane != null)
+            {
+                Plane.PropertyChanged -= OnPropertyChanged;
+                Plane.Dispose();
+            }
+
             FirstSegment?.Dispose();
-            _startPoint?.Dispose();
             _endPoint?.Dispose();
         }
 
