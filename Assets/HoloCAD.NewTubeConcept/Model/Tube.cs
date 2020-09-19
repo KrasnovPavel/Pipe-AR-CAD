@@ -56,6 +56,11 @@ namespace HoloCAD.NewTubeConcept.Model
 
         public void AddPoint(Segment segment)
         {
+            AddPoint(segment, segment.Middle);
+        }
+
+        public void AddPoint(Segment segment, Vector3 pos)
+        {
             if (!Segments.Contains(segment))
             {
                 throw new ArgumentOutOfRangeException(nameof(segment), segment, "Tube does not contains this segment");
@@ -64,13 +69,13 @@ namespace HoloCAD.NewTubeConcept.Model
             Segments.Remove(segment);
 
             var start = segment.Start;
-            var end = segment.End;
+            var end   = segment.End;
 
-            var middle = new TubePoint(sys, segment.Middle, sys.GroundLCS);
-            var first = new Segment(start, middle, this);
+            var middle = new TubePoint(sys, pos, sys.GroundLCS);
+            var first  = new Segment(start, middle, this);
             var second = new Segment(middle, end, this);
 
-            start.Next = first;
+            start.Next  = first;
             middle.Prev = first;
             middle.Next = second;
 

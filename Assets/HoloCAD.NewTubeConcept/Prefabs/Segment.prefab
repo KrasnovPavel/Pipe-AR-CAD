@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3393517435223439422}
   - component: {fileID: 9067211222245631968}
+  - component: {fileID: 4824691794597200484}
   - component: {fileID: 1835507696730624256}
   - component: {fileID: 5751844368622409140}
   - component: {fileID: 8108379152253582911}
@@ -44,6 +45,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5323b529f18d454ca6f4f36f24a8662a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PreviewPointPrefab: {fileID: 6901494997197035062, guid: 054cb0cb009144a47ba133569ad85928,
+    type: 3}
+--- !u!114 &4824691794597200484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6928107742382117848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 293ff4046df4414fb8bd8033e7e8c6a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!120 &1835507696730624256
@@ -169,4 +184,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultMaterial: {fileID: 2100000, guid: 3c55769e893c4f4c8c51b7fa69bee2b9, type: 2}
   HoverMaterial: {fileID: 2100000, guid: 53ea63593b32415faf734536616f5fb3, type: 2}
+  PressedMaterial: {fileID: 0}
+  SelectedMaterial: {fileID: 2100000, guid: 71d471797c0e430783230146721c3fcb, type: 2}
+  SelectedHoverMaterial: {fileID: 2100000, guid: 00665e2a669d4b0fab1965843b4c914b,
+    type: 2}
+  SelectedPressedMaterial: {fileID: 0}
   HighlightedComponent: {fileID: 1835507696730624256}

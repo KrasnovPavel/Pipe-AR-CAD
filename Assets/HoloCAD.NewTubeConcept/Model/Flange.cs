@@ -75,7 +75,7 @@ namespace HoloCAD.NewTubeConcept.Model
             if (_startPoint != null)
             {
                 _startPoint.PropertyChanged -= OnPropertyChanged;
-                _startPoint?.Dispose();
+                _startPoint.Dispose();
             }
             if (Plane != null)
             {

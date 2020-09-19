@@ -23,23 +23,23 @@ namespace HoloCAD.NewTubeConcept.View
                 Destroy(ActiveConnector.gameObject);
             }
 
-            var go = new GameObject();
+            var go   = new GameObject();
             var conn = go.AddComponent<Connector>();
             conn.FirstFlange = flange;
-            ActiveConnector = conn;
+            ActiveConnector  = conn;
         }
 
         public static void FinishConnection(FlangeView flangeView)
         {
             if (flangeView == Instance.FirstFlange) return;
 
-            var tube = new Tube(GCMSystemBehaviour.System, ActiveConnector.FirstFlange.flange, flangeView.flange);
-            var go = new GameObject();
+            var tube     = new Tube(GCMSystemBehaviour.System, ActiveConnector.FirstFlange.flange, flangeView.flange);
+            var go       = new GameObject();
             var tubeView = go.AddComponent<TubeView>();
-            tubeView.EndFlangeView = ActiveConnector.FirstFlange;
+            tubeView.EndFlangeView   = ActiveConnector.FirstFlange;
             tubeView.StartFlangeView = flangeView;
-            tubeView.tube = tube;
-            tubeView.name = "Tube";
+            tubeView.tube            = tube;
+            tubeView.name            = "Tube";
             Destroy(ActiveConnector.gameObject);
             ActiveConnector = null;
         }
@@ -48,11 +48,9 @@ namespace HoloCAD.NewTubeConcept.View
 
         private void Awake()
         {
-            _renderer = GetComponent<LineRenderer>();
+            _renderer          = GetComponent<LineRenderer>();
             _renderer.endWidth = _renderer.startWidth = 0.01f;
-            ActiveConnector = this;
-            // ReSharper disable once PossibleNullReferenceException
-            _camera = Camera.main.transform;
+            ActiveConnector    = this;
         }
 
         private void OnDestroy()
@@ -62,14 +60,11 @@ namespace HoloCAD.NewTubeConcept.View
 
         private void Update()
         {
-            RaycastHit hit;
-            Vector3 first = FirstFlange.flange.Origin;
-            Vector3 second = _camera.forward * RaycastDistance;
-            if (Physics.Raycast(_camera.position, _camera.forward, out hit, RaycastDistance))
+            _renderer.SetPositions(new[]
             {
-                second = hit.point;
-            }
-            _renderer.SetPositions(new[] {first, second});
+                FirstFlange.flange.Origin, 
+                CameraRaycast.HitPoint
+            });
         }
 
         #endregion
@@ -77,9 +72,6 @@ namespace HoloCAD.NewTubeConcept.View
         #region Private definitions
 
         private LineRenderer _renderer;
-        private Transform _camera;
-        
-        private const float RaycastDistance = 10f;
 
         #endregion
     }
