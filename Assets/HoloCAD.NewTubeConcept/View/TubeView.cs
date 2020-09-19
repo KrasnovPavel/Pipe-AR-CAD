@@ -2,9 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using System.Collections.Generic;
-using System.Linq;
 using HoloCAD.NewTubeConcept.Model;
-using UnityC3D;
 using UnityEngine;
 
 namespace HoloCAD.NewTubeConcept.View

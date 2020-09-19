@@ -12,10 +12,10 @@ namespace HoloCore
     public sealed class Steps : Singleton<Steps>, INotifyPropertyChanged
     {
         /// <summary> Шаг изменения линейных размеров. </summary>
-        public static float Linear => Instance.LinearSteps[_currentLinearStepIndex];
+        public static float Linear => Instance.LinearSteps[currentLinearStepIndex];
 
         /// <summary> Шаг изменения угла. </summary>
-        public static float Angular => Instance.AngularSteps[_currentAngularStepIndex];
+        public static float Angular => Instance.AngularSteps[currentAngularStepIndex];
         
         public List<float> LinearSteps = new List<float>();
         
@@ -25,44 +25,44 @@ namespace HoloCore
         
         public static void IncreaseLinear()
         {
-            if (_currentLinearStepIndex < Instance.LinearSteps.Count - 1)
+            if (currentLinearStepIndex < Instance.LinearSteps.Count - 1)
             {
-                _currentLinearStepIndex++;
+                currentLinearStepIndex++;
                 Instance.OnPropertyChanged(nameof(Linear));
             }
         }
 
         public static void DecreaseLinear()
         {
-            if (_currentLinearStepIndex > 0)
+            if (currentLinearStepIndex > 0)
             {
-                _currentLinearStepIndex--;
+                currentLinearStepIndex--;
                 Instance.OnPropertyChanged(nameof(Linear));
             }
         }
         
         public static void IncreaseAngular()
         {
-            if (_currentAngularStepIndex < Instance.AngularSteps.Count - 1)
+            if (currentAngularStepIndex < Instance.AngularSteps.Count - 1)
             {
-                _currentAngularStepIndex++;
+                currentAngularStepIndex++;
                 Instance.OnPropertyChanged(nameof(Angular));
             }
         }
 
         public static void DecreaseAngular()
         {
-            if (_currentAngularStepIndex > 0)
+            if (currentAngularStepIndex > 0)
             {
-                _currentAngularStepIndex--;
+                currentAngularStepIndex--;
                 Instance.OnPropertyChanged(nameof(Angular));
             }
         }
 
         #region Private definitions
 
-        private static int _currentLinearStepIndex;
-        private static int _currentAngularStepIndex;
+        private static int currentLinearStepIndex;
+        private static int currentAngularStepIndex;
 
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

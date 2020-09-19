@@ -10,17 +10,17 @@ using UnityEngine;
 
 namespace HoloCAD.NewTubeConcept.Model
 {
-    public class Segment: IDisposable, INotifyPropertyChanged
+    public class Segment : IDisposable, INotifyPropertyChanged
     {
         public readonly TubePoint Start;
         public readonly TubePoint End;
-        public readonly GCMLine  Line;
-        public Tube     Owner;
+        public readonly GCMLine   Line;
+        public          Tube      Owner;
 
         public float Length => (End.Origin - Start.Origin).magnitude;
 
         public Vector3 Middle => (Start.Origin + End.Origin) / 2;
-        
+
         public event Action<Segment> Disposed;
 
         [CanBeNull] public Segment Next => End.Next;
@@ -29,9 +29,12 @@ namespace HoloCAD.NewTubeConcept.Model
 
         public Segment(TubePoint start, TubePoint end, Tube owner)
         {
-            Start      = start;
-            End        = end;
-            Owner      = owner;
+            Start = start;
+            End   = end;
+            Owner = owner;
+
+            Start.Next = this;
+            End.Prev   = this;
 
             var sys = start.GCMSys;
             Line = new GCMLine(sys, start.Origin, Start.Origin - End.Origin, Start.Parent);
@@ -61,7 +64,7 @@ namespace HoloCAD.NewTubeConcept.Model
 
         public void ResetLine()
         {
-            Line.Origin = Start.Origin;
+            Line.Origin    = Start.Origin;
             Line.Direction = (End.Origin - Start.Origin).normalized;
         }
 
@@ -80,7 +83,7 @@ namespace HoloCAD.NewTubeConcept.Model
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
+
         #endregion
     }
 }

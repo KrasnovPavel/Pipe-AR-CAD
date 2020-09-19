@@ -12,6 +12,8 @@ namespace HoloCAD.NewTubeConcept.Model
         [CanBeNull] public Segment Prev;
         [CanBeNull] public Segment Next;
 
+        public Tube Owner => Next?.Owner ?? Prev?.Owner;
+
         public TubePoint(GCMSystem sys, Vector3 origin, GCM_LCS parent = null) :
             base(sys, origin, parent)
         {

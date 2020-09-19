@@ -16,27 +16,29 @@ namespace HoloCAD.NewTubeConcept.Model
 
         public const float BendRadius = 0.1f;
 
-        public readonly List<Segment> Segments = new List<Segment>();
-        public readonly List<TubePoint> Points = new List<TubePoint>();
+        public readonly List<Segment>   Segments = new List<Segment>();
+        public readonly List<TubePoint> Points   = new List<TubePoint>();
+        public          GCMSystem       Sys => StartFlange.Plane.GCMSys;
 
-        public event Action<Segment> SegmentAdded;
+        public event Action<Segment>   SegmentAdded;
         public event Action<TubePoint> PointAdded;
 
         public Tube(GCMSystem sys, Flange startFlange, Flange endFlange)
         {
             StartFlange = startFlange;
-            EndFlange = endFlange;
+            EndFlange   = endFlange;
 
             StartFlange.FirstSegment.Owner = this;
-            EndFlange.FirstSegment.Owner = this;
+            EndFlange.FirstSegment.Owner   = this;
 
-            var middle = new Segment(StartFlange.FirstSegment.End,
-                                     EndFlange.FirstSegment.End,
+            var middle = new Segment(StartFlange.EndPoint,
+                                     EndFlange.EndPoint,
                                      this);
 
-            StartFlange.FirstSegment.End.Next = middle;
-            EndFlange.FirstSegment.Start.Prev = middle;
-            
+            StartFlange.EndPoint.Next = middle;
+            EndFlange.EndPoint.Next   = EndFlange.FirstSegment;
+            EndFlange.EndPoint.Prev   = middle;
+
             Segments.Add(middle);
 
             sys.Evaluate();
@@ -46,7 +48,7 @@ namespace HoloCAD.NewTubeConcept.Model
         {
             var hasErrors = StartFlange.Fix();
             hasErrors = hasErrors || EndFlange.Fix();
-            if (hasErrors) sys.Evaluate();
+            if (hasErrors) Sys.Evaluate();
         }
 
         public bool IsCorrect()
@@ -61,6 +63,34 @@ namespace HoloCAD.NewTubeConcept.Model
 
         public void AddPoint(Segment segment, Vector3 pos)
         {
+            // TODO: ГОВНО!!! ПЕРЕДЕЛАТЬ!!!
+            if (segment == StartFlange.FirstSegment)
+            {
+                var point = segment.End.Origin;
+                AddPoint(segment.Next);
+                if (segment.Next?.Next == null) return;
+                segment.End.Origin = (StartFlange.Origin + pos) / 2;
+                segment.Next.End.Origin      = pos;
+                segment.Next.Next.End.Origin = point;
+                segment.Next.ResetLine();
+                segment.Next.Next?.ResetLine();
+                Sys.Evaluate();
+                return;
+            }
+            if (segment == EndFlange.FirstSegment)
+            {
+                var point = segment.End.Origin;
+                AddPoint(segment.End.Prev);
+                if (segment.End.Prev?.Prev == null) return;
+                segment.End.Origin                 = (EndFlange.Origin + pos) / 2;
+                segment.End.Prev.Start.Origin      = pos;
+                segment.End.Prev.Prev.Start.Origin = point;
+                segment.End.Prev.ResetLine();
+                segment.End.Prev.Prev?.ResetLine();
+                Sys.Evaluate();
+                return;
+            }
+
             if (!Segments.Contains(segment))
             {
                 throw new ArgumentOutOfRangeException(nameof(segment), segment, "Tube does not contains this segment");
@@ -71,7 +101,7 @@ namespace HoloCAD.NewTubeConcept.Model
             var start = segment.Start;
             var end   = segment.End;
 
-            var middle = new TubePoint(sys, pos, sys.GroundLCS);
+            var middle = new TubePoint(Sys, pos, Sys.GroundLCS);
             var first  = new Segment(start, middle, this);
             var second = new Segment(middle, end, this);
 
@@ -87,8 +117,40 @@ namespace HoloCAD.NewTubeConcept.Model
             SegmentAdded?.Invoke(first);
             SegmentAdded?.Invoke(second);
 
+            Segments.Remove(segment);
             segment.Dispose();
-            sys.Evaluate();
+            Sys.Evaluate();
+        }
+
+        public void RemovePoint(TubePoint point)
+        {
+            if (ReferenceEquals(StartFlange.EndPoint, point)
+                || ReferenceEquals(EndFlange.EndPoint, point))
+            {
+                throw new ArgumentOutOfRangeException(nameof(point), point, "Can't remove this point");
+            }
+
+            if (!Points.Contains(point))
+            {
+                throw new ArgumentOutOfRangeException(nameof(point), point, "Tube does not contains this point");
+            }
+
+            var prevSegment = point.Prev;
+            var nextSegment = point.Next;
+            var prevPoint   = prevSegment?.Start;
+            var nextPoint   = nextSegment?.End;
+            
+            point.Dispose();
+            prevSegment?.Dispose();
+            nextSegment?.Dispose();
+            Points.Remove(point);
+            Segments.Remove(prevSegment);
+            Segments.Remove(nextSegment);
+            
+            var newSegment = new Segment(prevPoint, nextPoint, this);
+            Segments.Add(newSegment);
+            SegmentAdded?.Invoke(newSegment);
+            Sys.Evaluate();
         }
 
         public void Dispose()
@@ -112,14 +174,5 @@ namespace HoloCAD.NewTubeConcept.Model
             StartFlange?.Dispose();
             EndFlange?.Dispose();
         }
-
-        #region Private defifnitons
-
-        private List<Vector3> _savedPoints = new List<Vector3>();
-        private List<MbPlacement3D> _savedLines = new List<MbPlacement3D>();
-
-        private GCMSystem sys => StartFlange.Plane.GCMSys;
-
-        #endregion
     }
 }

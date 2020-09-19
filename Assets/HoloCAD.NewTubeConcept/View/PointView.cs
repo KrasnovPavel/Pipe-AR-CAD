@@ -3,17 +3,23 @@
 
 using System.ComponentModel;
 using HoloCAD.NewTubeConcept.Model;
-using Microsoft.MixedReality.Toolkit.UI;
+using HoloCore.UI;
+using Microsoft.MixedReality.Toolkit.Input;
 using UnityC3D;
 using UnityEngine;
 
 namespace HoloCAD.NewTubeConcept.View
 {
-    [RequireComponent(typeof(SphereCollider), typeof(ObjectManipulator))]
-    public class PointView : MonoBehaviour
+    [RequireComponent(typeof(SelectableObject))]
+    public class PointView : MonoBehaviour, ISelectable
     {
         public TubeView Owner;
-        
+
+        public GameObject ToolBar;
+
+        public bool CanBeRemoved => !(ReferenceEquals(Point.Owner.StartFlange.EndPoint, Point) 
+                                     || ReferenceEquals(Point.Owner.EndFlange.EndPoint, Point));
+
         public TubePoint Point
         {
             get => _point;
@@ -21,13 +27,13 @@ namespace HoloCAD.NewTubeConcept.View
             {
                 if (ReferenceEquals(_point, value)) return;
 
-                _point = value;
+                _point             = value;
                 transform.position = _point.Origin;
                 _point.Disposed += delegate
-                                    {
-                                        Destroy(gameObject);
-                                        _point.PropertyChanged -= PointOnPropertyChanged;
-                                    };
+                {
+                    Destroy(gameObject);
+                    _point.PropertyChanged -= PointOnPropertyChanged;
+                };
 
                 _point.PropertyChanged += PointOnPropertyChanged;
             }
@@ -43,20 +49,50 @@ namespace HoloCAD.NewTubeConcept.View
             _isManipulationStarted = false;
         }
 
-        #region Unity event functions
+        public void RemoveThisPoint()
+        {
+            Point.Owner.RemovePoint(Point);
+        }
+
+        #region Event functions
+
+        private void Awake()
+        {
+            _selectable = GetComponent<SelectableObject>();
+            _camera     = Camera.main.transform;
+        }
 
         private void Update()
         {
             if (_isManipulationStarted) MovePoint();
+
+            ToolBar.transform.LookAt(_camera);
+        }
+
+        public void OnSelect()
+        {
+            if (CanBeRemoved)
+            {
+                ToolBar.SetActive(true);
+            }
+        }
+
+        public void OnDeselect()
+        {
+            if (CanBeRemoved)
+            {
+                ToolBar.SetActive(false);
+            }
         }
 
         #endregion
 
-
         #region Private definitions
 
-        private TubePoint _point;
-        private bool _isManipulationStarted; 
+        private TubePoint        _point;
+        private bool             _isManipulationStarted;
+        private Transform        _camera;
+        private SelectableObject _selectable;
 
         private void PointOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -64,33 +100,36 @@ namespace HoloCAD.NewTubeConcept.View
             {
                 transform.position = _point.Origin;
             }
-        }     
-        
+        }
+
         private void MovePoint()
         {
-            var lastPos = _point.Origin;
+            var            lastPos       = _point.Origin;
             MbPlacement3D? lastPlacePrev = _point.Prev?.Line.Placement;
             MbPlacement3D? lastPlaceNext = _point.Next?.Line.Placement;
-            
+
             _point.Origin = transform.position;
             _point.Prev?.ResetLine();
             _point.Next?.ResetLine();
 
-            var res = Point.GCMSys.Evaluate(); 
+            var res = Point.GCMSys.Evaluate();
             if (res != GCMResult.GCM_RESULT_Ok)
             {
                 Debug.LogWarning(res);
                 _point.Origin = lastPos;
                 if (_point.Prev != null && lastPlacePrev != null)
                 {
-                    _point.Prev.Line.Placement = lastPlacePrev.Value; 
+                    _point.Prev.Line.Placement = lastPlacePrev.Value;
                 }
+
                 if (_point.Next != null && lastPlaceNext != null)
                 {
-                    _point.Next.Line.Placement = lastPlaceNext.Value; 
+                    _point.Next.Line.Placement = lastPlaceNext.Value;
                 }
+
                 Point.GCMSys.Evaluate();
             }
+
             Owner.tube.FixErrors();
         }
 

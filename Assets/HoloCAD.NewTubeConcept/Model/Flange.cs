@@ -5,7 +5,6 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
-using MathExtensions;
 using UnityC3D;
 using UnityEngine;
 
@@ -18,6 +17,8 @@ namespace HoloCAD.NewTubeConcept.Model
         
         public readonly GCMPlane Plane;
         public readonly Segment FirstSegment;
+
+        public TubePoint EndPoint => FirstSegment.End;
 
         public Vector3 Origin
         {
@@ -56,7 +57,7 @@ namespace HoloCAD.NewTubeConcept.Model
 
         public bool IsCorrect(float angleEps = 0.1f)
         {
-            var actualDirection = FirstSegment.End.Origin - FirstSegment.Start.Origin;
+            var actualDirection = EndPoint.Origin - Origin;
             return Vector3.Angle(actualDirection, Normal) < angleEps;
         }
 
@@ -64,7 +65,7 @@ namespace HoloCAD.NewTubeConcept.Model
         {
             if (IsCorrect()) return false;
 
-            FirstSegment.End.Origin = FirstSegment.Start.Origin + Normal * DefaultFirstSegmentLength;
+            EndPoint.Origin = Origin + Normal * DefaultFirstSegmentLength;
             FirstSegment.Next?.ResetLine();
             FirstSegment.Prev?.ResetLine();
             return true;
