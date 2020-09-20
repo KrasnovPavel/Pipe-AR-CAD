@@ -421,22 +421,18 @@ namespace UnityC3D
 
         public void PrepareReposition(GCMObject moveObj, Transform projPlane, Vector3 curPos)
         {
-            GCM_PrepareReposition(_gcmSystemPtr,
-                                  moveObj.Descriptor,
-                                  MbPlacement3D.FromUnity(projPlane),
-                                  MbVector3D.FromUnity(curPos));
+            GCM_PrepareReposition(_gcmSystemPtr, moveObj.Descriptor, projPlane, curPos);
         }
 
         public void SolveReposition(Vector3 newPos)
         {
-            GCM_SolveReposition(_gcmSystemPtr, MbVector3D.FromUnity(newPos));
+            GCM_SolveReposition(_gcmSystemPtr, newPos);
             Evaluated?.Invoke();
         }
 
         public void SolveReposition(GCMObject movingObject, Transform newPos)
         {
-            var result = GCM_SolveReposition(_gcmSystemPtr, movingObject.Descriptor, MbPlacement3D.FromUnity(newPos),
-                                GCMReposition.FreeMoving);
+            var result = GCM_SolveReposition(_gcmSystemPtr, movingObject.Descriptor, newPos, GCMReposition.FreeMoving);
             if (result != GCMResult.GCM_RESULT_Ok) Debug.LogWarning(result);
             Evaluated?.Invoke();
         }
@@ -462,8 +458,8 @@ namespace UnityC3D
         /// <returns> Дескриптор объекта в системе. </returns>
         internal GCMDescriptor AddPoint(Vector3 point, GCMDescriptor? parent = null)
         {
-            var o = MbVector3D.FromUnity(point);
-            var p = GCM_Point(ref o);
+            MbVector3D o = point;
+            var        p = GCM_Point(ref o);
 
             return parent == null
                        ? GCM_AddGeom(_gcmSystemPtr, ref p)
@@ -477,9 +473,9 @@ namespace UnityC3D
         /// <returns> Дескриптор объекта в системе. </returns>
         internal GCMDescriptor AddLine(Vector3 origin, Vector3 direction, GCMDescriptor? parent = null)
         {
-            var o    = MbVector3D.FromUnity(origin);
-            var d    = MbVector3D.FromUnity(direction);
-            var line = GCM_Line(ref o, ref d);
+            MbVector3D o    = origin;
+            MbVector3D d    = direction;
+            var        line = GCM_Line(ref o, ref d);
             return parent == null
                        ? GCM_AddGeom(_gcmSystemPtr, ref line)
                        : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref line);
@@ -492,9 +488,9 @@ namespace UnityC3D
         /// <returns> Дескриптор объекта в системе. </returns>
         internal GCMDescriptor AddPlane(Vector3 origin, Vector3 normal, GCMDescriptor? parent = null)
         {
-            var o     = MbVector3D.FromUnity(origin);
-            var n     = MbVector3D.FromUnity(normal);
-            var plane = GCM_Plane(ref o, ref n);
+            MbVector3D o     = origin;
+            MbVector3D n     = normal;
+            var        plane = GCM_Plane(ref o, ref n);
             return parent == null
                        ? GCM_AddGeom(_gcmSystemPtr, ref plane)
                        : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref plane);
@@ -508,9 +504,9 @@ namespace UnityC3D
         /// <returns> Дескриптор объекта в системе. </returns>
         internal GCMDescriptor AddCircle(Vector3 origin, Vector3 normal, float radius, GCMDescriptor? parent = null)
         {
-            var o      = MbVector3D.FromUnity(origin);
-            var n      = MbVector3D.FromUnity(normal);
-            var circle = GCM_Circle(ref o, ref n, radius);
+            MbVector3D o      = origin;
+            MbVector3D n      = normal;
+            var        circle = GCM_Circle(ref o, ref n, radius);
             return parent == null
                        ? GCM_AddGeom(_gcmSystemPtr, ref circle)
                        : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref circle);
@@ -522,8 +518,8 @@ namespace UnityC3D
         /// <returns> Дескриптор объекта в системе. </returns>
         internal GCMDescriptor AddLCS(Transform tr, GCMDescriptor? parent = null)
         {
-            var p   = MbPlacement3D.FromUnity(tr);
-            var lcs = GCM_SolidLCS(ref p);
+            MbPlacement3D p   = tr;
+            var           lcs = GCM_SolidLCS(ref p);
             return parent == null
                        ? GCM_AddGeom(_gcmSystemPtr, ref lcs)
                        : GCM_SubGeom(_gcmSystemPtr, parent.Value, ref lcs);

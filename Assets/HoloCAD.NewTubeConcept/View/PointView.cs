@@ -4,7 +4,6 @@
 using System.ComponentModel;
 using HoloCAD.NewTubeConcept.Model;
 using HoloCore.UI;
-using Microsoft.MixedReality.Toolkit.Input;
 using UnityC3D;
 using UnityEngine;
 
@@ -58,7 +57,7 @@ namespace HoloCAD.NewTubeConcept.View
 
         private void Awake()
         {
-            _selectable = GetComponent<SelectableObject>();
+            // ReSharper disable once PossibleNullReferenceException
             _camera     = Camera.main.transform;
         }
 
@@ -92,7 +91,6 @@ namespace HoloCAD.NewTubeConcept.View
         private TubePoint        _point;
         private bool             _isManipulationStarted;
         private Transform        _camera;
-        private SelectableObject _selectable;
 
         private void PointOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {

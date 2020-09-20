@@ -222,7 +222,7 @@ namespace UnityC3D
     }
 
     /// <summary> Абстрактрный геометрический объект в C3D. </summary>
-    public abstract class GCMObject : INotifyPropertyChanged, IDisposable
+    public abstract class GCMObject : INotifyPropertyChanged, IDisposable, IEquatable<GCMObject>
     {
         public readonly GCMSystem GCMSys;
 
@@ -320,9 +320,9 @@ namespace UnityC3D
             Placement.Apply(DrawObject.transform);
         }
 
-        protected bool Equals(GCMObject other)
+        public bool Equals(GCMObject other)
         {
-            return Descriptor.Equals(other.Descriptor) && Equals(GCMSys, other.GCMSys);
+            return Descriptor.Equals(other?.Descriptor) && Equals(GCMSys, other?.GCMSys);
         }
 
         /// <inheritdoc />

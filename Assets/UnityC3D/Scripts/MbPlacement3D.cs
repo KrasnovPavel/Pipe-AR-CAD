@@ -11,7 +11,7 @@ namespace UnityC3D
     /// <summary> Размещение объекта в системе координат C3D. </summary>
     /// <remarks> Аналог UnityEngine.Transform, но в правостронней системе координат. </remarks>
     [StructLayout(LayoutKind.Sequential)]
-    public struct MbPlacement3D
+    public struct MbPlacement3D : IEquatable<MbPlacement3D>
     {
         #region Private definitions
 
@@ -39,29 +39,29 @@ namespace UnityC3D
         /// <summary> Положение начала локальной системы координат. </summary>
         public Vector3 Origin
         {
-            get => _origin.ToUnity();
-            set => _origin = MbVector3D.FromUnity(value);
+            get => _origin;
+            set => _origin = value;
         }
 
         /// <summary> Направление оси X. </summary>
         public Vector3 AxisX
         {
-            get => _axisX.ToUnity();
-            set => _axisX = MbVector3D.FromUnity(value);
+            get => _axisX;
+            set => _axisX = value;
         }
 
         /// <summary> Направление оси Y. </summary>
         public Vector3 AxisY
         {
-            get => _axisZ.ToUnity();
-            set => _axisZ = MbVector3D.FromUnity(value);
+            get => _axisZ;
+            set => _axisZ = value;
         }
 
         /// <summary> Направление оси Z. </summary>
         public Vector3 AxisZ
         {
-            get => _axisY.ToUnity();
-            set => _axisY = MbVector3D.FromUnity(value);
+            get => _axisY;
+            set => _axisY = value;
         }
 
         /// <summary> Применяет это размещение к переданному Transform. </summary>
@@ -75,14 +75,14 @@ namespace UnityC3D
         /// <summary> Создаёт размещение из Transform. </summary>
         /// <param name="tr"> Исходный Transform. </param>
         /// <returns> Новое размещение. </returns>
-        public static MbPlacement3D FromUnity(Transform tr)
+        public static MbPlacement3D FromTransform(Transform tr)
         {
             return new MbPlacement3D
             {
-                _origin = MbVector3D.FromUnity(tr.position),
-                _axisX  = MbVector3D.FromUnity(tr.right),
-                _axisZ  = MbVector3D.FromUnity(tr.up),
-                _axisY  = MbVector3D.FromUnity(tr.forward),
+                _origin = tr.position,
+                _axisX  = tr.right,
+                _axisZ  = tr.up,
+                _axisY  = tr.forward,
             };
         }
 
@@ -92,12 +92,17 @@ namespace UnityC3D
             return $"{_origin} {_axisX} {_axisY} {_axisZ}";
         }
 
-        public bool Equals(MbPlacement3D other, double eps = 0.0001)
+        public bool Equals(MbPlacement3D other, double eps)
         {
             return _origin.Equals(other._origin, eps)
                    && _axisX.Equals(other._axisX, eps)
                    && _axisY.Equals(other._axisY, eps)
                    && _axisZ.Equals(other._axisZ, eps);
+        }
+
+        public bool Equals(MbPlacement3D other)
+        {
+            return Equals(other, 0.0001);
         }
 
         /// <inheritdoc />
@@ -118,5 +123,7 @@ namespace UnityC3D
                 return hashCode;
             }
         }
+
+        public static implicit operator MbPlacement3D(Transform obj) => FromTransform(obj);
     }
 }

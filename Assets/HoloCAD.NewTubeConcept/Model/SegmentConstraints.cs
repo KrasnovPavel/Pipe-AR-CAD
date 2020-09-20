@@ -5,7 +5,7 @@ using UnityC3D;
 
 namespace HoloCAD.NewTubeConcept.Model
 {
-    public static class GCMSystemExtensions
+    public static class SegmentConstraints
     {
         public static void MakeCoincident(this GCMSystem sys, Segment segment, GCMPlane plane)
         {

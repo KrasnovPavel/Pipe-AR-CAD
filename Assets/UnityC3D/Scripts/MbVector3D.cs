@@ -10,7 +10,7 @@ namespace UnityC3D
 {
     /// <summary> Структура, хранящая вектор в C3D. </summary>
     [StructLayout(LayoutKind.Sequential)]
-    internal struct MbVector3D
+    internal struct MbVector3D : IEquatable<MbVector3D>
     {
         /// <summary> X - координата. </summary>
         /// <remarks> НЕ ТРОГАТЬ. НЕОБХОДИМО ДЛЯ МАРШАЛИНГА. </remarks>
@@ -26,7 +26,7 @@ namespace UnityC3D
 
         /// <summary> Преобразует из вектора Unity. </summary>
         /// <param name="unityVector"> Вектор. </param>
-        public static MbVector3D FromUnity(Vector3 unityVector)
+        public static MbVector3D FromVector3(Vector3 unityVector)
         {
             return new MbVector3D
             {
@@ -43,16 +43,21 @@ namespace UnityC3D
         }
 
         /// <summary> Преобразует в вектор Unity. </summary>
-        public Vector3 ToUnity()
+        public Vector3 ToVector3()
         {
             return new Vector3((float) X, (float) Z, (float) Y);
         }
 
-        public bool Equals(MbVector3D other, double eps = 0.0001)
+        public bool Equals(MbVector3D other, double eps)
         {
             return Math.Abs(X - other.X) < eps
                    && Math.Abs(Y - other.Y) < eps
                    && Math.Abs(Z - other.Z) < eps;
+        }
+
+        public bool Equals(MbVector3D other)
+        {
+            return Equals(other, 0.0001);
         }
 
         /// <inheritdoc />
@@ -73,5 +78,19 @@ namespace UnityC3D
                 return hashCode;
             }
         }
+
+        public static bool operator ==(MbVector3D lhs, MbVector3D rhs)
+        {
+            return lhs.Equals(rhs);
+        }
+
+        public static bool operator !=(MbVector3D lhs, MbVector3D rhs)
+        {
+            return !(lhs == rhs);
+        }
+        
+        public static implicit operator MbVector3D(Vector3 obj) => FromVector3(obj);
+        
+        public static implicit operator Vector3(MbVector3D obj) => obj.ToVector3();
     }
 }

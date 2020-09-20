@@ -32,7 +32,7 @@ namespace UnityC3D.Tests
             };
 
             // Проверка на преобразование левосторонней СК в правостороннюю
-            var b = MbVector3D.FromUnity(new Vector3(1, 2, 3));
+            var b = MbVector3D.FromVector3(new Vector3(1, 2, 3));
             Assert.AreEqual(a, b);
 
             a = new MbVector3D
@@ -41,7 +41,7 @@ namespace UnityC3D.Tests
                 Y = 23432.4,
                 Z = -23123,
             };
-            Assert.AreEqual(a.ToUnity(), new Vector3(2.5f, -23123f, 23432.4f));
+            Assert.AreEqual(a.ToVector3(), new Vector3(2.5f, -23123f, 23432.4f));
         }
 
         [HoloTestCase]

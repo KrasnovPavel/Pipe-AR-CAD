@@ -8,7 +8,7 @@ namespace UnityC3D
 {
     /// <summary> Дескриптор геометрического объекта или ограничения в C3D </summary>
     [StructLayout(LayoutKind.Sequential)]
-    internal readonly struct GCMDescriptor
+    internal readonly struct GCMDescriptor : IEquatable<GCMDescriptor>
     {
         /// <summary> ID в системе C3D. </summary>
         /// <remarks> НЕ ТРОГАТЬ! НЕОБХОДИМО ДЛЯ МАРШАЛИНГА. </remarks>
@@ -21,7 +21,7 @@ namespace UnityC3D
             this.id = id;
         }
 
-        internal bool Equals(GCMDescriptor other)
+        public bool Equals(GCMDescriptor other)
         {
             return id == other.id;
         }
