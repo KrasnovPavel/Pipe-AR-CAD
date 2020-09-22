@@ -35,6 +35,8 @@ namespace HoloCore.UI
         /// <summary> Масштаб виджета для вытягивания. </summary>
         public float GrabberScale = 1;
 
+        public bool Selected { get; set; }
+
         /// <inheritdoc />
         public void OnSelect()
         {

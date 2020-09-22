@@ -55,6 +55,8 @@ namespace HoloCAD.Tubes.TubeControls
 
         protected bool IsExpanded;
 
+        public bool Selected { get; set; }
+
         /// <inheritdoc/>
         public virtual void OnSelect()
         {

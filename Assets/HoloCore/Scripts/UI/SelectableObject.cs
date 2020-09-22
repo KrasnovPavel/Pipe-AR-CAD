@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HoloCore.UI
 {
@@ -10,6 +11,12 @@ namespace HoloCore.UI
     {
         /// <summary> Выбранный в данный момент объект. </summary>
         public static GameObject SelectedObject { get; private set; }
+
+        [SerializeField]
+        public SelectionEvent OnSelected = new SelectionEvent();
+        
+        [SerializeField]
+        public SelectionEvent OnDeselected = new SelectionEvent();
 
         /// <summary> Сменить "выбранность". </summary>
         public void ToggleSelection()
@@ -28,6 +35,7 @@ namespace HoloCore.UI
 
             SelectedObject = gameObject;
             OnSelect();
+            OnSelected?.Invoke();
         }
 
         /// <summary> Снятие выбора этого объекта. </summary>
@@ -35,6 +43,7 @@ namespace HoloCore.UI
         {
             SelectedObject = null;
             OnDeselect();
+            OnDeselected?.Invoke();
         }
 
         #region Private definition
@@ -44,7 +53,11 @@ namespace HoloCore.UI
         {
             foreach (var component in GetComponents<MonoBehaviour>())
             {
-                (component as ISelectable)?.OnSelect();
+                if (component is ISelectable selectable)
+                {
+                    selectable.Selected = true;
+                    selectable.OnSelect();
+                }
             }
         }
 
@@ -55,11 +68,18 @@ namespace HoloCore.UI
             {
                 if (component is ISelectable selectable)
                 {
+                    selectable.Selected = false;
                     selectable.OnDeselect();
                 }
             }
         }
 
         #endregion
+    }
+
+    [System.Serializable]
+    public class SelectionEvent : UnityEvent
+    {
+        
     }
 }

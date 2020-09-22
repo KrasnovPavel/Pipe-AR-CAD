@@ -16,6 +16,8 @@ namespace HoloCore.UI
         [CanBeNull] public Material SelectedHoverMaterial;
         [CanBeNull] public Material SelectedPressedMaterial;
         public             Renderer HighlightedComponent;
+        public bool Selected { get; set; }
+
 
         #region Event functions
 
@@ -60,7 +62,6 @@ namespace HoloCore.UI
 
         public void OnSelect()
         {
-            _selected = true;
             if (_focused)
             {
                 SetMaterial(SelectedHoverMaterial, HoverMaterial);
@@ -73,7 +74,6 @@ namespace HoloCore.UI
 
         public void OnDeselect()
         {
-            _selected = false;
             if (_focused)
             {
                 SetMaterial(SelectedHoverMaterial, HoverMaterial);
@@ -88,12 +88,11 @@ namespace HoloCore.UI
 
         #region Private definitions
 
-        private bool _selected;
         private bool _focused;
 
         private void SetMaterial(Material selectedMaterial, Material unselectedMaterial)
         {
-            if (_selected && selectedMaterial != null)
+            if (Selected && selectedMaterial != null)
             {
                 HighlightedComponent.material = selectedMaterial;
             }

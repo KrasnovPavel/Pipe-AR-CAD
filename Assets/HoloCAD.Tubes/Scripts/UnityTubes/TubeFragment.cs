@@ -30,6 +30,8 @@ namespace HoloCAD.Tubes.UnityTubes
         /// <summary> Состояние участка трубы. Выбрана он или нет. </summary>
         public bool IsSelected => SelectableObject.SelectedObject == gameObject;
 
+        public bool Selected { get; set; }
+
         /// <inheritdoc/>
         public void OnSelect()
         {

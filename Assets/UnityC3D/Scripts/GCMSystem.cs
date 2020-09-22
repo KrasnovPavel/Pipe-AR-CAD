@@ -421,18 +421,19 @@ namespace UnityC3D
 
         public void PrepareReposition(GCMObject moveObj, Transform projPlane, Vector3 curPos)
         {
-            GCM_PrepareReposition(_gcmSystemPtr, moveObj.Descriptor, projPlane, curPos);
+            PrepareReposition(moveObj, (MbPlacement3D)projPlane, (MbVector3D)curPos);
         }
 
         public void SolveReposition(Vector3 newPos)
         {
-            GCM_SolveReposition(_gcmSystemPtr, newPos);
+            var result = GCM_SolveReposition(_gcmSystemPtr, newPos);
+            if (result != GCMResult.GCM_RESULT_Ok) Debug.LogWarning(result);
             Evaluated?.Invoke();
         }
-
-        public void SolveReposition(GCMObject movingObject, Transform newPos)
+        
+        public void SolveReposition(GCMObject movingObject, MbPlacement3D newPos)
         {
-            var result = GCM_SolveReposition(_gcmSystemPtr, movingObject.Descriptor, newPos, GCMReposition.FreeMoving);
+            var result = GCM_SolveReposition(_gcmSystemPtr, movingObject.Descriptor, ref newPos, GCMReposition.Dragging);
             if (result != GCMResult.GCM_RESULT_Ok) Debug.LogWarning(result);
             Evaluated?.Invoke();
         }
@@ -443,6 +444,11 @@ namespace UnityC3D
         }
 
         #region Internal definitions
+
+        internal void PrepareReposition(GCMObject moveObj, MbPlacement3D projPlane, MbVector3D curPos)
+        {
+            GCM_PrepareReposition(_gcmSystemPtr, moveObj.Descriptor, ref projPlane, ref curPos);
+        }
 
         /// <summary> Удаляет переданное ограничение из системы. </summary>
         /// <param name="constraint"> Удаляемое ограничение. </param>
@@ -606,11 +612,11 @@ namespace UnityC3D
         /// <param name="obj"> Удаляемый объект. </param>
         internal void Remove(GCMObject obj)
         {
-            GCM_RemoveGeom(_gcmSystemPtr, obj.Descriptor);
             foreach (var constraint in _gcmConstraints.Where(c => c.Obj1.Equals(obj) || c.Obj2.Equals(obj)))
             {
                 RemoveConstraint(constraint);
             }
+            GCM_RemoveGeom(_gcmSystemPtr, obj.Descriptor);
         }
 
         internal GCMConstraint AddObjectToPattern(
@@ -1097,8 +1103,8 @@ namespace UnityC3D
         private static extern GCMResult GCM_PrepareReposition(
             IntPtr        gSys,
             GCMDescriptor movingGeom,
-            MbPlacement3D projPlane,
-            MbVector3D    curPoint);
+            ref MbPlacement3D projPlane,
+            ref MbVector3D    curPoint);
 
 #if UNITY_EDITOR_64
         [DllImport("c3d",
@@ -1113,10 +1119,9 @@ namespace UnityC3D
                    EntryPoint =
                        "?GCM_SolveReposition@@YA?AW4GCM_result@@PEAVMtGeomSolver@@UMtObjectId@@AEBVMbPlacement3D@@W4GCM_reposition@@@Z")]
 #else
-        [DllImport("c3d", EntryPoint =
- "?GCM_SolveReposition@@YA?AW4GCM_result@@PEAVMtGeomSolver@@UMtObjectId@@AEBVMbPlacement3D@@W4GCM_reposition@@@Z")]
+        [DllImport("c3d", EntryPoint = "?GCM_SolveReposition@@YA?AW4GCM_result@@PAVMtGeomSolver@@UMtObjectId@@ABVMbPlacement3D@@W4GCM_reposition@@@Z")]
 #endif
-        private static extern GCMResult GCM_SolveReposition(IntPtr gSys, GCMDescriptor objID, MbPlacement3D newPos,
+        private static extern GCMResult GCM_SolveReposition(IntPtr gSys, GCMDescriptor objID, ref MbPlacement3D newPos,
                                                             GCMReposition repType);
 
 #if UNITY_EDITOR_64

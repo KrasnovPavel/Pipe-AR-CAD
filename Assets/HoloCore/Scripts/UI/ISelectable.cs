@@ -6,6 +6,8 @@ namespace HoloCore.UI
     /// <summary> Интерфейс для компонентов, которые хотят реагировать на выбор. </summary>
     public interface ISelectable
     {
+        bool Selected { get; set; }
+
         /// <summary> Событие вызываемое при выборе объекта. </summary>
         void OnSelect();
         

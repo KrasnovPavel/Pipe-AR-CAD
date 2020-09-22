@@ -1,6 +1,7 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HoloCore
@@ -10,6 +11,8 @@ namespace HoloCore
         public float RaycastDistance = 10f;
 
         public static Vector3 HitPoint { get; private set; }
+        
+        [CanBeNull] public static Transform HitObject { get; private set; } 
 
         private void Awake()
         {
@@ -23,10 +26,12 @@ namespace HoloCore
             if (Physics.Raycast(_camera.position, _camera.forward, out hit, RaycastDistance))
             {
                 HitPoint = hit.point;
+                HitObject = hit.transform;
             }
             else
             {
                 HitPoint = _camera.forward * RaycastDistance;
+                HitObject = null;
             }
         }
 
