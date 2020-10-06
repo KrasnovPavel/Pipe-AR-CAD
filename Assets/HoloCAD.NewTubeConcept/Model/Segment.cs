@@ -27,6 +27,10 @@ namespace HoloCAD.NewTubeConcept.Model
 
         [CanBeNull] public Segment Prev => Start.Prev;
 
+        public GCMSystem Sys => Start.GCMSys;
+
+        public bool IsInFlange => Owner.StartFlange.FirstSegment == this || Owner.EndFlange.FirstSegment == this; 
+
         public Segment(TubePoint start, TubePoint end, Tube owner)
         {
             Start = start;
@@ -36,10 +40,9 @@ namespace HoloCAD.NewTubeConcept.Model
             Start.Next = this;
             End.Prev   = this;
 
-            var sys = start.GCMSys;
-            Line = new GCMLine(sys, start.Origin, Start.Origin - End.Origin, Start.Parent);
-            sys.MakeCoincident(Start, Line);
-            sys.MakeCoincident(End, Line);
+            Line = new GCMLine(Sys, start.Origin, Start.Origin - End.Origin, Start.Parent);
+            Sys.MakeCoincident(Start, Line);
+            Sys.MakeCoincident(End, Line);
         }
 
         public float GetMinimalLength(float bendRadius)
@@ -60,6 +63,19 @@ namespace HoloCAD.NewTubeConcept.Model
             }
 
             return childLength + parentLength;
+        }
+
+        public void Move(Vector3 newOrigin, Vector3 newDirection)
+        {
+            var length = Length;
+            Start.Origin = newOrigin;
+            Line.Origin = newOrigin;
+            Line.Direction = newDirection;
+            End.Origin = Start.Origin + newDirection * length;
+            Start.Prev?.ResetLine();
+            End.Next?.ResetLine();
+            Sys.Evaluate();
+            Owner.FixErrors();
         }
 
         public void ResetLine()

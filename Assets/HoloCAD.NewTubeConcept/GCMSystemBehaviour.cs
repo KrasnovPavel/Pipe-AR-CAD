@@ -3,11 +3,24 @@
 
 using HoloCore;
 using UnityC3D;
+using UnityEngine;
 
 namespace HoloCAD.NewTubeConcept
 {
     public class GCMSystemBehaviour : Singleton<GCMSystemBehaviour>
     {
         public static readonly GCMSystem System = new GCMSystem();
+        
+        public static readonly GCMPlane HorizontalPlane = new GCMPlane(System, Vector3.zero, Vector3.up, System.GroundLCS);
+
+        static GCMSystemBehaviour()
+        {
+            HorizontalPlane.Freeze();
+        }
+
+        private void OnDestroy()
+        {
+            System.Dispose();
+        }
     }
 }

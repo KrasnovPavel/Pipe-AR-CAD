@@ -7,36 +7,27 @@ namespace HoloCAD.NewTubeConcept.Model
 {
     public static class SegmentConstraints
     {
-        public static void MakeCoincident(this GCMSystem sys, Segment segment, GCMPlane plane)
+        public static GCMConstraint MakeCoincident(this GCMSystem sys, Segment segment, GCMPlane plane)
         {
-            sys.MakeCoincident(segment.Line, plane);
+            return sys.MakeCoincident(segment.Line, plane);
         }
 
-        public static void MakeCoincident(this GCMSystem sys, Segment first, Segment second,
-                                          GCMAlignment alignment = GCMAlignment.Cooriented)
-        {
-            if (alignment != GCMAlignment.Cooriented)
-            {
-                sys.MakeCoincident(first.Start, second.End);
-                sys.MakeCoincident(first.End, second.Start);
-            }
-            else
-            {
-                sys.MakeCoincident(first.Start, second.Start);
-                sys.MakeCoincident(first.End, second.End);
-            }
-        }
-
-        public static void MakeParallel(this GCMSystem sys, Segment segment, GCMLine line,
+        public static GCMConstraint MakeParallel(this GCMSystem sys, Segment segment, GCMLine line,
                                              GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
-            sys.MakeParallel(segment.Line, line, alignment);
+            return sys.MakeParallel(segment.Line, line, alignment);
         }
 
-        public static void MakePerpendicular(this GCMSystem sys, Segment segment, GCMPlane plane,
+        public static GCMConstraint MakeParallel(this GCMSystem sys, Segment segment, GCMPlane plane,
+                                        GCMAlignment alignment = GCMAlignment.NoAlignment)
+        {
+            return sys.MakeParallel(segment.Line, plane, alignment);
+        }
+
+        public static GCMConstraint MakePerpendicular(this GCMSystem sys, Segment segment, GCMPlane plane,
                                              GCMAlignment alignment = GCMAlignment.NoAlignment)
         {
-            sys.MakePerpendicular(segment.Line, plane, alignment);
+            return sys.MakePerpendicular(segment.Line, plane, alignment);
         }
     }
 }

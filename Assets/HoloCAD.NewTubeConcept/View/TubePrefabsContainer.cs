@@ -10,5 +10,6 @@ namespace HoloCAD.NewTubeConcept.View
     {
         public GameObject PointPrefab;
         public GameObject SegmentPrefab;
+        public GameObject FlangeView;
     }
 }

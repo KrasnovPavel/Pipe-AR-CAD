@@ -14,6 +14,8 @@ namespace HoloCAD.NewTubeConcept.Model
 
         public Tube Owner => Next?.Owner ?? Prev?.Owner;
 
+        public bool IsInFlange => GetFlange() != null;
+
         public TubePoint(GCMSystem sys, Vector3 origin, GCM_LCS parent = null) :
             base(sys, origin, parent)
         {
@@ -25,6 +27,14 @@ namespace HoloCAD.NewTubeConcept.Model
         {
             Prev = prev;
             Next = next;
+        }
+
+        [CanBeNull]
+        public Flange GetFlange()
+        {
+            if (ReferenceEquals(Owner.StartFlange.EndPoint, this)) return Owner.StartFlange; 
+            if (ReferenceEquals(Owner.EndFlange.EndPoint, this)) return Owner.EndFlange;
+            return null;
         }
     }
 }
