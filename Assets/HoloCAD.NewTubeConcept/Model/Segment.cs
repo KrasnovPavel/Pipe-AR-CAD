@@ -17,7 +17,9 @@ namespace HoloCAD.NewTubeConcept.Model
         public readonly GCMLine   Line;
         public          Tube      Owner;
 
-        public float Length => (End.Origin - Start.Origin).magnitude;
+        public float LineLength => (End.Origin - Start.Origin).magnitude;
+
+        public float TubeLength => LineLength - End.DeltaLength - Start.DeltaLength; 
 
         public Vector3 Middle => (Start.Origin + End.Origin) / 2;
 
@@ -29,7 +31,18 @@ namespace HoloCAD.NewTubeConcept.Model
 
         public GCMSystem Sys => Start.GCMSys;
 
-        public bool IsInFlange => Owner.StartFlange.FirstSegment == this || Owner.EndFlange.FirstSegment == this; 
+        public bool IsInFlange => Owner.StartFlange.FirstSegment == this || Owner.EndFlange.FirstSegment == this;
+
+        public float Diameter
+        {
+            get => _diameter;
+            set
+            {
+                if (Mathf.Abs(_diameter - value) < float.Epsilon) return;
+                _diameter = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Segment(TubePoint start, TubePoint end, Tube owner)
         {
@@ -43,6 +56,11 @@ namespace HoloCAD.NewTubeConcept.Model
             Line = new GCMLine(Sys, start.Origin, Start.Origin - End.Origin, Start.Parent);
             Sys.MakeCoincident(Start, Line);
             Sys.MakeCoincident(End, Line);
+
+            Diameter = 0.05f;
+
+            Start.PropertyChanged += PointOnPropertyChanged;
+            End.PropertyChanged += PointOnPropertyChanged;
         }
 
         public float GetMinimalLength(float bendRadius)
@@ -67,7 +85,7 @@ namespace HoloCAD.NewTubeConcept.Model
 
         public void Move(Vector3 newOrigin, Vector3 newDirection)
         {
-            var length = Length;
+            var length = LineLength;
             Start.Origin = newOrigin;
             Line.Origin = newOrigin;
             Line.Direction = newDirection;
@@ -88,6 +106,8 @@ namespace HoloCAD.NewTubeConcept.Model
         {
             Line?.Dispose();
             Disposed?.Invoke(this);
+            Start.PropertyChanged -= PointOnPropertyChanged;
+            End.PropertyChanged -= PointOnPropertyChanged;
         }
 
         #region INotifyPropertyChanged
@@ -98,6 +118,19 @@ namespace HoloCAD.NewTubeConcept.Model
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+        #region Private definitions
+
+        private float _diameter;
+
+
+
+        private void PointOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(LineLength));
         }
 
         #endregion

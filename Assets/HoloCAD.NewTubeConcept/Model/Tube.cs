@@ -22,13 +22,10 @@ namespace HoloCAD.NewTubeConcept.Model
         {
             StartFlange = startFlange;
             EndFlange = endFlange;
-
-            StartFlange.FirstSegment.Owner = this;
-            EndFlange.FirstSegment.Owner = this;
-
-            var middle = new Segment(StartFlange.EndPoint,
-                                     EndFlange.EndPoint,
-                                     this);
+            StartFlange.AddInTube(this);
+            EndFlange.AddInTube(this);
+            
+            var middle = new Segment(StartFlange.EndPoint, EndFlange.EndPoint, this);
 
             StartFlange.EndPoint.Next = middle;
             EndFlange.EndPoint.Next = EndFlange.FirstSegment;
@@ -67,7 +64,7 @@ namespace HoloCAD.NewTubeConcept.Model
 
         public bool IsCorrect()
         {
-            return Segments.All(s => s.GetMinimalLength(BendRadius) < s.Length);
+            return Segments.All(s => s.GetMinimalLength(BendRadius) < s.LineLength);
         }
 
         public void AddPoint(Segment segment)

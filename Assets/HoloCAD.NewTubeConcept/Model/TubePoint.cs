@@ -15,6 +15,11 @@ namespace HoloCAD.NewTubeConcept.Model
         public Tube Owner => Next?.Owner ?? Prev?.Owner;
 
         public bool IsInFlange => GetFlange() != null;
+        
+        public float DeltaLength => BendRadius * Mathf.Tan(GetBendAngle() / 2 * Mathf.Deg2Rad);
+        public bool IsInEndFlange => IsInFlange && ReferenceEquals(Next.End, this);
+
+        public float BendRadius = 0.1f;
 
         public TubePoint(GCMSystem sys, Vector3 origin, GCM_LCS parent = null) :
             base(sys, origin, parent)
@@ -27,6 +32,17 @@ namespace HoloCAD.NewTubeConcept.Model
         {
             Prev = prev;
             Next = next;
+        }
+
+        public float GetBendAngle()
+        {
+            if (Next == null || Prev == null) return 0;
+            
+            if (IsInEndFlange)
+            {
+                return 180 - Vector3.Angle(Next.Start.Origin - Origin, Prev.Start.Origin - Origin);
+            }
+            return 180 - Vector3.Angle(Next.End.Origin - Origin, Prev.Start.Origin - Origin);
         }
 
         [CanBeNull]

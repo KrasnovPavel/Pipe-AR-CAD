@@ -5,6 +5,7 @@ using System.ComponentModel;
 using HoloCAD.NewTubeConcept.Model;
 using HoloCore;
 using HoloCore.UI;
+using JetBrains.Annotations;
 using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.UI;
 using UnityC3D;
@@ -25,7 +26,8 @@ namespace HoloCAD.NewTubeConcept.View
         public Transform ConstraintBar;
         public GameObject ParallelLabel; 
         public GameObject HorizontalLabel; 
-        public GameObject VerticalLabel; 
+        public GameObject VerticalLabel;
+        public Transform TubeView;
         
         public Segment segment
         {
@@ -129,6 +131,11 @@ namespace HoloCAD.NewTubeConcept.View
             }
             ChangeConstraintLabels();
         }
+        
+        protected static readonly Color DefaultTubeBaseColor = new Color(1f, 1f, 0f, 0.25f);
+
+        /// <summary> Цвет участка трубы, когда она пересекается с другим участком трубы. </summary>
+        protected static readonly Color CollidingTubeBaseColor = new Color(1f, 0f, 0f, 0.25f);
 
         #region Unity event functions
 
@@ -151,6 +158,7 @@ namespace HoloCAD.NewTubeConcept.View
 
             // ReSharper disable once PossibleNullReferenceException
             _camera = Camera.main.transform;
+            _tubeViewRenderer = TubeView.GetComponent<MeshRenderer>();
         }
 
         private void Update()
@@ -265,7 +273,10 @@ namespace HoloCAD.NewTubeConcept.View
         private GCMConstraint _verticalConstraint;
         private GCMConstraint _horizontalConstraint;
         private Transform _camera;
-
+        [CanBeNull] private MeshRenderer _tubeViewRenderer;
+        protected static readonly int GridColor = Shader.PropertyToID("_GridColor");
+        protected static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+        
         private void ChangeConstraintLabels()
         {
             ParallelLabel.SetActive(false);
@@ -288,14 +299,21 @@ namespace HoloCAD.NewTubeConcept.View
         {
             transform.position = _segment.Start.Origin;
             transform.LookAt(_segment.End.Origin);
-
+ 
             _renderer.useWorldSpace = true;
             _renderer.SetPosition(0, _segment.Start.Origin);
             _renderer.SetPosition(1, _segment.End.Origin);
             _renderer.endWidth = _renderer.startWidth = Diameter / 2;
-            _collider.height = _segment.Length;
+            _collider.height = _segment.LineLength;
             _collider.radius = Diameter / 2;
-            _collider.center = Vector3.forward * _segment.Length / 2;
+            _collider.center = Vector3.forward * _segment.LineLength / 2;
+            
+            TubeView.localPosition = Vector3.zero + Vector3.forward * segment.Start.DeltaLength;
+            TubeView.up = (segment.End.Origin - segment.Start.Origin).normalized;
+            TubeView.localScale = new Vector3(segment.Diameter, segment.TubeLength, segment.Diameter);
+            
+            Color baseColor = segment.TubeLength < 0 ? CollidingTubeBaseColor : DefaultTubeBaseColor;
+            if (!(_tubeViewRenderer is null)) _tubeViewRenderer.material.SetColor(BaseColor, baseColor);
         }
 
         #endregion

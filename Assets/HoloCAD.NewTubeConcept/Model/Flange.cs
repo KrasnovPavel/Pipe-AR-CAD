@@ -32,6 +32,10 @@ namespace HoloCAD.NewTubeConcept.Model
             set => Move(Origin, value);
         }
 
+        public float Diameter => FirstSegment.Diameter;
+        
+        public Tube Owner { get; private set; }
+        
         public Flange(GCMSystem sys)
         {
             _sys  = sys;
@@ -45,6 +49,7 @@ namespace HoloCAD.NewTubeConcept.Model
 
             _startPoint.PropertyChanged += OnPropertyChanged;
             Plane.PropertyChanged += OnPropertyChanged;
+            FirstSegment.PropertyChanged += OnPropertyChanged;
         }
 
         public void Move(Vector3 newPos, Vector3 newNorm)
@@ -71,6 +76,21 @@ namespace HoloCAD.NewTubeConcept.Model
             return true;
         }
 
+        public void AddInTube(Tube tube)
+        {
+            if (Owner != null) RemoveFromTube();
+            Owner = tube;
+            FirstSegment.Owner = tube;
+            OnPropertyChanged(nameof(Owner));
+        }
+
+        public void RemoveFromTube()
+        {
+            Owner = null;
+            FirstSegment.Owner = null;
+            OnPropertyChanged(nameof(Owner));
+        }
+
         public void Dispose()
         {
             if (_startPoint != null)
@@ -83,8 +103,12 @@ namespace HoloCAD.NewTubeConcept.Model
                 Plane.PropertyChanged -= OnPropertyChanged;
                 Plane.Dispose();
             }
+            if (FirstSegment != null)
+            {
+                FirstSegment.PropertyChanged -= OnPropertyChanged;
+                FirstSegment.Dispose();
+            }
 
-            FirstSegment?.Dispose();
             _endPoint?.Dispose();
         }
 
@@ -104,6 +128,11 @@ namespace HoloCAD.NewTubeConcept.Model
             if (ReferenceEquals(sender, Plane) && e.PropertyName == nameof(Plane.Origin))
             {
                 OnPropertyChanged(nameof(Normal));   
+            }
+
+            if (ReferenceEquals(sender, FirstSegment) && e.PropertyName == nameof(FirstSegment.Diameter))
+            {
+                OnPropertyChanged(nameof(Diameter));
             }
         }
 

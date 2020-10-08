@@ -1,6 +1,7 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System;
 using System.ComponentModel;
 using HoloCAD.NewTubeConcept.Model;
 using HoloCore.UI;
@@ -8,6 +9,7 @@ using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.UI;
 using UnityC3D;
 using UnityEngine;
+using UnityEngine.Experimental.PlayerLoop;
 
 namespace HoloCAD.NewTubeConcept.View
 {
@@ -18,6 +20,8 @@ namespace HoloCAD.NewTubeConcept.View
 
         public GameObject ToolBar;
         public bool Selected { get; set; }
+
+        public GameObject BendView;
 
         public TubePoint Point
         {
@@ -60,6 +64,22 @@ namespace HoloCAD.NewTubeConcept.View
             // ReSharper disable once PossibleNullReferenceException
             _camera     = Camera.main.transform;
             name += GetHashCode().ToString();
+            
+            GCMSystemBehaviour.System.Evaluated += delegate { _redrawPended = true; };
+        }
+
+        private void Start()
+        {
+            var data = new TubeLoader.TubeData();
+            data.diameter = 0.05f;
+            data.first_radius = data.second_radius = 0.1f;
+            var angle = 180 - Vector3.Angle(Point.Next.End.Origin - Point.Origin, Point.Prev.Start.Origin - Point.Origin); 
+            BendView.GetComponent<MeshFilter>().mesh = MeshFactory.GetMeshes(data)[0];
+            var renderer = BendView.GetComponent<MeshRenderer>();
+            renderer.material.SetFloat(ShaderDiameter, Point.Next.Diameter);
+            renderer.material.SetFloat(ShaderBendRadius, 0.1f);
+            renderer.material.SetFloat(ShaderAngle, angle / 180f * (float) Math.PI);
+            _redrawPended = true;
         }
 
         private void Update()
@@ -67,6 +87,22 @@ namespace HoloCAD.NewTubeConcept.View
             if (_isManipulationStarted) MovePoint();
 
             ToolBar.transform.LookAt(_camera);
+        }
+
+        private void LateUpdate()
+        {
+            if (_redrawPended)
+            {
+                var prev = Point.Prev.Start.Origin;
+                var next = Point.Next.End.Origin;
+                if (Point.IsInEndFlange) next = Point.Next.Start.Origin;
+                var forward = (next - Point.Origin).normalized;
+                var backward = (prev - Point.Origin).normalized;
+                BendView.GetComponent<MeshRenderer>().material.SetFloat(ShaderAngle, Point.GetBendAngle() * Mathf.Deg2Rad);
+                BendView.transform.position = Point.Origin + backward * Point.DeltaLength;
+                BendView.transform.LookAt(Point.Origin, Vector3.Cross(Vector3.ProjectOnPlane(forward, -backward), -backward));
+                _redrawPended = false;
+            }
         }
 
         public void OnSelect()
@@ -93,6 +129,10 @@ namespace HoloCAD.NewTubeConcept.View
         private bool      _isManipulationStarted;
         private Transform _camera;
         private IMixedRealityPointer _draggingPointer;
+        private bool _redrawPended;
+        private static readonly int ShaderDiameter = Shader.PropertyToID("_Diameter");
+        private static readonly int ShaderBendRadius = Shader.PropertyToID("_BendRadius");
+        private static readonly int ShaderAngle = Shader.PropertyToID("_Angle");
 
         private void PointOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -150,7 +190,7 @@ namespace HoloCAD.NewTubeConcept.View
             
             Owner.tube.FixErrors();
         }
-
+        
         #endregion
     }
 }
