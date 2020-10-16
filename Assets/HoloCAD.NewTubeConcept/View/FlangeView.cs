@@ -22,6 +22,12 @@ namespace HoloCAD.NewTubeConcept.View
 
         public void StartPlacement()
         {
+            if (!_isStarted)
+            {
+                _placementOnStart = true;
+                return;
+            }
+            
             _manipulator.enabled = false;
             _collider.enabled = false;
             SceneController.Instance.EnableSpatialCollider = true;
@@ -67,6 +73,9 @@ namespace HoloCAD.NewTubeConcept.View
             
             MoveToggle.OnClick.AddListener(delegate { ChangeManipulationMode(MoveToggle); });
             RotateToggle.OnClick.AddListener(delegate { ChangeManipulationMode(RotateToggle); });
+            
+            _isStarted = true;
+            if (_placementOnStart) StartPlacement();
         }
 
         private void Update()
@@ -127,6 +136,8 @@ namespace HoloCAD.NewTubeConcept.View
         private TapRecognizer _tapRecognizer;
         private Collider _collider;
         private ObjectManipulator _manipulator;
+        private bool _isStarted;
+        private bool _placementOnStart;
 
         private void ChangeManipulationMode(Interactable sender)
         {

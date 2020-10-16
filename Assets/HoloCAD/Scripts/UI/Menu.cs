@@ -1,7 +1,7 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-using HoloCAD.Tubes;
+using HoloCAD.NewTubeConcept.View;
 using HoloCore.Docs2D;
 using UnityEngine;
 
@@ -43,7 +43,8 @@ namespace HoloCAD.UI
         /// <summary> Создаёт новую трубу. </summary>
         public void NewTube()
         {
-            TubeManager.CreateTube().StartPlacing();
+            var go = Instantiate(TubePrefabsContainer.Instance.FlangeView);
+            go.GetComponent<FlangeView>().StartPlacement();
         }
     }
 }

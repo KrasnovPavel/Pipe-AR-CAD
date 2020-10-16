@@ -9,13 +9,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 773190233}
-  - component: {fileID: 773190230}
   - component: {fileID: 2173582593384371675}
   - component: {fileID: 1739458833221257050}
   - component: {fileID: 3734464469316659000}
   - component: {fileID: 343499072}
   - component: {fileID: 343499073}
   - component: {fileID: 1073616209}
+  - component: {fileID: 7158507230761308296}
+  - component: {fileID: 1073616210}
+  - component: {fileID: 1073616211}
+  - component: {fileID: 1073616212}
   m_Layer: 0
   m_Name: SingletonObject
   m_TagString: Untagged
@@ -37,32 +40,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &773190230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 773190229}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed6a973ea93e7f94b871723269408a8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DirectTubeFragmentPrefab: {fileID: 1566192698486592, guid: 1eba642b6f930594483f7d7cf9c300bc,
-    type: 3}
-  BendedTubeFragmentPrefab: {fileID: 1911631833607840, guid: a691663f808ef3641b6330f8c43dae74,
-    type: 3}
-  StartTubeFragmentPrefab: {fileID: 1985526613567762, guid: 3694dc49cf052604d80a4a1eee049620,
-    type: 3}
-  ConnectorPrefab: {fileID: 1954487033063958, guid: 7da291819a9d10c4f8e41e7d58e82c76,
-    type: 3}
-  OutgrowthPanelPrefab: {fileID: 2403874822043473765, guid: 0ade21cce2793294daa53317e3e98c79,
-    type: 3}
-  StartTubeMarks:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &2173582593384371675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,7 +47,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773190229}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0701dcbd499e3248b1ea0a49bd0c93d, type: 3}
   m_Name: 
@@ -183,3 +160,59 @@ MonoBehaviour:
     type: 3}
   ViewerTextPrefab: {fileID: 4784356913630207212, guid: d34ec2182a127af4d9368f30dc3cf763,
     type: 3}
+--- !u!114 &7158507230761308296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773190229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d575eb25434373929b24e69a39cc01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1073616210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773190229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709f0eccfae64bb198a7cbae1870426c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PointPrefab: {fileID: 6901494997197035062, guid: 87922c26b2861c641a9afbe6741ac4ac,
+    type: 3}
+  SegmentPrefab: {fileID: 6928107742382117848, guid: fc05864116655c2429d64a5eeeda2ac0,
+    type: 3}
+  FlangeView: {fileID: 7340897166718516160, guid: 6b5915d41fc2de641863c5b5c29eef08,
+    type: 3}
+--- !u!114 &1073616211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773190229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e5973934140427e9ba955642a68b972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RaycastDistance: 10
+--- !u!114 &1073616212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773190229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d299f729e00d4533bbcd31850d01dd15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnableConsole: 1
