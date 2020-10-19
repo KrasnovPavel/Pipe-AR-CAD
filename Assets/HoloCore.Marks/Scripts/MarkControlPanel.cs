@@ -42,7 +42,7 @@ namespace HoloCore.Marks
         private void Start()
         {
             // ReSharper disable once PossibleNullReferenceException
-            mainCamera = Camera.main.transform;
+            _mainCamera = Camera.main.transform;
             _mark = transform.parent.GetComponent<Mark>();
             _mark.PropertyChanged += delegate
             {
@@ -179,13 +179,13 @@ namespace HoloCore.Marks
         private const int LayerMask = (1 << 31) | (1 << 30);
 
         /// <summary> Позиция объекта камеры, к которой привязаны все метки. </summary>
-        private static Transform mainCamera;
+        private static Transform _mainCamera;
 
         /// <summary> "Выталкивает" панель с кнопками из сетки пространства и отображаемой модели  </summary>
         private void PushFromTargetAndSpatialMapping()
         {
             if (!_mark.IsActive) return;
-            Vector3 markCameraVector = _mark.transform.position - mainCamera.position;
+            Vector3 markCameraVector = _mark.transform.position - _mainCamera.position;
             if (markCameraVector.magnitude > TriggerDistance)
             {
                 transform.localPosition = Vector3.zero;
@@ -193,7 +193,7 @@ namespace HoloCore.Marks
             }
             
             RaycastHit hitInfo;
-            if (Physics.Raycast(mainCamera.position, markCameraVector,
+            if (Physics.Raycast(_mainCamera.position, markCameraVector,
                 out hitInfo, TriggerDistance * 2, LayerMask))
             {
                 transform.position = hitInfo.point - markCameraVector * PushDepth;

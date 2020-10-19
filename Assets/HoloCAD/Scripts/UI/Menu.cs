@@ -1,7 +1,7 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-using HoloCAD.NewTubeConcept.View;
+using HoloCAD.Tubes.View;
 using HoloCore.Docs2D;
 using UnityEngine;
 

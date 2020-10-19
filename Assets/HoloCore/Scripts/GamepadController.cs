@@ -33,13 +33,13 @@ namespace HoloCore
         /// <summary> Подключен ли геймпад. </summary>
         public static bool IsGamepadConnected
         {
-            get => isGamepadConnected;
+            get => _isGamepadConnected;
             set
             {
-                if (isGamepadConnected == value) return;
+                if (_isGamepadConnected == value) return;
 
-                isGamepadConnected = value;
-                GamepadConnectionChanged?.Invoke(isGamepadConnected);
+                _isGamepadConnected = value;
+                GamepadConnectionChanged?.Invoke(_isGamepadConnected);
             }
         }
 
@@ -258,7 +258,7 @@ namespace HoloCore
         
         #region Private Definitions
 
-        private static bool isGamepadConnected;
+        private static bool _isGamepadConnected;
 
         private class LongPressActions
         {

@@ -6,9 +6,8 @@
         "Microsoft.MixedReality.Toolkit.SDK",
         "HoloCore.Docs2D",
         "HoloCore.FileManager",
-        "HoloCAD.Tubes",
         "HoloCore.Marks",
-        "HoloCad.NewTubeConcept"
+        "HoloCad.Tubes"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

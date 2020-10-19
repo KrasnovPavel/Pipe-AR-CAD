@@ -1,7 +1,6 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-using HoloCAD.Tubes.UnityTubes;
 using HoloCore;
 using HoloCore.UI;
 using UnityEngine;
@@ -41,19 +40,7 @@ namespace HoloCAD.UI
             {
                 button.Press();
                 button.Release(true);
-                return;
             }
-
-            TubeClickerReceiver receiver = hitInfo.transform.GetComponent<TubeClickerReceiver>();
-            if (receiver != null)
-            {
-                receiver.Click();
-                return;
-            }
-
-            Transform tube = hitInfo.transform.Find("Tube");
-            if (tube != null) receiver = tube.GetComponent<TubeClickerReceiver>();
-            if (receiver != null) receiver.Click();
         }
 
         #endregion

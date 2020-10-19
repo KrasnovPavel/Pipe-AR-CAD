@@ -12,7 +12,9 @@ namespace HoloCore
 {
     public class TapRecognizer : MonoBehaviour
     {
+#pragma warning disable 67
         public event Action Tap;
+#pragma warning restore 67
         
 #if ENABLE_WINMD_SUPPORT
         private GestureRecognizer _recognizer;

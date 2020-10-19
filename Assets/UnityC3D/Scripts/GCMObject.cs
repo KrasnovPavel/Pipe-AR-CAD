@@ -63,6 +63,7 @@ namespace UnityC3D
         public override void TestDraw(string name)
         {
             base.TestDraw(name);
+            if (DrawObject is null) return;
             var lineRenderer = DrawObject.GetComponent<LineRenderer>();
             lineRenderer.SetPosition(1, Vector3.forward);
         }

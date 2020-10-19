@@ -1,11 +1,11 @@
 {
-    "name": "HoloCAD.Tubes",
+    "name": "HoloCad.Tubes",
     "references": [
+        "UnityC3D",
+        "MathExtensions",
         "HoloCore",
         "Microsoft.MixedReality.Toolkit",
-        "MathExtensions",
-        "UnityC3D",
-        "HoloTest"
+        "Microsoft.MixedReality.Toolkit.SDK"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
