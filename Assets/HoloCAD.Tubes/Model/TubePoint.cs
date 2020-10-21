@@ -25,12 +25,28 @@ namespace HoloCAD.Tubes.Model
         /// <summary> Длина погиба. </summary>
         public float DeltaLength => BendRadius * Mathf.Tan(GetBendAngle() / 2 * Mathf.Deg2Rad);
 
-
         // ReSharper disable once PossibleNullReferenceException
         /// <summary> Находится ли точка в конечном фланце. </summary>
         public bool IsInEndFlange => IsInFlange && ReferenceEquals(Next.End, this);
 
-        public float BendRadius = 0.1f;
+        /// <summary> Диаметр трубы, изгибаемой в этой точке. </summary>
+        public float Diameter => Owner.Diameter;
+
+        /// <summary> Какой из двух доступных радиусов погиба использовать. </summary>
+        public bool UseSecondRadius
+        {
+            get => _useSecondRadius;
+            set
+            {
+                if (_useSecondRadius == value) return;
+                
+                _useSecondRadius = value;
+                OnPropertyChanged(nameof(BendRadius));
+            }
+        }
+
+        /// <summary> Радиус погиба. </summary>
+        public float BendRadius => UseSecondRadius ? Owner.SecondBendRadius : Owner.FirstBendRadius;
 
         /// <summary> Конструктор точки. </summary>
         /// <param name="sys"> Система ограничений. </param>
@@ -39,6 +55,7 @@ namespace HoloCAD.Tubes.Model
         public TubePoint(GCMSystem sys, Vector3 origin, GCM_LCS parent = null) :
             base(sys, origin, parent)
         {
+            RecalculateDiameter();
         }
 
         /// <summary> Возвращает угол погиба. </summary>
@@ -57,12 +74,23 @@ namespace HoloCAD.Tubes.Model
 
         /// <summary> Если точка находится в фланце - возвращает фланец. </summary>
         /// <returns></returns>
-        [CanBeNull]
-        public Flange GetFlange()
+        [CanBeNull] public Flange GetFlange()
         {
             if (ReferenceEquals(Owner.StartFlange.EndPoint, this)) return Owner.StartFlange;
             if (ReferenceEquals(Owner.EndFlange.EndPoint,   this)) return Owner.EndFlange;
             return null;
         }
+
+        /// <summary>  </summary>
+        public void RecalculateDiameter()
+        {
+            OnPropertyChanged(nameof(Diameter));
+        }
+
+        #region Private definitions
+
+        private bool _useSecondRadius;
+
+        #endregion
     }
 }

@@ -3,17 +3,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 using UnityC3D;
 using UnityEngine;
 
 namespace HoloCAD.Tubes.Model
 {
     /// <summary> Труба. </summary>
-    public class Tube : IDisposable
+    public class Tube : IDisposable, INotifyPropertyChanged
     {
-        public const float BendRadius = 0.1f;
-
         /// <summary> Начальный фланец. </summary>
         public readonly Flange StartFlange;
 
@@ -26,11 +27,42 @@ namespace HoloCAD.Tubes.Model
         /// <summary> Прямые отрезки. </summary>
         public readonly List<Segment> Segments = new List<Segment>();
 
+        /// <summary> Данные о трубе из стандарта. </summary>
+        public TubeLoader.TubeData TubeData
+        {
+            get => _tubeData;
+            set
+            {
+                if (Equals(value, _tubeData)) return;
+                _tubeData = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Diameter));
+                OnPropertyChanged(nameof(FirstBendRadius));
+                OnPropertyChanged(nameof(SecondBendRadius));
+                foreach (var point in Points)
+                {
+                    point.RecalculateDiameter();
+                }
+                StartFlange.EndPoint.RecalculateDiameter();
+                EndFlange.EndPoint.RecalculateDiameter();
+            }
+        }
+
+        /// <summary> Диаметр трубы. </summary>
+        public float Diameter => TubeData.diameter;
+
+        /// <summary> Первый допустимый радиус погиба. </summary>
+        public float FirstBendRadius => TubeData.first_radius;
+        
+        /// <summary> Второй допустимый радиус погиба. </summary>
+        public float SecondBendRadius => TubeData.second_radius;
+
         /// <summary> Конструктор трубы. </summary>
         /// <param name="sys"> Система ограничений. </param>
         /// <param name="startFlange"> Начальный фланец. </param>
         /// <param name="endFlange"> Конечный фланец. </param>
-        public Tube(GCMSystem sys, Flange startFlange, Flange endFlange)
+        /// <param name="tubeData"> Данные о трубе из стандарта. </param>
+        public Tube(GCMSystem sys, Flange startFlange, Flange endFlange, TubeLoader.TubeData tubeData)
         {
             StartFlange = startFlange;
             EndFlange   = endFlange;
@@ -44,6 +76,7 @@ namespace HoloCAD.Tubes.Model
             EndFlange.EndPoint.Prev   = middle;
 
             Segments.Add(middle);
+            TubeData = tubeData;
 
             sys.Evaluate();
         }
@@ -147,6 +180,8 @@ namespace HoloCAD.Tubes.Model
             PointAdded?.Invoke(middle);
             SegmentAdded?.Invoke(first);
             SegmentAdded?.Invoke(second);
+            
+            middle.RecalculateDiameter();
 
             Segments.Remove(segment);
             segment.Dispose();
@@ -182,5 +217,23 @@ namespace HoloCAD.Tubes.Model
             SegmentAdded?.Invoke(newSegment);
             Sys.Evaluate();
         }
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+        #region Private definitions
+        
+        private TubeLoader.TubeData _tubeData;
+
+        #endregion
     }
 }

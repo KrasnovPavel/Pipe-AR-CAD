@@ -18,8 +18,6 @@ namespace HoloCAD.Tubes.View
     [RequireComponent(typeof(ObjectManipulator))]
     public class SegmentView : MonoBehaviour, IMixedRealityPointerHandler, ISelectable, IMixedRealityFocusHandler
     {
-        public const float Diameter = 0.05f;
-
         /// <summary> Префаб для отображения превью добавляемой точки. </summary>
         public GameObject PreviewPointPrefab;
 
@@ -59,16 +57,18 @@ namespace HoloCAD.Tubes.View
             {
                 _segment = value;
 
-                _positionUpdateRequested = true;
+                _redrawRequested = true;
 
                 segment.Disposed += delegate
                                     {
                                         Destroy(gameObject);
+                                        segment.PropertyChanged       -= SegmentOnPropertyChanged;
                                         segment.Start.PropertyChanged -= SegmentOnPropertyChanged;
                                         segment.End.PropertyChanged   -= SegmentOnPropertyChanged;
                                         segment.Line.PropertyChanged  -= SegmentOnPropertyChanged;
                                     };
 
+                segment.PropertyChanged       += SegmentOnPropertyChanged;
                 segment.Start.PropertyChanged += SegmentOnPropertyChanged;
                 segment.End.PropertyChanged   += SegmentOnPropertyChanged;
                 segment.Line.PropertyChanged  += SegmentOnPropertyChanged;
@@ -219,10 +219,10 @@ namespace HoloCAD.Tubes.View
 
         private void LateUpdate()
         {
-            if (_positionUpdateRequested)
+            if (_redrawRequested)
             {
-                UpdatePosition();
-                _positionUpdateRequested = false;
+                Redraw();
+                _redrawRequested = false;
             }
         }
 
@@ -325,7 +325,7 @@ namespace HoloCAD.Tubes.View
         private                   GCMConstraint     _horizontalConstraint;
         private                   Transform         _camera;
         [CanBeNull] private       MeshRenderer      _tubeViewRenderer;
-        private                   bool              _positionUpdateRequested;
+        private                   bool              _redrawRequested;
         protected static readonly int               GridColor = Shader.PropertyToID("_GridColor");
         protected static readonly int               BaseColor = Shader.PropertyToID("_BaseColor");
 
@@ -344,11 +344,11 @@ namespace HoloCAD.Tubes.View
 
         private void SegmentOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            _positionUpdateRequested = true;
+            _redrawRequested = true;
         }
 
         /// <summary> Обновляет положение виджета и его элементов в пространстве. </summary>
-        private void UpdatePosition()
+        private void Redraw()
         {
             transform.position = _segment.Start.Origin;
             transform.LookAt(_segment.End.Origin);
@@ -356,9 +356,9 @@ namespace HoloCAD.Tubes.View
             _renderer.useWorldSpace = true;
             _renderer.SetPosition(0, _segment.Start.Origin);
             _renderer.SetPosition(1, _segment.End.Origin);
-            _renderer.endWidth = _renderer.startWidth = Diameter / 2;
+            _renderer.endWidth = _renderer.startWidth = segment.Diameter / 2;
             _collider.height   = _segment.LineLength;
-            _collider.radius   = Diameter                              / 2;
+            _collider.radius   = segment.Diameter                      / 2;
             _collider.center   = Vector3.forward * _segment.LineLength / 2;
 
             DirectTubeView.localPosition = Vector3.zero + Vector3.forward * segment.Start.DeltaLength;

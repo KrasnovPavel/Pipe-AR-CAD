@@ -23,7 +23,22 @@ namespace HoloCAD.Tubes.Model
         public readonly GCMLine Line;
 
         /// <summary> Труба - хозяин отрезка. </summary>
-        public Tube Owner;
+        public Tube Owner
+        {
+            get => _owner;
+            set
+            {
+                if (_owner != null)
+                {
+                    Owner.PropertyChanged -= OwnerOnPropertyChanged;
+                }
+                _owner = value;
+                if (_owner != null)
+                {
+                    _owner.PropertyChanged += OwnerOnPropertyChanged;
+                }
+            }
+        }
 
         /// <summary> Длина линии. </summary>
         /// <remarks> ВНИМАНИЕ!!! Не соответствует длине прямого участка трубы. </remarks>
@@ -54,16 +69,7 @@ namespace HoloCAD.Tubes.Model
                                   ReferenceEquals(Owner.EndFlange.FirstSegment,   this);
 
         /// <summary> Диаметр отрезка трубы. </summary>
-        public float Diameter
-        {
-            get => _diameter;
-            set
-            {
-                if (Mathf.Abs(_diameter - value) < float.Epsilon) return;
-                _diameter = value;
-                OnPropertyChanged();
-            }
-        }
+        public float Diameter => Owner.Diameter;
 
         /// <summary> Конструктор отрезка. </summary>
         /// <param name="start"> Начальная точка. </param>
@@ -81,8 +87,6 @@ namespace HoloCAD.Tubes.Model
             Line = new GCMLine(Sys, start.Origin, Start.Origin - End.Origin, Start.Parent);
             Sys.MakeCoincident(Start, Line);
             Sys.MakeCoincident(End,   Line);
-
-            Diameter = 0.05f;
 
             Start.PropertyChanged += PointOnPropertyChanged;
             End.PropertyChanged   += PointOnPropertyChanged;
@@ -118,6 +122,7 @@ namespace HoloCAD.Tubes.Model
             Disposed?.Invoke(this);
             Start.PropertyChanged -= PointOnPropertyChanged;
             End.PropertyChanged   -= PointOnPropertyChanged;
+            if (Owner != null) Owner.PropertyChanged -= OwnerOnPropertyChanged;
         }
 
         #region INotifyPropertyChanged
@@ -135,10 +140,19 @@ namespace HoloCAD.Tubes.Model
         #region Private definitions
 
         private float _diameter;
+        private Tube  _owner;
 
         private void PointOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(nameof(LineLength));
+        }
+
+        private void OwnerOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Owner.Diameter))
+            {
+                OnPropertyChanged(nameof(Diameter));
+            }
         }
 
         #endregion

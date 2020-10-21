@@ -3,6 +3,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using UnityC3D;
@@ -39,16 +40,35 @@ namespace HoloCAD.Tubes.Model
             set => Move(Origin, value);
         }
 
+        public TubeLoader.TubeData TubeData
+        {
+            get => Owner != null ? Owner.TubeData : _tubeData;
+            set
+            {
+                if (Owner != null)
+                {
+                    Owner.TubeData = value;
+                } 
+                else if (!Equals(_tubeData, value))
+                {
+                    _tubeData = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(Diameter));
+                }
+            }
+        }
+
         /// <summary> Диаметр фланца. </summary>
-        public float Diameter => FirstSegment.Diameter;
+        public float Diameter => TubeData.diameter;
 
         /// <summary> Труба - хозяин фланца. </summary>
-        public Tube Owner { get; private set; }
+        [CanBeNull] public Tube Owner { get; private set; }
 
         /// <summary> Конструктор фланца. </summary>
         /// <param name="sys"> Система ограничений. </param>
         public Flange(GCMSystem sys)
         {
+            _tubeData    = TubeLoader.GetAvailableTubes(TubeLoader.GetStandardNames().First()).First();
             _sys         = sys;
             Plane        = new GCMPlane(sys, Vector3.zero, Vector3.forward, sys.GroundLCS);
             _startPoint  = new TubePoint(sys, Vector3.zero,                                sys.GroundLCS);
@@ -97,13 +117,14 @@ namespace HoloCAD.Tubes.Model
         }
 
         /// <summary> Добавляет фланец в трубу. </summary>
-        /// <param name="tube"></param>
+        /// <param name="tube"> Труба, в которую добавляется фланец. </param>
         public void AddInTube(Tube tube)
         {
             if (Owner != null) RemoveFromTube();
             Owner              = tube;
             FirstSegment.Owner = tube;
             OnPropertyChanged(nameof(Owner));
+            Owner.PropertyChanged += OnPropertyChanged;
         }
 
         /// <summary> Удаляет фланец из трубы. </summary>
@@ -112,6 +133,7 @@ namespace HoloCAD.Tubes.Model
             Owner              = null;
             FirstSegment.Owner = null;
             OnPropertyChanged(nameof(Owner));
+            Owner.PropertyChanged -= OnPropertyChanged;
         }
 
         /// <inheritdoc />
@@ -144,6 +166,8 @@ namespace HoloCAD.Tubes.Model
         private readonly TubePoint _startPoint;
         private readonly TubePoint _endPoint;
 
+        private TubeLoader.TubeData _tubeData;
+
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (ReferenceEquals(sender, _startPoint) && e.PropertyName == nameof(_startPoint.Origin))
@@ -158,6 +182,12 @@ namespace HoloCAD.Tubes.Model
 
             if (ReferenceEquals(sender, FirstSegment) && e.PropertyName == nameof(FirstSegment.Diameter))
             {
+                OnPropertyChanged(nameof(Diameter));
+            }
+
+            if (ReferenceEquals(sender, Owner) && e.PropertyName == nameof(Tube.TubeData))
+            {
+                OnPropertyChanged(nameof(TubeData));
                 OnPropertyChanged(nameof(Diameter));
             }
         }

@@ -4,7 +4,7 @@ Shader "HoloCAD/Bended" {
     Properties{
         _GridThickness("Grid Thickness", Float) = 0.01
         _RadialSpacing("Radial Spacing", Float) = 5
-        [PerRendererData]_GridColor("Grid Color", Color) = (1, 1, 0, 1)
+        [PerRendererData]_GridColor("Grid Color", Color) = (0, 1, 0, 1)
         [PerRendererData]_BaseColor("Base Color", Color) = (0.0, 0.0, 0.0, 0.0)
         [PerRendererData]_Diameter("Diameter", Float) = 1
         [PerRendererData]_BendRadius("Bend Radius", Float) = 1.2

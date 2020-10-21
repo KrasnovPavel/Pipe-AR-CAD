@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -67,16 +68,17 @@ namespace HoloCAD.Tubes
 
             /// <summary> Второй из двух допустимых радиусов погиба. </summary>
             public float second_radius;
+
+            [NonSerialized] public string standard_name;
         }
 
         /// <summary> Функция поиска данных о трубе по диаметру и наименованию стандарта. </summary>
         /// <param name="diameter"> Диаметр искомой трубы. </param>
         /// <param name="standardName"> Стандарт искомой трубы. </param>
         /// <returns> Данные о трубе. </returns>
-        [CanBeNull]
-        public static TubeData FindTubeData(float diameter, string standardName)
+        [CanBeNull] public static TubeData FindTubeData(float diameter, string standardName)
         {
-            List<TubeData> tubes = GetAvailableTubes(standardName);
+            var tubes = GetAvailableTubes(standardName);
 
             foreach (TubeData tube in tubes)
             {
@@ -92,76 +94,38 @@ namespace HoloCAD.Tubes
         /// <summary> Функция получения данных о всех трубах из запрошенного стандарта. </summary>
         /// <param name="standardName"> Запрошенный стандарт. </param>
         /// <returns> Список труб из запрошенного стандарта. </returns>
-        [NotNull]
-        public static List<TubeData> GetAvailableTubes(string standardName)
+        public static IEnumerable<TubeData> GetAvailableTubes(string standardName)
         {
-            if (standardName.Length == 0 && TubeStandards.Count > 0)
-            {
-                return TubeStandards[0].available_tubes;
-            }
-
-            foreach (TubeStandard standard in TubeStandards)
-            {
-                if (standard.name == standardName)
-                {
-                    return standard.available_tubes;
-                }
-            }
-
-            return new List<TubeData>();
+            return TubeStandards.Find(s => s.name == standardName).available_tubes;
         }
 
         /// <summary> Функция получения всех стандартов. </summary>
         /// <returns> Список наименований стандартов. </returns>
-        [NotNull]
-        public static List<string> GetStandardNames()
+        public static IEnumerable<string> GetStandardNames()
         {
-            List<string> standardNames = new List<string>();
-            foreach (TubeStandard tubeStandard in TubeStandards)
-            {
-                standardNames.Add(tubeStandard.name);
-            }
-
-            return standardNames;
+            return TubeStandards.Select(s => s.name);
         }
 
         /// <summary> Функция получения всех диаметров труб из запрашиваемого стандарта. </summary>
         /// <param name="standardName"> Наименование стандарта. </param>
         /// <returns> Список диаметров. </returns>
-        [NotNull]
-        public static List<float> GetDiameters(string standardName)
+        public static IEnumerable<float> GetDiameters(string standardName)
         {
-            List<float> diameters = new List<float>();
-            foreach (TubeStandard tubeStandard in TubeStandards)
-            {
-                if (tubeStandard.name != standardName) continue;
-
-                foreach (TubeData tube in tubeStandard.available_tubes)
-                {
-                    diameters.Add(tube.diameter);
-                }
-            }
-
-            return diameters;
+            return GetAvailableTubes(standardName).Select(t => t.diameter);
         }
 
         /// <summary> Функция получения данных о последующей по диаметру трубе. </summary>
         /// <param name="tube"> Данная труба. </param>
-        /// <param name="standardName"> Наименование стандарта. </param>
         /// <returns> Данные о трубе. </returns>
-        [CanBeNull]
-        public static TubeData GetBigger(TubeData tube, string standardName)
+        [CanBeNull] public static TubeData GetBigger(TubeData tube)
         {
-            foreach (TubeStandard tubeStandard in TubeStandards)
-            {
-                if (tubeStandard.name != standardName) continue;
+            var tubeStandard = TubeStandards.Find(s => s.name == tube.standard_name);
 
-                for (int i = 0; i < tubeStandard.available_tubes.Count - 1; i++)
+            for (int i = 0; i < tubeStandard.available_tubes.Count - 1; i++)
+            {
+                if (Math.Abs(tubeStandard.available_tubes[i].diameter - tube.diameter) < float.Epsilon)
                 {
-                    if (Math.Abs(tubeStandard.available_tubes[i].diameter - tube.diameter) < float.Epsilon)
-                    {
-                        return tubeStandard.available_tubes[i + 1];
-                    }
+                    return tubeStandard.available_tubes[i + 1];
                 }
             }
 
@@ -170,21 +134,16 @@ namespace HoloCAD.Tubes
 
         /// <summary> Функция получения данных о предыдущей по диаметру трубе. </summary>
         /// <param name="tube"> Данная труба. </param>
-        /// <param name="standardName"> Наименование стандарта. </param>
         /// <returns> Данные о трубе. </returns>
-        [CanBeNull]
-        public static TubeData GetSmaller(TubeData tube, string standardName)
+        [CanBeNull] public static TubeData GetSmaller(TubeData tube)
         {
-            foreach (TubeStandard tubeStandard in TubeStandards)
-            {
-                if (tubeStandard.name != standardName) continue;
+            var tubeStandard = TubeStandards.Find(s => s.name == tube.standard_name);
 
-                for (int i = tubeStandard.available_tubes.Count - 1; i >= 1; i--)
+            for (int i = tubeStandard.available_tubes.Count - 1; i >= 1; i--)
+            {
+                if (Math.Abs(tubeStandard.available_tubes[i].diameter - tube.diameter) < float.Epsilon)
                 {
-                    if (Math.Abs(tubeStandard.available_tubes[i].diameter - tube.diameter) < float.Epsilon)
-                    {
-                        return tubeStandard.available_tubes[i - 1];
-                    }
+                    return tubeStandard.available_tubes[i - 1];
                 }
             }
 
@@ -211,6 +170,14 @@ namespace HoloCAD.Tubes
                                                                              "./TubesConfig/OST.json"));
             string jsonTextFile = System.Text.Encoding.UTF8.GetString(data);
             TubeStandards.Add(JsonUtility.FromJson<TubeStandard>(jsonTextFile));
+
+            foreach (var standard in TubeStandards)
+            {
+                foreach (var tube in standard.available_tubes)
+                {
+                    tube.standard_name = standard.name;
+                }
+            }
         }
 
         #endregion

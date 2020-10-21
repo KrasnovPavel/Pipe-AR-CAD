@@ -27,7 +27,7 @@ namespace HoloCore
         {
             _collider = GetComponent<SpatialMappingCollider>();
             _renderer = GetComponent<SpatialMappingRenderer>();
-            EnableSpatialCollider = true;
+            EnableSpatialCollider = false;
             EnableSpatialRenderer = false;
         }
 

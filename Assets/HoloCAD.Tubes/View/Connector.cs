@@ -41,7 +41,11 @@ namespace HoloCAD.Tubes.View
         {
             if (flangeView == Instance.FirstFlange) return;
 
-            var tube     = new Tube(GCMSystemBehaviour.System, ActiveConnector.FirstFlange.flange, flangeView.flange);
+            var tube = new Tube(GCMSystemBehaviour.System, 
+                                ActiveConnector.FirstFlange.flange, 
+                                flangeView.flange,
+                                flangeView.flange.TubeData);
+            
             var go       = new GameObject();
             var tubeView = go.AddComponent<TubeView>();
             tubeView.EndFlangeView   = ActiveConnector.FirstFlange;

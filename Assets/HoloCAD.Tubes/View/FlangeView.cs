@@ -1,12 +1,14 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System.ComponentModel;
 using HoloCAD.Tubes.Model;
 using HoloCore;
 using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.UI;
 using Microsoft.MixedReality.Toolkit.Utilities;
 using Microsoft.MixedReality.Toolkit.Utilities.Solvers;
+using TMPro;
 using UnityEngine;
 
 namespace HoloCAD.Tubes.View
@@ -19,12 +21,20 @@ namespace HoloCAD.Tubes.View
         /// <summary> Модель фланца. </summary>
         // ReSharper disable once InconsistentNaming
         public Flange flange;
-        
+
         /// <summary> Кнопка включения перемещения. </summary>
         public Interactable MoveToggle;
-        
+
         /// <summary> Кнопка включения вращения. </summary>
         public Interactable RotateToggle;
+
+        public Transform Cylinder;
+
+        /// <summary> Панель кнопок. </summary>
+        public Transform ButtonBar;
+
+        /// <summary> Панель вывода диаметра. </summary>
+        public TextMeshPro DiameterLabel;
 
         /// <summary> Запускает режим перемещения с прилипанием к поверхностям. </summary>
         public void StartPlacement()
@@ -34,24 +44,24 @@ namespace HoloCAD.Tubes.View
                 _placementOnStart = true;
                 return;
             }
-            
-            _manipulator.enabled = false;
-            _collider.enabled = false;
+
+            _manipulator.enabled                           = false;
+            _collider.enabled                              = false;
             SceneController.Instance.EnableSpatialCollider = true;
             SceneController.Instance.EnableSpatialRenderer = true;
-            _tapRecognizer.enabled = true;
-            _placementSolver.enabled = true;
+            _tapRecognizer.enabled                         = true;
+            _placementSolver.enabled                       = true;
         }
 
         /// <summary> Останавливает режим перемещения с прилипанием к поверхностям. </summary>
         public void EndPlacement()
         {
-            _manipulator.enabled = true;
-            _collider.enabled = true;
+            _manipulator.enabled                           = true;
+            _collider.enabled                              = true;
             SceneController.Instance.EnableSpatialCollider = false;
             SceneController.Instance.EnableSpatialRenderer = false;
-            _tapRecognizer.enabled = false;
-            _placementSolver.enabled = false;
+            _tapRecognizer.enabled                         = false;
+            _placementSolver.enabled                       = false;
         }
 
         // TODO: Добавить возможность отменить соединение.
@@ -65,13 +75,13 @@ namespace HoloCAD.Tubes.View
 
         private void Awake()
         {
-            _collider = GetComponent<Collider>();
-            _tapRecognizer = GetComponent<TapRecognizer>();
-            _tapRecognizer.enabled = false;
-            _tapRecognizer.Tap += EndPlacement;
-            _placementSolver = GetComponent<SurfaceMagnetism>();
-            _placementSolver.enabled = false;
-            _manipulator = GetComponent<ObjectManipulator>();
+            _collider                =  GetComponent<Collider>();
+            _tapRecognizer           =  GetComponent<TapRecognizer>();
+            _tapRecognizer.enabled   =  false;
+            _tapRecognizer.Tap       += EndPlacement;
+            _placementSolver         =  GetComponent<SurfaceMagnetism>();
+            _placementSolver.enabled =  false;
+            _manipulator             =  GetComponent<ObjectManipulator>();
         }
 
         private void Start()
@@ -80,10 +90,12 @@ namespace HoloCAD.Tubes.View
             {
                 flange = new Flange(GCMSystemBehaviour.System);
             }
-            
+
+            flange.PropertyChanged += FlangeOnPropertyChanged;
+
             MoveToggle.OnClick.AddListener(delegate { ChangeManipulationMode(MoveToggle); });
             RotateToggle.OnClick.AddListener(delegate { ChangeManipulationMode(RotateToggle); });
-            
+
             _isStarted = true;
             if (_placementOnStart) StartPlacement();
         }
@@ -97,15 +109,25 @@ namespace HoloCAD.Tubes.View
             }
         }
 
+        private void LateUpdate()
+        {
+            if (_redrawRequested)
+            {
+                Redraw();
+                _redrawRequested = false;
+            }
+        }
+
         private void OnDestroy()
         {
-            _tapRecognizer.Tap -= EndPlacement;
+            _tapRecognizer.Tap     -= EndPlacement;
+            flange.PropertyChanged -= FlangeOnPropertyChanged;
         }
 
         #endregion
 
         #region MRTK event functions
-        
+
         /// <summary> Обработчик события клика по трубе для MRTK. </summary>
         /// <param name="eventData"></param>
         public void OnPointerClicked(MixedRealityPointerEventData eventData)
@@ -123,7 +145,7 @@ namespace HoloCAD.Tubes.View
             // Do nothing
         }
 
-        
+
         /// <summary> Обработчик события перетягивания трубы для MRTK. </summary>
         /// <param name="eventData"></param>
         public void OnPointerDragged(MixedRealityPointerEventData eventData)
@@ -138,16 +160,27 @@ namespace HoloCAD.Tubes.View
             // Do nothing
         }
 
+        public void IncreaseDiameter()
+        {
+            flange.TubeData = TubeLoader.GetBigger(flange.TubeData);
+        }
+
+        public void DecreaseDiameter()
+        {
+            flange.TubeData = TubeLoader.GetSmaller(flange.TubeData);
+        }
+
         #endregion
 
         #region Private definitions
 
-        private SurfaceMagnetism _placementSolver;
-        private TapRecognizer _tapRecognizer;
-        private Collider _collider;
+        private SurfaceMagnetism  _placementSolver;
+        private TapRecognizer     _tapRecognizer;
+        private Collider          _collider;
         private ObjectManipulator _manipulator;
-        private bool _isStarted;
-        private bool _placementOnStart;
+        private bool              _isStarted;
+        private bool              _placementOnStart;
+        private bool              _redrawRequested;
 
         /// <summary> Переключается между режимами перемещения. </summary>
         /// <param name="sender"></param>
@@ -155,14 +188,27 @@ namespace HoloCAD.Tubes.View
         {
             if (sender == MoveToggle)
             {
-                RotateToggle.IsToggled = false;
+                RotateToggle.IsToggled                 = false;
                 _manipulator.TwoHandedManipulationType = sender.IsToggled ? TransformFlags.Move : 0;
             }
             else if (sender == RotateToggle)
             {
-                MoveToggle.IsToggled = false;
+                MoveToggle.IsToggled                   = false;
                 _manipulator.TwoHandedManipulationType = sender.IsToggled ? TransformFlags.Rotate : 0;
             }
+        }
+
+        private void FlangeOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            _redrawRequested = true;
+        }
+
+        private void Redraw()
+        {
+            ((BoxCollider) _collider).size = new Vector3(flange.Diameter,           flange.Diameter, 0.001f);
+            Cylinder.localScale            = new Vector3(flange.Diameter,           0.02f,           flange.Diameter);
+            ButtonBar.localPosition        = new Vector3(-(flange.Diameter + 0.1f), 0,               0.05f);
+            DiameterLabel.text             = $"D: {flange.Diameter:f3}м.";
         }
 
         #endregion

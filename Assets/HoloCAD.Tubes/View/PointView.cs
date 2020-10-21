@@ -1,7 +1,6 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-using System;
 using System.ComponentModel;
 using HoloCAD.Tubes.Model;
 using HoloCore.UI;
@@ -24,8 +23,12 @@ namespace HoloCAD.Tubes.View
         /// <summary> Объект, отображающий погиб. </summary>
         public GameObject BendView;
 
+        public Transform Sphere;
+
         /// <summary> Производится ли перемещение точки пользователем. </summary>
         public bool IsManipulationStarted { get; set; }
+
+        public float MinimalPointSize;
 
         /// <summary> Модель точки. </summary>
         public TubePoint Point
@@ -53,6 +56,11 @@ namespace HoloCAD.Tubes.View
             Point.Owner.RemovePoint(Point);
         }
 
+        public void ChangeRadius()
+        {
+            Point.UseSecondRadius = !Point.UseSecondRadius;
+        }
+
         #region Event functions
 
         private void Awake()
@@ -66,15 +74,8 @@ namespace HoloCAD.Tubes.View
 
         private void Start()
         {
-            var data                               = new TubeLoader.TubeData {diameter = 0.05f};
-            data.first_radius = data.second_radius = 0.1f;
-            var angle = 180 - Vector3.Angle(Point.Next.End.Origin   - Point.Origin,
-                                            Point.Prev.Start.Origin - Point.Origin);
-            BendView.GetComponent<MeshFilter>().mesh = MeshFactory.GetMeshes(data)[0];
-            var meshRenderer = BendView.GetComponent<MeshRenderer>();
-            meshRenderer.material.SetFloat(ShaderDiameter,   Point.Next.Diameter);
-            meshRenderer.material.SetFloat(ShaderBendRadius, 0.1f);
-            meshRenderer.material.SetFloat(ShaderAngle,      angle / 180f * (float) Math.PI);
+            _mesh            = BendView.GetComponent<MeshFilter>();
+            _meshRenderer    = BendView.GetComponent<MeshRenderer>();
             _redrawRequested = true;
         }
 
@@ -89,16 +90,7 @@ namespace HoloCAD.Tubes.View
         {
             if (_redrawRequested)
             {
-                var prev                      = Point.Prev.Start.Origin;
-                var next                      = Point.Next.End.Origin;
-                if (Point.IsInEndFlange) next = Point.Next.Start.Origin;
-                var forward                   = (next - Point.Origin).normalized;
-                var backward                  = (prev - Point.Origin).normalized;
-                BendView.GetComponent<MeshRenderer>().material
-                        .SetFloat(ShaderAngle, Point.GetBendAngle() * Mathf.Deg2Rad);
-                BendView.transform.position = Point.Origin + backward * Point.DeltaLength;
-                BendView.transform.LookAt(Point.Origin,
-                                          Vector3.Cross(Vector3.ProjectOnPlane(forward, -backward), -backward));
+                Redraw();
                 _redrawRequested = false;
             }
         }
@@ -136,9 +128,12 @@ namespace HoloCAD.Tubes.View
         private                 Transform            _camera;
         private                 IMixedRealityPointer _draggingPointer;
         private                 bool                 _redrawRequested;
+        private                 MeshFilter           _mesh;
+        private                 MeshRenderer         _meshRenderer;
         private static readonly int                  ShaderDiameter   = Shader.PropertyToID("_Diameter");
         private static readonly int                  ShaderBendRadius = Shader.PropertyToID("_BendRadius");
         private static readonly int                  ShaderAngle      = Shader.PropertyToID("_Angle");
+        private static readonly int                  ShaderGridColor  = Shader.PropertyToID("_GridColor");
 
         private void PointOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -146,6 +141,27 @@ namespace HoloCAD.Tubes.View
             {
                 transform.position = _point.Origin;
             }
+
+            _redrawRequested = true;
+        }
+
+        private void Redraw()
+        {
+            var prev                      = Point.Prev.Start.Origin;
+            var next                      = Point.Next.End.Origin;
+            if (Point.IsInEndFlange) next = Point.Next.Start.Origin;
+            var forward                   = (next - Point.Origin).normalized;
+            var backward                  = (prev - Point.Origin).normalized;
+            _mesh.mesh = MeshFactory.GetMeshes(_point.Owner.TubeData)[Point.UseSecondRadius ? 1 : 0];
+            _meshRenderer.material.SetFloat(ShaderAngle,      Point.GetBendAngle() * Mathf.Deg2Rad);
+            _meshRenderer.material.SetFloat(ShaderDiameter,   Point.Diameter);
+            _meshRenderer.material.SetFloat(ShaderBendRadius, Point.BendRadius);
+            _meshRenderer.material.SetColor(ShaderGridColor, Color.green);
+            BendView.transform.position = Point.Origin + backward * Point.DeltaLength;
+            BendView.transform.LookAt(Point.Origin,
+                                      Vector3.Cross(Vector3.ProjectOnPlane(forward, -backward), -backward));
+
+            Sphere.localScale = Vector3.one * Mathf.Max(Point.Diameter, MinimalPointSize);
         }
 
         private void MovePoint()

@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Test.unity
     guid: d997900e9ee32a84092eabdada6a05f6
+  - enabled: 0
+    path: Assets/MRTK/Examples/Demos/HandTracking/Scenes/HandMenuExamples.unity
+    guid: 2792ec9767804e644906ab978f2eed23
   m_configObjects: {}
