@@ -20,7 +20,7 @@ namespace HoloCAD.Tubes.Model
         public Tube Owner => Next?.Owner ?? Prev?.Owner;
 
         /// <summary> Находится ли точка во фланце. </summary>
-        public bool IsInFlange => GetFlange() != null;
+        public bool IsInFlange => flange != null;
 
         /// <summary> Длина погиба. </summary>
         public float DeltaLength => BendRadius * Mathf.Tan(GetBendAngle() / 2 * Mathf.Deg2Rad);
@@ -31,6 +31,10 @@ namespace HoloCAD.Tubes.Model
 
         /// <summary> Диаметр трубы, изгибаемой в этой точке. </summary>
         public float Diameter => Owner.Diameter;
+
+        /// <summary> Фланец к которому относится точка. (Может быть null!!!) </summary>
+        // ReSharper disable once InconsistentNaming
+        [CanBeNull] public readonly Flange flange;
 
         /// <summary> Какой из двух доступных радиусов погиба использовать. </summary>
         public bool UseSecondRadius
@@ -51,10 +55,12 @@ namespace HoloCAD.Tubes.Model
         /// <summary> Конструктор точки. </summary>
         /// <param name="sys"> Система ограничений. </param>
         /// <param name="origin"> Местоположение. </param>
+        /// <param name="flange"> Фланец к которому относится точка. </param>
         /// <param name="parent"> Родительская ЛСК. </param>
-        public TubePoint(GCMSystem sys, Vector3 origin, GCM_LCS parent = null) :
+        public TubePoint(GCMSystem sys, Vector3 origin, Flange flange, GCM_LCS parent = null) :
             base(sys, origin, parent)
         {
+            this.flange = flange;
             RecalculateDiameter();
         }
 
@@ -72,19 +78,31 @@ namespace HoloCAD.Tubes.Model
             return 180 - Vector3.Angle(Next.End.Origin - Origin, Prev.Start.Origin - Origin);
         }
 
-        /// <summary> Если точка находится в фланце - возвращает фланец. </summary>
-        /// <returns></returns>
-        [CanBeNull] public Flange GetFlange()
-        {
-            if (ReferenceEquals(Owner.StartFlange.EndPoint, this)) return Owner.StartFlange;
-            if (ReferenceEquals(Owner.EndFlange.EndPoint,   this)) return Owner.EndFlange;
-            return null;
-        }
-
         /// <summary>  </summary>
         public void RecalculateDiameter()
         {
             OnPropertyChanged(nameof(Diameter));
+        }
+
+        public void UpdateOwner()
+        {
+            OnPropertyChanged(nameof(Owner));
+        }
+
+        /// <summary> Отсоединяется от переданного сегмента. </summary>
+        /// <param name="segment"></param>
+        public void DetachSegment(Segment segment)
+        {
+            if (Next == segment)
+            {
+                Next = null;
+                OnPropertyChanged(nameof(Next));
+            }
+            else if (Prev == segment)
+            {
+                Prev = null;
+                OnPropertyChanged(nameof(Prev));
+            }
         }
 
         #region Private definitions

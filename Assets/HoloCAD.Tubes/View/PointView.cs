@@ -38,14 +38,15 @@ namespace HoloCAD.Tubes.View
             {
                 if (ReferenceEquals(_point, value)) return;
 
-                _point             = value;
-                transform.position = _point.Origin;
-                _point.Disposed += delegate
-                                   {
-                                       Destroy(gameObject);
-                                       _point.PropertyChanged -= PointOnPropertyChanged;
-                                   };
-
+                if (_point != null)
+                {
+                    _point.Disposed        -= PointOnDisposed;
+                    _point.PropertyChanged -= PointOnPropertyChanged;
+                }
+                
+                _point                 =  value;
+                transform.position     =  _point.Origin;
+                _point.Disposed        += PointOnDisposed;
                 _point.PropertyChanged += PointOnPropertyChanged;
             }
         }
@@ -93,6 +94,12 @@ namespace HoloCAD.Tubes.View
                 Redraw();
                 _redrawRequested = false;
             }
+        }
+
+        private void OnDestroy()
+        {
+            _point.Disposed        -= PointOnDisposed;
+            _point.PropertyChanged -= PointOnPropertyChanged;
         }
 
         #endregion
@@ -147,9 +154,14 @@ namespace HoloCAD.Tubes.View
 
         private void Redraw()
         {
+            if (Point.Owner == null || Point.Prev == null || Point.Next == null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            
             var prev                      = Point.Prev.Start.Origin;
-            var next                      = Point.Next.End.Origin;
-            if (Point.IsInEndFlange) next = Point.Next.Start.Origin;
+            var next                      = (Point.IsInEndFlange) ? Point.Next.Start.Origin : Point.Next.End.Origin;
             var forward                   = (next - Point.Origin).normalized;
             var backward                  = (prev - Point.Origin).normalized;
             _mesh.mesh = MeshFactory.GetMeshes(_point.Owner.TubeData)[Point.UseSecondRadius ? 1 : 0];
@@ -172,7 +184,7 @@ namespace HoloCAD.Tubes.View
 
             if (Point.IsInFlange)
             {
-                var flange     = Point.GetFlange();
+                var flange     = Point.flange;
                 var projection = Vector3.Project(transform.position - flange.Origin, flange.Normal); //-V3080
                 if (Vector3.Angle(projection, flange.Normal) > 90)
                 {
@@ -211,6 +223,11 @@ namespace HoloCAD.Tubes.View
             }
 
             Owner.tube.FixErrors();
+        }
+
+        private void PointOnDisposed()
+        {
+            Destroy(gameObject);
         }
 
         #endregion

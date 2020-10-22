@@ -79,6 +79,19 @@ namespace HoloCAD.Tubes.View
             Connector.StartConnection(this);
         }
 
+        /// <summary> Удаляет трубу связанную с данным фланцем. </summary>
+        public void DeleteTube()
+        {
+            flange.Owner?.Dispose();
+        }
+
+        /// <summary> Удаляет данный фланец (вместе с трубой). </summary>
+        public void DeleteFlange()
+        {
+            flange.Owner?.Dispose();
+            flange.Dispose();
+        }
+
         #region Unity event functions
 
         private void Awake()
@@ -100,6 +113,7 @@ namespace HoloCAD.Tubes.View
             }
 
             flange.PropertyChanged += FlangeOnPropertyChanged;
+            flange.Disposed        += delegate { Destroy(gameObject); };
 
             MoveToggle.OnClick.AddListener(delegate { ChangeManipulationMode(MoveToggle); });
             RotateToggle.OnClick.AddListener(delegate { ChangeManipulationMode(RotateToggle); });

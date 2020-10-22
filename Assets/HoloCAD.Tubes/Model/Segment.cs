@@ -37,6 +37,8 @@ namespace HoloCAD.Tubes.Model
                 {
                     _owner.PropertyChanged += OwnerOnPropertyChanged;
                 }
+                
+                OnPropertyChanged();
             }
         }
 
@@ -51,7 +53,7 @@ namespace HoloCAD.Tubes.Model
         public Vector3 Middle => (Start.Origin + End.Origin) / 2;
 
         /// <summary> Событие, вызываемое при удалении отрезка. </summary>
-        public event Action<Segment> Disposed;
+        public event Action Disposed;
 
         /// <summary> Следующий отрезок. </summary>
         [CanBeNull]
@@ -119,7 +121,9 @@ namespace HoloCAD.Tubes.Model
         public void Dispose()
         {
             Line?.Dispose();
-            Disposed?.Invoke(this);
+            Disposed?.Invoke();
+            Start.DetachSegment(this);
+            End.DetachSegment(this);
             Start.PropertyChanged -= PointOnPropertyChanged;
             End.PropertyChanged   -= PointOnPropertyChanged;
             if (Owner != null) Owner.PropertyChanged -= OwnerOnPropertyChanged;

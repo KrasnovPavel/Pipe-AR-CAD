@@ -55,19 +55,18 @@ namespace HoloCAD.Tubes.View
             get => _segment;
             set
             {
-                _segment = value;
+                if (_segment != null)
+                {
+                    segment.Disposed              -= SegmentOnDisposed;
+                    segment.PropertyChanged       -= SegmentOnPropertyChanged;
+                    segment.Start.PropertyChanged -= SegmentOnPropertyChanged;
+                    segment.End.PropertyChanged   -= SegmentOnPropertyChanged;
+                    segment.Line.PropertyChanged  -= SegmentOnPropertyChanged;
+                }
 
-                _redrawRequested = true;
-
-                segment.Disposed += delegate
-                                    {
-                                        Destroy(gameObject);
-                                        segment.PropertyChanged       -= SegmentOnPropertyChanged;
-                                        segment.Start.PropertyChanged -= SegmentOnPropertyChanged;
-                                        segment.End.PropertyChanged   -= SegmentOnPropertyChanged;
-                                        segment.Line.PropertyChanged  -= SegmentOnPropertyChanged;
-                                    };
-
+                _segment                      =  value;
+                _redrawRequested              =  true;
+                segment.Disposed              += SegmentOnDisposed;
                 segment.PropertyChanged       += SegmentOnPropertyChanged;
                 segment.Start.PropertyChanged += SegmentOnPropertyChanged;
                 segment.End.PropertyChanged   += SegmentOnPropertyChanged;
@@ -226,6 +225,15 @@ namespace HoloCAD.Tubes.View
             }
         }
 
+        private void OnDestroy()
+        {
+            segment.Disposed              -= SegmentOnDisposed;
+            segment.PropertyChanged       -= SegmentOnPropertyChanged;
+            segment.Start.PropertyChanged -= SegmentOnPropertyChanged;
+            segment.End.PropertyChanged   -= SegmentOnPropertyChanged;
+            segment.Line.PropertyChanged  -= SegmentOnPropertyChanged;
+        }
+
         #endregion
 
         #region MRTK event functions
@@ -350,6 +358,12 @@ namespace HoloCAD.Tubes.View
         /// <summary> Обновляет положение виджета и его элементов в пространстве. </summary>
         private void Redraw()
         {
+            if (segment.Owner == null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            
             transform.position = _segment.Start.Origin;
             transform.LookAt(_segment.End.Origin);
 
@@ -367,6 +381,11 @@ namespace HoloCAD.Tubes.View
 
             Color baseColor = segment.TubeLength < 0 ? CollidingTubeBaseColor : DefaultTubeBaseColor;
             if (!(_tubeViewRenderer is null)) _tubeViewRenderer.material.SetColor(BaseColor, baseColor);
+        }
+
+        private void SegmentOnDisposed()
+        {
+            Destroy(gameObject);
         }
 
         #endregion

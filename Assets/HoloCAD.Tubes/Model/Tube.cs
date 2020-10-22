@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using UnityC3D;
@@ -87,15 +86,10 @@ namespace HoloCAD.Tubes.Model
         /// <inheritdoc />
         public void Dispose()
         {
-            Segments[0].Start?.Dispose();
-            foreach (var point in Segments.Select(s => s.End)) point?.Dispose();
-
+            EndFlange.EndPoint.Prev = EndFlange.FirstSegment;
             foreach (var segment in Segments) segment?.Dispose();
-
             foreach (var point in Points) point?.Dispose();
-
-            StartFlange?.Dispose();
-            EndFlange?.Dispose();
+            Disposed?.Invoke();
         }
 
         /// <summary> Событие добавления нового прямого отрезка. </summary>
@@ -103,6 +97,8 @@ namespace HoloCAD.Tubes.Model
 
         /// <summary> Событие добавления новой точки. </summary>
         public event Action<TubePoint> PointAdded;
+
+        public event Action Disposed;
 
         /// <summary> Исправляет ошибки трубы. </summary>
         public void FixErrors()
@@ -165,7 +161,7 @@ namespace HoloCAD.Tubes.Model
             var start = segment.Start;
             var end   = segment.End;
 
-            var middle = new TubePoint(Sys, pos, Sys.GroundLCS);
+            var middle = new TubePoint(Sys, pos, null, Sys.GroundLCS);
             var first  = new Segment(start,  middle, this);
             var second = new Segment(middle, end,    this);
 

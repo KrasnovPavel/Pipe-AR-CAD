@@ -39,6 +39,7 @@ namespace HoloCAD.Tubes.View
             }
 
             tube.PointAdded += OnPointAdded;
+            tube.Disposed += delegate { Destroy(gameObject); };
             OnPointAdded(startFlangeSegment.End);
             OnPointAdded(endFlangeSegment.End);
 
