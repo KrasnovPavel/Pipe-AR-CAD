@@ -39,7 +39,12 @@ namespace HoloCAD.Tubes.View
         /// <param name="flangeView"> Второй выбранный фланец. </param>
         public static void FinishConnection(FlangeView flangeView)
         {
-            if (flangeView == Instance.FirstFlange) return;
+            if (flangeView == Instance.FirstFlange)
+            {
+                Destroy(ActiveConnector.gameObject);
+                ActiveConnector = null;
+                return;
+            };
 
             var tube = new Tube(GCMSystemBehaviour.System, 
                                 ActiveConnector.FirstFlange.flange, 

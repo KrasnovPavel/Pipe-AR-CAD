@@ -4,6 +4,7 @@
 using System.ComponentModel;
 using HoloCAD.Tubes.Model;
 using HoloCore;
+using JetBrains.Annotations;
 using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.UI;
 using Microsoft.MixedReality.Toolkit.Utilities;
@@ -36,6 +37,12 @@ namespace HoloCAD.Tubes.View
         /// <summary> Панель вывода диаметра. </summary>
         public TextMeshPro DiameterLabel;
 
+        /// <summary> Кнопка соединения фланцев. </summary>
+        [CanBeNull] public GameObject ConnectButton;
+
+        /// <summary> Кнопка удаления трубы. </summary>
+        [CanBeNull] public GameObject DeleteTubeButton;
+
         /// <summary> Запускает режим перемещения с прилипанием к поверхностям. </summary>
         public void StartPlacement()
         {
@@ -64,10 +71,11 @@ namespace HoloCAD.Tubes.View
             _placementSolver.enabled                       = false;
         }
 
-        // TODO: Добавить возможность отменить соединение.
         /// <summary> Запускает режим соединения с другой трубой. </summary>
         public void StartConnection()
         {
+            if (flange.Owner != null) return;
+
             Connector.StartConnection(this);
         }
 
@@ -201,6 +209,19 @@ namespace HoloCAD.Tubes.View
         private void FlangeOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             _redrawRequested = true;
+            if (e.PropertyName == nameof(flange.Owner))
+            {
+                if (flange.Owner == null)
+                {
+                    if (ConnectButton    != null) ConnectButton.SetActive(true);
+                    if (DeleteTubeButton != null) DeleteTubeButton.SetActive(false);
+                }
+                else
+                {
+                    if (ConnectButton    != null) ConnectButton.SetActive(false);
+                    if (DeleteTubeButton != null) DeleteTubeButton.SetActive(true);
+                }
+            }
         }
 
         private void Redraw()
