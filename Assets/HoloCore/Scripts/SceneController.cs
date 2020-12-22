@@ -33,7 +33,7 @@ namespace HoloCore
 
         private void Update()
         {
-            if (EnableConsole)
+            if (!EnableConsole)
             {
                 Debug.developerConsoleVisible = false;
             }

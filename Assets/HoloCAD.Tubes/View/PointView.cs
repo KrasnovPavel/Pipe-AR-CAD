@@ -82,7 +82,7 @@ namespace HoloCAD.Tubes.View
 
         private void Update()
         {
-            if (IsManipulationStarted) MovePoint();
+            if (IsManipulationStarted) Point.Move(transform.position);
 
             ToolBar.transform.LookAt(_camera);
         }
@@ -174,55 +174,6 @@ namespace HoloCAD.Tubes.View
                                       Vector3.Cross(Vector3.ProjectOnPlane(forward, -backward), -backward));
 
             Sphere.localScale = Vector3.one * Mathf.Max(Point.Diameter, MinimalPointSize);
-        }
-
-        private void MovePoint()
-        {
-            var            lastPos       = Point.Origin;
-            MbPlacement3D? lastPlacePrev = Point.Prev?.Line.Placement;
-            MbPlacement3D? lastPlaceNext = Point.Next?.Line.Placement;
-
-            if (Point.IsInFlange)
-            {
-                var flange     = Point.flange;
-                var projection = Vector3.Project(transform.position - flange.Origin, flange.Normal); //-V3080
-                if (Vector3.Angle(projection, flange.Normal) > 90)
-                {
-                    transform.position = lastPos;
-                    return;
-                }
-
-                Point.Origin = flange.Origin + projection;
-                Point.Prev?.ResetLine();
-                Point.Next?.ResetLine();
-                Point.GCMSys.Evaluate();
-                transform.position = Point.Origin;
-                return;
-            }
-
-            Point.Origin = transform.position;
-            Point.Prev?.ResetLine();
-            Point.Next?.ResetLine();
-
-            var res = Point.GCMSys.Evaluate();
-            if (res != GCMResult.GCM_RESULT_Ok)
-            {
-                Debug.LogWarning(res);
-                _point.Origin = lastPos;
-                if (_point.Prev != null && lastPlacePrev != null)
-                {
-                    _point.Prev.Line.Placement = lastPlacePrev.Value;
-                }
-
-                if (_point.Next != null && lastPlaceNext != null)
-                {
-                    _point.Next.Line.Placement = lastPlaceNext.Value;
-                }
-
-                Point.GCMSys.Evaluate();
-            }
-
-            Owner.tube.FixErrors();
         }
 
         private void PointOnDisposed()

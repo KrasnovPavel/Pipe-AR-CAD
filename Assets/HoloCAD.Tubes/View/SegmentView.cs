@@ -1,6 +1,7 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using HoloCAD.Tubes.Model;
 using HoloCore;
@@ -18,6 +19,9 @@ namespace HoloCAD.Tubes.View
     [RequireComponent(typeof(ObjectManipulator))]
     public class SegmentView : MonoBehaviour, IMixedRealityPointerHandler, ISelectable, IMixedRealityFocusHandler
     {
+        /// <summary> Виджет родительской трубы. </summary>
+        public TubeView Owner;
+        
         /// <summary> Префаб для отображения превью добавляемой точки. </summary>
         public GameObject PreviewPointPrefab;
 
@@ -77,7 +81,8 @@ namespace HoloCAD.Tubes.View
         /// <summary> Включает режим добавления точки. </summary>
         public void StartAddingPoint()
         {
-            _addingPoint = AddPointButton.IsToggled;
+            _addingPoint         = AddPointButton.IsToggled;
+            _manipulator.enabled = !_addingPoint;
         }
 
         /// <summary> Обработчик нажатия на кнопку вертикальности. </summary>
@@ -376,8 +381,8 @@ namespace HoloCAD.Tubes.View
             _collider.center   = Vector3.forward * _segment.LineLength / 2;
 
             DirectTubeView.localPosition = Vector3.zero + Vector3.forward * segment.Start.DeltaLength;
-            DirectTubeView.up            = (segment.End.Origin - segment.Start.Origin).normalized;
-            DirectTubeView.localScale    = new Vector3(segment.Diameter, segment.TubeLength, segment.Diameter);
+            DirectTubeView.forward       = (segment.End.Origin - segment.Start.Origin).normalized;
+            DirectTubeView.localScale    = new Vector3(segment.Diameter, segment.Diameter, segment.TubeLength);
 
             Color baseColor = segment.TubeLength < 0 ? CollidingTubeBaseColor : DefaultTubeBaseColor;
             if (!(_tubeViewRenderer is null)) _tubeViewRenderer.material.SetColor(BaseColor, baseColor);

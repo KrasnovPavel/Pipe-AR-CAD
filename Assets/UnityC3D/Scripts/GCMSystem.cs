@@ -408,6 +408,9 @@ namespace UnityC3D
         /// <param name="constraint"> Удаляемое ограничение. </param>
         public void RemoveConstraint(GCMConstraint constraint)
         {
+            _gcmConstraints.RemoveAll(c => (c.Obj1.Equals(constraint.Obj1)    && c.Obj2.Equals(constraint.Obj2)
+                                            || c.Obj1.Equals(constraint.Obj2) && c.Obj2.Equals(constraint.Obj1))
+                                           && c.Type == constraint.Type);
             GCM_RemoveConstraint(_gcmSystemPtr, constraint.Descriptor);
         }
 
@@ -421,7 +424,7 @@ namespace UnityC3D
 
         public void PrepareReposition(GCMObject moveObj, Transform projPlane, Vector3 curPos)
         {
-            PrepareReposition(moveObj, (MbPlacement3D)projPlane, (MbVector3D)curPos);
+            PrepareReposition(moveObj, (MbPlacement3D) projPlane, (MbVector3D) curPos);
         }
 
         public void SolveReposition(Vector3 newPos)
@@ -430,10 +433,11 @@ namespace UnityC3D
             if (result != GCMResult.GCM_RESULT_Ok) Debug.LogWarning(result);
             Evaluated?.Invoke();
         }
-        
+
         public void SolveReposition(GCMObject movingObject, MbPlacement3D newPos)
         {
-            var result = GCM_SolveReposition(_gcmSystemPtr, movingObject.Descriptor, ref newPos, GCMReposition.Dragging);
+            var result =
+                GCM_SolveReposition(_gcmSystemPtr, movingObject.Descriptor, ref newPos, GCMReposition.Dragging);
             if (result != GCMResult.GCM_RESULT_Ok) Debug.LogWarning(result);
             Evaluated?.Invoke();
         }
@@ -616,6 +620,7 @@ namespace UnityC3D
             {
                 RemoveConstraint(constraint);
             }
+
             GCM_RemoveGeom(_gcmSystemPtr, obj.Descriptor);
         }
 
@@ -671,13 +676,13 @@ namespace UnityC3D
         private GCMConstraint MakeCoincident(GCMObject first, GCMObject second, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                              (c.Obj1.Equals(first)     && c.Obj2.Equals(second)
                                                || c.Obj1.Equals(second) && c.Obj2.Equals(first))
                                               && c.Type == GCMConstraintType.GCM_COINCIDENT);
 
             if (co != null) return co;
 
-            var desc = GCM_AddBinConstraint(_gcmSystemPtr, GCMConstraintType.GCM_COINCIDENT, first.Descriptor,
+            var desc = GCM_AddBinConstraint(_gcmSystemPtr,     GCMConstraintType.GCM_COINCIDENT, first.Descriptor,
                                             second.Descriptor, alignment, GCMTanChoice.GCM_TAN_NONE);
             var cons = new GCMConstraint(desc, GCMConstraintType.GCM_COINCIDENT, first, second);
             _gcmConstraints.Add(cons);
@@ -693,13 +698,13 @@ namespace UnityC3D
         private GCMConstraint MakeConcentric(GCMObject first, GCMObject second, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                              (c.Obj1.Equals(first)     && c.Obj2.Equals(second)
                                                || c.Obj1.Equals(second) && c.Obj2.Equals(first))
                                               && c.Type == GCMConstraintType.GCM_CONCENTRIC);
 
             if (co != null) return co;
 
-            var desc = GCM_AddBinConstraint(_gcmSystemPtr, GCMConstraintType.GCM_CONCENTRIC, first.Descriptor,
+            var desc = GCM_AddBinConstraint(_gcmSystemPtr,     GCMConstraintType.GCM_CONCENTRIC, first.Descriptor,
                                             second.Descriptor, alignment, GCMTanChoice.GCM_TAN_NONE);
             var cons = new GCMConstraint(desc, GCMConstraintType.GCM_CONCENTRIC, first, second);
             _gcmConstraints.Add(cons);
@@ -715,13 +720,13 @@ namespace UnityC3D
         private GCMConstraint MakeParallel(GCMObject first, GCMObject second, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                              (c.Obj1.Equals(first)     && c.Obj2.Equals(second)
                                                || c.Obj1.Equals(second) && c.Obj2.Equals(first))
                                               && c.Type == GCMConstraintType.GCM_PARALLEL);
 
             if (co != null) return co;
 
-            var desc = GCM_AddBinConstraint(_gcmSystemPtr, GCMConstraintType.GCM_PARALLEL, first.Descriptor,
+            var desc = GCM_AddBinConstraint(_gcmSystemPtr,     GCMConstraintType.GCM_PARALLEL, first.Descriptor,
                                             second.Descriptor, alignment, GCMTanChoice.GCM_TAN_NONE);
             var cons = new GCMConstraint(desc, GCMConstraintType.GCM_PARALLEL, first, second);
             _gcmConstraints.Add(cons);
@@ -737,13 +742,13 @@ namespace UnityC3D
         private GCMConstraint MakePerpendicular(GCMObject first, GCMObject second, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                              (c.Obj1.Equals(first)     && c.Obj2.Equals(second)
                                                || c.Obj1.Equals(second) && c.Obj2.Equals(first))
                                               && c.Type == GCMConstraintType.GCM_PERPENDICULAR);
 
             if (co != null) return co;
 
-            var desc = GCM_AddBinConstraint(_gcmSystemPtr, GCMConstraintType.GCM_PERPENDICULAR, first.Descriptor,
+            var desc = GCM_AddBinConstraint(_gcmSystemPtr,     GCMConstraintType.GCM_PERPENDICULAR, first.Descriptor,
                                             second.Descriptor, alignment, GCMTanChoice.GCM_TAN_NONE);
             var cons = new GCMConstraint(desc, GCMConstraintType.GCM_PERPENDICULAR, first, second);
             _gcmConstraints.Add(cons);
@@ -763,14 +768,14 @@ namespace UnityC3D
             GCMTanChoice tanChoice)
         {
             var co = _gcmConstraints.Find(c =>
-                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                              (c.Obj1.Equals(first)     && c.Obj2.Equals(second)
                                                || c.Obj1.Equals(second) && c.Obj2.Equals(first))
                                               && c.Type == GCMConstraintType.GCM_TANGENT);
 
             if (co != null) return co;
 
-            var desc = GCM_AddBinConstraint(_gcmSystemPtr, GCMConstraintType.GCM_TANGENT, first.Descriptor,
-                                            second.Descriptor, alignment, tanChoice);
+            var desc = GCM_AddBinConstraint(_gcmSystemPtr,     GCMConstraintType.GCM_TANGENT, first.Descriptor,
+                                            second.Descriptor, alignment,                     tanChoice);
             var cons = new GCMConstraint(desc, GCMConstraintType.GCM_TANGENT, first, second);
             _gcmConstraints.Add(cons);
             return cons;
@@ -786,7 +791,7 @@ namespace UnityC3D
         private GCMConstraint SetDistance(GCMObject first, GCMObject second, float distance, GCMAlignment alignment)
         {
             var co = _gcmConstraints.Find(c =>
-                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                              (c.Obj1.Equals(first)     && c.Obj2.Equals(second)
                                                || c.Obj1.Equals(second) && c.Obj2.Equals(first))
                                               && c.Type == GCMConstraintType.GCM_DISTANCE);
 
@@ -811,7 +816,7 @@ namespace UnityC3D
         private GCMConstraint SetAngle(GCMObject first, GCMObject second, float angle)
         {
             var co = _gcmConstraints.Find(c =>
-                                              (c.Obj1.Equals(first) && c.Obj2.Equals(second)
+                                              (c.Obj1.Equals(first)     && c.Obj2.Equals(second)
                                                || c.Obj1.Equals(second) && c.Obj2.Equals(first))
                                               && c.Type == GCMConstraintType.GCM_ANGLE);
 
@@ -1101,8 +1106,8 @@ namespace UnityC3D
                        "?GCM_PrepareReposition@@YA?AW4GCM_result@@PAVMtGeomSolver@@UMtObjectId@@ABVMbPlacement3D@@ABVMbCartPoint3D@@@Z")]
 #endif
         private static extern GCMResult GCM_PrepareReposition(
-            IntPtr        gSys,
-            GCMDescriptor movingGeom,
+            IntPtr            gSys,
+            GCMDescriptor     movingGeom,
             ref MbPlacement3D projPlane,
             ref MbVector3D    curPoint);
 
@@ -1119,7 +1124,8 @@ namespace UnityC3D
                    EntryPoint =
                        "?GCM_SolveReposition@@YA?AW4GCM_result@@PEAVMtGeomSolver@@UMtObjectId@@AEBVMbPlacement3D@@W4GCM_reposition@@@Z")]
 #else
-        [DllImport("c3d", EntryPoint = "?GCM_SolveReposition@@YA?AW4GCM_result@@PAVMtGeomSolver@@UMtObjectId@@ABVMbPlacement3D@@W4GCM_reposition@@@Z")]
+        [DllImport("c3d", EntryPoint =
+ "?GCM_SolveReposition@@YA?AW4GCM_result@@PAVMtGeomSolver@@UMtObjectId@@ABVMbPlacement3D@@W4GCM_reposition@@@Z")]
 #endif
         private static extern GCMResult GCM_SolveReposition(IntPtr gSys, GCMDescriptor objID, ref MbPlacement3D newPos,
                                                             GCMReposition repType);

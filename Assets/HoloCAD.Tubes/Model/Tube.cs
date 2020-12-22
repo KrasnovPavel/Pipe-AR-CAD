@@ -77,7 +77,10 @@ namespace HoloCAD.Tubes.Model
             Segments.Add(middle);
             TubeData = tubeData;
 
+            startFlange.Fix();
+            endFlange.Fix();
             sys.Evaluate();
+            TubesManager.AllTubes.Add(this);
         }
 
         /// <summary> Система ограничений. </summary>
@@ -90,6 +93,7 @@ namespace HoloCAD.Tubes.Model
             foreach (var segment in Segments) segment?.Dispose();
             foreach (var point in Points) point?.Dispose();
             Disposed?.Invoke();
+            TubesManager.AllTubes.Remove(this);
         }
 
         /// <summary> Событие добавления нового прямого отрезка. </summary>
@@ -181,6 +185,9 @@ namespace HoloCAD.Tubes.Model
 
             Segments.Remove(segment);
             segment.Dispose();
+            middle.Origin = pos;
+            first.ResetLine();
+            second.ResetLine();
             Sys.Evaluate();
         }
 

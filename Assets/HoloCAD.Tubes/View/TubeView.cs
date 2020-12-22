@@ -1,6 +1,7 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using System;
 using System.Collections.Generic;
 using HoloCAD.Tubes.Model;
 using UnityEngine;
@@ -16,8 +17,11 @@ namespace HoloCAD.Tubes.View
         /// <summary> Виджет конечного фланца. </summary>
         public FlangeView EndFlangeView;
 
-        /// <summary> Список отрезков трубы. </summary>
+        /// <summary> Список виджетов отрезков трубы. </summary>
         public List<SegmentView> SegmentViews = new List<SegmentView>();
+
+        /// <summary> Список виджетов точек трубы. </summary>
+        public List<PointView> PointViews = new List<PointView>();
 
         // ReSharper disable once InconsistentNaming
         /// <summary> Модель трубы. </summary>
@@ -47,6 +51,13 @@ namespace HoloCAD.Tubes.View
             {
                 OnPointAdded(point);
             }
+            
+            TubeViewsManager.TubeViews.Add(this);
+        }
+
+        private void OnDestroy()
+        {
+            TubeViewsManager.TubeViews.Remove(this);
         }
 
         #endregion
@@ -61,6 +72,8 @@ namespace HoloCAD.Tubes.View
             var p  = go.GetComponent<PointView>();
             p.Point = point;
             p.Owner = this;
+            PointViews.Add(p);
+            p.Point.Disposed += delegate { PointViews.Remove(p); };
         }
 
         /// <summary> Создаёт новый виджет для отображения отрезка. </summary>
@@ -70,7 +83,9 @@ namespace HoloCAD.Tubes.View
             var go = Instantiate(TubePrefabsContainer.Instance.SegmentPrefab, transform);
             var sv = go.GetComponent<SegmentView>();
             sv.segment = segment;
+            sv.Owner = this;
             SegmentViews.Add(sv);
+            sv.segment.Disposed += delegate { SegmentViews.Remove(sv); };
         }
 
         #endregion

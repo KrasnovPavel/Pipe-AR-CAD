@@ -63,6 +63,10 @@
                     (input.localPos.x < _GridThickness && input.localPos.x > -_GridThickness) ||
                     (input.localPos.z < _GridThickness && input.localPos.z > -_GridThickness) ||
                     (input.localPos.y > 1 - _GridThickness / (input.worldScale.y / input.worldScale.z)))
+                // if (frac(input.localPos.z * input.worldScale.z / input.worldScale.y) < _GridThickness ||
+                //     (input.localPos.x < _GridThickness && input.localPos.x > -_GridThickness) ||
+                //     (input.localPos.y < _GridThickness && input.localPos.y > -_GridThickness) ||
+                //     (input.localPos.z > 1 - _GridThickness / (input.worldScale.z / input.worldScale.y)))
                 {
                     return _GridColor;
                 }

@@ -1,26 +1,30 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+using HoloCAD.Tubes.Model;
+using HoloCAD.Tubes.View;
 using HoloCore.FileManager;
 
 namespace HoloCAD
 {
     /// <summary> Класс управления сценой. </summary>
-    public class SceneManager
+    public static class SceneManager
     {
         /// <summary> Сохраняет сцену в выбираемый пользователем файл. </summary>
         public static void SaveScene()
         {
-// #pragma warning disable 4014
-//             FileManager.SaveAsync( SceneSerialization.SerializeScheme(TubeManager.AllTubes));
-// #pragma warning restore 4014
+#pragma warning disable 4014
+            // FileManager.SaveAsync(TubesManager.Serialize());
+            FileManager.SaveAsync(LegacyTubeSerializer.SerializeScheme(TubeViewsManager.TubeViews));
+#pragma warning restore 4014
         }
 
         public static void SaveSceneAs()
         {
-// #pragma warning disable 4014
-//             FileManager.SaveAsAsync( SceneSerialization.SerializeScheme(TubeManager.AllTubes));
-// #pragma warning restore 4014
+#pragma warning disable 4014
+            //FileManager.SaveAsAsync(TubesManager.Serialize());
+            FileManager.SaveAsAsync(LegacyTubeSerializer.SerializeScheme(TubeViewsManager.TubeViews));
+#pragma warning restore 4014
         }
         
         /// <summary> Загрузить сцену из выбираемого пользователем файла. </summary>

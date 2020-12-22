@@ -105,6 +105,52 @@ namespace HoloCAD.Tubes.Model
             }
         }
 
+        public void Move(Vector3 newPos)
+        {
+            var            lastPos       = Origin;
+            MbPlacement3D? lastPlacePrev = Prev?.Line.Placement;
+            MbPlacement3D? lastPlaceNext = Next?.Line.Placement;
+
+            if (IsInFlange)
+            {
+                var projection = Vector3.Project(newPos - flange.Origin, flange.Normal); //-V3080
+                if (Vector3.Angle(projection, flange.Normal) > 90)
+                {
+                    return;
+                }
+
+                Origin = flange.Origin + projection;
+                Prev?.ResetLine();
+                Next?.ResetLine();
+                GCMSys.Evaluate();
+                return;
+            }
+
+            Origin = newPos;
+            Prev?.ResetLine();
+            Next?.ResetLine();
+
+            var res = GCMSys.Evaluate();
+            if (res != GCMResult.GCM_RESULT_Ok)
+            {
+                Debug.LogWarning(res);
+                Origin = lastPos;
+                if (Prev != null && lastPlacePrev != null)
+                {
+                    Prev.Line.Placement = lastPlacePrev.Value;
+                }
+
+                if (Next != null && lastPlaceNext != null)
+                {
+                    Next.Line.Placement = lastPlaceNext.Value;
+                }
+
+                GCMSys.Evaluate();
+            }
+
+            Owner.FixErrors();
+        }
+
         #region Private definitions
 
         private bool _useSecondRadius;

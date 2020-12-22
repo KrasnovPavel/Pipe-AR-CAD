@@ -241,7 +241,7 @@ namespace HoloCAD.Tubes.View
         private void Redraw()
         {
             ((BoxCollider) _collider).size = new Vector3(flange.Diameter,           flange.Diameter, 0.001f);
-            Cylinder.localScale            = new Vector3(flange.Diameter,           0.02f,           flange.Diameter);
+            Cylinder.localScale            = new Vector3(flange.Diameter,           flange.Diameter, 0.02f);
             ButtonBar.localPosition        = new Vector3(-(flange.Diameter + 0.1f), 0,               0.05f);
             DiameterLabel.text             = $"D: {flange.Diameter:f3}м.";
         }

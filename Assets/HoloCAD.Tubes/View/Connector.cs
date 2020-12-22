@@ -44,7 +44,7 @@ namespace HoloCAD.Tubes.View
                 Destroy(ActiveConnector.gameObject);
                 ActiveConnector = null;
                 return;
-            };
+            }
 
             var tube = new Tube(GCMSystemBehaviour.System, 
                                 ActiveConnector.FirstFlange.flange, 
@@ -53,8 +53,8 @@ namespace HoloCAD.Tubes.View
             
             var go       = new GameObject();
             var tubeView = go.AddComponent<TubeView>();
-            tubeView.EndFlangeView   = ActiveConnector.FirstFlange;
-            tubeView.StartFlangeView = flangeView;
+            tubeView.EndFlangeView   = flangeView;
+            tubeView.StartFlangeView = ActiveConnector.FirstFlange;
             tubeView.tube            = tube;
             tubeView.name            = "Tube";
             Destroy(ActiveConnector.gameObject);
